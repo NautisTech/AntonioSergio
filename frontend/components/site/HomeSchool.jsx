@@ -7,6 +7,7 @@ import Contact from "@/components/home/Contact";
 import Facts from "@/components/home/Facts";
 import Faq from "@/components/home/Faq";
 import Features from "@/components/home/Features";
+import NewsLetter from "@/components/home/NewsLetter";
 import ParallaxContainer from "@/components/common/ParallaxContainer";
 import Portfolio from "@/components/home/Portfolio";
 import Service from "@/components/home/Service";
@@ -168,6 +169,16 @@ export default function HomeSchool() {
 					<Blog />
 				</div>
 			</section>
+
+			<ParallaxContainer
+				className="page-section bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+				style={{
+					backgroundImage:
+						"url(/assets/school/campus/campus-3.jpg)",
+				}}
+			>
+				<NewsLetter />
+			</ParallaxContainer>
 
 			<section className="page-section bg-gray-light-1" id="contactos">
 				<Contact />

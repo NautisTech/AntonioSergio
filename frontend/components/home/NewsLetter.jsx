@@ -1,12 +1,17 @@
 "use client";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function NewsLetter() {
+  const { language } = useLanguage();
+  const content = aesContent[language].newsletter;
+
   return (
     <div className="container position-relative">
       <div className="row">
         <div className="col-md-8 offset-md-2 col-xl-6 offset-xl-3 wow fadeInUp">
           <h2 className="section-title-small text-center mb-40">
-            Stay informed with our newsletter.
+            {content.title}
           </h2>
           <form
             onSubmit={(e) => e.preventDefault()}
@@ -15,10 +20,10 @@ export default function NewsLetter() {
           >
             <div className="d-sm-flex justify-content-between mb-20">
               <label htmlFor="newsletter-email" className="visually-hidden">
-                Your email
+                {content.emailLabel}
               </label>
               <input
-                placeholder="Enter your email"
+                placeholder={content.emailPlaceholder}
                 className="newsletter-field input-lg round"
                 id="newsletter-email"
                 name="newsletter-email"
@@ -30,15 +35,13 @@ export default function NewsLetter() {
               <button
                 type="submit"
                 aria-controls="subscribe-result"
-                className="newsletter-button btn btn-mod btn-w btn-large btn-round btn-hover-anim"
+                className="newsletter-button btn btn-mod btn-large btn-round btn-hover-anim"
               >
-                <span>Subscribe Now</span>
+                <span>{content.buttonText}</span>
               </button>
             </div>
             <div className="form-tip">
-              <i className="icon-info size-16" /> By sending the form you agree
-              to the <a href="#">Terms &amp; Conditions</a> and{" "}
-              <a href="#">Privacy Policy</a>.
+              <i className="icon-info size-16" /> {content.disclaimer}
             </div>
             <div
               id="subscribe-result"

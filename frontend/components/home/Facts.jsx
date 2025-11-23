@@ -4,14 +4,11 @@ import { useLanguage } from "@/context/LanguageContext";
 import React from "react";
 
 export default function Facts() {
-  const { language, isReady } = useLanguage();
+  const { language } = useLanguage();
 
-  // Don't render until language is ready
-  if (!isReady || !language || !aesContent[language]?.heroContent?.highlights) {
-    return null;
-  }
-
-  const highlights = aesContent[language].heroContent.highlights;
+  // Use default language if not ready
+  const currentLanguage = language && aesContent[language] ? language : "pt";
+  const highlights = aesContent[currentLanguage].heroContent.highlights;
 
   return (
     <div className="col-lg-7 offset-lg-1">

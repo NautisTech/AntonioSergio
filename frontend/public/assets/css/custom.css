@@ -445,3 +445,111 @@ a:not(.btn):not(.link-to-top):hover {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* ==============================
+   Projects/Portfolio Styling
+   ============================== */
+
+/* Projects category hover - Crimson red */
+.works-filter a:hover,
+.works-filter a.active {
+  color: #A51C30 !important;
+}
+
+.works-filter a.active:after {
+  background-color: #A51C30 !important;
+}
+
+/* ==============================
+   Blog Styling
+   ============================== */
+
+/* Blog images same height */
+.blog-item-img,
+.blog-item-img img,
+.post-prev-img,
+.post-prev-img img {
+  height: 300px !important;
+  object-fit: cover !important;
+  width: 100% !important;
+}
+
+/* ==============================
+   Partners Section Styling
+   ============================== */
+
+/* Smaller partner logos */
+.logo-grid-img img {
+  max-width: 100px !important;
+  max-height: 35px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+/* ==============================
+   Newsletter Styling
+   ============================== */
+
+/* Newsletter on dark background - use crimson button */
+.light-content .newsletter-button.btn-mod {
+  background-color: #A51C30 !important;
+  border-color: #A51C30 !important;
+  color: white !important;
+}
+
+.light-content .newsletter-button.btn-mod:hover {
+  background-color: #8E1829 !important;
+  border-color: #8E1829 !important;
+}
+
+/* Newsletter field styling */
+.newsletter-field {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.light-content .newsletter-field {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+}
+
+.light-content .newsletter-field::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ==============================
+   WOW Animation Failsafe
+   ============================== */
+
+/* Ensure hero and facts are visible even if WOW fails */
+.home-section .wow,
+.home-content .wow,
+#home .wow {
+  animation-duration: 0.8s !important;
+  animation-fill-mode: both !important;
+}
+
+/* Fallback: show content after 1 second if still hidden */
+@keyframes fadeInFallback {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.home-section,
+.home-content {
+  animation: fadeInFallback 0.5s ease-in 0.8s both;
+}
+
+/* Ensure critical content is visible */
+.hs-title-1,
+.section-caption,
+.section-descr,
+.number-title,
+.number-descr {
+  opacity: 1 !important;
+  visibility: visible !important;
+}

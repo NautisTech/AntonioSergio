@@ -10,18 +10,15 @@ import { useEffect, useState } from "react";
 
 export default function Hero1() {
 	const [isOpen, setOpen] = useState(false);
-	const { language, isReady } = useLanguage();
+	const { language } = useLanguage();
 
 	useEffect(() => {
 		parallaxMouseMovement();
 	}, []);
 
-	// Don't render until language is ready
-	if (!isReady || !language || !aesContent[language]) {
-		return null;
-	}
-
-	const heroContent = aesContent[language].heroContent;
+	// Use default language if not ready
+	const currentLanguage = language && aesContent[language] ? language : "pt";
+	const heroContent = aesContent[currentLanguage].heroContent;
 
 	return (
 		<>
