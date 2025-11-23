@@ -1,0 +1,261 @@
+{
+    "facilities": {
+        "title": "Our Facilities",
+        "subtitle": "Explore our modern and well-equipped educational spaces, designed to enhance learning.",
+        "categories": {
+            "classrooms": {
+                "title": "Classrooms",
+                "description": "Modern and comfortable learning environments equipped with the latest educational technology."
+            },
+            "labs": {
+                "title": "Laboratories",
+                "description": "State-of-the-art laboratories for hands-on learning in science, technology, and engineering."
+            },
+            "workshops": {
+                "title": "Workshops",
+                "description": "Specialized workshops for practical learning in technical and professional disciplines."
+            },
+            "playground": {
+                "title": "Recreation and Sports",
+                "description": "Recreational and sports facilities that promote physical activity and social interaction."
+            },
+            "library": {
+                "title": "Library and Study Areas",
+                "description": "Quiet and inspiring spaces for research, reading, and individual study."
+            },
+            "common": {
+                "title": "Common Areas",
+                "description": "Welcoming spaces for relaxation, socialization, and community activities."
+            }
+        },
+        "images": {
+            "classrooms": [
+                {
+                    "title": "Modern Classroom",
+                    "category": "Classrooms"
+                },
+                {
+                    "title": "Interactive Learning Space",
+                    "category": "Classrooms"
+                },
+                {
+                    "title": "Technology-Enhanced Classroom",
+                    "category": "Classrooms"
+                }
+            ],
+            "labs": [
+                {
+                    "title": "Science Laboratory",
+                    "category": "Laboratories"
+                },
+                {
+                    "title": "Computer Lab",
+                    "category": "Laboratories"
+                },
+                {
+                    "title": "Chemistry Lab",
+                    "category": "Laboratories"
+                }
+            ],
+            "workshops": [
+                {
+                    "title": "Technical Workshop",
+                    "category": "Workshops"
+                },
+                {
+                    "title": "Engineering Workshop",
+                    "category": "Workshops"
+                },
+                {
+                    "title": "Electronics Workshop",
+                    "category": "Workshops"
+                }
+            ],
+            "playground": [
+                {
+                    "title": "Sports Field",
+                    "category": "Sports"
+                },
+                {
+                    "title": "Basketball Court",
+                    "category": "Sports"
+                },
+                {
+                    "title": "Playground Area",
+                    "category": "Playground"
+                }
+            ],
+            "library": [
+                {
+                    "title": "Main Library",
+                    "category": "Library"
+                },
+                {
+                    "title": "Reading Area",
+                    "category": "Library"
+                },
+                {
+                    "title": "Study Spaces",
+                    "category": "Study Areas"
+                }
+            ],
+            "common": [
+                {
+                    "title": "Student Lounge",
+                    "category": "Common Areas"
+                },
+                {
+                    "title": "Cafeteria",
+                    "category": "Common Areas"
+                },
+                {
+                    "title": "Reception Area",
+                    "category": "Common Areas"
+                }
+            ]
+        }
+    },
+    "education": {
+        "title": "Education",
+        "subtitle": "Discover our comprehensive educational offerings from kindergarten through high school, designed to nurture every student's potential.",
+        "levels": {
+            "kindergarten": {
+                "id": "jardim-infancia",
+                "title": "Kindergarten",
+                "subtitle": "Early Childhood Education",
+                "description": "Our kindergarten program provides a nurturing and stimulating environment where young children develop fundamental skills through play-based learning. We focus on social, emotional, and cognitive development, preparing children for their educational journey ahead with creativity, curiosity, and confidence."
+            },
+            "primary": {
+                "id": "primario",
+                "title": "Primary School",
+                "subtitle": "Elementary Education (1st - 4th Grade)",
+                "description": "Our primary education program builds strong foundations in literacy, numeracy, and critical thinking. Through engaging activities and personalized attention, we help students develop essential academic skills while fostering independence, creativity, and a love for learning that will serve them throughout their educational journey."
+            },
+            "middle": {
+                "id": "basico",
+                "title": "Middle School",
+                "subtitle": "Basic Education (5th - 9th Grade)",
+                "description": "Our middle school curriculum provides comprehensive education across core subjects while introducing specialized areas of study. Students develop advanced critical thinking skills, explore their interests, and begin preparing for their future academic and career paths through diverse learning opportunities and guidance."
+            },
+            "high": {
+                "id": "secundario",
+                "title": "High School",
+                "subtitle": "Secondary Education (10th - 12th Grade)",
+                "description": "Our high school program offers rigorous academic preparation and specialized technical courses designed to prepare students for higher education and professional careers. With modern facilities and expert faculty, we provide comprehensive education that develops leadership, innovation, and the skills needed for success in the modern world."
+            }
+        }
+    },
+    "regulations": {
+        "title": "Regulation",
+        "subtitle": "Familiarize yourself with our school's rules and guidelines to ensure a safe and productive learning environment for all students."
+    },
+    "organizationalChart": {
+        "title": "Organizational Chart",
+        "subtitle": "Understand the structure of our school and the roles of key personnel dedicated to supporting our students' success."
+    },
+    "parentsAssociation": {
+        "title": "Parents Association",
+        "subtitle": "Learn more about our Parents Association, which fosters collaboration between parents, students, and the school to enhance the educational experience."
+    },
+    "eqavet": {
+        "title": "EQAVET - European Quality Assurance",
+        "subtitle": "Quality partnerships and protocols that enhance our educational excellence and professional development opportunities.",
+        "partnerships": {
+            "companies": {
+                "title": "Partnerships and Protocols with Companies",
+                "description": "Partnership with employers involves the following initiatives:",
+                "items": [
+                    "Organize student visits to companies to learn about professions and activities",
+                    "Define a strategy for educational and professional guidance",
+                    "Provide continuous training for teachers/trainers in both institutions",
+                    "Share technology component trainers between institutions",
+                    "Share equipment and facilities for training and experimentation sessions",
+                    "Implement Work Context Training (FCT) for Professional Course students",
+                    "Ensure workplace safety, health and hygiene conditions with appropriate personal protective equipment"
+                ]
+            },
+            "higher_education": {
+                "title": "Partnerships and Protocols with Higher Education",
+                "description": "Collaboration encompasses various actions to guide professional course students to higher education in related areas. Main actions include:",
+                "items": [
+                    "Guidance to higher education offerings, including promotional events and integration into projects",
+                    "Definition of educational and professional guidance strategy, with technical and psychosocial support",
+                    "Continuous teacher training through partnerships with CFAE and other entities",
+                    "Collaborative work between technology component trainers, including mentoring and research projects",
+                    "Sharing of equipment and facilities for training and simulation"
+                ]
+            },
+            "local_administration": {
+                "title": "Partnerships and Protocols with Local Administration",
+                "description": "Collaboration with local administration encompasses the following actions:",
+                "items": [
+                    "Define educational and professional guidance strategy, with specialized technicians and network meetings",
+                    "Promote CTE through communication plans and community events",
+                    "Establish a transport network for students",
+                    "Provide continuous training for teachers/trainers in partnership with CFAE and other entities",
+                    "Ensure maintenance of spaces and equipment",
+                    "Invest in technological upgrades"
+                ]
+            }
+        },
+        "gallery": {
+            "title": "EQAVET Partners",
+            "subtitle": "Meet our EQAVET Partners",
+            "description": "Visual highlights of our quality assurance partnerships and collaborative initiatives.",
+            "images": [
+                {
+                    "title": "Associação Empresarial de Portugal",
+                    "description": "Partnership with Companies"
+                },
+                {
+                    "title": "Expandindústria",
+                    "description": "Partnership with Companies"
+                },
+                {
+                    "title": "INESCTEC",
+                    "description": "Partnership with Higher Education"
+                },
+                {
+                    "title": "Instituto Politécnico de Bragança",
+                    "description": "Partnership with Higher Education"
+                },
+                {
+                    "title": "Instituto Politécnico do Cávado e do Ave",
+                    "description": "Partnership with Higher Education"
+                },
+                {
+                    "title": "Instituto Politécnico do Porto",
+                    "description": "Partnership with Higher Education"
+                },
+                {
+                    "title": "Instituto Politécnico de Viana do Castelo",
+                    "description": "Partnership with Higher Education"
+                },
+                {
+                    "title": "Instituto Politécnico de Vigo",
+                    "description": "Partnership with Higher Education"
+                },
+                {
+                    "title": "Área Metropolitana do Porto",
+                    "description": "Partnership with Local Administration"
+                },
+                {
+                    "title": "Câmara Municipal de Vila Nova de Gaia",
+                    "description": "Partnership with Local Administration"
+                },
+                {
+                    "title": "Junta de Freguesia de Mafamude e Vilar do Paraíso",
+                    "description": "Partnership with Local Administration"
+                },
+                {
+                    "title": "Junta de Freguesia de Oliveira do Douro",
+                    "description": "Partnership with Local Administration"
+                },
+                {
+                    "title": "Junta de Freguesia de Santa Marinha e São Pedro da Afurada",
+                    "description": "Partnership with Local Administration"
+                }
+            ]
+        }
+    }
+}

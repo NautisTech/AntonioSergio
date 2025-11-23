@@ -1,0 +1,99 @@
+{
+  "title": "About Us",
+  "welcome_title": "About António Sérgio",
+  "section": {
+    "pre_title": "About António Sérgio",
+    "main_title": "Excellence and Innovation in Education",
+    "description": "Our school, António Sérgio, is dedicated to providing a high quality education that fosters excellence and innovation.",
+    "features": [
+      "Personalized courses and programs",
+      "Modern infrastructure and resources",
+      "State-of-the-art technology"
+    ],
+    "read_more": "Read more"
+  },
+  "partners": {
+    "pre_title": "Partners",
+    "title": "Who will you learn with?",
+    "description": "Take a look at some of our partners in search of a better education.",
+    "view_all": "View all partners"
+  },
+  "team": {
+    "pre_title": "Board Members",
+    "title": "Meet our Board Members",
+    "description": "Our board members are responsible with overseeing the academic and administrative functions of the institution.",
+    "designation": "Director",
+    "members": [
+      {
+        "name": "Dr. Maria Santos",
+        "designation": "Professor"
+      },
+      {
+        "name": "Dr. João Silva",
+        "designation": "Professor"
+      },
+      {
+        "name": "Dr. António Costa",
+        "designation": "Professor"
+      },
+      {
+        "name": "Dr. Ana Ferreira",
+        "designation": "Professor"
+      }
+    ]
+  },
+  "values": {
+    "pre_title": "Mission and Values",
+    "title": "Shaping the Future",
+    "items": [
+      {
+        "title": "Quality Education",
+        "description": "Our commitment is to train skilled, ethical, and innovative professionals who are prepared to face the challenges of the future and contribute positively to society."
+      },
+      {
+        "title": "Inclusion and Equality",
+        "description": "We value diversity, inclusion, and mutual respect, promoting a welcoming and collaborative learning environment for all our students."
+      },
+      {
+        "title": "Innovation and Creativity",
+        "description": "We believe in the importance of innovation and creativity, encouraging our students to think critically, explore new ideas, and seek innovative solutions to contemporary challenges."
+      }
+    ]
+  },
+  "testimonials": {
+    "pre_title": "Testimonials",
+    "title": "What to expect from us.",
+    "items": [
+      {
+        "review": "Outstanding Quality!",
+        "description": "My child has developed tremendously thanks to the personalized approach and innovative teaching methods.",
+        "name": "João Santos",
+        "title": "Parent"
+      },
+      {
+        "review": "Highly Recommended!",
+        "description": "The school's commitment to excellence and student development is truly remarkable.",
+        "name": "Ana Costa",
+        "title": "Former Student"
+      },
+      {
+        "review": "Great Experience!",
+        "description": "Professional staff, excellent infrastructure, and a nurturing learning environment.",
+        "name": "Carlos Silva",
+        "title": "Parent"
+      },
+      {
+        "review": "Top Quality Education!",
+        "description": "The perfect balance between academic rigor and personal development support.",
+        "name": "Rita Ferreira",
+        "title": "Alumni"
+      },
+      {
+        "review": "Excellent Education!",
+        "description": "The school provides exceptional educational opportunities with dedicated teachers and modern facilities.",
+        "name": "Maria Oliveira",
+        "title": "Parent"
+      }
+    ]
+  }
+}

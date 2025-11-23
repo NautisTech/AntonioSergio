@@ -1,0 +1,114 @@
+{
+	"school": {
+		"title": "Escola",
+		"about_us": "Sobre Nós",
+		"structure": "Estrutura",
+		"education": "Ensino",
+		"parents_association": "Associação de Pais",
+		"eqavet": "EQAVET",
+		"subItems": {
+			"welcome": "Bem-vindos",
+			"mission_values": "Missão e Valores",
+			"educational_project": "Projeto Educativo",
+			"facilities": "Instalações",
+			"internal_regulations": "Regulamento Interno",
+			"organizational_chart": "Organograma",
+			"kindergarten": "Jardim de Infância",
+			"primary_school": "1º Ciclo",
+			"middle_school": "2º e 3º Ciclo",
+			"high_school": "Secundário"
+		}
+	},
+	"secretary": {
+		"title": "Secretaria",
+		"academic_information": "Informação Académica",
+		"processes_services": "Processos e Serviços",
+		"user_support": "Apoio ao Utilizador",
+		"subItems": {
+			"national_exams": "Exames Nacionais",
+			"school_textbooks": "Manuais Escolares",
+			"school_plan": "Plano Escolar",
+			"menu": "Ementa",
+			"professional_courses_regulations": "Regulamento Cursos Profissionais",
+			"registrations": "Inscrições",
+			"legislation": "Legislação",
+			"information": "Informações",
+			"tutorials": "Tutoriais",
+			"faq": "FAQ"
+		}
+	},
+	"media": {
+		"title": "Media",
+		"projects": "Projetos",
+		"news": "Notícias",
+		"events": "Eventos"
+	},
+	"contacts": {
+		"title": "Contactos"
+	},
+	"links": {
+		"title": "Ligações Externas",
+		"inovar": "INOVAR Consulta",
+		"digital_space": "Espaço Digital",
+		"webmail": "Webmail",
+		"complaint_book": "Livro de Reclamações",
+		"e_learning": "E-Learning",
+		"subItems": {
+			"students": "Alunos",
+			"consultation": "Consulta",
+			"recurring": "Recorrente",
+			"paa": "PAA",
+			"sige": "SIGE",
+			"library": "Biblioteca",
+			"journal": "Jornal",
+			"qualifica_center": "Centro Qualifica"
+		}
+	},
+	"reserved_area": {
+		"title": "Área Reservada",
+		"logged_in": "Área Reservada",
+		"logged_out": "Iniciar Sessão"
+	},
+	"login": {
+		"title": "Iniciar Sessão"
+	},
+	"dashboard": {
+		"title": "Dashboard"
+	},
+	"access": {
+		"title": "Acessos & Permissões",
+		"children": {
+			"users": "Utilizadores",
+			"groups": "Grupos",
+			"permissions": "Permissões"
+		}
+	},
+	"contents": {
+		"title": "Conteúdos",
+		"children": {
+			"news": "Notícias",
+			"banners": "Banners",
+			"events": "Eventos",
+			"projects": "Projetos",
+			"faqs": "FAQs",
+			"others": "Outros",
+			"exams": "Exames",
+			"textbooks": "Manuais Escolares"
+		}
+	},
+	"moderation": {
+		"title": "Moderação"
+	},
+	"support": {
+		"title": "Suporte"
+	},
+	"reports": {
+		"title": "Reportes"
+	},
+	"docs": {
+		"title": "Documentação"
+	},
+	"logout": {
+		"title": "Sair"
+	}
+}

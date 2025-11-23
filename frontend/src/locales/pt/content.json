@@ -1,0 +1,54 @@
+{
+  "loading": "A carregar...",
+  "blogs": {
+    "title": "Notícias",
+    "subtitle": "Últimas Notícias e Novidades",
+    "search_placeholder": "Pesquisar notícias",
+    "no_results": "Nenhuma notícia corresponde aos filtros.",
+    "no_total": "Não existem notícias disponíveis no momento."
+  },
+  "events": {
+    "title": "Eventos",
+    "subtitle": "Próximos Eventos e Atividades",
+    "search_placeholder": "Pesquisar eventos",
+    "date_filter": "Filtrar por Data",
+    "start_date": "Data de Início",
+    "end_date": "Data de Fim",
+    "clear_dates": "Limpar Datas",
+    "no_results": "Nenhum evento corresponde aos filtros.",
+    "no_total": "Não existem eventos disponíveis no momento."
+  },
+  "projects": {
+    "title": "Projetos",
+    "subtitle": "Próximos Projetos e Atividades",
+    "search_placeholder": "Pesquisar projetos",
+    "no_results": "Nenhum projeto corresponde aos filtros.",
+    "no_total": "Não existem projetos disponíveis no momento."
+  },
+  "comments": {
+    "reply": "Responder",
+    "empty": "Ainda não há comentários. Seja o primeiro a comentar!",
+    "comments": "Comentários",
+    "comment": "Comentário",
+    "guest": "Guest"
+  },
+  "card": {
+    "read_more": "Ler Mais",
+    "comments": "Comentários",
+    "comment": "{{count}} Comentário",
+    "comment_plural": "{{count}} Comentários",
+    "invalid_date": "Data Não Disponível",
+    "unknown_author": "Guest"
+  },
+  "form": {
+    "write_comment": "Escrever um Comentário",
+    "comment_placeholder": "Escreva o seu comentário aqui...",
+    "post_comment": "Publicar Comentário",
+    "post_success": "O seu comentário foi enviado",
+    "post_error": "Falha ao enviar comentário"
+  },
+  "tags": {
+    "title": "Tags",
+    "all": "Todas"
+  }
+}

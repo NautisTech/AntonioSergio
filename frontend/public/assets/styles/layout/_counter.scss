@@ -1,0 +1,163 @@
+@use '../utils' as *;
+
+/*----------------------------------------*/
+/*  07. COUNTER CSS START
+/*----------------------------------------*/
+
+.counter {
+    &__area {
+        background-color: var(--tp-primary-crimson) !important;
+        color: var(--tp-common-white) !important;
+    }
+
+    &__inner {
+        background-color: var(--tp-primary-crimson) !important;
+        color: var(--tp-common-white) !important;
+    }
+
+    &__item {
+        padding: 45px 45px;
+        padding-right: 30px;
+        background-color: var(--tp-primary-crimson) !important;
+        color: var(--tp-common-white) !important;
+
+        @media #{$xl} {
+            padding-left: 35px;
+        }
+
+        @media #{$sm, $xs} {
+            padding: 45px 20px;
+            padding-right: 20px;
+        }
+
+        &-border {
+            position: relative;
+
+            &::after {
+                position: absolute;
+                content: '';
+                right: -12px;
+                top: 0;
+                width: 1px;
+                height: 100%;
+                background: linear-gradient(180deg, rgba(212, 175, 55, 0) 0%, var(--tp-accent-gold) 51.56%, rgba(212, 175, 55, 0) 100%);
+                opacity: 0.3;
+
+                @media #{$xs} {
+                    right: 0;
+                    top: auto;
+                    width: 100%;
+                    height: 1px;
+                    background: linear-gradient(90deg, rgba(212, 175, 55, 0) 0%, var(--tp-accent-gold) 51.56%, rgba(212, 175, 55, 0) 100%);
+                    bottom: 0;
+                }
+            }
+
+            &-2 {
+                &::after {
+                    background: linear-gradient(180deg, rgba(212, 175, 55, 0) 0%, var(--tp-accent-gold) 51.56%, rgba(212, 175, 55, 0) 100%);
+
+                    @media #{$xs} {
+                        right: 0;
+                        top: auto;
+                        width: 100%;
+                        height: 1px;
+                        background: linear-gradient(90deg, rgba(212, 175, 55, 0) 0%, var(--tp-accent-gold) 51.56%, rgba(212, 175, 55, 0) 100%);
+                        bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    &__icon {
+        & i {
+            font-size: 35px;
+            color: var(--tp-common-white);
+        }
+
+        & svg {
+            width: 40px;
+            height: 40px;
+            @include transform(translateY(9px));
+
+            & path {
+
+                &.search,
+                &.st1,
+                &.star {
+                    stroke: var(--tp-accent-gold);
+                }
+
+                &.video {
+                    fill: var(--tp-accent-gold);
+                }
+
+                &:not(.search):not(.st1):not(.star):not(.video) {
+                    stroke: var(--tp-common-white);
+                }
+            }
+        }
+
+        &-2 {
+            & svg {
+                & path {
+
+                    &.search,
+                    &.st1,
+                    &.star {
+                        stroke: var(--tp-accent-gold);
+                    }
+
+                    &.video {
+                        fill: var(--tp-accent-gold);
+                    }
+
+                    &:not(.search):not(.st1):not(.star):not(.video) {
+                        stroke: var(--tp-common-white);
+                    }
+                }
+            }
+        }
+    }
+
+    &__content {
+        & h4 {
+            font-size: 36px;
+            color: var(--tp-accent-gold);
+            font-weight: 400;
+            margin-bottom: 5px;
+
+            & span {
+                font-size: 44px;
+                font-weight: 600;
+                margin-right: 5px;
+            }
+        }
+
+        & p {
+            font-size: 14px;
+            line-height: 22px;
+            color: var(--tp-common-white);
+            margin-bottom: 0;
+        }
+
+        &-2 {
+            & h4 {
+                color: var(--tp-accent-gold);
+            }
+        }
+    }
+
+    &__inner {
+        & .row [class*="col-"]:nth-child(2) .counter__item-border::after {
+            @media #{$lg, $md, $sm} {
+                display: none;
+            }
+        }
+
+        &-2 {
+            @include border-radius(20px);
+        }
+    }
+}

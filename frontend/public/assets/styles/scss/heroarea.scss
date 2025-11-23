@@ -1,0 +1,122 @@
+:root {
+	--site-primary: #3d6ce7; /* fallback primary */
+	--site-secondary: #f3f4f6; /* light background */
+	--site-muted: #6b7280;
+	--skeleton-bg: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 0.04),
+		rgba(255, 255, 255, 0.02)
+	);
+}
+
+.slider__skeleton {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start; /* push content to the left */
+	height: 100%;
+	width: 100%;
+	background: linear-gradient(
+		180deg,
+		rgba(61, 108, 231, 0.08),
+		rgba(61, 108, 231, 0.03)
+	);
+	color: var(--site-muted);
+	position: relative;
+	overflow: hidden;
+	padding-left: 10vw; /* slight inset from the left edge */
+}
+
+.hero-skeleton-full {
+	height: 100vh;
+	min-height: 100vh;
+}
+.hero-skeleton-medium {
+	height: 85vh;
+	min-height: 85vh;
+}
+.hero-slider-height {
+	height: 85vh;
+	min-height: 85vh;
+}
+
+.slider__skeleton::after {
+	content: "";
+	position: absolute;
+	left: -150%;
+	top: 0;
+	height: 100%;
+	width: 150%;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		rgba(255, 255, 255, 0.06),
+		transparent
+	);
+	transform: skewX(-15deg);
+	animation: shimmer 2.5s infinite;
+}
+
+@keyframes shimmer {
+	0% {
+		left: -150%;
+	}
+	100% {
+		left: 150%;
+	}
+}
+
+.slider__skeleton .skeleton-content {
+	max-width: none;
+	width: 100%;
+	padding: 0; /* remove card padding */
+	padding-left: 0; /* ensure flush to left */
+	background: transparent; /* remove centered card look */
+	border-radius: 0;
+	box-shadow: none;
+	-webkit-backdrop-filter: none;
+	backdrop-filter: none;
+	display: flex;
+	flex-direction: column;
+	justify-content: center; /* vertically center title */
+	height: 100%;
+}
+
+.skeleton-line {
+	height: 14px;
+	background: var(--skeleton-bg);
+	border-radius: 6px;
+	margin-bottom: 12px;
+}
+
+.skeleton-line.subtitle {
+	width: 40%;
+	height: 12px;
+	margin-bottom: 14px;
+	align-self: flex-start; /* left align */
+}
+
+.skeleton-line.title {
+	width: 36%;
+	height: 44px;
+	border-radius: 6px;
+	margin-bottom: 0; /* no description below */
+	align-self: flex-start; /* left align */
+	transform: translateY(-8%); /* slight vertical nudge */
+}
+
+.skeleton-line.description {
+	display: none; /* hide description skeleton */
+}
+
+@media (min-width: 1024px) {
+	.slider__skeleton .skeleton-content {
+		padding-left: 0;
+	}
+	.skeleton-line.title {
+		height: 56px;
+		width: 30%;
+	}
+	.skeleton-line.subtitle {
+		width: 18%;
+	}
+}

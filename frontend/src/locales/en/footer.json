@@ -1,0 +1,14 @@
+{
+	"description": "António Sérgio School Group is an educational institution of excellence, committed to the comprehensive education of our students and educational innovation.",
+	"follow_us": "Follow Us",
+	"newsletter": {
+		"title": "Newsletter",
+		"description": "Receive weekly educational materials, school information and much more!",
+		"email_placeholder": "Email Address",
+		"subscribe": "Subscribe",
+		"enter_email": "Please enter a valid email address.",
+		"subscribe_success": "Subscription successful! Thank you for subscribing.",
+		"subscribe_error": "An error occurred while subscribing. Please try again later."
+	},
+	"copyright": "© 2025 António Sérgio School Group. All rights reserved."
+}

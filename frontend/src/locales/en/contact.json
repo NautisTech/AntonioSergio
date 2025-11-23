@@ -1,0 +1,48 @@
+{
+    "title": "Contacts",
+    "subtitle": "Contacts",
+    "form": {
+        "title": "Get in Touch",
+        "subtitle": "Do you have any questions about our goals? We will be happy to clarify!",
+        "name": "Name",
+        "email": "Email Address",
+        "subject": "Subject",
+        "message": "Write your message",
+        "terms": "I accept the <a href='#'>Terms and Conditions</a>",
+        "send": "Send Message",
+        "success": "Your message has been sent. Thank you!",
+        "error": "An error occurred while sending your message. Please try again later."
+    },
+    "info": {
+        "location": {
+            "title": "Visit Us",
+            "line1": "Av. Nuno Álvares, 4400-233 Vila Nova de Gaia"
+        },
+        "email": {
+            "title": "Contact Us by Email",
+            "line1": "esas.gaia@antoniosergio.pt"
+        },
+        "phone": {
+            "title": "Phone Number",
+            "line1": "+(351) 22 375 21 99",
+            "line2": "+(351) 22 375 70 58 - Fax"
+        },
+        "social": {
+            "title": "Discover Our Social Media"
+        }
+    },
+    "cards": {
+        "friendlyService": {
+            "title": "Friendly Service",
+            "description": "The administrative services ensure quality service and respect for the school community.",
+            "linkText": "Clarify doubts",
+            "linkUrl": "/contactos#contact-section"
+        },
+        "availableContact": {
+            "title": "Available Contact",
+            "description": "Online contact is available at any time to meet your needs!",
+            "linkText": "Send Suggestions",
+            "linkUrl": "/contactos#contact-section"
+        }
+    }
+}

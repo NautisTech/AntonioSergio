@@ -1,0 +1,63 @@
+@use '../utils' as *;
+
+/*--
+    - Background color
+-----------------------------------------*/
+.grey-bg {
+	background: var(--tp-grey-1);
+}
+
+.grey-bg-2 {
+	background: var(--tp-grey-2);
+}
+
+.grey-bg-3 {
+	background: var(--tp-grey-3);
+}
+
+.grey-bg-4 {
+	background: var(--tp-grey-4);
+}
+
+.grey-bg-8 {
+	background: var(--tp-grey-8);
+}
+
+.grey-bg-9 {
+	background: var(--tp-grey-9);
+}
+
+.white-bg {
+	background: var(--tp-common-white);
+}
+
+.crimson-bg {
+	background: var(--tp-primary-crimson);
+}
+
+/* Alert style using primary crimson - override bootstrap .alert styles */
+.alert.alert-crimson {
+	color: #fff !important;
+	background-color: var(--tp-primary-crimson) !important;
+	border-color: var(--tp-primary-crimson) !important;
+}
+.alert.alert-crimson a,
+.alert.alert-crimson p {
+	color: #fff !important;
+}
+/* Remove potential background images/gradients from bootstrap alerts */
+.alert.alert-crimson {
+	background-image: none !important;
+}
+
+.black-bg {
+	background: var(--tp-common-black);
+}
+
+.black-bg-5 {
+	background: var(--tp-common-black-5);
+}
+
+.theme-bg-3 {
+	background: var(--tp-theme-3);
+}

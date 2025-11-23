@@ -1,0 +1,54 @@
+{
+  "loading": "Loading...",
+  "blogs": {
+    "title": "Blogs",
+    "subtitle": "Latest Blogs and News",
+    "search_placeholder": "Search for blogs",
+    "no_results": "No blogs match your filters.",
+    "no_total": "There are no blogs available at the moment."
+  },
+  "events": {
+    "title": "Events",
+    "subtitle": "Next Events and Activities",
+    "search_placeholder": "Search for events",
+    "date_filter": "Filter by Date",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "clear_dates": "Clear Dates",
+    "no_results": "No events match your filters.",
+    "no_total": "There are no events available at the moment."
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Next Projects and Activities",
+    "search_placeholder": "Search for projects",
+    "no_results": "No projects match your filters.",
+    "no_total": "There are no projects available at the moment."
+  },
+  "comments": {
+    "reply": "Reply",
+    "empty": "There are no comments yet. Be the first to comment!",
+    "comments": "Comments",
+    "comment": "Comment",
+    "guest": "Guest"
+  },
+  "card": {
+    "read_more": "Read More",
+    "comments": "Comments",
+    "comment": "{{count}} Comment",
+    "comment_plural": "{{count}} Comments",
+    "invalid_date": "Unavailable Date",
+    "unknown_author": "Guest"
+  },
+  "form": {
+    "write_comment": "Write a Comment",
+    "comment_placeholder": "Write your comment here...",
+    "post_comment": "Post Comment",
+    "post_success": "Your comment was submitted",
+    "post_error": "Failed to submit comment"
+  },
+  "tags": {
+    "title": "Tags",
+    "all": "All"
+  }
+}

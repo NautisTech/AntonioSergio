@@ -1,0 +1,76 @@
+$colors: (
+    // PRIMARY COLORS
+    primary: (crimson: #A51C30, // Primary brand color - Crimson Red
+        black: #1E1E1E, // Primary black for text and emphasis
+    ),
+
+    // SECONDARY COLORS - Neutral field for primary colors
+    secondary: (mortar: #8C8179, // Warm gray for subtle backgrounds
+        parchment: #F3F3F1, // Light neutral for main backgrounds
+        slate: #8996A0, // Mid-tone gray for secondary text
+        shade: #BAC5C6, // Light blue-gray for borders/dividers
+    ),
+
+    // ACCENT COLORS - For highlighting and accenting key information
+    accent: (indigo: #293352, // Deep blue for dark accents
+        bluebonnet: #4E84C4, // Primary blue for links/info
+        ivy: #A51C30, // Success crimson (changed from green)
+        pear: #E6A8B3, // Light success crimson (changed from green)
+        lemon: #FFDB6D, // Warning yellow
+        saffron: #D16103, // Alert orange
+        gold: #C4961A, // Emphasis gold
+        creme: #F4EDCA, // Light cream background
+    ),
+
+    // LEGACY COMPATIBILITY - Common colors for backward compatibility
+    common: (white: #ffffff,
+        black: #1E1E1E, // Updated to brand black
+        black-2: #293352, // Using indigo for secondary black
+        black-3: #8C8179, // Using mortar for tertiary
+        black-4: #000000, // True black for high contrast
+        green: #A51C30, // Using crimson (changed from ivy)
+        green-2: #E6A8B3, // Using light crimson (changed from pear)
+        blue: #4E84C4, // Using bluebonnet
+        blue-2: #293352, // Using indigo
+        cream: #F4EDCA, // Using brand creme
+        orange: #D16103, // Using saffron
+        yellow: #FFDB6D, // Using lemon
+        gold: #C4961A, // Using brand gold
+    ),
+
+    // HEADER COLORS
+    header: (primary: #A51C30, // Using crimson for headers
+        secondary: #1E1E1E, // Using brand black
+    ),
+
+    // NEUTRAL GRAYS - Updated to use brand secondary colors
+    grey: (1: #F3F3F1, // Parchment
+        2: #F4EDCA, // Creme
+        3: #BAC5C6, // Shade
+        4: #8996A0, // Slate
+        5: #8C8179, // Mortar
+        6: #293352, // Indigo for darker gray
+    ),
+
+    // TEXT COLORS - Optimized for readability with new palette
+    text: (body: #1E1E1E, // Primary black for body text
+        primary: #1E1E1E, // Primary text
+        secondary: #8C8179, // Secondary text using mortar
+        tertiary: #8996A0, // Tertiary text using slate
+        muted: #BAC5C6, // Muted text using shade
+        accent: #A51C30, // Accent text using crimson
+    ),
+
+    // THEME COLORS - Main theme progression
+    theme: (1: #A51C30, // Primary: Crimson
+        2: #A51C30, // Secondary: Crimson (changed from ivy/green)
+        3: #4E84C4, // Tertiary: Blue Bonnet (info)
+        4: #D16103, // Quaternary: Saffron (warning)
+    ),
+
+    // BORDER COLORS
+    border: (1: #BAC5C6, // Primary borders using shade
+        2: #8996A0, // Secondary borders using slate
+        3: #F3F3F1, // Light borders using parchment
+    )
+);

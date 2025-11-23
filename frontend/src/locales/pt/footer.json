@@ -1,0 +1,14 @@
+{
+	"description": "O Agrupamento de Escolas António Sérgio é uma instituição de ensino de excelência, comprometida com a formação integral dos nossos alunos e com a inovação educativa.",
+	"follow_us": "Sigam-nos",
+	"newsletter": {
+		"title": "Newsletter",
+		"description": "Receba semanalmente materiais educativos, informações da escola e muito mais!",
+		"email_placeholder": "Endereço de Email",
+		"subscribe": "Subscrever",
+		"enter_email": "Por favor, insira um endereço de email válido.",
+		"subscribe_success": "Subscrição bem-sucedida! Obrigado por se inscrever.",
+		"subscribe_error": "Ocorreu um erro ao subscrever. Por favor, tente novamente mais tarde."
+	},
+	"copyright": "© 2025 Agrupamento de Escolas António Sérgio. Todos os direitos reservados."
+}

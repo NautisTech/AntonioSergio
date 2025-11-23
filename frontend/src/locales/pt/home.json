@@ -1,0 +1,92 @@
+{
+	"see_event": "Ver Evento",
+	"courses": {
+		"pre_title": "Projeto Educativo",
+		"title": "Explore os Nossos Cursos",
+		"description": "Descubra os cursos técnicos que oferecemos, projetados para preparar os estudantes para os desafios do mercado de trabalho moderno.",
+		"download_not_available": "Download do PDF de",
+		"file": "Ficheiro",
+		"items": [
+			{
+				"title": "Cibersegurança e Redes",
+				"description": "Aprende a proteger sistemas e redes informáticas contra ameaças cibernéticas e implementar soluções de segurança robustas."
+			},
+			{
+				"title": "Eletrónica e Hardware",
+				"description": "Domina o desenvolvimento de sistemas embebidos e o controlo de hardware através de microcontroladores."
+			},
+			{
+				"title": "Programação",
+				"description": "Desenvolve competências em linguagens de programação modernas e metodologias de desenvolvimento de software."
+			},
+			{
+				"title": "Mecânica",
+				"description": "Estuda os princípios fundamentais da mecânica, máquinas e sistemas mecânicos industriais."
+			},
+			{
+				"title": "Eletrotecnia",
+				"description": "Aprende sobre sistemas elétricos, instalações e manutenção de equipamentos eletrotécnicos."
+			},
+			{
+				"title": "Energias Renováveis",
+				"description": "Explora tecnologias sustentáveis e sistemas de energia renovável para um futuro mais verde."
+			}
+		]
+	},
+	"features": {
+		"pre_title": "Serviços Educativos",
+		"title": "Descubra a Nossa Oferta Educativa",
+		"description": "Conheça os pilares fundamentais que tornam o Agrupamento de Escolas António Sérgio numa referência na educação de qualidade.",
+		"items": [
+			{
+				"title": "Formação Graduada",
+				"description": "Oferecemos percursos educativos completos desde o pré-escolar ao ensino secundário, preparando os nossos alunos para o ensino superior e mercado de trabalho.",
+				"link_text": "Saber Mais"
+			},
+			{
+				"title": "Vida Académica",
+				"description": "Promovemos um ambiente académico dinâmico e inclusivo, com atividades extracurriculares, projetos interdisciplinares e eventos culturais.",
+				"link_text": "Conhecer Mais"
+			},
+			{
+				"title": "Apoio Educativo",
+				"description": "Disponibilizamos serviços de apoio personalizado, orientação vocacional e acompanhamento pedagógico para garantir o sucesso de todos os estudantes.",
+				"link_text": "Descobrir Mais"
+			}
+		]
+	},
+	"counter": {
+		"items": [
+			{
+				"subtitle": "Anos de Reconhecimento e Alcance Internacional"
+			},
+			{
+				"subtitle": "Recursos e Ferramentas Digitais"
+			},
+			{
+				"subtitle": "Docentes Qualificados e Escolhidos ao Pormenor"
+			},
+			{
+				"subtitle": "Alunos Inscritos por Ano Letivo"
+			}
+		]
+	},
+	"campus": {
+		"pre_title": "A Nossa Missão",
+		"title": "O que nos movimenta",
+		"description": "O Agrupamento de Escolas António Sérgio procura definir-se como um pioneiro da inovação educativa a nível nacional, incentivando os novos alunos a desenvolverem o seu potencial máximo e a tornarem-se cidadãos ativos e conscientes.",
+		"button_text": "Ler Mais"
+	},
+	"cta": {
+		"participate": {
+			"title": "Participa desta Jornada",
+			"description": "Entre em contacto connosco e descubra como pode contribuir para a nossa comunidade educativa.",
+			"button_text": "Quero Participar"
+		},
+		"education": {
+			"title": "Fundamenta a tua educação",
+			"description": "Conheça os nossos cursos e descubra como estes o podem levar a um futuro brilhante.",
+			"button_text": "Saber Mais"
+		}
+	}
+}

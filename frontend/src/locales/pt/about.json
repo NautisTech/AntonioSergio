@@ -1,0 +1,99 @@
+{
+  "title": "Sobre Nós",
+  "welcome_title": "Sobre a António Sérgio",
+  "section": {
+    "pre_title": "Sobre a António Sérgio",
+    "main_title": "Excelência e Inovação na Educação",
+    "description": "A nossa escola, António Sérgio, dedica-se a proporcionar uma educação de alta qualidade que promove a excelência e a inovação.",
+    "features": [
+      "Cursos e programas personalizados",
+      "Infraestruturas e recursos modernos",
+      "Tecnologia de ponta"
+    ],
+    "read_more": "Ler mais"
+  },
+  "partners": {
+    "pre_title": "Parceiros",
+    "title": "Com quem vai aprender?",
+    "description": "Conheça alguns dos nossos parceiros em busca de uma educação melhor.",
+    "view_all": "Ver todos os parceiros"
+  },
+  "values": {
+    "pre_title": "Missão e Valores",
+    "title": "Formação do Futuro",
+    "items": [
+      {
+        "title": "Educação Qualitativa",
+        "description": "O nosso compromisso é formar profissionais capacitados, éticos e inovadores, preparados para enfrentar os desafios do futuro e contribuir positivamente para a sociedade."
+      },
+      {
+        "title": "Inclusão e Igualdade",
+        "description": "Valorizamos a diversidade, a inclusão e o respeito mútuo, promovendo um ambiente de aprendizagem acolhedor e colaborativo para todos os nossos alunos."
+      },
+      {
+        "title": "Inovação e Criatividade",
+        "description": "Acreditamos na importância da inovação e da criatividade, incentivando os nossos alunos a pensar de forma crítica, a explorar novas ideias e a buscar soluções inovadoras para os desafios contemporâneos."
+      }
+    ]
+  },
+  "team": {
+    "pre_title": "Membros da Direção",
+    "title": "Conheça os Nossos Membros da Direção",
+    "description": "Os nossos membros da direção são responsáveis pela supervisão das funções académicas e administrativas da instituição.",
+    "designation": "Diretor",
+    "members": [
+      {
+        "name": "Dra. Maria Santos",
+        "designation": "Professora"
+      },
+      {
+        "name": "Dr. João Silva",
+        "designation": "Professor"
+      },
+      {
+        "name": "Dr. António Costa",
+        "designation": "Professor"
+      },
+      {
+        "name": "Dra. Ana Ferreira",
+        "designation": "Professora"
+      }
+    ]
+  },
+  "testimonials": {
+    "pre_title": "Testemunhos",
+    "title": "O que pode esperar de nós.",
+    "items": [
+      {
+        "review": "Qualidade Excecional!",
+        "description": "O meu filho desenvolveu-se tremendamente graças à abordagem personalizada e métodos de ensino inovadores.",
+        "name": "João Santos",
+        "title": "Encarregado de Educação"
+      },
+      {
+        "review": "Altamente Recomendado!",
+        "description": "O compromisso da escola com a excelência e o desenvolvimento dos alunos é verdadeiramente notável.",
+        "name": "Ana Costa",
+        "title": "Ex-Aluna"
+      },
+      {
+        "review": "Ótima Experiência!",
+        "description": "Pessoal profissional, excelente infraestrutura e um ambiente de aprendizagem acolhedor.",
+        "name": "Carlos Silva",
+        "title": "Encarregado de Educação"
+      },
+      {
+        "review": "Educação de Primeira Qualidade!",
+        "description": "O equilíbrio perfeito entre rigor académico e apoio ao desenvolvimento pessoal.",
+        "name": "Rita Ferreira",
+        "title": "Alumni"
+      },
+      {
+        "review": "Educação Excelente!",
+        "description": "A escola proporciona oportunidades educacionais excecionais com professores dedicados e instalações modernas.",
+        "name": "Maria Oliveira",
+        "title": "Encarregada de Educação"
+      }
+    ]
+  }
+}

@@ -1,0 +1,116 @@
+{
+	"school": {
+		"title": "School",
+		"about_us": "About Us",
+		"structure": "Structure",
+		"digital_space": "Digital Space",
+		"education": "Education",
+		"parents_association": "Parents Association",
+		"eqavet": "EQAVET",
+		"subItems": {
+			"welcome": "Welcome",
+			"mission_values": "Mission and Values",
+			"educational_project": "Educational Project",
+			"facilities": "Facilities",
+			"internal_regulations": "Internal Regulations",
+			"organizational_chart": "Organizational Chart",
+			"kindergarten": "Kindergarten",
+			"primary_school": "Primary School",
+			"middle_school": "Middle School",
+			"high_school": "High School"
+		}
+	},
+	"secretary": {
+		"title": "Secretary",
+		"academic_information": "Academic Information",
+		"processes_services": "Processes and Services",
+		"user_support": "User Support",
+		"subItems": {
+			"national_exams": "National Exams",
+			"school_textbooks": "School Textbooks",
+			"school_plan": "School Plan",
+			"menu": "Menu",
+			"professional_courses_regulations": "Professional Courses Regulations",
+			"registrations": "Registrations",
+			"legislation": "Legislation",
+			"complaint_book": "Complaint Book",
+			"information": "Information",
+			"tutorials": "Tutorials",
+			"faq": "FAQ"
+		}
+	},
+	"links": {
+		"title": "External Links",
+		"inovar": "INOVAR Consultation",
+		"digital_space": "Digital Space",
+		"webmail": "Webmail",
+		"complaint_book": "Complaint Book",
+		"e_learning": "E-Learning",
+		"subItems": {
+			"students": "Students",
+			"consultation": "Consultation",
+			"recurring": "Recurring",
+			"paa": "PAA",
+			"sige": "SIGE",
+			"library": "Library",
+			"journal": "Journal",
+			"qualifica_center": "Qualifica Center"
+		}
+	},
+	"media": {
+		"title": "Media",
+		"projects": "Projects",
+		"news": "News",
+		"events": "Events"
+	},
+	"contacts": {
+		"title": "Contacts"
+	},
+	"login": {
+		"title": "Login"
+	},
+	"dashboard": {
+		"title": "Dashboard"
+	},
+	"access": {
+		"title": "Accesses & Permissions",
+		"children": {
+			"users": "Users",
+			"groups": "Groups",
+			"permissions": "Permissions"
+		}
+	},
+	"contents": {
+		"title": "Contents",
+		"children": {
+			"news": "News",
+			"banners": "Banners",
+			"events": "Events",
+			"projects": "Projects",
+			"faqs": "FAQs",
+			"others": "Others",
+			"exams": "Exams",
+			"textbooks": "Textbooks"
+		}
+	},
+	"moderation": {
+		"title": "Moderation"
+	},
+	"support": {
+		"title": "Support"
+	},
+	"reports": {
+		"title": "Reports"
+	},
+	"docs": {
+		"title": "Documentation"
+	},
+	"logout": {
+		"title": "Logout"
+	},
+	"reserved_area": {
+		"title": "Reserved Area",
+		"logged_in": "Reserved Area",
+		"logged_out": "Login"
+	}
+}

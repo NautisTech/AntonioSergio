@@ -1,0 +1,44 @@
+{
+	"greetings": {
+		"welcome": "Bem-vindo(a)",
+		"hello": "Olá",
+		"good_morning": "Bom dia",
+		"good_afternoon": "Boa tarde",
+		"good_evening": "Boa noite"
+	},
+	"language": {
+		"select": "Selecionar Idioma",
+		"loading": "A carregar idiomas...",
+		"error": "Erro ao carregar",
+		"none": "Nenhum idioma"
+	},
+	"entity": {
+		"select": "Selecionar Escola",
+		"all": "Todas as escolas",
+		"loading": "A carregar escolas...",
+		"error": "Erro ao carregar",
+		"none": "Nenhuma escola"
+	},
+	"modules": {
+		"dashboard": "Dashboard",
+		"utilizadores": "Utilizadores",
+		"entidades": "Entidades",
+		"grupos": "Grupos",
+		"permissoes": "Permissões",
+		"configuracoes": "Configurações",
+		"exames": "Exames",
+		"comentarios": "Comentários",
+		"suporte": "Suporte",
+		"faqs": "FAQs",
+		"reports": "Reportar",
+		"projetos": "Projetos",
+		"eventos": "Eventos",
+		"banners": "Banners",
+		"manuais": "Manuais"
+	},
+	"accessDenied": {
+		"title": "Acesso Negado",
+		"message": "Você não tem permissão para acessar o módulo {{modulo}}.",
+		"backToHome": "Voltar para o Início"
+	}
+}

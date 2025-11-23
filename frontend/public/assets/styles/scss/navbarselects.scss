@@ -1,0 +1,385 @@
+/* EntidadeSelector Custom Styles */
+
+.entidade-selector-dropdown {
+    /* Custom scrollbar for dropdown */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.entidade-selector-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.entidade-selector-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.entidade-selector-dropdown::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+}
+
+.entidade-selector-dropdown::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced trigger styles */
+.entidade-selector-trigger {
+    border: none !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--tp-common-white) !important;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.entidade-selector-trigger:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: var(--tp-common-white) !important;
+    transform: translateY(-1px);
+}
+
+.entidade-selector-trigger:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.entidade-selector-trigger:active {
+    transform: scale(0.98);
+}
+
+/* Dropdown styling - crimson background with white text */
+.entidade-selector-dropdown {
+    /* Custom scrollbar for dropdown */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: var(--tp-primary-crimson) !important;
+    color: var(--tp-common-white) !important;
+}
+
+/* Dropdown options styling */
+.entidade-selector-option {
+    color: var(--tp-common-white) !important;
+    background-color: transparent !important;
+}
+
+.entidade-selector-option:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: var(--tp-common-white) !important;
+}
+
+/* Dropdown icons - all white */
+.entidade-selector-dropdown svg,
+.entidade-selector-dropdown .lucide,
+.entidade-selector-trigger svg,
+.entidade-selector-trigger .lucide,
+.entidade-selector-dropdown .text-muted,
+.entidade-selector-dropdown small {
+    color: var(--tp-common-white) !important;
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 1200px) {
+    .entidade-selector-mobile {
+        font-size: 1rem;
+    }
+
+    .entidade-selector-trigger {
+        min-height: 48px;
+        touch-action: manipulation;
+    }
+
+    /* Mobile-specific styling for white background with dark text */
+    .mobile-navbar .entidade-selector-trigger {
+        background: var(--tp-common-white) !important;
+        color: var(--tp-common-black) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .mobile-navbar .entidade-selector-trigger:hover {
+        background: rgba(0, 0, 0, 0.05) !important;
+        color: var(--tp-common-black) !important;
+    }
+
+    .mobile-navbar .entidade-selector-dropdown {
+        background-color: var(--tp-common-white) !important;
+        color: var(--tp-common-black) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    }
+
+    .mobile-navbar .entidade-selector-option {
+        color: var(--tp-common-black) !important;
+        background-color: transparent !important;
+    }
+
+    .mobile-navbar .entidade-selector-option:hover {
+        background-color: rgba(0, 0, 0, 0.05) !important;
+        color: var(--tp-common-black) !important;
+    }
+
+    .mobile-navbar .entidade-selector-dropdown svg,
+    .mobile-navbar .entidade-selector-dropdown .lucide,
+    .mobile-navbar .entidade-selector-trigger svg,
+    .mobile-navbar .entidade-selector-trigger .lucide,
+    .mobile-navbar .entidade-selector-dropdown .text-muted,
+    .mobile-navbar .entidade-selector-dropdown small {
+        color: var(--tp-common-black) !important;
+    }
+}
+
+/* Animation keyframes for subtle effects */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+.entidade-selector-loading {
+    animation: pulse 1.5s ease-in-out infinite;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200px 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+/* Dropdown option hover effects */
+.entidade-selector-option {
+    transition: all 0.2s ease;
+    border-radius: 0;
+    margin: 0;
+}
+
+.entidade-selector-option:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: var(--tp-common-white) !important;
+}
+
+/* Enhanced dropdown appearance */
+.entidade-selector-dropdown {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Individual transition classes for specific elements */
+.entidade-selector-trigger,
+.entidade-selector-option,
+.entidade-selector-dropdown {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* LanguageSelector Custom Styles */
+
+.language-selector-dropdown {
+    /* Custom scrollbar for dropdown */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.language-selector-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.language-selector-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.language-selector-dropdown::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+}
+
+.language-selector-dropdown::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced trigger styles */
+.language-selector-trigger {
+    border: none !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--tp-common-white) !important;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.language-selector-trigger:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: var(--tp-common-white) !important;
+    transform: translateY(-1px);
+}
+
+.language-selector-trigger:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.language-selector-trigger:active {
+    transform: scale(0.98);
+}
+
+/* Dropdown styling - crimson background with white text */
+.language-selector-dropdown {
+    /* Custom scrollbar for dropdown */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: var(--tp-primary-crimson) !important;
+    color: var(--tp-common-white) !important;
+}
+
+/* Dropdown options styling */
+.language-selector-option {
+    color: var(--tp-common-white) !important;
+    background-color: transparent !important;
+}
+
+.language-selector-option:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: var(--tp-common-white) !important;
+}
+
+/* Dropdown icons and text - all white */
+.language-selector-dropdown svg,
+.language-selector-dropdown .lucide,
+.language-selector-trigger svg,
+.language-selector-trigger .lucide,
+.language-selector-dropdown .text-muted,
+.language-selector-dropdown small {
+    color: var(--tp-common-white) !important;
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 1200px) {
+    .language-selector-mobile {
+        font-size: 1rem;
+    }
+
+    .language-selector-trigger {
+        min-height: 48px;
+        touch-action: manipulation;
+    }
+
+    /* Mobile-specific styling for white background with dark text */
+    .mobile-navbar .language-selector-trigger {
+        background: var(--tp-common-white) !important;
+        color: var(--tp-common-black) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .mobile-navbar .language-selector-trigger:hover {
+        background: rgba(0, 0, 0, 0.05) !important;
+        color: var(--tp-common-black) !important;
+    }
+
+    .mobile-navbar .language-selector-dropdown {
+        background-color: var(--tp-common-white) !important;
+        color: var(--tp-common-black) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    }
+
+    .mobile-navbar .language-selector-option {
+        color: var(--tp-common-black) !important;
+        background-color: transparent !important;
+    }
+
+    .mobile-navbar .language-selector-option:hover {
+        background-color: rgba(0, 0, 0, 0.05) !important;
+        color: var(--tp-common-black) !important;
+    }
+
+    .mobile-navbar .language-selector-dropdown svg,
+    .mobile-navbar .language-selector-dropdown .lucide,
+    .mobile-navbar .language-selector-trigger svg,
+    .mobile-navbar .language-selector-trigger .lucide,
+    .mobile-navbar .language-selector-dropdown .text-muted,
+    .mobile-navbar .language-selector-dropdown small {
+        color: var(--tp-common-black) !important;
+    }
+}
+
+/* Animation keyframes for subtle effects */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+.language-selector-loading {
+    animation: pulse 1.5s ease-in-out infinite;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200px 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+/* Dropdown option hover effects */
+.language-selector-option {
+    transition: all 0.2s ease;
+    border-radius: 0;
+    margin: 0;
+}
+
+.language-selector-option:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: var(--tp-common-white) !important;
+}
+
+/* Enhanced dropdown appearance */
+.language-selector-dropdown {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Individual transition classes for specific elements */
+.language-selector-trigger,
+.language-selector-option,
+.language-selector-dropdown {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}

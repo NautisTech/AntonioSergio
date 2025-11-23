@@ -1,0 +1,44 @@
+{
+	"greetings": {
+		"welcome": "Welcome",
+		"hello": "Hello",
+		"good_morning": "Good Morning",
+		"good_afternoon": "Good Afternoon",
+		"good_evening": "Good Evening"
+	},
+	"language": {
+		"select": "Select Language",
+		"loading": "Loading languages...",
+		"error": "Error loading",
+		"none": "No languages"
+	},
+	"entity": {
+		"select": "Select School",
+		"all": "All schools",
+		"loading": "Loading schools...",
+		"error": "Error loading",
+		"none": "No schools"
+	},
+	"modules": {
+		"dashboard": "Dashboard",
+		"utilizadores": "Users",
+		"entidades": "Entities",
+		"grupos": "Groups",
+		"permissoes": "Permissions",
+		"configuracoes": "Configs",
+		"exames": "Exams",
+		"comentarios": "Comments",
+		"suporte": "Support",
+		"faqs": "FAQs",
+		"reports": "Report",
+		"projetos": "Projects",
+		"eventos": "Events",
+		"banners": "Banners",
+		"manuais": "Manuals"
+	},
+	"accessDenied": {
+		"title": "Access Denied",
+		"message": "You don't have permission to access the {{modulo}} module.",
+		"backToHome": "Back to Home"
+	}
+}

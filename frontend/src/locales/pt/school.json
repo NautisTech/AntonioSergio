@@ -1,0 +1,264 @@
+{
+    "facilities": {
+        "title": "As Nossas Instalações",
+        "subtitle": "Explore os nossos espaços educativos modernos e bem equipados, projetados para melhorar a aprendizagem.",
+        "categories": {
+            "classrooms": {
+                "title": "Salas de Aula",
+                "description": "Ambientes de aprendizagem modernos e confortáveis equipados com a mais recente tecnologia educativa.",
+                "items": [
+
+                ]
+            },
+            "labs": {
+                "title": "Laboratórios",
+                "description": "Laboratórios de última geração para aprendizagem prática em ciências, tecnologia e engenharia."
+            },
+            "workshops": {
+                "title": "Oficinas",
+                "description": "Oficinas especializadas para aprendizagem prática em disciplinas técnicas e profissionais."
+            },
+            "playground": {
+                "title": "Recreio e Desporto",
+                "description": "Instalações recreativas e desportivas que promovem a atividade física e a interação social."
+            },
+            "library": {
+                "title": "Biblioteca e Áreas de Estudo",
+                "description": "Espaços tranquilos e inspiradores para pesquisa, leitura e estudo individual."
+            },
+            "common": {
+                "title": "Áreas Comuns",
+                "description": "Espaços acolhedores para relaxamento, socialização e atividades comunitárias."
+            }
+        },
+        "images": {
+            "classrooms": [
+                {
+                    "title": "Sala de Aula Moderna",
+                    "category": "Salas de Aula"
+                },
+                {
+                    "title": "Espaço de Aprendizagem Interativo",
+                    "category": "Salas de Aula"
+                },
+                {
+                    "title": "Sala de Aula com Tecnologia",
+                    "category": "Salas de Aula"
+                }
+            ],
+            "labs": [
+                {
+                    "title": "Laboratório de Ciências",
+                    "category": "Laboratórios"
+                },
+                {
+                    "title": "Laboratório de Informática",
+                    "category": "Laboratórios"
+                },
+                {
+                    "title": "Laboratório de Química",
+                    "category": "Laboratórios"
+                }
+            ],
+            "workshops": [
+                {
+                    "title": "Oficina Técnica",
+                    "category": "Oficinas"
+                },
+                {
+                    "title": "Oficina de Engenharia",
+                    "category": "Oficinas"
+                },
+                {
+                    "title": "Oficina de Eletrónica",
+                    "category": "Oficinas"
+                }
+            ],
+            "playground": [
+                {
+                    "title": "Campo Desportivo",
+                    "category": "Desportos"
+                },
+                {
+                    "title": "Campo de Basquetebol",
+                    "category": "Desportos"
+                },
+                {
+                    "title": "Área de Recreio",
+                    "category": "Recreio"
+                }
+            ],
+            "library": [
+                {
+                    "title": "Biblioteca Principal",
+                    "category": "Biblioteca"
+                },
+                {
+                    "title": "Área de Leitura",
+                    "category": "Biblioteca"
+                },
+                {
+                    "title": "Espaços de Estudo",
+                    "category": "Áreas de Estudo"
+                }
+            ],
+            "common": [
+                {
+                    "title": "Sala de Estudantes",
+                    "category": "Áreas Comuns"
+                },
+                {
+                    "title": "Cantina",
+                    "category": "Áreas Comuns"
+                },
+                {
+                    "title": "Área de Receção",
+                    "category": "Áreas Comuns"
+                }
+            ]
+        }
+    },
+    "education": {
+        "title": "Educação",
+        "subtitle": "Descubra a nossa oferta educativa abrangente desde o jardim de infância até ao ensino secundário, concebida para desenvolver o potencial de cada aluno.",
+        "levels": {
+            "kindergarten": {
+                "id": "jardim-infancia",
+                "title": "Jardim de Infância",
+                "subtitle": "Educação Pré-Escolar",
+                "description": "O nosso programa de jardim de infância oferece um ambiente acolhedor e estimulante onde as crianças pequenas desenvolvem competências fundamentais através da aprendizagem baseada no jogo. Focamo-nos no desenvolvimento social, emocional e cognitivo, preparando as crianças para a sua jornada educativa com criatividade, curiosidade e confiança."
+            },
+            "primary": {
+                "id": "primario",
+                "title": "Ensino Primário",
+                "subtitle": "Ensino Básico (1.º - 4.º Ano)",
+                "description": "O nosso programa de ensino primário constrói bases sólidas na literacia, numeracia e pensamento crítico. Através de atividades envolventes e atenção personalizada, ajudamos os alunos a desenvolver competências académicas essenciais, promovendo simultaneamente a independência, criatividade e o amor pela aprendizagem que os servirá ao longo da sua jornada educativa."
+            },
+            "middle": {
+                "id": "basico",
+                "title": "Ensino Básico",
+                "subtitle": "Ensino Básico (5.º - 9.º Ano)",
+                "description": "O nosso currículo do ensino básico proporciona uma educação abrangente nas disciplinas fundamentais, introduzindo simultaneamente áreas de estudo especializadas. Os alunos desenvolvem competências avançadas de pensamento crítico, exploram os seus interesses e começam a preparar-se para os seus futuros percursos académicos e profissionais através de diversas oportunidades de aprendizagem e orientação."
+            },
+            "high": {
+                "id": "secundario",
+                "title": "Ensino Secundário",
+                "subtitle": "Ensino Secundário (10.º - 12.º Ano)",
+                "description": "O nosso programa de ensino secundário oferece preparação académica rigorosa e cursos técnicos especializados, concebidos para preparar os alunos para o ensino superior e carreiras profissionais. Com instalações modernas e corpo docente especializado, proporcionamos uma educação abrangente que desenvolve liderança, inovação e as competências necessárias para o sucesso no mundo moderno."
+            }
+        }
+    },
+    "regulations": {
+        "title": "Regulamento",
+        "subtitle": "Familiarize-se com as regras e diretrizes da nossa escola para garantir um ambiente de aprendizagem seguro e produtivo para todos os alunos."
+    },
+    "organizationalChart": {
+        "title": "Organograma",
+        "subtitle": "Compreenda a estrutura da nossa escola e os papéis do pessoal chave dedicado a apoiar o sucesso dos nossos alunos."
+    },
+    "parentsAssociation": {
+        "title": "Associação de Pais",
+        "subtitle": "Saiba mais sobre a nossa Associação de Pais, que promove a colaboração entre pais, alunos e escola para melhorar a experiência educativa."
+    },
+    "eqavet": {
+        "title": "EQAVET - Garantia de Qualidade Europeia",
+        "subtitle": "Parcerias e protocolos de qualidade que melhoram a nossa excelência educativa e oportunidades de desenvolvimento profissional.",
+        "partnerships": {
+            "companies": {
+                "title": "Parcerias e Protocolos com Empresas",
+                "description": "A parceria com empregadores envolve as seguintes iniciativas:",
+                "items": [
+                    "Organizar visitas de alunos a empresas para conhecer profissões e atividades",
+                    "Definir uma estratégia para orientação educativa e profissional",
+                    "Proporcionar formação contínua para professores/formadores em ambas as instituições",
+                    "Partilhar formadores da componente tecnológica entre instituições",
+                    "Partilhar equipamentos e instalações para sessões de formação e experimentação",
+                    "Implementar Formação em Contexto de Trabalho (FCT) para alunos de Cursos Profissionais",
+                    "Garantir condições de segurança, saúde e higiene no local de trabalho com equipamento de proteção individual adequado"
+                ]
+            },
+            "higher_education": {
+                "title": "Parcerias e Protocolos com o Ensino Superior",
+                "description": "A colaboração abrange várias ações para orientar os alunos de cursos profissionais para o ensino superior em áreas relacionadas. As principais ações incluem:",
+                "items": [
+                    "Orientação para a oferta do ensino superior, incluindo eventos promocionais e integração em projetos",
+                    "Definição de estratégia de orientação educativa e profissional, com apoio técnico e psicossocial",
+                    "Formação contínua de professores através de parcerias com CFAE e outras entidades",
+                    "Trabalho colaborativo entre formadores da componente tecnológica, incluindo mentoria e projetos de investigação",
+                    "Partilha de equipamentos e instalações para formação e simulação"
+                ]
+            },
+            "local_administration": {
+                "title": "Parcerias e Protocolos com a Administração Local",
+                "description": "A colaboração com a administração local abrange as seguintes ações:",
+                "items": [
+                    "Definir estratégia de orientação educativa e profissional, com técnicos especializados e reuniões de rede",
+                    "Promover o Ensino Técnico e Profissional através de planos de comunicação e eventos comunitários",
+                    "Estabelecer uma rede de transportes para alunos",
+                    "Proporcionar formação contínua para professores/formadores em parceria com CFAE e outras entidades",
+                    "Garantir a manutenção de espaços e equipamentos",
+                    "Investir em atualizações tecnológicas"
+                ]
+            }
+        },
+        "gallery": {
+            "title": "Parceiros EQAVET",
+            "subtitle": "Conheça os nossos Parceiros EQAVET",
+            "description": "Destaques visuais das nossas parcerias de garantia de qualidade e iniciativas colaborativas.",
+            "images": [
+                {
+                    "title": "Associação Empresarial de Portugal",
+                    "description": "Parceria com Empresas"
+                },
+                {
+                    "title": "Expandindústria",
+                    "description": "Parceria com Empresas"
+                },
+                {
+                    "title": "INESCTEC",
+                    "description": "Parceria com o Ensino Superior"
+                },
+                {
+                    "title": "Instituto Politécnico de Bragança",
+                    "description": "Parceria com o Ensino Superior"
+                },
+                {
+                    "title": "Instituto Politécnico do Cávado e do Ave",
+                    "description": "Parceria com o Ensino Superior"
+                },
+                {
+                    "title": "Instituto Politécnico do Porto",
+                    "description": "Parceria com o Ensino Superior"
+                },
+                {
+                    "title": "Instituto Politécnico de Viana do Castelo",
+                    "description": "Parceria com o Ensino Superior"
+                },
+                {
+                    "title": "Instituto Politécnico de Vigo",
+                    "description": "Parceria com o Ensino Superior"
+                },
+                {
+                    "title": "Área Metropolitana do Porto",
+                    "description": "Parceria com a Administração Local"
+                },
+                {
+                    "title": "Câmara Municipal de Vila Nova de Gaia",
+                    "description": "Parceria com a Administração Local"
+                },
+                {
+                    "title": "Junta de Freguesia de Mafamude e Vilar do Paraíso",
+                    "description": "Parceria com a Administração Local"
+                },
+                {
+                    "title": "Junta de Freguesia de Oliveira do Douro",
+                    "description": "Parceria com a Administração Local"
+                },
+                {
+                    "title": "Junta de Freguesia de Santa Marinha e São Pedro da Afurada",
+                    "description": "Parceria com a Administração Local"
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,92 @@
+{
+	"see_event": "See Event",
+	"courses": {
+		"pre_title": "Educational Project",
+		"title": "Explore Our Courses",
+		"description": "Discover the technical courses we offer, designed to prepare you for the challenges of the modern job market.",
+		"download_not_available": "PDF download for",
+		"file": "File",
+		"items": [
+			{
+				"title": "Cybersecurity and Networks",
+				"description": "Learn to protect computer systems and networks against cyber threats and implement robust security solutions."
+			},
+			{
+				"title": "Electronics and Hardware",
+				"description": "Master the development of embedded systems and hardware control through microcontrollers."
+			},
+			{
+				"title": "Programming",
+				"description": "Develop skills in modern programming languages and software development methodologies."
+			},
+			{
+				"title": "Mechanics",
+				"description": "Study the fundamental principles of mechanics, machines and industrial mechanical systems."
+			},
+			{
+				"title": "Electrical Engineering",
+				"description": "Learn about electrical systems, installations and maintenance of electrical equipment."
+			},
+			{
+				"title": "Renewable Energy",
+				"description": "Explore sustainable technologies and renewable energy systems for a greener future."
+			}
+		]
+	},
+	"features": {
+		"pre_title": "Educational Services",
+		"title": "Discover Our Educational Offering",
+		"description": "Learn about the fundamental pillars that make António Sérgio School Group a reference in quality education.",
+		"items": [
+			{
+				"title": "Academic Progression",
+				"description": "We offer complete educational pathways from pre-school to secondary education, preparing our students for higher education and the job market.",
+				"link_text": "Learn More"
+			},
+			{
+				"title": "Academic Life",
+				"description": "We promote a dynamic and inclusive academic environment with extracurricular activities, interdisciplinary projects, and cultural events.",
+				"link_text": "Discover More"
+			},
+			{
+				"title": "Educational Support",
+				"description": "We provide personalized support services, vocational guidance, and pedagogical assistance to ensure the success of all students.",
+				"link_text": "Find Out More"
+			}
+		]
+	},
+	"counter": {
+		"items": [
+			{
+				"subtitle": "Years of Recognition and International Reach"
+			},
+			{
+				"subtitle": "Digital Resources and Tools"
+			},
+			{
+				"subtitle": "Qualified Teachers Chosen with Care"
+			},
+			{
+				"subtitle": "Students Enrolled per Academic Year"
+			}
+		]
+	},
+	"campus": {
+		"pre_title": "Our Mission",
+		"title": "What Drives Us",
+		"description": "António Sérgio School Group seeks to define itself as a pioneer of educational innovation at the national level, encouraging new students to develop their maximum potential and become active and conscious citizens.",
+		"button_text": "Read More"
+	},
+	"cta": {
+		"participate": {
+			"title": "Join This Journey",
+			"description": "Contact us and discover how you can contribute to our educational community.",
+			"button_text": "How to Participate"
+		},
+		"education": {
+			"title": "Build Your Education Foundation",
+			"description": "Learn about our courses and discover how they can lead you to a bright future.",
+			"button_text": "Learn More"
+		}
+	}
+}

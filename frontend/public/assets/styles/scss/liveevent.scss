@@ -1,0 +1,205 @@
+@use "../utils" as *;
+
+/*----------------------------------------*/
+/*  12. LIVE EVENT CSS
+/*----------------------------------------*/
+
+.live-event {
+	&__area {
+		background-color: var(--tp-common-white);
+	}
+
+	&__wrapper {
+		position: relative;
+	}
+
+	&__header {
+		text-align: center;
+	}
+
+	&__title {
+		font-size: 42px;
+		font-weight: 700;
+		color: var(--tp-common-black);
+		margin-bottom: 15px;
+		line-height: 1.2;
+
+		@media #{$xs} {
+			font-size: 32px;
+		}
+
+		@media #{$sm} {
+			font-size: 36px;
+		}
+	}
+
+	&__subtitle {
+		font-size: 18px;
+		color: var(--tp-text-body);
+		margin-bottom: 0;
+		line-height: 1.6;
+
+		@media #{$xs} {
+			font-size: 16px;
+		}
+	}
+
+	&__video-wrapper {
+		width: 80%;
+		margin: 0 auto;
+
+		@media #{$xs} {
+			width: 100%;
+		}
+
+		@media #{$sm} {
+			width: 90%;
+		}
+
+		@media #{$md} {
+			width: 85%;
+		}
+	}
+
+	&__video-container {
+		position: relative;
+		width: 100%;
+		padding-bottom: 56.25%; // 16:9 aspect ratio
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+
+		iframe {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border: none;
+		}
+	}
+
+	&__description {
+		text-align: center;
+		color: var(--tp-text-body);
+		font-size: 16px;
+		line-height: 1.8;
+		max-width: 800px;
+		margin-left: auto;
+		margin-right: auto;
+
+		p {
+			margin-bottom: 15px;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	&__button-wrapper {
+		margin-top: 30px;
+	}
+}
+
+/* Crimson Button Variant */
+.tp-btn-crimson {
+	background-color: var(--tp-primary-crimson);
+	color: var(--tp-common-white);
+
+	&:hover {
+		background-color: var(--tp-common-black);
+		color: var(--tp-common-white);
+	}
+
+	&:focus {
+		background-color: var(--tp-common-black);
+		color: var(--tp-common-white);
+	}
+
+	.ml-10 {
+		margin-left: 10px;
+	}
+}
+
+/* Skeleton Loader for Live Event */
+.live-event__skeleton {
+	padding: 120px 0;
+	background-color: var(--tp-common-white);
+
+	.skeleton-content {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 15px;
+	}
+
+	.skeleton-line {
+		background: linear-gradient(
+			90deg,
+			#f0f0f0 25%,
+			#e0e0e0 50%,
+			#f0f0f0 75%
+		);
+		background-size: 200% 100%;
+		animation: loading 1.5s infinite;
+		border-radius: 4px;
+		margin-bottom: 20px;
+
+		&.title {
+			height: 50px;
+			width: 60%;
+			margin: 0 auto 20px;
+
+			@media #{$xs} {
+				width: 80%;
+				height: 40px;
+			}
+		}
+
+		&.subtitle {
+			height: 24px;
+			width: 40%;
+			margin: 0 auto 40px;
+
+			@media #{$xs} {
+				width: 60%;
+			}
+		}
+	}
+
+	.skeleton-video {
+		width: 80%;
+		margin: 0 auto;
+		padding-bottom: 45%; // 16:9 aspect ratio for 80% width
+		background: linear-gradient(
+			90deg,
+			#f0f0f0 25%,
+			#e0e0e0 50%,
+			#f0f0f0 75%
+		);
+		background-size: 200% 100%;
+		animation: loading 1.5s infinite;
+		border-radius: 12px;
+
+		@media #{$xs} {
+			width: 100%;
+		}
+
+		@media #{$sm} {
+			width: 90%;
+		}
+
+		@media #{$md} {
+			width: 85%;
+		}
+	}
+}
+
+@keyframes loading {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
