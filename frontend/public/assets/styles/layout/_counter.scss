@@ -14,15 +14,11 @@
 
     &__inner {
         & .row {
-            @media #{$xs} {
-                justify-content: center;
-            }
+            justify-content: center;
 
             & [class*="col-"] {
-                @media #{$xs} {
-                    display: flex;
-                    justify-content: center;
-                }
+                display: flex;
+                justify-content: center;
             }
         }
     }
@@ -140,21 +136,28 @@
                 &.search,
                 &.st1,
                 &.star {
-                    stroke: #A51C30;
+                    stroke: #A51C30 !important;
+                    stroke-width: 1.5 !important;
                 }
 
                 &.video {
-                    fill: #A51C30;
+                    fill: #A51C30 !important;
                 }
 
-                &:not(.search):not(.st1):not(.star):not(.video) {
-                    stroke: #293352;
-                    stroke-width: 1.2;
+                &.st0 {
+                    stroke: #293352 !important;
+                    stroke-width: 1.5 !important;
+                    fill: none !important;
+                }
+
+                &:not(.search):not(.st1):not(.star):not(.video):not(.st0) {
+                    stroke: #293352 !important;
+                    stroke-width: 1.5 !important;
 
                     &[fill="#FFFFFF"],
                     &[fill="#F5F6F8"],
                     &[fill="white"] {
-                        fill: #293352;
+                        fill: #293352 !important;
                     }
                 }
             }
@@ -167,21 +170,28 @@
                     &.search,
                     &.st1,
                     &.star {
-                        stroke: #A51C30;
+                        stroke: #A51C30 !important;
+                        stroke-width: 1.5 !important;
                     }
 
                     &.video {
-                        fill: #A51C30;
+                        fill: #A51C30 !important;
                     }
 
-                    &:not(.search):not(.st1):not(.star):not(.video) {
-                        stroke: #293352;
-                        stroke-width: 1.2;
+                    &.st0 {
+                        stroke: #293352 !important;
+                        stroke-width: 1.5 !important;
+                        fill: none !important;
+                    }
+
+                    &:not(.search):not(.st1):not(.star):not(.video):not(.st0) {
+                        stroke: #293352 !important;
+                        stroke-width: 1.5 !important;
 
                         &[fill="#FFFFFF"],
                         &[fill="#F5F6F8"],
                         &[fill="white"] {
-                            fill: #293352;
+                            fill: #293352 !important;
                         }
                     }
                 }

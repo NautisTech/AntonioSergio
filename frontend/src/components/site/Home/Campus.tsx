@@ -27,7 +27,7 @@ const Campus = () => {
                   </p>
                 </div>
                 <div className="campus__btn mb-80">
-                  <Link href="/sobre-nos#mission-values" className="tp-btn tp-btn-border">
+                  <Link href="/sobre-nos#mission-values" className="tp-btn tp-btn-2">
                     {t("campus.button_text")}
                   </Link>
                 </div>

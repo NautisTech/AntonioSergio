@@ -10,7 +10,7 @@ const CounterArea = () => {
     <>
       <section className="counter__area pt-20 pb-20">
         <div className="container">
-          <div className="counter__inner grey-bg-2">
+          <div className="counter__inner">
             <div className="row">
               <SingleCounter
                 icon={

@@ -83,17 +83,9 @@
         overflow: hidden;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         transition: all 0.4s ease;
-        height: 350px;
         background: transparent;
         display: block;
-
-        @media #{$md} {
-            height: 300px;
-        }
-
-        @media #{$xs} {
-            height: 250px;
-        }
+        aspect-ratio: 4 / 3;
 
         &:hover {
             transform: translateY(-8px);
