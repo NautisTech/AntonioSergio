@@ -1,7 +1,8 @@
 "use client";
 import AnimatedText from "@/components/common/AnimatedText";
 import ModalVideo from "@/components/common/ModalVideo";
-import { heroContent } from "@/data/aesContent";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 import { parallaxMouseMovement } from "@/utlis/parallax";
 import Image from "next/image";
 
@@ -12,6 +13,8 @@ export default function Hero1() {
 		parallaxMouseMovement();
 	}, []);
 	const [isOpen, setOpen] = useState(false);
+	const { language } = useLanguage();
+	const heroContent = aesContent[language].heroContent;
 
 	return (
 		<>
@@ -134,7 +137,7 @@ export default function Hero1() {
 							<div className="scroll-down-1-icon">
 								<i className="mi-arrow-down" />
 							</div>
-							<div className="scroll-down-1-text">Explorar</div>
+							<div className="scroll-down-1-text">{heroContent.scrollLabel}</div>
 						</a>
 					</div>
 				</div>

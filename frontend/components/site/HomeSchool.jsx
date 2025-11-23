@@ -1,3 +1,4 @@
+"use client";
 import About from "@/components/home/About";
 import Benefits from "@/components/home/Benefits";
 import Blog from "@/components/home/Blog";
@@ -12,8 +13,13 @@ import Service from "@/components/home/Service";
 import Team from "@/components/home/Team";
 import Testimonials from "@/components/home/Testimonials";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
+import { aesContent } from "@/data/aesContent";
 
 export default function HomeSchool() {
+	const { language } = useLanguage();
+	const content = aesContent[language];
+
 	return (
 		<>
 			<section className="page-section scrollSpysection" id="sobre">
@@ -21,10 +27,10 @@ export default function HomeSchool() {
 					<div className="row mb-50">
 						<div className="col-md-6">
 							<h2 className="section-caption mb-xs-10">
-								Quem somos
+								{content.homeSections.about.caption}
 							</h2>
 							<h3 className="section-title mb-0">
-								Conheça o Agrupamento de Escolas António Sérgio.
+								{content.homeSections.about.title}
 							</h3>
 						</div>
 						<div className="col-md-5 offset-md-1 text-start text-md-end pt-40 pt-sm-20">
@@ -33,7 +39,7 @@ export default function HomeSchool() {
 								className="link-hover-anim underline align-middle"
 								data-link-animate="y"
 							>
-								História, missão e campus{" "}
+								{content.homeSections.about.actionLabel}{" "}
 								<i className="mi-arrow-right size-18" />
 							</Link>
 						</div>
@@ -61,15 +67,13 @@ export default function HomeSchool() {
 					<div className="row">
 						<div className="col-lg-4 mb-md-60 mb-xs-50">
 							<h2 className="section-title mb-20 wow fadeInUp">
-								Impacto em números
+								{content.homeSections.stats.title}
 							</h2>
 							<p
 								className="section-descr mb-40 wow fadeInUp"
 								data-wow-delay="0.1s"
 							>
-								Uma comunidade educativa que cresce com projetos
-								europeus, redes empresariais e inovação
-								pedagógica.
+								{content.homeSections.stats.description}
 							</p>
 							<div
 								className="local-scroll wow fadeInUp"
@@ -79,7 +83,7 @@ export default function HomeSchool() {
 									href="/contactos"
 									className="btn btn-mod btn-w btn-large btn-round btn-hover-anim"
 								>
-									<span>Agendar visita</span>
+									<span>{content.homeSections.stats.ctaLabel}</span>
 								</Link>
 							</div>
 						</div>
@@ -118,10 +122,10 @@ export default function HomeSchool() {
 					<div className="row mb-40">
 						<div className="col-md-8">
 							<h2 className="section-caption mb-xs-10">
-								Perguntas frequentes
+								{content.homeSections.faq.caption}
 							</h2>
 							<h3 className="section-title mb-0">
-								Informação útil para famílias e alunos.
+								{content.homeSections.faq.title}
 							</h3>
 						</div>
 						<div className="col-md-4 text-md-end pt-30">
@@ -130,7 +134,7 @@ export default function HomeSchool() {
 								className="link-hover-anim underline align-middle"
 								data-link-animate="y"
 							>
-								Falar com a secretaria{" "}
+								{content.homeSections.faq.actionLabel}{" "}
 								<i className="mi-arrow-right size-18" />
 							</Link>
 						</div>
@@ -143,9 +147,11 @@ export default function HomeSchool() {
 				<div className="container position-relative">
 					<div className="row mb-60 mb-xs-30">
 						<div className="col-md-6">
-							<h2 className="section-caption mb-xs-10">Blog</h2>
+							<h2 className="section-caption mb-xs-10">
+								{content.homeSections.blog.caption}
+							</h2>
 							<h3 className="section-title mb-0">
-								Histórias e projetos em destaque.
+								{content.homeSections.blog.title}
 							</h3>
 						</div>
 						<div className="col-md-5 offset-md-1 text-start text-md-end pt-40 pt-sm-20">
@@ -154,7 +160,7 @@ export default function HomeSchool() {
 								className="link-hover-anim underline align-middle"
 								data-link-animate="y"
 							>
-								Ler todas as notícias{" "}
+								{content.homeSections.blog.actionLabel}{" "}
 								<i className="mi-arrow-right size-18" />
 							</Link>
 						</div>

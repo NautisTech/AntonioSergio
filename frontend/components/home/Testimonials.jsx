@@ -1,9 +1,14 @@
 "use client";
-import { testimonials as schoolTestimonials } from "@/data/aesContent";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 export default function Testimonials() {
+	const { language } = useLanguage();
+	const content = aesContent[language];
+	const schoolTestimonials = content.testimonials;
+
 	return (
 		<div className="container position-relative">
 			<div className="pt-80 pb-80 pt-sm-70 pb-sm-70 px-4 bg-gray-light-1">
@@ -12,11 +17,7 @@ export default function Testimonials() {
 						<div className="row">
 							<div className="col-md-10 offset-md-1 text-center">
 								<h2 className="section-title mb-70 mb-sm-40">
-									Famílias e antigos alunos confiam no
-									<span className="mark-decoration-1">
-										AE António Sérgio
-									</span>
-									para construir percursos completos.
+									{content.testimonialsIntro}
 								</h2>
 							</div>
 						</div>

@@ -1,9 +1,14 @@
-import { blogPosts } from "@/data/aesContent";
+"use client";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 export default function Blog() {
+	const { language } = useLanguage();
+	const blogPosts = aesContent[language].blogPosts;
+
 	return (
 		<div className="row mt-n50">
 			{/* Post Item */}
@@ -46,7 +51,7 @@ export default function Blog() {
 							<div className="float-end">
 								<span>
 									{new Date(post.date).toLocaleDateString(
-										"pt-PT"
+										language === "pt" ? "pt-PT" : "en-US"
 									)}
 								</span>
 							</div>

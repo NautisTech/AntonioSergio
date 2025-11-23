@@ -1,7 +1,9 @@
 "use client";
-import { navLinks, schoolIdentity } from "@/data/aesContent";
+import { aesContent } from "@/data/aesContent";
 import { toggleMobileMenu } from "@/utlis/toggleMobileMenu";
+import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
+import LanguageSelect from "./LanguageSelect";
 
 const resolveHref = (link, variant) => {
 	if (variant === "dark" && link.darkHref) return link.darkHref;
@@ -9,16 +11,19 @@ const resolveHref = (link, variant) => {
 };
 
 export default function Header({ variant = "light" }) {
+	const { language } = useLanguage();
+	const content = aesContent[language];
+
 	return (
 		<header className="main-nav-sub full-wrapper">
 			<div className="nav-logo-wrap local-scroll">
 				<Link
 					href="/"
 					className="logo"
-					aria-label={schoolIdentity.name}
+					aria-label={content.schoolIdentity.name}
 				>
 					<span className="logo-text fw-bold">
-						{schoolIdentity.shortName || schoolIdentity.name}
+						{content.schoolIdentity.shortName || content.schoolIdentity.name}
 					</span>
 				</Link>
 			</div>
@@ -34,7 +39,7 @@ export default function Header({ variant = "light" }) {
 
 			<nav className="inner-nav desktop-nav" aria-label="Menu principal">
 				<ul className="clearlist local-scroll">
-					{navLinks.map(link => (
+					{content.navLinks.map(link => (
 						<li key={link.href}>
 							<Link href={resolveHref(link, variant)}>
 								{link.label}
@@ -43,6 +48,7 @@ export default function Header({ variant = "light" }) {
 					))}
 				</ul>
 				<ul className="items-end clearlist">
+					<LanguageSelect variant={variant} />
 					<li>
 						<Link
 							href={
@@ -57,13 +63,13 @@ export default function Header({ variant = "light" }) {
 								data-link-animate="y"
 							>
 								<span className="link-strong link-strong-unhovered">
-									Fala connosco
+									{content.headerCtaLabel}
 								</span>
 								<span
 									className="link-strong link-strong-hovered"
 									aria-hidden="true"
 								>
-									Fala connosco
+									{content.headerCtaLabel}
 								</span>
 							</span>
 						</Link>

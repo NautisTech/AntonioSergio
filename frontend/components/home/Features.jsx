@@ -1,9 +1,13 @@
 "use client";
-import { featureHighlights } from "@/data/aesContent";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function Features() {
+	const { language } = useLanguage();
+	const featureHighlights = aesContent[language].featureHighlights;
+
 	return (
 		<div className="container position-relative">
 			<div className="row mb-60 align-items-end">
