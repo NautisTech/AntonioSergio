@@ -1,15 +1,48 @@
 .news-feed {
-	background-color: #ffffff;
-	border-top: 2px solid var(--tp-primary-crimson);
-	border-bottom: 2px solid var(--tp-primary-crimson);
+	background: linear-gradient(90deg,
+		rgba(165, 28, 48, 0.05) 0%,
+		rgba(41, 51, 82, 0.05) 50%,
+		rgba(165, 28, 48, 0.05) 100%);
+	border-top: 3px solid transparent;
+	border-bottom: 3px solid transparent;
+	border-image: linear-gradient(90deg, #A51C30 0%, #293352 50%, #A51C30 100%) 1;
 	overflow: hidden;
-	padding: 0.75rem 0;
+	padding: 1rem 0;
 	position: relative;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+	&::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 100px;
+		background: linear-gradient(90deg,
+			rgba(255, 255, 255, 1) 0%,
+			rgba(255, 255, 255, 0) 100%);
+		z-index: 2;
+		pointer-events: none;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		width: 100px;
+		background: linear-gradient(90deg,
+			rgba(255, 255, 255, 0) 0%,
+			rgba(255, 255, 255, 1) 100%);
+		z-index: 2;
+		pointer-events: none;
+	}
 }
 
 .news-feed__track {
 	display: flex;
-	gap: 3rem;
+	gap: 4rem;
 	animation: scroll 60s linear infinite;
 	white-space: nowrap;
 	width: fit-content;
@@ -32,29 +65,47 @@
 .news-feed__item {
 	display: inline-flex;
 	align-items: center;
-	gap: 0.75rem;
-	color: var(--tp-primary-crimson);
+	gap: 0.875rem;
+	color: #293352;
 	text-decoration: none;
 	font-size: 0.95rem;
-	font-weight: 600;
-	transition: opacity 0.3s ease;
-	padding: 0 1rem;
-}
+	font-weight: 700;
+	transition: all 0.3s ease;
+	padding: 0.5rem 1.5rem;
+	border-radius: 50px;
+	background: transparent;
+	position: relative;
 
-.news-feed__item:hover {
-	opacity: 0.7;
+	&:hover {
+		background: linear-gradient(135deg, rgba(165, 28, 48, 0.1) 0%, rgba(41, 51, 82, 0.1) 100%);
+		color: #A51C30;
+		transform: translateY(-2px);
+
+		.news-feed__icon {
+			transform: scale(1.2) rotate(5deg);
+		}
+
+		.news-feed__title {
+			color: #A51C30;
+		}
+	}
 }
 
 .news-feed__icon {
-	font-size: 1.25rem;
+	font-size: 1.35rem;
+	transition: all 0.3s ease;
+	filter: grayscale(0.3);
 }
 
 .news-feed__title {
-	letter-spacing: 0.3px;
+	letter-spacing: 0.5px;
+	transition: color 0.3s ease;
+	font-weight: 600;
 }
 
 .news-feed__separator {
-	color: var(--tp-primary-crimson);
-	font-size: 1.5rem;
-	opacity: 0.5;
+	color: #A51C30;
+	font-size: 1.25rem;
+	opacity: 0.4;
+	font-weight: 300;
 }

@@ -6,28 +6,68 @@
 
 .counter {
     &__area {
-        background-color: var(--tp-primary-crimson) !important;
-        color: var(--tp-common-white) !important;
+        background: linear-gradient(135deg,
+            rgba(243, 243, 241, 1) 0%,
+            rgba(244, 237, 202, 0.5) 100%);
+        color: #293352 !important;
     }
 
     &__inner {
-        background-color: var(--tp-primary-crimson) !important;
-        color: var(--tp-common-white) !important;
+        background: linear-gradient(135deg, #F3F3F1 0%, #F4EDCA 100%);
+        color: #293352 !important;
+        border-radius: 20px;
+        padding: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     }
 
     &__item {
-        padding: 45px 45px;
-        padding-right: 30px;
-        background-color: var(--tp-primary-crimson) !important;
-        color: var(--tp-common-white) !important;
+        padding: 50px 45px;
+        padding-right: 35px;
+        background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(255, 255, 255, 0.7) 100%);
+        color: #293352 !important;
+        border-radius: 16px;
+        transition: all 0.4s ease;
+        border: 1px solid rgba(165, 28, 48, 0.1);
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #A51C30 0%, #293352 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        &:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(165, 28, 48, 0.2);
+            border-color: rgba(165, 28, 48, 0.3);
+
+            &::before {
+                transform: scaleX(1);
+            }
+
+            .counter__icon svg {
+                transform: translateY(9px) scale(1.1) rotate(5deg);
+            }
+        }
 
         @media #{$xl} {
             padding-left: 35px;
         }
 
         @media #{$sm, $xs} {
-            padding: 45px 20px;
-            padding-right: 20px;
+            padding: 45px 30px;
+            padding-right: 30px;
+            margin-bottom: 20px;
         }
 
         &-border {
@@ -72,29 +112,30 @@
 
     &__icon {
         & i {
-            font-size: 35px;
-            color: var(--tp-common-white);
+            font-size: 42px;
+            color: #A51C30;
         }
 
         & svg {
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             @include transform(translateY(9px));
+            transition: all 0.4s ease;
 
             & path {
 
                 &.search,
                 &.st1,
                 &.star {
-                    stroke: var(--tp-accent-gold);
+                    stroke: #A51C30;
                 }
 
                 &.video {
-                    fill: var(--tp-accent-gold);
+                    fill: #A51C30;
                 }
 
                 &:not(.search):not(.st1):not(.star):not(.video) {
-                    stroke: var(--tp-common-white);
+                    stroke: #293352;
                 }
             }
         }
@@ -106,15 +147,15 @@
                     &.search,
                     &.st1,
                     &.star {
-                        stroke: var(--tp-accent-gold);
+                        stroke: #A51C30;
                     }
 
                     &.video {
-                        fill: var(--tp-accent-gold);
+                        fill: #A51C30;
                     }
 
                     &:not(.search):not(.st1):not(.star):not(.video) {
-                        stroke: var(--tp-common-white);
+                        stroke: #293352;
                     }
                 }
             }
@@ -123,28 +164,34 @@
 
     &__content {
         & h4 {
-            font-size: 36px;
-            color: var(--tp-accent-gold);
-            font-weight: 400;
-            margin-bottom: 5px;
+            font-size: 38px;
+            color: #A51C30;
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(165, 28, 48, 0.1);
 
             & span {
-                font-size: 44px;
-                font-weight: 600;
+                font-size: 48px;
+                font-weight: 800;
                 margin-right: 5px;
+                background: linear-gradient(135deg, #A51C30 0%, #293352 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
             }
         }
 
         & p {
-            font-size: 14px;
-            line-height: 22px;
-            color: var(--tp-common-white);
+            font-size: 15px;
+            line-height: 24px;
+            color: #293352;
             margin-bottom: 0;
+            font-weight: 600;
         }
 
         &-2 {
             & h4 {
-                color: var(--tp-accent-gold);
+                color: #A51C30;
             }
         }
     }

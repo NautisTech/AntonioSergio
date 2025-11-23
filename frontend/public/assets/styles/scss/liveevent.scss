@@ -104,17 +104,43 @@
 
 /* Crimson Button Variant */
 .tp-btn-crimson {
-	background-color: var(--tp-primary-crimson);
+	background: linear-gradient(135deg, #A51C30 0%, #8C1826 100%);
 	color: var(--tp-common-white);
+	border-radius: 8px;
+	padding: 0 35px;
+	height: 54px;
+	line-height: 54px;
+	font-weight: 600;
+	box-shadow: 0 4px 15px rgba(165, 28, 48, 0.3);
+	transition: all 0.3s ease;
+	position: relative;
+	overflow: hidden;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(135deg, #293352 0%, #1E2540 100%);
+		transition: left 0.3s ease;
+		z-index: -1;
+	}
 
 	&:hover {
-		background-color: var(--tp-common-black);
 		color: var(--tp-common-white);
+		transform: translateY(-2px);
+		box-shadow: 0 8px 25px rgba(165, 28, 48, 0.4);
+
+		&::before {
+			left: 0;
+		}
 	}
 
 	&:focus {
-		background-color: var(--tp-common-black);
 		color: var(--tp-common-white);
+		box-shadow: 0 8px 25px rgba(165, 28, 48, 0.4);
 	}
 
 	.ml-10 {

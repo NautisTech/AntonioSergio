@@ -7,32 +7,56 @@
 .features {
     &__area {
         color: var(--tp-common-white) !important;
-        margin-top: -120px;
+        margin-top: -140px;
         position: relative;
         z-index: 2;
     }
 
     &__inner {
         margin-top: -70px;
-        padding: 40px 60px;
-        padding-bottom: 40px;
-        background-color: var(--tp-primary-crimson) !important;
+        padding: 50px 60px;
+        padding-bottom: 50px;
+        background: linear-gradient(135deg, rgba(165, 28, 48, 0.98) 0%, rgba(140, 24, 40, 0.98) 100%);
         color: var(--tp-common-white) !important;
-        @include box-shadow(0px 30px 50px rgba(26, 31, 35, 0.07));
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        @include box-shadow(0px 40px 80px rgba(165, 28, 48, 0.25));
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FFDB6D 0%, #C4961A 50%, #FFDB6D 100%);
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 219, 109, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
 
         @media #{$lg} {
-            padding-left: 20px;
-            padding-right: 20px;
+            padding-left: 30px;
+            padding-right: 30px;
         }
 
         @media #{$md} {
-            padding-left: 45px;
-            padding-right: 45px;
+            padding-left: 40px;
+            padding-right: 40px;
         }
 
         @media #{$xs} {
-            padding-left: 35px;
-            padding-right: 35px;
+            padding: 35px 25px;
+            border-radius: 15px;
         }
 
         & .row [class*="col-"]:nth-child(2) .features__border-right {
@@ -50,8 +74,11 @@
 
     &__item {
         padding-right: 55px;
-        background-color: var(--tp-primary-crimson) !important;
+        background-color: transparent !important;
         color: var(--tp-common-white) !important;
+        position: relative;
+        z-index: 1;
+        transition: all 0.4s ease;
 
         @media #{$lg} {
             padding-right: 35px;
@@ -63,31 +90,59 @@
 
         @media #{$xs} {
             padding: 0;
+            margin-bottom: 30px;
+        }
+
+        &:hover {
+            transform: translateY(-5px);
+
+            .features__icon svg {
+                transform: scale(1.1) rotate(5deg);
+            }
         }
 
     }
 
     &__icon {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.4s ease;
+
         @media #{$xs} {
             margin-bottom: 20px;
+            width: 70px;
+            height: 70px;
         }
 
         & i {
             font-size: 45px;
-            color: var(--tp-accent-gold) !important;
+            color: #FFDB6D !important;
         }
 
         & svg {
-            height: 45px;
-            width: 45px;
+            height: 48px;
+            width: 48px;
+            transition: transform 0.4s ease;
+
+            @media #{$xs} {
+                height: 42px;
+                width: 42px;
+            }
 
             & path {
                 &:not(.special-blue) {
-                    stroke: var(--tp-accent-gold) !important;
+                    stroke: #FFDB6D !important;
                 }
 
                 &.special-blue {
-                    stroke: var(--tp-accent-gold) !important;
+                    stroke: #4E84C4 !important;
                 }
             }
         }
@@ -97,35 +152,48 @@
         color: var(--tp-common-white) !important;
 
         & p {
-            line-height: 20px;
-            margin-bottom: 10px;
-            color: var(--tp-common-white) !important;
+            line-height: 24px;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-size: 15px;
         }
 
         & .link-btn {
-            color: var(--tp-common-white) !important;
+            color: #FFDB6D !important;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
 
             &:hover {
-                color: var(--tp-accent-gold) !important;
+                color: var(--tp-common-white) !important;
+                gap: 12px;
             }
 
             & i {
-                color: var(--tp-accent-gold) !important;
+                color: #FFDB6D !important;
+                transition: all 0.3s ease;
             }
         }
     }
 
     &__title {
-        font-size: 19px;
-        font-weight: 600;
-        margin-bottom: 5px;
+        font-size: 21px;
+        font-weight: 700;
+        margin-bottom: 10px;
         color: var(--tp-common-white) !important;
+        letter-spacing: -0.3px;
 
         & a {
             color: var(--tp-common-white) !important;
+            transition: color 0.3s ease;
 
             &:hover {
-                color: var(--tp-accent-gold) !important;
+                color: #FFDB6D !important;
             }
         }
     }
@@ -136,13 +204,13 @@
         &::after {
             position: absolute;
             content: '';
-            right: 5px;
+            right: 0;
             top: 50%;
             @include transform(translateY(-50%));
-            background: linear-gradient(180deg, rgba(212, 175, 55, 0) 0%, var(--tp-accent-gold) 51.56%, rgba(212, 175, 55, 0) 100%);
-            opacity: 0.3;
-            height: 120px;
-            width: 1px;
+            background: linear-gradient(180deg, rgba(255, 219, 109, 0) 0%, rgba(255, 219, 109, 0.4) 51.56%, rgba(255, 219, 109, 0) 100%);
+            height: 140px;
+            width: 2px;
+            border-radius: 2px;
 
             @media #{$sm, $xs} {
                 display: none;
