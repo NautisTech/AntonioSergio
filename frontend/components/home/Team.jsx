@@ -44,6 +44,7 @@ export default function Team() {
 								},
 							}}
 							modules={[Navigation]}
+							loop={true}
 							navigation={{
 								prevEl: ".snbp1",
 								nextEl: ".snbn1",

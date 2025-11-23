@@ -291,7 +291,8 @@ html {
    ============================== */
 
 /* Crimson red footer */
-.footer.bg-gray-light-1 {
+.footer-brand.bg-gray-light-1,
+.footer-brand {
   background-color: #A51C30 !important;
   color: white !important;
 }

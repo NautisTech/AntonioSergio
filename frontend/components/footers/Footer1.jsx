@@ -2,9 +2,17 @@
 import React from "react";
 import FooterSocials from "./FooterSocials";
 import Link from "next/link";
-import { contactInfo, navLinks, schoolIdentity } from "@/data/aesContent";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer1({ dark = false }) {
+	const { language } = useLanguage();
+	const content = aesContent[language];
+	const contactInfo = content.contactInfo;
+	const navLinks = content.navLinks;
+	const schoolIdentity = content.schoolIdentity;
+	const footerCopy = content.footerCopy;
+
 	const sanitizedPhone = contactInfo.phone.replace(/\s+/g, "");
 	const scrollToTop = event => {
 		event.preventDefault();
@@ -16,7 +24,7 @@ export default function Footer1({ dark = false }) {
 
 	return (
 		<footer
-			className={`page-section footer ${
+			className={`page-section footer footer-brand ${
 				dark ? "bg-dark-2 light-content dark" : "bg-gray-light-1"
 			}  pb-30`}
 		>
@@ -47,7 +55,7 @@ export default function Footer1({ dark = false }) {
 						<div className="row mt-n30">
 							{/* Footer Widget */}
 							<div className="col-sm-4 mt-30">
-								<h3 className="fw-title">Navegação</h3>
+								<h3 className="fw-title">{footerCopy.navigationTitle}</h3>
 								<ul className="fw-menu clearlist local-scroll">
 									{navLinks.map(link => (
 										<li key={link.href}>
@@ -61,7 +69,7 @@ export default function Footer1({ dark = false }) {
 							{/* End Footer Widget */}
 							{/* Footer Widget */}
 							<div className="col-sm-4 mt-30">
-								<h3 className="fw-title">Social Media</h3>
+								<h3 className="fw-title">{footerCopy.socialTitle}</h3>
 								<ul className="fw-menu clearlist">
 									<FooterSocials />
 								</ul>
@@ -69,21 +77,13 @@ export default function Footer1({ dark = false }) {
 							{/* End Footer Widget */}
 							{/* Footer Widget */}
 							<div className="col-sm-4 mt-30">
-								<h3 className="fw-title">Informação útil</h3>
+								<h3 className="fw-title">{footerCopy.usefulTitle}</h3>
 								<ul className="fw-menu clearlist">
-									<li>
-										<Link href="/contactos">Contactos</Link>
-									</li>
-									<li>
-										<Link href="/sobre-nos">
-											Plano estratégico
-										</Link>
-									</li>
-									<li>
-										<Link href="/politica-de-privacidade">
-											Política de Privacidade
-										</Link>
-									</li>
+									{footerCopy.usefulLinks.map((link, index) => (
+										<li key={index}>
+											<Link href={link.href}>{link.label}</Link>
+										</li>
+									))}
 								</ul>
 							</div>
 							{/* End Footer Widget */}
@@ -99,7 +99,7 @@ export default function Footer1({ dark = false }) {
 						</b>
 					</div>
 					<div className="col-md-7 offset-md-1 offset-lg-2 clearfix">
-						<b>Baseados em {schoolIdentity.location}, Portugal.</b>
+						<b>{footerCopy.locationNote}</b>
 						{/* Back to Top Link */}
 						<div className="local-scroll float-end mt-n20 mt-sm-10">
 							<a

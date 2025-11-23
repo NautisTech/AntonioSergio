@@ -4,7 +4,13 @@ import { useLanguage } from "@/context/LanguageContext";
 import React from "react";
 
 export default function Facts() {
-  const { language } = useLanguage();
+  const { language, isReady } = useLanguage();
+
+  // Don't render until language is ready
+  if (!isReady || !language || !aesContent[language]?.heroContent?.highlights) {
+    return null;
+  }
+
   const highlights = aesContent[language].heroContent.highlights;
 
   return (

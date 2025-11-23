@@ -9,11 +9,18 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Hero1() {
+	const [isOpen, setOpen] = useState(false);
+	const { language, isReady } = useLanguage();
+
 	useEffect(() => {
 		parallaxMouseMovement();
 	}, []);
-	const [isOpen, setOpen] = useState(false);
-	const { language } = useLanguage();
+
+	// Don't render until language is ready
+	if (!isReady || !language || !aesContent[language]) {
+		return null;
+	}
+
 	const heroContent = aesContent[language].heroContent;
 
 	return (
