@@ -1,0 +1,1116 @@
+const brandColors = {
+	primary: "#A51C30",
+	secondary: "#0C2D48",
+	accent: "#F4A261",
+};
+
+export const AES_LANGUAGES = [
+	{ code: "pt", label: "PT" },
+	{ code: "en", label: "EN" },
+];
+
+export const DEFAULT_LANGUAGE = "pt";
+
+const baseIdentity = {
+	name: "Agrupamento de Escolas António Sérgio",
+	shortName: "AE António Sérgio",
+	location: "Vila Nova de Gaia",
+	colors: brandColors,
+};
+
+const identityCopy = {
+	tagline: {
+		pt: "Excelência e inovação na educação",
+		en: "Excellence and innovation in education",
+	},
+	description: {
+		pt: "Promovemos percursos educativos completos e inclusivos, com foco na qualidade pedagógica, na proximidade à comunidade e na preparação de cada aluno para o futuro.",
+		en: "We provide comprehensive and inclusive learning pathways, focusing on pedagogical quality, community engagement, and preparing every student for the future.",
+	},
+};
+
+const navLinkEntries = [
+	{
+		href: "/",
+		darkHref: "/inicio-dark",
+		labels: { pt: "Início", en: "Home" },
+	},
+	{
+		href: "/sobre-nos",
+		darkHref: "/sobre-nos-dark",
+		labels: { pt: "Sobre Nós", en: "About" },
+	},
+	{
+		href: "/projetos",
+		darkHref: "/projetos-dark",
+		labels: { pt: "Projetos", en: "Projects" },
+	},
+	{
+		href: "/eventos",
+		darkHref: "/eventos-dark",
+		labels: { pt: "Eventos", en: "Events" },
+	},
+	{
+		href: "/blog",
+		darkHref: "/blog/dark",
+		labels: { pt: "Blog", en: "Blog" },
+	},
+	{
+		href: "/contactos",
+		darkHref: "/contactos-dark",
+		labels: { pt: "Contactos", en: "Contact" },
+	},
+];
+
+const headerCtaCopy = {
+	pt: "Fala connosco",
+	en: "Get in touch",
+};
+
+const heroCopy = {
+	pt: {
+		eyebrow: "Agrupamento de Escolas António Sérgio",
+		title: "Excelência e inovação para todas as etapas de ensino.",
+		description:
+			"Definimo-nos como pioneiros da inovação educativa em Portugal, incentivando cada aluno a desenvolver o seu potencial e a tornar-se um cidadão ativo, consciente e resiliente.",
+		primaryCta: {
+			label: "Conhecer a oferta educativa",
+			href: "/sobre-nos",
+		},
+		secondaryCta: { label: "Contactar a secretaria", href: "/contactos" },
+		videoCta: { label: "Ver o campus", videoId: "vTIIMJ9tUc8" },
+		scrollLabel: "Explorar",
+	},
+	en: {
+		eyebrow: "António Sérgio School Group",
+		title: "Excellence and innovation for every learning stage.",
+		description:
+			"We lead educational innovation in Portugal, encouraging each student to unlock their potential and become an engaged, resilient citizen.",
+		primaryCta: { label: "Explore our academic offer", href: "/sobre-nos" },
+		secondaryCta: { label: "Talk to the office", href: "/contactos" },
+		videoCta: { label: "Watch the campus", videoId: "vTIIMJ9tUc8" },
+		scrollLabel: "Explore",
+	},
+};
+
+const heroHighlights = [
+	{
+		value: "65+ anos",
+		labels: {
+			pt: "de reconhecimento e alcance internacional",
+			en: "of recognition and international reach",
+		},
+	},
+	{
+		value: "25 espaços",
+		labels: {
+			pt: "e ferramentas digitais colaborativas",
+			en: "and collaborative digital spaces",
+		},
+	},
+	{
+		value: "220 docentes",
+		labels: {
+			pt: "altamente qualificados e próximos",
+			en: "highly qualified and close to students",
+		},
+	},
+	{
+		value: "3 600 alunos",
+		labels: {
+			pt: "acompanhados em cada ano letivo",
+			en: "supported every school year",
+		},
+	},
+];
+
+const programCopy = {
+	preTitle: { pt: "Projeto Educativo", en: "Educational project" },
+	title: { pt: "Explore os nossos cursos", en: "Explore our programmes" },
+	description: {
+		pt: "Percursos técnicos e científico-humanísticos que preparam os estudantes para o ensino superior e para o mercado de trabalho moderno.",
+		en: "Technical and academic pathways that prepare students for university and the modern labour market.",
+	},
+};
+
+const programItems = [
+	{
+		image: "/assets/school/courses/course-1.jpg",
+		title: { pt: "Cibersegurança e Redes", en: "Cybersecurity & Networks" },
+		description: {
+			pt: "Aprendizagem prática em proteção de sistemas, gestão de infraestrutura e implementação de soluções seguras.",
+			en: "Hands-on learning in system protection, infrastructure management, and secure solution deployment.",
+		},
+	},
+	{
+		image: "/assets/school/courses/course-2.jpg",
+		title: { pt: "Eletrónica e Hardware", en: "Electronics & Hardware" },
+		description: {
+			pt: "Desenvolvimento de sistemas embebidos, automação e integração de tecnologias orientadas à indústria.",
+			en: "Embedded systems, automation, and industry-ready technology integration.",
+		},
+	},
+	{
+		image: "/assets/school/courses/course-3.jpg",
+		title: { pt: "Programação", en: "Programming" },
+		description: {
+			pt: "Metodologias ágeis, linguagens modernas e pensamento computacional aplicados a desafios reais.",
+			en: "Agile methods, modern languages, and computational thinking applied to real-world challenges.",
+		},
+	},
+	{
+		image: "/assets/school/courses/course-4.jpg",
+		title: { pt: "Mecânica", en: "Mechanical Engineering" },
+		description: {
+			pt: "Formação sólida em processos industriais, desenho técnico e manutenção de equipamentos.",
+			en: "Solid training in industrial processes, technical drawing, and equipment maintenance.",
+		},
+	},
+	{
+		image: "/assets/school/courses/course-5.jpg",
+		title: { pt: "Eletrotecnia", en: "Electrotechnics" },
+		description: {
+			pt: "Instalações elétricas, manutenção preventiva e operação de sistemas energéticos complexos.",
+			en: "Electrical installations, preventive maintenance, and complex energy systems.",
+		},
+	},
+	{
+		image: "/assets/school/courses/course-6.jpg",
+		title: { pt: "Energias Renováveis", en: "Renewable Energies" },
+		description: {
+			pt: "Projetos sustentáveis que promovem eficiência energética e transição ecológica.",
+			en: "Sustainable projects that drive energy efficiency and the green transition.",
+		},
+	},
+];
+
+const featureCopy = {
+	preTitle: { pt: "Serviços Educativos", en: "Educational services" },
+	title: { pt: "Descubra a nossa oferta", en: "Discover our offer" },
+	description: {
+		pt: "Pilares que tornam o Agrupamento de Escolas António Sérgio uma referência nacional.",
+		en: "The pillars that make António Sérgio School Group a national reference.",
+	},
+};
+
+const featureItems = [
+	{
+		icon: "mi-compass",
+		title: { pt: "Formação graduada", en: "Complete learning" },
+		description: {
+			pt: "Percursos do pré-escolar ao ensino secundário articulados com orientação vocacional personalizada.",
+			en: "Pathways from preschool to secondary school with tailored guidance.",
+		},
+	},
+	{
+		icon: "mi-pulse",
+		title: { pt: "Vida académica", en: "Academic life" },
+		description: {
+			pt: "Atividades extracurriculares e projetos interdisciplinares que reforçam a cidadania ativa.",
+			en: "Extracurricular activities and interdisciplinary projects that foster active citizenship.",
+		},
+	},
+	{
+		icon: "mi-support",
+		title: { pt: "Apoio educativo", en: "Educational support" },
+		description: {
+			pt: "Serviços de psicologia, tutoria e ação social escolar sempre disponíveis.",
+			en: "Psychology, tutoring, and social support services always available.",
+		},
+	},
+];
+
+const missionCopy = {
+	missionLabel: { pt: "Missão", en: "Mission" },
+	missionDescription: {
+		pt: "Ser pioneiros na inovação educativa a nível nacional, inspirando os alunos a irem mais longe e a construírem impacto social positivo.",
+		en: "To pioneer educational innovation nationwide, inspiring students to go further and create positive social impact.",
+	},
+	visionLabel: { pt: "Visão", en: "Vision" },
+	visionDescription: {
+		pt: "Somos uma comunidade escolar que trabalha em rede com famílias, parceiros científicos e empresas para garantir percursos flexíveis e relevantes.",
+		en: "We are a school community working with families, researchers, and companies to guarantee flexible, relevant pathways.",
+	},
+	buttonLabel: { pt: "Ler a nossa missão", en: "Read our mission" },
+};
+
+const benefitsCopy = {
+	caption: { pt: "Valores que nos guiam", en: "Values that guide us" },
+	title: {
+		pt: "Porque escolher o AE António Sérgio",
+		en: "Why families choose AE António Sérgio",
+	},
+};
+
+const benefitItems = [
+	{
+		svgPath:
+			"M21.62 20.196c1.055-.922 1.737-2.262 1.737-3.772 0-1.321-.521-2.515-1.357-3.412v-6.946l-11.001-6.066-11 6v12.131l11 5.869 5.468-2.917c.578.231 1.205.367 1.865.367.903 0 1.739-.258 2.471-.676l2.394 3.226.803-.596-2.38-3.208zm-11.121 2.404l-9.5-5.069v-10.447l9.5 4.946v10.57zm1-.001v-10.567l5.067-2.608.029.015.021-.04 4.384-2.256v5.039c-.774-.488-1.686-.782-2.668-.782-2.773 0-5.024 2.252-5.024 5.024 0 1.686.838 3.171 2.113 4.083l-3.922 2.092zm6.833-2.149c-2.219 0-4.024-1.808-4.024-4.026s1.805-4.025 4.024-4.025c2.22 0 4.025 1.807 4.025 4.025 0 2.218-1.805 4.026-4.025 4.026zm-.364-3.333l-1.306-1.147-.66.751 2.029 1.782 2.966-3.12-.725-.689-2.304 2.423zm-16.371-10.85l4.349-2.372 9.534 4.964-4.479 2.305-9.404-4.897zm9.4-5.127l9.404 5.186-3.832 1.972-9.565-4.98 3.993-2.178z",
+		title: { pt: "Percursos completos", en: "Complete pathways" },
+		description: {
+			pt: "Do pré-escolar ao secundário, com orientação vocacional e apoio personalizado.",
+			en: "From preschool to secondary, combining guidance and personalised support.",
+		},
+	},
+	{
+		svgPath:
+			"M12 0c-3.371 2.866-5.484 3-9 3v11.535c0 4.603 3.203 5.804 9 9.465 5.797-3.661 9-4.862 9-9.465v-11.535c-3.516 0-5.629-.134-9-3zm0 1.292c2.942 2.31 5.12 2.655 8 2.701v10.542c0 3.891-2.638 4.943-8 8.284-5.375-3.35-8-4.414-8-8.284v-10.542c2.88-.046 5.058-.391 8-2.701zm5 7.739l-5.992 6.623-3.672-3.931.701-.683 3.008 3.184 5.227-5.878.728.685z",
+		title: { pt: "Parcerias estratégicas", en: "Strategic partnerships" },
+		description: {
+			pt: "Protocolos com empresas, universidades e instituições científicas para projetos e estágios.",
+			en: "Protocols with companies, universities, and research centres for projects and internships.",
+		},
+	},
+	{
+		svgPath:
+			"M6.514 24.015h-3v-3.39c-2.08-.638-3.5-2.652-3.5-5.04 0-1.19.202-1.693 1.774-5.603.521-1.294 1.195-2.97 2.068-5.179.204-.518.67-.806 1.17-.802.482.004.941.284 1.146.802.718 1.817 1.302 3.274 1.777 4.454.26-.596.567-1.288.928-2.103.694-1.565 1.591-3.592 2.754-6.265.258-.592.881-.906 1.397-.888.572.015 1.126.329 1.369.888 1.163 2.673 2.06 4.7 2.754 6.265 2.094 4.727 2.363 5.334 2.363 6.764 0 2.927-2.078 5.422-5 6.082v4.015h-3v-4.015c-.943-.213-1.797-.617-2.523-1.165-.612.845-1.466 1.48-2.477 1.79v3.39zm14.493-6c1.652 0 2.993 1.341 2.993 2.993s-1.341 2.993-2.993 2.993-2.993-1.341-2.993-2.993 1.341-2.993 2.993-2.993zm.007.993c1.104 0 2 .896 2 2s-.896 2-2 2-2-.896-2-2 .896-2 2-2zm-7.5 3.993v-3.839c4.906-.786 5-4.751 5-5.244 0-1.218-.216-1.705-2.277-6.359-2.134-4.82-2.721-6.198-2.755-6.261-.079-.145-.193-.292-.455-.297-.238 0-.37.092-.481.297-.034.063-.621 1.441-2.755 6.261-2.061 4.654-2.277 5.141-2.277 6.359 0 .493.094 4.458 5 5.244v3.839h1zm-6.123-12.448l-.08-.198c-1.589-3.957-2.04-5.116-2.067-5.171-.072-.151-.15-.226-.226-.228-.109 0-.188.13-.235.228-.028.05-.316.818-2.066 5.171-1.542 3.833-1.703 4.233-1.703 5.23 0 1.988 1.076 3.728 3.5 4.25v3.166h1v-3.166c1.266-.273 2.159-.876 2.725-1.666-1.078-1.12-1.725-2.619-1.725-4.251 0-.979.126-1.572.877-3.365z",
+		title: { pt: "Apoio às famílias", en: "Family support" },
+		description: {
+			pt: "Serviços de psicologia, ação social e clubes que reforçam o bem-estar.",
+			en: "Psychology, social services, and clubs that reinforce student and family well-being.",
+		},
+	},
+];
+
+const leadershipCopy = {
+	quote: {
+		pt: "Somos uma equipa que acredita na proximidade, na inovação e na valorização de toda a comunidade educativa.",
+		en: "We are a team that believes in proximity, innovation, and valuing the entire educational community.",
+	},
+	referenceRole: {
+		pt: "Agrupamento de Escolas António Sérgio",
+		en: "António Sérgio School Group",
+	},
+};
+
+const leadershipMembers = [
+	{
+		name: "Dra. Maria Santos",
+		role: { pt: "Diretora", en: "Headteacher" },
+		image: "/assets/school/team/team-sm-1.png",
+		socials: [],
+	},
+	{
+		name: "Dr. João Silva",
+		role: { pt: "Subdiretor", en: "Deputy head" },
+		image: "/assets/school/team/team-sm-2.png",
+		socials: [],
+	},
+	{
+		name: "Dr. António Costa",
+		role: { pt: "Adjunto da Direção", en: "Assistant principal" },
+		image: "/assets/school/team/team-sm-3.png",
+		socials: [],
+	},
+	{
+		name: "Dra. Ana Ferreira",
+		role: { pt: "Adjunta da Direção", en: "Assistant principal" },
+		image: "/assets/school/team/team-sm-4.png",
+		socials: [],
+	},
+];
+
+const testimonialsIntroCopy = {
+	pt: "Famílias e antigos alunos confiam no AE António Sérgio para construir percursos completos.",
+	en: "Families and alumni trust AE António Sérgio to build complete learning journeys.",
+};
+
+const testimonialEntries = [
+	{
+		avatar: "/assets/images/user-avatar.png",
+		title: {
+			pt: "Qualidade excecional",
+			en: "Exceptional quality",
+		},
+		description: {
+			pt: "O acompanhamento diário e os projetos diferenciadores fizeram toda a diferença no percurso do meu filho.",
+			en: "Daily mentoring and distinctive projects made all the difference in my son's journey.",
+		},
+		author: "João Santos",
+		role: { pt: "Encarregado de educação", en: "Parent" },
+	},
+	{
+		avatar: "/assets/images/user-avatar.png",
+		title: {
+			pt: "Experiência transformadora",
+			en: "Transformative experience",
+		},
+		description: {
+			pt: "O rigor académico vive lado a lado com atividades criativas que despertam o melhor de cada aluno.",
+			en: "Academic rigour goes hand in hand with creative activities that bring out the best in every student.",
+		},
+		author: "Ana Costa",
+		role: { pt: "Ex-aluna", en: "Alumni" },
+	},
+	{
+		avatar: "/assets/images/user-avatar.png",
+		title: {
+			pt: "Comunidade acolhedora",
+			en: "Welcoming community",
+		},
+		description: {
+			pt: "Professores, técnicos e assistentes trabalham em equipa para que ninguém fique para trás.",
+			en: "Teachers and staff work as one team to make sure no one is left behind.",
+		},
+		author: "Carlos Silva",
+		role: { pt: "Encarregado de educação", en: "Parent" },
+	},
+];
+
+const partnersSectionCopy = {
+	pt: "Rede de parceiros institucionais",
+	en: "Network of institutional partners",
+};
+
+const partnersEntries = [
+	{
+		name: "Associação Empresarial de Portugal",
+		logo: "/assets/school/brand/brand-1.svg",
+		category: {
+			pt: "Parcerias empresariais",
+			en: "Business partnerships",
+		},
+	},
+	{
+		name: "Instituto Politécnico do Porto",
+		logo: "/assets/school/brand/brand-2.svg",
+		category: { pt: "Ensino superior", en: "Higher education" },
+	},
+	{
+		name: "Área Metropolitana do Porto",
+		logo: "/assets/school/brand/brand-3.svg",
+		category: { pt: "Administração local", en: "Local administration" },
+	},
+	{
+		name: "Expandindústria",
+		logo: "/assets/school/brand/brand-4.svg",
+		category: { pt: "Empresas parceiras", en: "Industry partners" },
+	},
+	{
+		name: "INESCTEC",
+		logo: "/assets/school/brand/brand-5.svg",
+		category: { pt: "Investigação", en: "Research" },
+	},
+];
+
+const faqEntries = [
+	{
+		question: {
+			pt: "Quais os níveis de ensino abrangidos?",
+			en: "Which education levels are covered?",
+		},
+		answer: {
+			pt: "Disponibilizamos educação pré-escolar, 1.º, 2.º e 3.º ciclos e ensino secundário com ofertas científico-humanísticas e profissionais.",
+			en: "We offer preschool, primary, lower and upper secondary education with academic and vocational programmes.",
+		},
+	},
+	{
+		question: {
+			pt: "Como funciona o apoio educativo especializado?",
+			en: "How does specialised support work?",
+		},
+		answer: {
+			pt: "Acompanhamos cada aluno através de gabinetes de psicologia, tutoria académica, intervenção precoce e ação social escolar.",
+			en: "We support each student through psychology services, tutoring, early intervention, and social assistance.",
+		},
+	},
+	{
+		question: {
+			pt: "Há protocolos com empresas e ensino superior?",
+			en: "Are there partnerships with companies and universities?",
+		},
+		answer: {
+			pt: "Sim. O EQAVET garante redes com empresas, municípios e instituições de ensino superior para estágios, projetos e investigação.",
+			en: "Yes. EQAVET connects us with companies, local authorities, and universities for internships, projects, and research.",
+		},
+	},
+	{
+		question: {
+			pt: "Como posso visitar o campus?",
+			en: "How can I visit the campus?",
+		},
+		answer: {
+			pt: "Agenda uma visita através dos contactos oficiais ou participa nos dias abertos e eventos comunitários divulgados no calendário escolar.",
+			en: "Book a visit through our official contacts or join the open days and community events in the school calendar.",
+		},
+	},
+];
+
+const blogEntries = [
+	{
+		slug: "eqavet-reforca-cultura-de-qualidade",
+		cover: "/assets/school/eqavet/eqavet-11.jpg",
+		date: "2025-02-10",
+		author: {
+			name: "Helena Andrade",
+			role: { pt: "Coordenadora EQAVET", en: "EQAVET Coordinator" },
+			avatar: "/assets/images/user-avatar.png",
+		},
+		tags: ["EQAVET", "Qualidade", "Parcerias"],
+		title: {
+			pt: "EQAVET reforça a cultura de qualidade no agrupamento",
+			en: "EQAVET reinforces the quality culture across the group",
+		},
+		category: { pt: "Qualidade", en: "Quality" },
+		readingTime: { pt: "6 min", en: "6 min read" },
+		excerpt: {
+			pt: "A equipa EQAVET consolidou novos protocolos e ferramentas de monitorização que elevam a qualidade pedagógica em todas as escolas do agrupamento.",
+			en: "The EQAVET team consolidated new protocols and monitoring tools that elevate pedagogical quality across all schools.",
+		},
+		content: {
+			pt: [
+				"Os ciclos de melhoria contínua passaram a integrar indicadores pedagógicos e sociais recolhidos em tempo real nas diferentes escolas do agrupamento.",
+				"As novas fichas de acompanhamento permitem alinhar tutores, docentes e parceiros externos, assegurando respostas rápidas às necessidades dos alunos.",
+				"Para 2025 está prevista a expansão da rede de empresas acolhedoras de Formação em Contexto de Trabalho e novas ações de mentoria com o ensino superior.",
+			],
+			en: [
+				"Continuous improvement cycles now include pedagogical and social indicators collected in real time across every school.",
+				"New monitoring sheets align tutors, teachers, and external partners, ensuring swift responses to student needs.",
+				"For 2025 we plan to expand the network of host companies for workplace training and to launch new mentoring actions with universities.",
+			],
+		},
+	},
+	{
+		slug: "laboratorios-abertos-semana-ciencia",
+		cover: "/assets/school/campus/campus-3.jpg",
+		date: "2025-03-18",
+		author: {
+			name: "Rui Barbosa",
+			role: { pt: "Coordenador de Ciências", en: "Science Coordinator" },
+			avatar: "/assets/images/user-avatar.png",
+		},
+		tags: ["Semana da Ciência", "Laboratórios", "Comunidade"],
+		title: {
+			pt: "Laboratórios abertos marcam a Semana da Ciência",
+			en: "Open labs headline the Science Week",
+		},
+		category: { pt: "Eventos", en: "Events" },
+		readingTime: { pt: "5 min", en: "5 min read" },
+		excerpt: {
+			pt: "Alunos do básico ao secundário apresentaram protótipos e experiências interativas que aproximam a comunidade da investigação científica.",
+			en: "Students from primary to secondary showcased prototypes and interactive experiments that bring the community closer to science.",
+		},
+		content: {
+			pt: [
+				"Os clubes de ciência viva dinamizaram workshops de robótica, programação criativa e energias renováveis.",
+				"Famílias e parceiros locais puderam testar os protótipos desenvolvidos ao longo do ano letivo e propor novos desafios.",
+				"O evento reforçou a importância de espaços laboratoriais abertos e colaborativos para promover vocações científicas.",
+			],
+			en: [
+				"Science clubs led workshops on robotics, creative coding, and renewable energies.",
+				"Families and local partners tested prototypes developed throughout the year and proposed new challenges.",
+				"The event reinforced the importance of open, collaborative labs to promote scientific vocations.",
+			],
+		},
+	},
+	{
+		slug: "oferta-profissional-2025",
+		cover: "/assets/school/courses/course-3.jpg",
+		date: "2025-04-05",
+		author: {
+			name: "Teresa Carvalho",
+			role: {
+				pt: "Coordenadora dos Cursos Profissionais",
+				en: "Vocational Courses Lead",
+			},
+			avatar: "/assets/images/user-avatar.png",
+		},
+		tags: ["Cursos profissionais", "PTD", "Futuro"],
+		title: {
+			pt: "Oferta profissional 2025 com novos percursos digitais",
+			en: "2025 vocational offer adds new digital pathways",
+		},
+		category: { pt: "Cursos", en: "Courses" },
+		readingTime: { pt: "4 min", en: "4 min read" },
+		excerpt: {
+			pt: "O Plano de Transição Digital inspira a criação de módulos flexíveis em Cibersegurança, Energias Renováveis e Multimédia Interativa.",
+			en: "The Digital Transition Plan inspired flexible modules in Cybersecurity, Renewable Energy, and Interactive Media.",
+		},
+		content: {
+			pt: [
+				"Os novos módulos foram co-construídos com empresas tecnológicas e incluem desafios reais em contexto de sala de aula.",
+				"Cada turma terá um mentor digital responsável por apoiar a integração de ferramentas colaborativas e laboratórios virtuais.",
+				"A comunidade educativa terá acesso a um catálogo de micro credenciais que reconhece competências adquiridas nos projetos.",
+			],
+			en: [
+				"The new modules were co-designed with tech companies and include real challenges in the classroom.",
+				"Each class will have a digital mentor to support collaborative tools and virtual labs.",
+				"The school community will access a micro-credential catalogue recognising skills acquired in projects.",
+			],
+		},
+	},
+];
+
+const projectEntries = [
+	{
+		slug: "laboratorio-aberto-de-tecnologia",
+		cover: "/assets/school/campus/campus-5.jpg",
+		gallery: [
+			"/assets/school/courses/course-2.jpg",
+			"/assets/school/campus/campus-2.jpg",
+		],
+		partners: ["INESCTEC", "Expandindústria"],
+		categories: [
+			{ slug: "inovacao", label: { pt: "Inovação", en: "Innovation" } },
+			{ slug: "steam", label: { pt: "STEAM", en: "STEAM" } },
+		],
+		title: {
+			pt: "Laboratório Aberto de Tecnologia",
+			en: "Open Technology Lab",
+		},
+		summary: {
+			pt: "Espaço colaborativo que liga clubes de robótica, impressão 3D e programação criativa.",
+			en: "Collaborative space linking robotics, 3D printing, and creative coding clubs.",
+		},
+		description: {
+			pt: "O laboratório funciona em regime aberto para turmas do 2.º ciclo ao secundário, promovendo projetos STEAM com parceiros científicos.",
+			en: "The lab works in open mode for middle and secondary students, promoting STEAM projects with research partners.",
+		},
+		status: { pt: "Em curso", en: "Ongoing" },
+		goals: {
+			pt: [
+				"Aumentar a participação feminina em projetos tecnológicos",
+				"Criar protótipos para desafios locais",
+				"Partilhar recursos digitais entre escolas do agrupamento",
+			],
+			en: [
+				"Increase female participation in technology projects",
+				"Build prototypes that address local challenges",
+				"Share digital resources across the group",
+			],
+		},
+		outcomes: {
+			pt: "Mais de 120 alunos envolvidos em desafios de prototipagem rápida e mentoria semanal.",
+			en: "Over 120 students involved in rapid prototyping challenges and weekly mentoring.",
+		},
+	},
+	{
+		slug: "plano-digital-de-transicao",
+		cover: "/assets/school/campus/campus-3.jpg",
+		gallery: [
+			"/assets/school/icon/counter/counter-1.png",
+			"/assets/school/icon/counter/counter-3.png",
+		],
+		partners: ["Município de Gaia", "Altice Labs"],
+		categories: [
+			{
+				slug: "transformacao",
+				label: {
+					pt: "Transformação Digital",
+					en: "Digital transformation",
+				},
+			},
+		],
+		title: {
+			pt: "Plano Digital de Transição",
+			en: "Digital Transition Plan",
+		},
+		summary: {
+			pt: "Programa transversal que equipa salas com recursos híbridos e forma docentes em metodologias digitais.",
+			en: "Cross-cutting programme equipping classrooms with hybrid resources and training teachers in digital methods.",
+		},
+		description: {
+			pt: "Inclui kits móveis de aprendizagem, reforço da conectividade e micro formações direcionadas por grupo disciplinar.",
+			en: "Includes mobile learning kits, improved connectivity, and tailored micro-trainings per subject cluster.",
+		},
+		status: { pt: "Implementação", en: "Implementation" },
+		goals: {
+			pt: [
+				"Garantir acesso equitativo a equipamentos",
+				"Promover metodologias blended em todas as turmas",
+				"Monitorizar competências digitais através do EQAVET",
+			],
+			en: [
+				"Guarantee equitable access to devices",
+				"Promote blended methodologies in every class",
+				"Monitor digital skills with EQAVET",
+			],
+		},
+		outcomes: {
+			pt: "40 salas equipadas e 180 docentes certificados nas oficinas de competências digitais.",
+			en: "40 classrooms equipped and 180 teachers certified in digital skills workshops.",
+		},
+	},
+	{
+		slug: "oficinas-criativas-de-artes-e-design",
+		cover: "/assets/school/breadcrumb/breadcrumb-4.jpg",
+		gallery: [
+			"/assets/school/about/about-1.jpg",
+			"/assets/school/about/about-2.jpg",
+		],
+		partners: ["Casa das Artes de Gaia", "AMP"],
+		categories: [
+			{
+				slug: "comunidade",
+				label: { pt: "Comunidade", en: "Community" },
+			},
+			{ slug: "artes", label: { pt: "Expressões", en: "Arts" } },
+		],
+		title: {
+			pt: "Oficinas Criativas de Artes e Design",
+			en: "Creative Arts & Design Studios",
+		},
+		summary: {
+			pt: "Projeto interdisciplinar que junta artes visuais, multimédia e cidadania ativa.",
+			en: "Interdisciplinary project merging visual arts, multimedia, and active citizenship.",
+		},
+		description: {
+			pt: "As oficinas transformam espaços comuns em galerias efémeras e envolvem associações culturais locais.",
+			en: "Studios turn common areas into pop-up galleries and involve local cultural associations.",
+		},
+		status: { pt: "Concluído", en: "Completed" },
+		goals: {
+			pt: [
+				"Dar voz às narrativas dos alunos",
+				"Combinar artes tradicionais com meios digitais",
+				"Refletir sobre sustentabilidade e inclusão",
+			],
+			en: [
+				"Give voice to student narratives",
+				"Blend traditional arts with digital media",
+				"Reflect on sustainability and inclusion",
+			],
+		},
+		outcomes: {
+			pt: "15 exposições itinerantes e um catálogo digital aberto à comunidade.",
+			en: "15 travelling exhibitions and a digital catalogue open to the community.",
+		},
+	},
+];
+
+const homeSectionsCopy = {
+	about: {
+		caption: { pt: "Quem somos", en: "Who we are" },
+		title: {
+			pt: "Conheça o Agrupamento de Escolas António Sérgio.",
+			en: "Get to know António Sérgio School Group.",
+		},
+		actionLabel: {
+			pt: "História, missão e campus",
+			en: "History, mission, and campus",
+		},
+	},
+	stats: {
+		title: { pt: "Impacto em números", en: "Impact in numbers" },
+		description: {
+			pt: "Uma comunidade educativa que cresce com projetos europeus, redes empresariais e inovação pedagógica.",
+			en: "An educational community growing through European projects, business networks, and pedagogical innovation.",
+		},
+		ctaLabel: { pt: "Agendar visita", en: "Book a visit" },
+	},
+	portfolio: {
+		caption: { pt: "Projetos em destaque", en: "Featured projects" },
+		title: {
+			pt: "Inovação, ciência e comunidade em ação.",
+			en: "Innovation, science, and community in action.",
+		},
+		filterAllLabel: { pt: "Todos os projetos", en: "All projects" },
+	},
+	faq: {
+		caption: {
+			pt: "Perguntas frequentes",
+			en: "Frequently asked questions",
+		},
+		title: {
+			pt: "Informação útil para famílias e alunos.",
+			en: "Useful information for families and students.",
+		},
+		actionLabel: {
+			pt: "Falar com a secretaria",
+			en: "Talk to the office",
+		},
+	},
+	blog: {
+		caption: { pt: "Blog", en: "Blog" },
+		title: {
+			pt: "Histórias e projetos em destaque.",
+			en: "Stories and projects in the spotlight.",
+		},
+		actionLabel: {
+			pt: "Ler todas as notícias",
+			en: "Read all news",
+		},
+	},
+	partners: {
+		title: {
+			pt: "Rede de parceiros institucionais",
+			en: "Network of institutional partners",
+		},
+	},
+};
+
+const contactBase = {
+	address: "Av. Nuno Álvares, 4400-233 Vila Nova de Gaia",
+	email: "esas.gaia@antoniosergio.pt",
+	phone: "+351 223 752 199",
+	fax: "+351 223 757 058",
+	socials: [
+		{
+			label: "Facebook",
+			href: "https://www.facebook.com/AgrupamentoAntonioSergio",
+		},
+		{
+			label: "Instagram",
+			href: "https://www.instagram.com/agrupamentoantoniosergio",
+		},
+	],
+};
+
+const contactInfoCopy = {
+	title: { pt: "Contactos", en: "Contacts" },
+	subtitle: {
+		pt: "Estamos disponíveis para ajudar",
+		en: "We are here to help",
+	},
+	officeHours: {
+		pt: "Dias úteis · 09:00 - 18:30",
+		en: "Weekdays · 09:00 - 18:30",
+	},
+};
+
+const contactCopyLocales = {
+	pt: {
+		officeCardTitle: "Secretaria",
+		locationCardTitle: "Localização",
+		form: {
+			nameLabel: "Nome",
+			namePlaceholder: "O teu nome",
+			emailLabel: "Email",
+			emailPlaceholder: "Escreve o teu email",
+			messageLabel: "Mensagem",
+			messagePlaceholder: "Como podemos ajudar?",
+			buttonLabel: "Enviar mensagem",
+			helperText:
+				"Todos os campos são obrigatórios. Ao submeter aceitas a nossa",
+			privacyLabel: "Política de Privacidade",
+		},
+		privacyHref: "/politica-de-privacidade",
+	},
+	en: {
+		officeCardTitle: "School office",
+		locationCardTitle: "Location",
+		form: {
+			nameLabel: "Name",
+			namePlaceholder: "Your full name",
+			emailLabel: "Email",
+			emailPlaceholder: "Enter your email",
+			messageLabel: "Message",
+			messagePlaceholder: "How can we help?",
+			buttonLabel: "Send message",
+			helperText: "All fields are required. By submitting you accept our",
+			privacyLabel: "Privacy Policy",
+		},
+		privacyHref: "/politica-de-privacidade",
+	},
+};
+
+const footerCopyLocales = {
+	pt: {
+		navigationTitle: "Navegação",
+		socialTitle: "Redes sociais",
+		usefulTitle: "Informação útil",
+		usefulLinks: [
+			{ href: "/contactos", label: "Contactos" },
+			{ href: "/sobre-nos", label: "Plano estratégico" },
+			{
+				href: "/politica-de-privacidade",
+				label: "Política de Privacidade",
+			},
+		],
+		locationNote: "Baseados em Vila Nova de Gaia, Portugal.",
+	},
+	en: {
+		navigationTitle: "Navigation",
+		socialTitle: "Social media",
+		usefulTitle: "Useful information",
+		usefulLinks: [
+			{ href: "/contactos", label: "Contacts" },
+			{ href: "/sobre-nos", label: "Strategic plan" },
+			{ href: "/politica-de-privacidade", label: "Privacy Policy" },
+		],
+		locationNote: "Based in Vila Nova de Gaia, Portugal.",
+	},
+};
+
+const buildNavLinks = lang =>
+	navLinkEntries.map(link => ({ ...link, label: link.labels[lang] }));
+
+const buildHeroContent = lang => ({
+	...heroCopy[lang],
+	highlights: heroHighlights.map(item => ({
+		value: item.value,
+		label: item.labels[lang],
+	})),
+});
+
+const buildProgramHighlights = lang => ({
+	preTitle: programCopy.preTitle[lang],
+	title: programCopy.title[lang],
+	description: programCopy.description[lang],
+	items: programItems.map(item => ({
+		image: item.image,
+		title: item.title[lang],
+		description: item.description[lang],
+	})),
+});
+
+const buildFeatureHighlights = lang => ({
+	preTitle: featureCopy.preTitle[lang],
+	title: featureCopy.title[lang],
+	description: featureCopy.description[lang],
+	items: featureItems.map(item => ({
+		icon: item.icon,
+		title: item.title[lang],
+		description: item.description[lang],
+	})),
+});
+
+const buildMissionBlock = lang => ({
+	missionLabel: missionCopy.missionLabel[lang],
+	missionDescription: missionCopy.missionDescription[lang],
+	visionLabel: missionCopy.visionLabel[lang],
+	visionDescription: missionCopy.visionDescription[lang],
+	button: { label: missionCopy.buttonLabel[lang], href: "/sobre-nos" },
+});
+
+const buildBenefitsContent = lang => ({
+	caption: benefitsCopy.caption[lang],
+	title: benefitsCopy.title[lang],
+	items: benefitItems.map(item => ({
+		svgPath: item.svgPath,
+		title: item.title[lang],
+		description: item.description[lang],
+	})),
+});
+
+const buildLeadership = lang => ({
+	quote: leadershipCopy.quote[lang],
+	reference: {
+		name: "Direção do Agrupamento",
+		role: leadershipCopy.referenceRole[lang],
+	},
+	members: leadershipMembers.map(member => ({
+		...member,
+		role: member.role[lang],
+	})),
+});
+
+const buildTestimonials = lang =>
+	testimonialEntries.map(testimonial => ({
+		avatar: testimonial.avatar,
+		title: testimonial.title[lang],
+		description: testimonial.description[lang],
+		author: testimonial.author,
+		role: testimonial.role[lang],
+	}));
+
+const buildPartners = lang =>
+	partnersEntries.map(partner => ({
+		name: partner.name,
+		logo: partner.logo,
+		category: partner.category[lang],
+	}));
+
+const buildFaqItems = lang =>
+	faqEntries.map(item => ({
+		question: item.question[lang],
+		answer: item.answer[lang],
+	}));
+
+const buildBlogPosts = lang =>
+	blogEntries.map(post => ({
+		slug: post.slug,
+		cover: post.cover,
+		date: post.date,
+		tags: post.tags,
+		title: post.title[lang],
+		category: post.category[lang],
+		readingTime: post.readingTime[lang],
+		excerpt: post.excerpt[lang],
+		content: post.content[lang],
+		author: {
+			name: post.author.name,
+			role: post.author.role[lang],
+			avatar: post.author.avatar,
+		},
+	}));
+
+const buildProjects = lang =>
+	projectEntries.map(project => ({
+		slug: project.slug,
+		cover: project.cover,
+		gallery: project.gallery,
+		partners: project.partners,
+		categories: project.categories.map(category => ({
+			slug: category.slug,
+			label: category.label[lang],
+		})),
+		title: project.title[lang],
+		summary: project.summary[lang],
+		description: project.description[lang],
+		status: project.status[lang],
+		goals: project.goals[lang],
+		outcomes: project.outcomes[lang],
+	}));
+
+const buildHomeSections = lang => ({
+	about: {
+		caption: homeSectionsCopy.about.caption[lang],
+		title: homeSectionsCopy.about.title[lang],
+		actionLabel: homeSectionsCopy.about.actionLabel[lang],
+	},
+	stats: {
+		title: homeSectionsCopy.stats.title[lang],
+		description: homeSectionsCopy.stats.description[lang],
+		ctaLabel: homeSectionsCopy.stats.ctaLabel[lang],
+	},
+	portfolio: {
+		caption: homeSectionsCopy.portfolio.caption[lang],
+		title: homeSectionsCopy.portfolio.title[lang],
+		filterAllLabel: homeSectionsCopy.portfolio.filterAllLabel[lang],
+	},
+	faq: {
+		caption: homeSectionsCopy.faq.caption[lang],
+		title: homeSectionsCopy.faq.title[lang],
+		actionLabel: homeSectionsCopy.faq.actionLabel[lang],
+	},
+	blog: {
+		caption: homeSectionsCopy.blog.caption[lang],
+		title: homeSectionsCopy.blog.title[lang],
+		actionLabel: homeSectionsCopy.blog.actionLabel[lang],
+	},
+	partners: {
+		title: homeSectionsCopy.partners.title[lang],
+	},
+});
+
+const buildContactInfo = lang => ({
+	...contactBase,
+	title: contactInfoCopy.title[lang],
+	subtitle: contactInfoCopy.subtitle[lang],
+	officeHours: contactInfoCopy.officeHours[lang],
+});
+
+const buildLocaleContent = lang => ({
+	schoolIdentity: {
+		...baseIdentity,
+		tagline: identityCopy.tagline[lang],
+		description: identityCopy.description[lang],
+	},
+	navLinks: buildNavLinks(lang),
+	headerCtaLabel: headerCtaCopy[lang],
+	heroContent: buildHeroContent(lang),
+	programHighlights: buildProgramHighlights(lang),
+	featureHighlights: buildFeatureHighlights(lang),
+	missionBlock: buildMissionBlock(lang),
+	benefitsContent: buildBenefitsContent(lang),
+	leadership: buildLeadership(lang),
+	testimonialsIntro: testimonialsIntroCopy[lang],
+	testimonials: buildTestimonials(lang),
+	partnersSectionTitle: partnersSectionCopy[lang],
+	partners: buildPartners(lang),
+	faqItems: buildFaqItems(lang),
+	blogPosts: buildBlogPosts(lang),
+	projects: buildProjects(lang),
+	homeSections: buildHomeSections(lang),
+	contactInfo: buildContactInfo(lang),
+	contactCopy: contactCopyLocales[lang],
+	footerCopy: footerCopyLocales[lang],
+});
+
+const localizedContentByLanguage = AES_LANGUAGES.reduce((acc, { code }) => {
+	acc[code] = buildLocaleContent(code);
+	return acc;
+}, {});
+
+export const aesContent = localizedContentByLanguage;
+
+const defaultLocaleContent =
+	aesContent[DEFAULT_LANGUAGE] ?? buildLocaleContent(DEFAULT_LANGUAGE);
+
+export const schoolIdentity = defaultLocaleContent.schoolIdentity;
+export const navLinks = defaultLocaleContent.navLinks;
+export const headerCtaLabel = defaultLocaleContent.headerCtaLabel;
+export const heroContent = defaultLocaleContent.heroContent;
+export const programHighlights = defaultLocaleContent.programHighlights;
+export const featureHighlights = defaultLocaleContent.featureHighlights;
+export const missionBlock = defaultLocaleContent.missionBlock;
+export const benefitsContent = defaultLocaleContent.benefitsContent;
+export const leadership = defaultLocaleContent.leadership;
+export const testimonialsIntro = defaultLocaleContent.testimonialsIntro;
+export const testimonials = defaultLocaleContent.testimonials;
+export const partnersSectionTitle = defaultLocaleContent.partnersSectionTitle;
+export const partners = defaultLocaleContent.partners;
+export const faqItems = defaultLocaleContent.faqItems;
+export const blogPosts = defaultLocaleContent.blogPosts;
+export const projects = defaultLocaleContent.projects;
+export const homeSections = defaultLocaleContent.homeSections;
+export const contactInfo = defaultLocaleContent.contactInfo;
+export const contactCopy = defaultLocaleContent.contactCopy;
+export const footerCopy = defaultLocaleContent.footerCopy;
+
+export const events = [
+	{
+		slug: "feira-das-profissoes-2025",
+		title: "Feira das Profissões 2025",
+		date: "2025-05-15",
+		location: "Pavilhão António Sérgio",
+		summary:
+			"Empresas, universidades e antigos alunos apresentam percursos académicos e profissionais.",
+		description:
+			"Sessões de networking, experiências hands-on e painéis temáticos sobre competências do futuro.",
+		cover: "/assets/school/breadcrumb/breadcrumb-2.jpg",
+		agenda: [
+			{
+				time: "09:00",
+				title: "Abertura oficial e painel de antigos alunos",
+			},
+			{ time: "11:00", title: "Pitch de empresas parceiras" },
+			{ time: "14:30", title: "Workshops de orientação vocacional" },
+		],
+		registration: {
+			label: "Inscrever turma",
+			href: "/eventos/feira-das-profissoes-2025",
+		},
+	},
+	{
+		slug: "semana-da-ciencia-e-tecnologia",
+		title: "Semana da Ciência e Tecnologia",
+		date: "2025-11-04",
+		location: "Laboratórios e auditório principal",
+		summary:
+			"Mostra interativa de projetos STEAM, residências científicas e encontros com investigadores.",
+		description:
+			"Inclui hackathons, maratonas de robótica e desafios de energia sustentável abertos à comunidade.",
+		cover: "/assets/school/breadcrumb/breadcrumb-1.jpg",
+		agenda: [
+			{ time: "10:00", title: "Sessão experimental aberta" },
+			{ time: "13:30", title: "Hackathon Energia Positiva" },
+			{ time: "16:00", title: "Entrega de prémios" },
+		],
+		registration: {
+			label: "Participar",
+			href: "/eventos/semana-da-ciencia-e-tecnologia",
+		},
+	},
+	{
+		slug: "encontro-comunidade-educativa",
+		title: "Encontro da Comunidade Educativa",
+		date: "2025-01-27",
+		location: "Auditório AE António Sérgio",
+		summary:
+			"Partilha de boas práticas, apresentação do plano anual e momentos culturais dinamizados pelos alunos.",
+		description:
+			"Reúne pais, associações, parceiros e equipas pedagógicas para alinhar prioridades e projetos.",
+		cover: "/assets/school/breadcrumb/breadcrumb-3.jpg",
+		agenda: [
+			{ time: "18:30", title: "Receção e mostra de projetos" },
+			{ time: "19:30", title: "Debate sobre sucesso escolar" },
+			{ time: "21:00", title: "Concerto solidário" },
+		],
+		registration: {
+			label: "Confirmar presença",
+			href: "/eventos/encontro-comunidade-educativa",
+		},
+	},
+];

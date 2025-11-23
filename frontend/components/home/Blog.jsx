@@ -1,0 +1,63 @@
+import { blogPosts } from "@/data/aesContent";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+
+export default function Blog() {
+	return (
+		<div className="row mt-n50">
+			{/* Post Item */}
+			{blogPosts.map((post, i) => (
+				<div
+					key={i}
+					className="post-prev col-md-6 col-lg-4 mt-50 wow fadeInLeft"
+					data-wow-delay={`${0.2 + i * 0.1}s`}
+				>
+					<div className="post-prev-container">
+						<div className="post-prev-img">
+							<Link href={`/blog/${post.slug}`}>
+								<Image
+									width={650}
+									height={412}
+									src={post.cover}
+									alt={post.title}
+								/>
+							</Link>
+						</div>
+						<h4 className="post-prev-title">
+							<Link href={`/blog/${post.slug}`}>
+								{post.title}
+							</Link>
+						</h4>
+						<div className="post-prev-text">{post.excerpt}</div>
+						<div className="post-prev-info clearfix">
+							<div className="float-start">
+								<div className="d-inline-flex align-items-center gap-2">
+									<Image
+										className="post-prev-author-img"
+										width={30}
+										height={30}
+										src={post.author.avatar}
+										alt={post.author.name}
+									/>
+									<span>{post.author.name}</span>
+								</div>
+							</div>
+							<div className="float-end">
+								<span>
+									{new Date(post.date).toLocaleDateString(
+										"pt-PT"
+									)}
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			))}
+			{/* End Post Item */}
+			{/* Post Item */}
+
+			{/* End Post Item */}
+		</div>
+	);
+}
