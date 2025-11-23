@@ -11,9 +11,9 @@ export default function Brands() {
 	return (
 		<div className="container position-relative">
 			<div className="row">
-				<div className="col-md-8 offset-md-2 text-center">
-					<h2 className="section-title-tiny mb-30">
-						{content.homeSections.partners.title}
+				<div className="col-md-10 offset-md-1 text-center">
+					<h2 className="section-title mb-60 mb-xs-40">
+						{content.partnersSectionTitle}
 					</h2>
 
 					<div className="logo-grid">
@@ -24,13 +24,10 @@ export default function Brands() {
 							>
 								<Image
 									src={partner.logo}
-									width={120}
-									height={40}
+									width={160}
+									height={60}
 									alt={partner.name}
 								/>
-								<div className="small text-gray mt-10">
-									{partner.category}
-								</div>
 							</div>
 						))}
 					</div>

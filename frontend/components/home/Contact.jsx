@@ -32,7 +32,7 @@ export default function Contact() {
 								data-wow-delay=".3s"
 							>
 								<div className="alt-features-icon">
-									<i className="mi-mail" aria-hidden="true" />
+									<i className="mi-email" aria-hidden="true" />
 								</div>
 								<h4 className="alt-features-title">
 									Secretaria

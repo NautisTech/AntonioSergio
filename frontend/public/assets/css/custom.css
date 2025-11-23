@@ -451,11 +451,14 @@ a:not(.btn):not(.link-to-top):hover {
    ============================== */
 
 /* Projects category hover - Crimson red */
+.works-filter .filter:hover,
+.works-filter .filter.active,
 .works-filter a:hover,
 .works-filter a.active {
   color: #A51C30 !important;
 }
 
+.works-filter .filter.active:after,
 .works-filter a.active:after {
   background-color: #A51C30 !important;
 }
@@ -478,10 +481,18 @@ a:not(.btn):not(.link-to-top):hover {
    Partners Section Styling
    ============================== */
 
-/* Smaller partner logos */
+/* Partner logos - bigger and closer */
+.logo-grid {
+  gap: 30px 40px !important;
+}
+
+.logo-grid-img {
+  margin: 0 !important;
+}
+
 .logo-grid-img img {
-  max-width: 100px !important;
-  max-height: 35px !important;
+  max-width: 160px !important;
+  max-height: 60px !important;
   width: auto !important;
   height: auto !important;
   object-fit: contain !important;
@@ -552,4 +563,59 @@ a:not(.btn):not(.link-to-top):hover {
 .number-descr {
   opacity: 1 !important;
   visibility: visible !important;
+}
+
+/* ==============================
+   Values/Benefits Icon Fix
+   ============================== */
+
+/* Fix icon overflow at bottom */
+.alt-features-icon {
+  overflow: visible !important;
+}
+
+.alt-features-icon svg {
+  overflow: visible !important;
+  display: block !important;
+}
+
+.alt-features-item {
+  overflow: visible !important;
+}
+
+/* ==============================
+   Hero Loading Fix (Aggressive)
+   ============================== */
+
+/* Force hero content to be visible immediately */
+#home,
+#home .home-section,
+#home .home-content,
+#home .container {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Force all hero child elements visible */
+#home .hs-title-1,
+#home .section-caption,
+#home .section-descr,
+#home .btn,
+#home .stack-images,
+#home img {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Force Facts/Stats section visible */
+.number-title,
+.number-descr {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Ensure parallax containers show content */
+.parallax-5,
+.parallax-mousemove-scene {
+  opacity: 1 !important;
 }
