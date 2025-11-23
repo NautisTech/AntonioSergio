@@ -350,6 +350,21 @@ html {
   background-color: #F5E5E7 !important;
 }
 
+/* Partners inline layout */
+.logo-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.logo-grid-img {
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
 /* Benefits section - Parchment */
 .page-section:has(.alt-features-item) {
   background-color: #F3F3F1 !important;

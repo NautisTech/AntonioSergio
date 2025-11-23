@@ -51,11 +51,7 @@ export default function Header({ variant = "light" }) {
 					<LanguageSelect variant={variant} />
 					<li>
 						<Link
-							href={
-								variant === "dark"
-									? "/contactos-dark"
-									: "/contactos"
-							}
+							href="/contactos"
 							className="opacity-1 no-hover"
 						>
 							<span

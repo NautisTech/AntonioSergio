@@ -11,7 +11,7 @@ export const contactItems = [
     },
   },
   {
-    iconClass: "mi-email",
+    iconClass: "mi-mail",
     title: "Email",
     text: "ibthemes21@gmail.com",
     link: {

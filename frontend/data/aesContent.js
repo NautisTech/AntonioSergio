@@ -32,32 +32,26 @@ const identityCopy = {
 const navLinkEntries = [
 	{
 		href: "/",
-		darkHref: "/inicio-dark",
 		labels: { pt: "Início", en: "Home" },
 	},
 	{
-		href: "/sobre-nos",
-		darkHref: "/sobre-nos-dark",
+		href: "/sobre",
 		labels: { pt: "Sobre Nós", en: "About" },
 	},
 	{
 		href: "/projetos",
-		darkHref: "/projetos-dark",
 		labels: { pt: "Projetos", en: "Projects" },
 	},
 	{
 		href: "/eventos",
-		darkHref: "/eventos-dark",
 		labels: { pt: "Eventos", en: "Events" },
 	},
 	{
 		href: "/blog",
-		darkHref: "/blog/dark",
 		labels: { pt: "Blog", en: "Blog" },
 	},
 	{
 		href: "/contactos",
-		darkHref: "/contactos-dark",
 		labels: { pt: "Contactos", en: "Contact" },
 	},
 ];
@@ -75,7 +69,7 @@ const heroCopy = {
 			"Definimo-nos como pioneiros da inovação educativa em Portugal, incentivando cada aluno a desenvolver o seu potencial e a tornar-se um cidadão ativo, consciente e resiliente.",
 		primaryCta: {
 			label: "Conhecer a oferta educativa",
-			href: "/sobre-nos",
+			href: "/sobre",
 		},
 		secondaryCta: { label: "Contactar a secretaria", href: "/contactos" },
 		videoCta: { label: "Ver o campus", videoId: "vTIIMJ9tUc8" },
@@ -86,7 +80,7 @@ const heroCopy = {
 		title: "Excellence and innovation for every learning stage.",
 		description:
 			"We lead educational innovation in Portugal, encouraging each student to unlock their potential and become an engaged, resilient citizen.",
-		primaryCta: { label: "Explore our academic offer", href: "/sobre-nos" },
+		primaryCta: { label: "Explore our academic offer", href: "/sobre" },
 		secondaryCta: { label: "Talk to the office", href: "/contactos" },
 		videoCta: { label: "Watch the campus", videoId: "vTIIMJ9tUc8" },
 		scrollLabel: "Explore",
@@ -95,28 +89,40 @@ const heroCopy = {
 
 const heroHighlights = [
 	{
-		value: "65+ anos",
+		values: {
+			pt: "65+ anos",
+			en: "65+ years",
+		},
 		labels: {
 			pt: "de reconhecimento e alcance internacional",
 			en: "of recognition and international reach",
 		},
 	},
 	{
-		value: "25 espaços",
+		values: {
+			pt: "25 espaços",
+			en: "25 spaces",
+		},
 		labels: {
 			pt: "e ferramentas digitais colaborativas",
 			en: "and collaborative digital spaces",
 		},
 	},
 	{
-		value: "220 docentes",
+		values: {
+			pt: "220 docentes",
+			en: "220 teachers",
+		},
 		labels: {
 			pt: "altamente qualificados e próximos",
 			en: "highly qualified and close to students",
 		},
 	},
 	{
-		value: "3 600 alunos",
+		values: {
+			pt: "3 600 alunos",
+			en: "3,600 students",
+		},
 		labels: {
 			pt: "acompanhados em cada ano letivo",
 			en: "supported every school year",
@@ -811,7 +817,7 @@ const footerCopyLocales = {
 		usefulTitle: "Informação útil",
 		usefulLinks: [
 			{ href: "/contactos", label: "Contactos" },
-			{ href: "/sobre-nos", label: "Plano estratégico" },
+			{ href: "/sobre", label: "Plano estratégico" },
 			{
 				href: "/politica-de-privacidade",
 				label: "Política de Privacidade",
@@ -825,7 +831,7 @@ const footerCopyLocales = {
 		usefulTitle: "Useful information",
 		usefulLinks: [
 			{ href: "/contactos", label: "Contacts" },
-			{ href: "/sobre-nos", label: "Strategic plan" },
+			{ href: "/sobre", label: "Strategic plan" },
 			{ href: "/politica-de-privacidade", label: "Privacy Policy" },
 		],
 		locationNote: "Based in Vila Nova de Gaia, Portugal.",
@@ -838,7 +844,7 @@ const buildNavLinks = lang =>
 const buildHeroContent = lang => ({
 	...heroCopy[lang],
 	highlights: heroHighlights.map(item => ({
-		value: item.value,
+		value: item.values[lang],
 		label: item.labels[lang],
 	})),
 });
