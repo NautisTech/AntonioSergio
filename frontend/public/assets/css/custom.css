@@ -223,3 +223,209 @@ a {
 html {
   scroll-behavior: smooth !important;
 }
+
+/* ==============================
+   Header & Navigation Brand Styling
+   ============================== */
+
+/* Crimson red header background */
+.main-nav.transparent {
+  background-color: #A51C30 !important;
+}
+
+.main-nav {
+  background-color: #A51C30 !important;
+}
+
+/* White text for navigation */
+.main-nav .inner-nav ul li a {
+  color: white !important;
+}
+
+/* Logo text white */
+.main-nav .logo .logo-text {
+  color: white !important;
+}
+
+/* Mobile menu button white */
+.main-nav .mobile-nav-icon {
+  background-color: white;
+}
+
+.main-nav .mobile-nav-icon::before,
+.main-nav .mobile-nav-icon::after {
+  background-color: white;
+}
+
+/* Language selector white text */
+.main-nav .languageSelect a {
+  color: white !important;
+}
+
+/* Header CTA button - white border with white text */
+.main-nav .link-strong {
+  color: white !important;
+}
+
+/* Hover effects for navigation */
+.main-nav .inner-nav ul li a:hover {
+  color: #F4EDCA !important; /* Creme on hover */
+}
+
+/* Dropdown menu styling */
+.main-nav .mn-sub {
+  background-color: #8E1829 !important; /* Darker crimson for dropdown */
+}
+
+.main-nav .mn-sub li a {
+  color: white !important;
+}
+
+.main-nav .mn-sub li a:hover {
+  background-color: #A51C30 !important;
+  color: #F4EDCA !important;
+}
+
+/* ==============================
+   Footer Brand Styling
+   ============================== */
+
+/* Crimson red footer */
+.footer.bg-gray-light-1 {
+  background-color: #A51C30 !important;
+  color: white !important;
+}
+
+.footer .text-gray {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.footer .fw-title {
+  color: white !important;
+}
+
+.footer .fw-menu a {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.footer .fw-menu a:hover {
+  color: #F4EDCA !important;
+}
+
+.footer .clearlinks a {
+  color: white !important;
+}
+
+.footer .clearlinks a:hover {
+  color: #F4EDCA !important;
+}
+
+.footer .link-to-top {
+  color: white !important;
+  border-color: white !important;
+}
+
+.footer .link-to-top:hover {
+  background-color: white !important;
+  color: #A51C30 !important;
+}
+
+/* ==============================
+   Colorful Section Backgrounds
+   ============================== */
+
+/* Alternate section backgrounds with brand colors */
+.page-section.bg-gray-light-1 {
+  background-color: #F3F3F1 !important; /* Parchment */
+}
+
+/* Team section - Creme background */
+#equipa.page-section {
+  background-color: #F4EDCA !important; /* Creme */
+}
+
+/* Brands/Partners section - Light crimson tint */
+.page-section:has(.logo-grid) {
+  background-color: #F5E5E7 !important;
+}
+
+/* Benefits section - Parchment */
+.page-section:has(.alt-features-item) {
+  background-color: #F3F3F1 !important;
+}
+
+/* Testimonials section background - Light blue tint */
+.bg-gray-light-1 .pt-80.pb-80 {
+  background-color: #E8F1F9 !important; /* Light blue for testimonials */
+}
+
+/* ==============================
+   Button & Link Styling
+   ============================== */
+
+/* Primary buttons - Crimson */
+.btn-mod.btn-large,
+.btn-mod {
+  background-color: #A51C30 !important;
+  border-color: #A51C30 !important;
+  color: white !important;
+}
+
+.btn-mod.btn-large:hover,
+.btn-mod:hover {
+  background-color: #8E1829 !important;
+  border-color: #8E1829 !important;
+}
+
+/* Border buttons */
+.btn-mod.btn-border {
+  background-color: transparent !important;
+  border-color: #A51C30 !important;
+  color: #A51C30 !important;
+}
+
+.btn-mod.btn-border:hover {
+  background-color: #A51C30 !important;
+  color: white !important;
+}
+
+/* White buttons on crimson backgrounds */
+.btn-mod.btn-w {
+  background-color: white !important;
+  border-color: white !important;
+  color: #A51C30 !important;
+}
+
+.btn-mod.btn-w:hover {
+  background-color: #F4EDCA !important;
+  border-color: #F4EDCA !important;
+  color: #A51C30 !important;
+}
+
+/* Links - Crimson accent */
+a:not(.btn):not(.link-to-top) {
+  color: #A51C30;
+}
+
+a:not(.btn):not(.link-to-top):hover {
+  color: #8E1829;
+}
+
+/* ==============================
+   Section Title & Caption Styling
+   ============================== */
+
+.section-caption {
+  color: #A51C30 !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+/* Mark decoration with brand color */
+.mark-decoration-1 {
+  background: linear-gradient(to right, #A51C30 0%, #E6A8B3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
