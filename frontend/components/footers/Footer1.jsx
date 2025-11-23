@@ -25,7 +25,7 @@ export default function Footer1({ dark = false }) {
 	return (
 		<footer
 			className={`page-section footer footer-brand ${
-				dark ? "bg-dark-2 light-content dark" : "bg-gray-light-1"
+				dark ? "light-content dark" : ""
 			}  pb-30`}
 		>
 			<div className="container">
@@ -55,7 +55,9 @@ export default function Footer1({ dark = false }) {
 						<div className="row mt-n30">
 							{/* Footer Widget */}
 							<div className="col-sm-4 mt-30">
-								<h3 className="fw-title">{footerCopy.navigationTitle}</h3>
+								<h3 className="fw-title">
+									{footerCopy.navigationTitle}
+								</h3>
 								<ul className="fw-menu clearlist local-scroll">
 									{navLinks.map(link => (
 										<li key={link.href}>
@@ -69,7 +71,9 @@ export default function Footer1({ dark = false }) {
 							{/* End Footer Widget */}
 							{/* Footer Widget */}
 							<div className="col-sm-4 mt-30">
-								<h3 className="fw-title">{footerCopy.socialTitle}</h3>
+								<h3 className="fw-title">
+									{footerCopy.socialTitle}
+								</h3>
 								<ul className="fw-menu clearlist">
 									<FooterSocials />
 								</ul>
@@ -77,13 +81,19 @@ export default function Footer1({ dark = false }) {
 							{/* End Footer Widget */}
 							{/* Footer Widget */}
 							<div className="col-sm-4 mt-30">
-								<h3 className="fw-title">{footerCopy.usefulTitle}</h3>
+								<h3 className="fw-title">
+									{footerCopy.usefulTitle}
+								</h3>
 								<ul className="fw-menu clearlist">
-									{footerCopy.usefulLinks.map((link, index) => (
-										<li key={index}>
-											<Link href={link.href}>{link.label}</Link>
-										</li>
-									))}
+									{footerCopy.usefulLinks.map(
+										(link, index) => (
+											<li key={index}>
+												<Link href={link.href}>
+													{link.label}
+												</Link>
+											</li>
+										)
+									)}
 								</ul>
 							</div>
 							{/* End Footer Widget */}
