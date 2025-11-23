@@ -5,8 +5,55 @@
 /*----------------------------------------*/
 
 .campus{
+    &__area {
+        position: relative;
+        overflow: hidden;
+    }
+
+    &__wrapper {
+        .section__title-wrapper {
+            & .section__title-pre {
+                color: #A51C30;
+                font-weight: 600;
+                font-size: 15px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 12px;
+                display: inline-block;
+            }
+
+            & .section__title-40 {
+                font-size: 42px;
+                color: #293352;
+                font-weight: 800;
+                line-height: 1.2;
+                margin-bottom: 20px;
+
+                @media #{$xs} {
+                    font-size: 32px;
+                }
+            }
+
+            & p {
+                font-size: 17px;
+                line-height: 30px;
+                color: #293352;
+                font-weight: 400;
+            }
+        }
+    }
+
     &__thumb{
         position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
+
+        &:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(165, 28, 48, 0.15);
+        }
 
         & .play-btn{
             position: absolute;
@@ -17,14 +64,66 @@
             line-height: 70px;
             @include transform(translate(-50%, -50%));
             z-index: 1;
+            background: rgba(165, 28, 48, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+
+            &:hover {
+                background: linear-gradient(135deg, #A51C30 0%, #293352 100%);
+                transform: translate(-50%, -50%) scale(1.1);
+            }
         }
     }
+
+    &__media {
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
+        height: 100%;
+
+        &:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(165, 28, 48, 0.15);
+        }
+
+        & video,
+        & img {
+            border-radius: 16px;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
     &__btn{
         @media #{$xl}{
             margin-bottom: 65px;
         }
         @media #{$md}{
             margin-bottom: 50px;
+        }
+
+        .tp-btn-border {
+            &::before {
+                background: linear-gradient(135deg, #293352 0%, #1E2540 100%);
+            }
         }
     }
 }

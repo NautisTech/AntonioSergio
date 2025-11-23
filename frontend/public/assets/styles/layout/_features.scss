@@ -79,6 +79,8 @@
         position: relative;
         z-index: 1;
         transition: all 0.4s ease;
+        display: flex;
+        align-items: center;
 
         @media #{$lg} {
             padding-right: 35px;
@@ -91,49 +93,48 @@
         @media #{$xs} {
             padding: 0;
             margin-bottom: 30px;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         &:hover {
             transform: translateY(-5px);
 
             .features__icon svg {
-                transform: scale(1.1) rotate(5deg);
+                transform: scale(1.15) rotate(5deg);
+                filter: drop-shadow(0 8px 16px rgba(255, 219, 109, 0.4));
             }
         }
 
     }
 
     &__icon {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        width: 80px;
-        height: 80px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        transition: all 0.4s ease;
+        margin-right: 25px;
+        flex-shrink: 0;
 
         @media #{$xs} {
             margin-bottom: 20px;
-            width: 70px;
-            height: 70px;
+            margin-right: 0;
         }
 
         & i {
-            font-size: 45px;
+            font-size: 52px;
             color: #FFDB6D !important;
+            filter: drop-shadow(0 4px 12px rgba(255, 219, 109, 0.3));
         }
 
         & svg {
-            height: 48px;
-            width: 48px;
-            transition: transform 0.4s ease;
+            height: 52px;
+            width: 52px;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 4px 12px rgba(255, 219, 109, 0.3));
 
             @media #{$xs} {
-                height: 42px;
-                width: 42px;
+                height: 48px;
+                width: 48px;
             }
 
             & path {

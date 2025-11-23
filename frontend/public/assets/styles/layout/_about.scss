@@ -5,6 +5,11 @@
 /*----------------------------------------*/
 
 .about{
+    &__area {
+        position: relative;
+        overflow: hidden;
+    }
+
     &__content{
         @media #{$xl}{
             padding-left: 40px;
@@ -17,36 +22,58 @@
             padding-left: 0;
         }
         & p{
-            font-size: 16px;
-            line-height: 28px;
-            color: var(--tp-text-5);
+            font-size: 17px;
+            line-height: 30px;
+            color: #293352;
             margin-bottom: 30px;
+            font-weight: 400;
         }
     }
+
+    &__btn {
+        .tp-btn-2 {
+            &::before {
+                background: linear-gradient(135deg, #293352 0%, #1E2540 100%) !important;
+            }
+
+            &:hover::before {
+                left: 0;
+            }
+        }
+    }
+
     &__list{
         & ul{
             & li{
                 font-size: 16px;
-                color: var(--tp-common-black);
+                color: #293352;
                 list-style: none;
-                margin-bottom: 10px;
+                margin-bottom: 14px;
+                font-weight: 500;
+                transition: all 0.3s ease;
+
                 & i{
                     display: inline-block;
-                    width: 24px;
-                    height: 24px;
-                    line-height: 24px;
+                    width: 28px;
+                    height: 28px;
+                    line-height: 28px;
                     text-align: center;
-                    background-color: rgba($color: #26C089, $alpha: .08);
-                    color: var(--tp-common-green);
-                    font-size: 13px;
+                    background: linear-gradient(135deg, rgba(165, 28, 48, 0.1) 0%, rgba(41, 51, 82, 0.1) 100%);
+                    color: #A51C30;
+                    font-size: 14px;
                     @include border-radius(50%);
-                    margin-right: 7px;
+                    margin-right: 12px;
+                    transition: all 0.3s ease;
                 }
 
                 &:hover{
+                    color: #A51C30;
+                    transform: translateX(5px);
+
                     & i{
                         color: var(--tp-common-white);
-                        background-color: var(--tp-common-green);
+                        background: linear-gradient(135deg, #A51C30 0%, #293352 100%);
+                        transform: scale(1.1);
                     }
                 }
             }
@@ -63,6 +90,16 @@
                 margin-right: 0;
             }
             & img{
+                border-radius: 16px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                transition: all 0.4s ease;
+                object-fit: cover;
+
+                &:hover {
+                    transform: translateY(-8px);
+                    box-shadow: 0 20px 40px rgba(165, 28, 48, 0.15);
+                }
+
                 @media #{$xs}{
                     width: 100%;
                 }
@@ -70,8 +107,31 @@
         }
         &-2{
             & img{
+                border-radius: 16px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                transition: all 0.4s ease;
+                object-fit: cover;
+
+                &:hover {
+                    transform: translateY(-8px);
+                    box-shadow: 0 20px 40px rgba(165, 28, 48, 0.15);
+                }
+
                 @media #{$sm, $xs, $lg}{
                     width: 100%;
+                }
+            }
+        }
+
+        &-1 {
+            & img {
+                border-radius: 16px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                transition: all 0.4s ease;
+
+                &:hover {
+                    transform: translateY(-8px);
+                    box-shadow: 0 20px 40px rgba(165, 28, 48, 0.15);
                 }
             }
         }
