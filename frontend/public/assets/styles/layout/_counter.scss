@@ -13,7 +13,18 @@
     }
 
     &__inner {
-        color: #293352 !important;
+        & .row {
+            @media #{$xs} {
+                justify-content: center;
+            }
+
+            & [class*="col-"] {
+                @media #{$xs} {
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+        }
     }
 
     &__item {
@@ -138,7 +149,7 @@
 
                 &:not(.search):not(.st1):not(.star):not(.video) {
                     stroke: #293352;
-                    stroke-width: 1.5;
+                    stroke-width: 1.2;
 
                     &[fill="#FFFFFF"],
                     &[fill="#F5F6F8"],
@@ -165,7 +176,7 @@
 
                     &:not(.search):not(.st1):not(.star):not(.video) {
                         stroke: #293352;
-                        stroke-width: 1.5;
+                        stroke-width: 1.2;
 
                         &[fill="#FFFFFF"],
                         &[fill="#F5F6F8"],

@@ -83,7 +83,17 @@
         overflow: hidden;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         transition: all 0.4s ease;
-        height: 100%;
+        height: 350px;
+        background: transparent;
+        display: block;
+
+        @media #{$md} {
+            height: 300px;
+        }
+
+        @media #{$xs} {
+            height: 250px;
+        }
 
         &:hover {
             transform: translateY(-8px);
@@ -92,10 +102,11 @@
 
         & video,
         & img {
-            border-radius: 16px;
-            object-fit: cover;
             width: 100%;
             height: 100%;
+            object-fit: cover;
+            display: block;
+            background: transparent;
         }
     }
 
@@ -103,6 +114,8 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        display: block;
+        background: transparent;
     }
 
     &__image {
@@ -110,6 +123,7 @@
         height: 100%;
         object-fit: cover;
         display: block;
+        background: transparent;
     }
 
     &__btn{
@@ -118,12 +132,6 @@
         }
         @media #{$md}{
             margin-bottom: 50px;
-        }
-
-        .tp-btn-border {
-            &::before {
-                background: linear-gradient(135deg, #293352 0%, #1E2540 100%);
-            }
         }
     }
 }

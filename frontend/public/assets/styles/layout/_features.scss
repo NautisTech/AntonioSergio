@@ -59,6 +59,22 @@
             border-radius: 15px;
         }
 
+        & .row {
+            align-items: center;
+
+            @media #{$xs} {
+                align-items: flex-start;
+            }
+
+            & [class*="col-"] {
+                display: flex;
+
+                @media #{$xs} {
+                    display: block;
+                }
+            }
+        }
+
         & .row [class*="col-"]:nth-child(2) .features__border-right {
             @media #{$md} {
                 padding-left: 13px;
@@ -80,7 +96,7 @@
         z-index: 1;
         transition: all 0.4s ease;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
 
         @media #{$lg} {
             padding-right: 35px;
@@ -94,7 +110,6 @@
             padding: 0;
             margin-bottom: 30px;
             flex-direction: column;
-            align-items: flex-start;
         }
 
         &:hover {

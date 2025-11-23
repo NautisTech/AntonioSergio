@@ -9,6 +9,11 @@
         background: linear-gradient(135deg,
             rgba(243, 243, 241, 0.5) 0%,
             rgba(244, 237, 202, 0.3) 100%);
+        padding-top: 60px;
+
+        @media #{$xs} {
+            padding-top: 40px;
+        }
     }
 
     &__slider {
@@ -76,6 +81,21 @@
         transition: all 0.4s ease;
         position: relative;
         overflow: hidden;
+        min-height: 420px;
+        display: flex;
+        flex-direction: column;
+
+        @media #{$lg} {
+            min-height: 450px;
+        }
+
+        @media #{$md} {
+            min-height: 400px;
+        }
+
+        @media #{$xs} {
+            min-height: 380px;
+        }
 
         &::before {
             content: '';
