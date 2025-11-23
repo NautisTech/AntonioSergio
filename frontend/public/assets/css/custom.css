@@ -1,3 +1,128 @@
+/* ==============================
+   School Brand Colors - Agrupamento de Escolas António Sérgio
+   ============================== */
+
+:root {
+  /* PRIMARY BRAND COLORS */
+  --color-primary-1: #A51C30; /* Crimson Red - Main brand color */
+  --color-primary-1-a: #8E1829; /* Darker crimson for hover states */
+  --color-primary-light-1: #F5E5E7; /* Very light crimson tint */
+  --color-primary-light-1-a: #E6A8B3; /* Light crimson (pear) */
+
+  --color-primary-2: #A51C30; /* Crimson (keeping consistent) */
+  --color-primary-light-2: #F5E5E7; /* Light crimson background */
+
+  --color-primary-3: #4E84C4; /* Bluebonnet - accent blue */
+  --color-primary-light-3: #E8F1F9; /* Light blue tint */
+
+  --color-primary-4: #293352; /* Indigo - dark accent */
+  --color-primary-light-4: #E5E7EC; /* Light indigo tint */
+
+  /* SECONDARY/NEUTRAL COLORS */
+  --color-secondary-1: #F4EDCA; /* Creme - light background accent */
+  --color-secondary-2: #F3F3F1; /* Parchment - main light background */
+  --color-secondary-3: #BAC5C6; /* Shade - borders and dividers */
+  --color-secondary-4: #8C8179; /* Mortar - warm gray */
+
+  /* DARK COLORS - Updated to brand black */
+  --color-dark-1: #1E1E1E; /* Brand black for text */
+  --color-dark-2: #171717; /* Darker shade */
+  --color-dark-3: #293352; /* Indigo for dark accents */
+  --color-dark-3a: #333;
+  --color-dark-4: #555;
+
+  /* GRAY SCALE - Updated to brand grays */
+  --color-gray-1: #8996A0; /* Slate - mid-tone gray */
+  --color-gray-2: #8C8179; /* Mortar - warm gray */
+  --color-gray-3: #BAC5C6; /* Shade - light blue-gray */
+
+  --color-gray-light-1: #F3F3F1; /* Parchment */
+  --color-gray-light-2: #F4EDCA; /* Creme */
+  --color-gray-light-3: #BAC5C6; /* Shade */
+  --color-gray-light-4: #d5d5d5;
+  --color-gray-light-5: #ccc;
+  --color-gray-light-6: #bbb;
+
+  /* ACCENT COLORS */
+  --color-accent-gold: #C4961A; /* Emphasis gold */
+  --color-accent-orange: #D16103; /* Saffron - alert orange */
+  --color-accent-yellow: #FFDB6D; /* Lemon - warning yellow */
+  --color-accent-blue: #4E84C4; /* Bluebonnet - info blue */
+
+  /* GRADIENTS - Updated with brand colors */
+  --gradient-primary-1: linear-gradient(
+    90deg,
+    #A51C30 0%,
+    #8E1829 50%,
+    #A51C30 100%
+  );
+  --gradient-primary-1-a: linear-gradient(
+    90deg,
+    #A51C30 25%,
+    #8E1829 50%,
+    #A51C30 75%
+  );
+  --gradient-primary-1-b: linear-gradient(
+    45deg,
+    #A51C30 0%,
+    #8E1829 50%,
+    #A51C30 100%
+  );
+  --gradient-primary-1-c: linear-gradient(
+    0deg,
+    #A51C30 0%,
+    #8E1829 50%,
+    #A51C30 100%
+  );
+
+  --gradient-gray-light-1: linear-gradient(0deg, #F3F3F1 0%, #fff 100%);
+  --gradient-gray-light-2: linear-gradient(0deg, #fff 0%, #F3F3F1 100%);
+}
+
+/* ==============================
+   Brand Color Utility Classes
+   ============================== */
+
+.bg-primary {
+  background-color: var(--color-primary-1) !important;
+}
+
+.text-primary {
+  color: var(--color-primary-1) !important;
+}
+
+.bg-brand-crimson {
+  background-color: #A51C30;
+}
+
+.bg-brand-indigo {
+  background-color: #293352;
+}
+
+.bg-brand-parchment {
+  background-color: #F3F3F1;
+}
+
+.bg-brand-creme {
+  background-color: #F4EDCA;
+}
+
+.text-brand-crimson {
+  color: #A51C30;
+}
+
+.text-brand-black {
+  color: #1E1E1E;
+}
+
+.border-brand {
+  border-color: #BAC5C6 !important;
+}
+
+/* ==============================
+   Original Custom Styles
+   ============================== */
+
 .Typewriter,
 .typewrite {
   display: inline-block;
