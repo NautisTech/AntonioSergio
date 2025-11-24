@@ -1,27 +1,24 @@
+"use client";
 import Footer1 from "@/components/footers/Footer1";
-
 import ParallaxContainer from "@/components/common/ParallaxContainer";
-
-import Header1Multipage from "@/components/headers/Header1Multipage";
-
+import Header from "@/components/site/Header";
 import React from "react";
-import { menuItems } from "@/data/menu";
 import Faq from "@/components/common/Faq";
 import Contact from "@/components/contact/Contact";
 import Map from "@/components/common/Map";
+import { pageTranslations } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 
-export const metadata = {
-	title: "Main About 1 || Resonance &mdash; One & Multi Page React Nextjs Creative Template",
-	description:
-		"Resonance &mdash; One & Multi Page React Nextjs Creative Template",
-};
-export default function MainAboutPage1() {
+export default function MainContactPage() {
+	const { language } = useLanguage();
+	const t = pageTranslations.contact;
+
 	return (
 		<>
 			<div className="theme-main">
 				<div className="page" id="top">
 					<nav className="main-nav transparent stick-fixed wow-menubar">
-						<Header1Multipage links={menuItems} />
+						<Header />
 					</nav>
 					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">
@@ -29,7 +26,7 @@ export default function MainAboutPage1() {
 								className="page-section bg-gray-light-1 bg-light-alpha-90 parallax-5"
 								style={{
 									backgroundImage:
-										"url(/assets/images/full-width-images/page-title-bg-4.jpg)",
+										"url(/assets/school/campus/campus-5.jpg)",
 								}}
 							>
 								<>
@@ -45,16 +42,23 @@ export default function MainAboutPage1() {
 															className="section-caption-border mb-30 mb-xs-20 wow fadeInUp"
 															data-wow-duration="1.2s"
 														>
-															Contact Us
+															{
+																t.hero.eyebrow[
+																	language
+																]
+															}
 														</h2>
 														<h1 className="hs-title-1 mb-0">
 															<span
 																className="wow charsAnimIn"
 																data-splitting="chars"
 															>
-																Say hello and
-																let’s start the
-																productive work.
+																{
+																	t.hero
+																		.title[
+																		language
+																	]
+																}
 															</span>
 														</h1>
 													</div>
@@ -80,7 +84,7 @@ export default function MainAboutPage1() {
 							<hr className="mt-0 mb-0" />
 							{/* End Divider */}
 							{/* FAQ Section */}
-							<section className="page-section z-index-1">
+							<section className="page-section bg-gray-light-1 z-index-1">
 								<div className="container position-relative">
 									{/* Decorative Waves */}
 
@@ -88,18 +92,10 @@ export default function MainAboutPage1() {
 									<div className="row position-relative">
 										<div className="col-md-6 col-lg-5 mb-md-50 mb-sm-30">
 											<h3 className="section-title mb-30">
-												Frequently Asked Questions
+												{t.faq.title[language]}
 											</h3>
 											<p className="text-gray mb-0">
-												Lorem ipsum dolor sit amet,
-												consectetur adipiscing elit. Nam
-												pulvinar vitae neque et
-												porttitor. Integer non dapibus
-												diam, ac eleifend lectus. In
-												maximus ligula semper metus
-												pellentesque mattis. Maecenas
-												volutpat, diam enim sagittis
-												quam.
+												{t.faq.content[language]}
 											</p>
 										</div>
 										<div className="col-md-6 offset-lg-1 pt-10 pt-sm-0">

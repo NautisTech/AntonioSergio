@@ -224,6 +224,14 @@ const featureItems = [
 			en: "Psychology, tutoring, and social support services always available.",
 		},
 	},
+	{
+		icon: "mi-lightbulb",
+		title: { pt: "Inovação pedagógica", en: "Pedagogical innovation" },
+		description: {
+			pt: "Metodologias modernas e tecnologia integrada para preparar os alunos para o futuro.",
+			en: "Modern methodologies and integrated technology to prepare students for the future.",
+		},
+	},
 ];
 
 const missionCopy = {
@@ -377,7 +385,8 @@ const newsletterCopy = {
 		emailLabel: "O seu email",
 		emailPlaceholder: "Insira o seu email",
 		buttonText: "Subscrever",
-		disclaimer: "Respeitamos a sua privacidade e não partilhamos os seus dados.",
+		disclaimer:
+			"Respeitamos a sua privacidade e não partilhamos os seus dados.",
 	},
 	en: {
 		title: "Stay informed about our news.",
@@ -1141,3 +1150,212 @@ export const events = [
 		},
 	},
 ];
+
+// Page translations
+export const pageTranslations = {
+	// About Page
+	about: {
+		meta: {
+			title: {
+				pt: `Sobre Nós | ${baseIdentity.name}`,
+				en: `About Us | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Conheça o Agrupamento de Escolas António Sérgio. Uma instituição dedicada à excelência educativa e ao desenvolvimento integral dos nossos alunos.",
+				en: "Learn about António Sérgio School Group. An institution dedicated to educational excellence and the holistic development of our students.",
+			},
+		},
+		hero: {
+			title: {
+				pt: "Agrupamento de Escolas António Sérgio",
+				en: "António Sérgio School Group",
+			},
+			subtitle: {
+				pt: "Uma instituição dedicada à excelência educativa, à inovação e ao desenvolvimento integral dos nossos alunos.",
+				en: "An institution dedicated to educational excellence, innovation and the holistic development of our students.",
+			},
+		},
+		marquee: {
+			text1: {
+				pt: "Agrupamento de Escolas",
+				en: "School Group",
+			},
+			text2: {
+				pt: "António Sérgio",
+				en: "António Sérgio",
+			},
+		},
+		mission: {
+			title: {
+				pt: "A Nossa Missão",
+				en: "Our Mission",
+			},
+			content: {
+				pt: "O Agrupamento de Escolas António Sérgio tem como missão proporcionar uma educação de excelência, preparando os nossos alunos para os desafios do futuro. Através de instalações renovadas e metodologias inovadoras, criamos um ambiente propício ao desenvolvimento integral de cada estudante.",
+				en: "António Sérgio School Group's mission is to provide excellent education, preparing our students for future challenges. Through renovated facilities and innovative methodologies, we create an environment conducive to the holistic development of each student.",
+			},
+		},
+		vision: {
+			title: {
+				pt: "A Nossa Visão",
+				en: "Our Vision",
+			},
+			content: {
+				pt: "Aspiramos ser uma referência educativa, reconhecida pela qualidade do ensino, pelo compromisso com a comunidade e pela capacidade de inspirar e formar cidadãos conscientes, críticos e preparados para construir um futuro melhor.",
+				en: "We aspire to be an educational reference, recognized for teaching quality, community commitment and the ability to inspire and educate conscious, critical citizens prepared to build a better future.",
+			},
+		},
+		facts: {
+			title: {
+				pt: "Os Nossos Números",
+				en: "Our Numbers",
+			},
+			subtitle: {
+				pt: "Dados que refletem o nosso compromisso com a excelência educativa.",
+				en: "Data reflecting our commitment to educational excellence.",
+			},
+			button: {
+				pt: "Agendar Visita",
+				en: "Schedule Visit",
+			},
+		},
+		facilities: {
+			title: {
+				pt: "Como Trabalhamos?",
+				en: "How We Work?",
+			},
+			button: {
+				pt: "Contactar",
+				en: "Contact Us",
+			},
+		},
+	},
+	// Contact Page
+	contact: {
+		meta: {
+			title: {
+				pt: `Contactos | ${baseIdentity.name}`,
+				en: `Contact | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Entre em contacto com o Agrupamento de Escolas António Sérgio. Estamos prontos para responder às suas questões e acompanhar o seu percurso educativo.",
+				en: "Contact António Sérgio School Group. We're ready to answer your questions and support your educational journey.",
+			},
+		},
+		hero: {
+			eyebrow: {
+				pt: "Contactos",
+				en: "Contact",
+			},
+			title: {
+				pt: "Estamos aqui para ajudar no seu percurso educativo",
+				en: "We're here to help with your educational journey",
+			},
+		},
+		form: {
+			name: {
+				label: {
+					pt: "Nome",
+					en: "Name",
+				},
+				placeholder: {
+					pt: "Insira o seu nome",
+					en: "Enter your name",
+				},
+			},
+			email: {
+				label: {
+					pt: "Email",
+					en: "Email",
+				},
+				placeholder: {
+					pt: "Insira o seu email",
+					en: "Enter your email",
+				},
+			},
+			message: {
+				label: {
+					pt: "Mensagem",
+					en: "Message",
+				},
+				placeholder: {
+					pt: "Escreva a sua mensagem",
+					en: "Enter your message",
+				},
+			},
+			tip: {
+				pt: "Todos os campos são obrigatórios. Ao enviar o formulário, concorda com os",
+				en: "All fields are required. By sending the form you agree to the",
+			},
+			terms: {
+				pt: "Termos e Condições",
+				en: "Terms & Conditions",
+			},
+			privacy: {
+				pt: "Política de Privacidade",
+				en: "Privacy Policy",
+			},
+			submit: {
+				pt: "Enviar Mensagem",
+				en: "Send Message",
+			},
+		},
+		faq: {
+			title: {
+				pt: "Perguntas Frequentes",
+				en: "Frequently Asked Questions",
+			},
+			content: {
+				pt: "Tem dúvidas sobre matrículas, horários ou programas educativos? Consulte as nossas perguntas mais frequentes ou entre em contacto connosco diretamente.",
+				en: "Have questions about enrollment, schedules or educational programs? Check our frequently asked questions or contact us directly.",
+			},
+		},
+	},
+	// FAQ Page
+	faq: {
+		meta: {
+			title: {
+				pt: `Perguntas Frequentes | ${baseIdentity.name}`,
+				en: `FAQ | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Encontre respostas às perguntas mais frequentes sobre o Agrupamento de Escolas António Sérgio. Informações sobre matrículas, horários e muito mais.",
+				en: "Find answers to frequently asked questions about António Sérgio School Group. Information about enrollment, schedules and more.",
+			},
+		},
+		hero: {
+			eyebrow: {
+				pt: "Perguntas Frequentes",
+				en: "FAQ",
+			},
+			title: {
+				pt: "Encontre as respostas que precisa",
+				en: "Find the answers you need",
+			},
+		},
+		search: {
+			placeholder: {
+				pt: "Pesquisar...",
+				en: "Search...",
+			},
+			button: {
+				pt: "Pesquisar",
+				en: "Search",
+			},
+		},
+		cta: {
+			title: {
+				pt: "Não encontrou a resposta?",
+				en: "Didn't find the answer?",
+			},
+			text: {
+				pt: "Entre em contacto connosco e teremos todo o gosto em ajudar.",
+				en: "Contact us and we'll be happy to help.",
+			},
+			button: {
+				pt: "Contactar",
+				en: "Contact Us",
+			},
+		},
+	},
+};

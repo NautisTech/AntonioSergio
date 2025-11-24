@@ -49,9 +49,9 @@ export default function About() {
 				<p className="text-gray">{missionBlock.visionDescription}</p>
 				<a
 					href={missionBlock.button.href}
-					className="btn btn-mod btn-border btn-round btn-small mt-20"
+					className="btn btn-mod btn-large btn-round btn-hover-anim mt-20"
 				>
-					{missionBlock.button.label}
+					<span>{missionBlock.button.label}</span>
 				</a>
 			</div>
 		</div>

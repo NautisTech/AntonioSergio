@@ -19,7 +19,10 @@ export default function Blog() {
 					data-wow-delay={`${0.2 + i * 0.1}s`}
 				>
 					<div className="post-prev-container">
-						<div className="post-prev-img">
+						<div
+							className="post-prev-img"
+							style={{ border: "1px solid #e0e0e0" }}
+						>
 							<Link href={`/blog/${post.slug}`}>
 								<Image
 									width={650}

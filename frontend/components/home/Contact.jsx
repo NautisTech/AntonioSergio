@@ -1,9 +1,14 @@
 "use client";
 import AnimatedText from "@/components/common/AnimatedText";
-import { contactInfo } from "@/data/aesContent";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 import React from "react";
 
 export default function Contact() {
+	const { language } = useLanguage();
+	const contactInfo = aesContent[language].contactInfo;
+	const sanitizedPhone = contactInfo.phone.replace(/\s+/g, "");
+
 	return (
 		<div className="container position-relative">
 			<div className="row">
@@ -32,7 +37,10 @@ export default function Contact() {
 								data-wow-delay=".3s"
 							>
 								<div className="alt-features-icon">
-									<i className="mi-email" aria-hidden="true" />
+									<i
+										className="mi-email"
+										aria-hidden="true"
+									/>
 								</div>
 								<h4 className="alt-features-title">
 									Secretaria
@@ -43,7 +51,11 @@ export default function Contact() {
 											{contactInfo.email}
 										</a>
 									</div>
-									<div>{contactInfo.phone}</div>
+									<div>
+										<a href={`tel:${sanitizedPhone}`}>
+											{contactInfo.phone}
+										</a>
+									</div>
 									<div>{contactInfo.officeHours}</div>
 								</div>
 							</div>
@@ -63,7 +75,13 @@ export default function Contact() {
 									Localização
 								</h4>
 								<div className="alt-features-descr">
-									{contactInfo.address}
+									<a
+										href="https://maps.app.goo.gl/zfqeSJfcxMFkszG38"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										{contactInfo.address}
+									</a>
 									<div className="mt-10">
 										{contactInfo.fax}
 									</div>

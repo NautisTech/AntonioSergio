@@ -2,6 +2,7 @@
 import React from "react";
 import FooterSocials from "./FooterSocials";
 import Link from "next/link";
+import Image from "next/image";
 import { aesContent } from "@/data/aesContent";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -31,11 +32,15 @@ export default function Footer1({ dark = false }) {
 			<div className="container">
 				<div className="row pb-120 pb-sm-80 pb-xs-50">
 					<div className="col-md-4 col-lg-3 text-gray mb-sm-50">
-						<Link
-							href={"/"}
-							className="mb-30 d-inline-block fw-bold text-uppercase letter-spacing-20"
-						>
-							{schoolIdentity.shortName}
+						<Link href={"/"} className="mb-30 d-inline-block">
+							<Image
+								src="/assets/img/logo/logo-rw.svg"
+								alt={schoolIdentity.name}
+								width={150}
+								height={55}
+								priority
+								style={{ height: "auto", width: "auto" }}
+							/>
 						</Link>
 						<p>{schoolIdentity.description}</p>
 						<div className="clearlinks">

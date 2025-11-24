@@ -57,12 +57,6 @@ export default function Hero1() {
 											{heroContent.primaryCta.label}
 										</span>
 									</a>
-									<a
-										href={heroContent.secondaryCta.href}
-										className="btn btn-mod btn-border btn-round align-middle me-2 me-sm-5 mt-10"
-									>
-										{heroContent.secondaryCta.label}
-									</a>
 									<button
 										type="button"
 										onClick={() => setOpen(true)}
@@ -141,7 +135,9 @@ export default function Hero1() {
 							<div className="scroll-down-1-icon">
 								<i className="mi-arrow-down" />
 							</div>
-							<div className="scroll-down-1-text">{heroContent.scrollLabel}</div>
+							<div className="scroll-down-1-text">
+								{heroContent.scrollLabel}
+							</div>
 						</a>
 					</div>
 				</div>

@@ -3,80 +3,80 @@
    ============================== */
 
 :root {
-  /* PRIMARY BRAND COLORS */
-  --color-primary-1: #A51C30; /* Crimson Red - Main brand color */
-  --color-primary-1-a: #8E1829; /* Darker crimson for hover states */
-  --color-primary-light-1: #F5E5E7; /* Very light crimson tint */
-  --color-primary-light-1-a: #E6A8B3; /* Light crimson (pear) */
+	/* PRIMARY BRAND COLORS */
+	--color-primary-1: #a51c30; /* Crimson Red - Main brand color */
+	--color-primary-1-a: #8e1829; /* Darker crimson for hover states */
+	--color-primary-light-1: #f5e5e7; /* Very light crimson tint */
+	--color-primary-light-1-a: #e6a8b3; /* Light crimson (pear) */
 
-  --color-primary-2: #A51C30; /* Crimson (keeping consistent) */
-  --color-primary-light-2: #F5E5E7; /* Light crimson background */
+	--color-primary-2: #a51c30; /* Crimson (keeping consistent) */
+	--color-primary-light-2: #f5e5e7; /* Light crimson background */
 
-  --color-primary-3: #4E84C4; /* Bluebonnet - accent blue */
-  --color-primary-light-3: #E8F1F9; /* Light blue tint */
+	--color-primary-3: #4e84c4; /* Bluebonnet - accent blue */
+	--color-primary-light-3: #e8f1f9; /* Light blue tint */
 
-  --color-primary-4: #293352; /* Indigo - dark accent */
-  --color-primary-light-4: #E5E7EC; /* Light indigo tint */
+	--color-primary-4: #293352; /* Indigo - dark accent */
+	--color-primary-light-4: #e5e7ec; /* Light indigo tint */
 
-  /* SECONDARY/NEUTRAL COLORS */
-  --color-secondary-1: #F4EDCA; /* Creme - light background accent */
-  --color-secondary-2: #F3F3F1; /* Parchment - main light background */
-  --color-secondary-3: #BAC5C6; /* Shade - borders and dividers */
-  --color-secondary-4: #8C8179; /* Mortar - warm gray */
+	/* SECONDARY/NEUTRAL COLORS */
+	--color-secondary-1: #f4edca; /* Creme - light background accent */
+	--color-secondary-2: #f3f3f1; /* Parchment - main light background */
+	--color-secondary-3: #bac5c6; /* Shade - borders and dividers */
+	--color-secondary-4: #8c8179; /* Mortar - warm gray */
 
-  /* DARK COLORS - Updated to brand black */
-  --color-dark-1: #1E1E1E; /* Brand black for text */
-  --color-dark-2: #171717; /* Darker shade */
-  --color-dark-3: #293352; /* Indigo for dark accents */
-  --color-dark-3a: #333;
-  --color-dark-4: #555;
+	/* DARK COLORS - Updated to brand black */
+	--color-dark-1: #1e1e1e; /* Brand black for text */
+	--color-dark-2: #171717; /* Darker shade */
+	--color-dark-3: #293352; /* Indigo for dark accents */
+	--color-dark-3a: #333;
+	--color-dark-4: #555;
 
-  /* GRAY SCALE - Updated to brand grays */
-  --color-gray-1: #8996A0; /* Slate - mid-tone gray */
-  --color-gray-2: #8C8179; /* Mortar - warm gray */
-  --color-gray-3: #BAC5C6; /* Shade - light blue-gray */
+	/* GRAY SCALE - Updated to brand grays */
+	--color-gray-1: #8996a0; /* Slate - mid-tone gray */
+	--color-gray-2: #8c8179; /* Mortar - warm gray */
+	--color-gray-3: #bac5c6; /* Shade - light blue-gray */
 
-  --color-gray-light-1: #F3F3F1; /* Parchment */
-  --color-gray-light-2: #F4EDCA; /* Creme */
-  --color-gray-light-3: #BAC5C6; /* Shade */
-  --color-gray-light-4: #d5d5d5;
-  --color-gray-light-5: #ccc;
-  --color-gray-light-6: #bbb;
+	--color-gray-light-1: #f3f3f1; /* Parchment */
+	--color-gray-light-2: #f4edca; /* Creme */
+	--color-gray-light-3: #bac5c6; /* Shade */
+	--color-gray-light-4: #d5d5d5;
+	--color-gray-light-5: #ccc;
+	--color-gray-light-6: #bbb;
 
-  /* ACCENT COLORS */
-  --color-accent-gold: #C4961A; /* Emphasis gold */
-  --color-accent-orange: #D16103; /* Saffron - alert orange */
-  --color-accent-yellow: #FFDB6D; /* Lemon - warning yellow */
-  --color-accent-blue: #4E84C4; /* Bluebonnet - info blue */
+	/* ACCENT COLORS */
+	--color-accent-gold: #c4961a; /* Emphasis gold */
+	--color-accent-orange: #d16103; /* Saffron - alert orange */
+	--color-accent-yellow: #ffdb6d; /* Lemon - warning yellow */
+	--color-accent-blue: #4e84c4; /* Bluebonnet - info blue */
 
-  /* GRADIENTS - Updated with brand colors */
-  --gradient-primary-1: linear-gradient(
-    90deg,
-    #A51C30 0%,
-    #8E1829 50%,
-    #A51C30 100%
-  );
-  --gradient-primary-1-a: linear-gradient(
-    90deg,
-    #A51C30 25%,
-    #8E1829 50%,
-    #A51C30 75%
-  );
-  --gradient-primary-1-b: linear-gradient(
-    45deg,
-    #A51C30 0%,
-    #8E1829 50%,
-    #A51C30 100%
-  );
-  --gradient-primary-1-c: linear-gradient(
-    0deg,
-    #A51C30 0%,
-    #8E1829 50%,
-    #A51C30 100%
-  );
+	/* GRADIENTS - Updated with brand colors */
+	--gradient-primary-1: linear-gradient(
+		90deg,
+		#a51c30 0%,
+		#8e1829 50%,
+		#a51c30 100%
+	);
+	--gradient-primary-1-a: linear-gradient(
+		90deg,
+		#a51c30 25%,
+		#8e1829 50%,
+		#a51c30 75%
+	);
+	--gradient-primary-1-b: linear-gradient(
+		45deg,
+		#a51c30 0%,
+		#8e1829 50%,
+		#a51c30 100%
+	);
+	--gradient-primary-1-c: linear-gradient(
+		0deg,
+		#a51c30 0%,
+		#8e1829 50%,
+		#a51c30 100%
+	);
 
-  --gradient-gray-light-1: linear-gradient(0deg, #F3F3F1 0%, #fff 100%);
-  --gradient-gray-light-2: linear-gradient(0deg, #fff 0%, #F3F3F1 100%);
+	--gradient-gray-light-1: linear-gradient(0deg, #f3f3f1 0%, #fff 100%);
+	--gradient-gray-light-2: linear-gradient(0deg, #fff 0%, #f3f3f1 100%);
 }
 
 /* ==============================
@@ -84,39 +84,39 @@
    ============================== */
 
 .bg-primary {
-  background-color: var(--color-primary-1) !important;
+	background-color: var(--color-primary-1) !important;
 }
 
 .text-primary {
-  color: var(--color-primary-1) !important;
+	color: var(--color-primary-1) !important;
 }
 
 .bg-brand-crimson {
-  background-color: #A51C30;
+	background-color: #a51c30;
 }
 
 .bg-brand-indigo {
-  background-color: #293352;
+	background-color: #293352;
 }
 
 .bg-brand-parchment {
-  background-color: #F3F3F1;
+	background-color: #f3f3f1;
 }
 
 .bg-brand-creme {
-  background-color: #F4EDCA;
+	background-color: #f4edca;
 }
 
 .text-brand-crimson {
-  color: #A51C30;
+	color: #a51c30;
 }
 
 .text-brand-black {
-  color: #1E1E1E;
+	color: #1e1e1e;
 }
 
 .border-brand {
-  border-color: #BAC5C6 !important;
+	border-color: #bac5c6 !important;
 }
 
 /* ==============================
@@ -125,103 +125,103 @@
 
 .Typewriter,
 .typewrite {
-  display: inline-block;
+	display: inline-block;
 }
 .typewrite {
-  margin-left: 10px;
+	margin-left: 10px;
 }
 .dark-mode .dark-white {
-  color: white !important;
+	color: white !important;
 }
 .dark-mode-logo {
-  display: none;
+	display: none;
 }
 .dark .dark-mode-logo {
-  display: block;
+	display: block;
 }
 .light-mode-logo {
-  display: block;
+	display: block;
 }
 .dark .light-mode-logo {
-  display: none;
+	display: none;
 }
 @media (min-width: 1025px) {
-  .mn-has-sub:hover + *,
-  .mn-has-sub + *:hover {
-    display: block !important;
-    z-index: 1;
-  }
+	.mn-has-sub:hover + *,
+	.mn-has-sub + *:hover {
+		display: block !important;
+		z-index: 1;
+	}
 }
 
 .fadeInText {
-  animation: animationFadeText 0.5s linear 0s 1;
+	animation: animationFadeText 0.5s linear 0s 1;
 }
 @keyframes animationFadeText {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 .dark-mode .svg-shape {
-  filter: invert(1) brightness(2); /* Inverts the colors and increases brightness */
+	filter: invert(1) brightness(2); /* Inverts the colors and increases brightness */
 }
 .dark-mode .svg-dark {
-  filter: invert(1) brightness(2); /* Inverts the colors and increases brightness */
+	filter: invert(1) brightness(2); /* Inverts the colors and increases brightness */
 }
 .dark-mode .image-filter {
-  filter: invert(1) brightness(2); /* Inverts the colors and increases brightness */
+	filter: invert(1) brightness(2); /* Inverts the colors and increases brightness */
 }
 html {
-  scroll-behavior: initial !important;
+	scroll-behavior: initial !important;
 }
 a {
-  cursor: pointer;
+	cursor: pointer;
 }
 .mobile-on .desktop-nav {
-  height: fit-content;
-  max-height: 0px;
-  display: block !important;
-  overflow: scroll;
-  transition: 0.6s;
+	height: fit-content;
+	max-height: 0px;
+	display: block !important;
+	overflow: scroll;
+	transition: 0.6s;
 }
 
 @media (min-width: 1025px) {
-  .mobile-on .mn-sub {
-    display: none;
-  }
+	.mobile-on .mn-sub {
+		display: none;
+	}
 }
 @media (max-width: 1024px) {
-  .mobile-on .js-opened .mn-sub.mobile-sub-active {
-    max-height: 1000px;
-  }
+	.mobile-on .js-opened .mn-sub.mobile-sub-active {
+		max-height: 1000px;
+	}
 }
 .dark-mode .form .form-tip-2 {
-  color: var(--color-dark-mode-gray-1);
-  background-color: var(--color-dark-2) !important;
+	color: var(--color-dark-mode-gray-1);
+	background-color: var(--color-dark-2) !important;
 }
 .btn-mod.btn-w:hover,
 .btn-mod.btn-w:focus {
-  background: none !important;
+	background: none !important;
 }
 @media (max-width: 500px) {
-  .team-carousel .owl-prev.owl-prev-testimonial-1 {
-    left: 21px;
-  }
+	.team-carousel .owl-prev.owl-prev-testimonial-1 {
+		left: 21px;
+	}
 }
 
 .mn-sub {
-  transition: max-height 0.3s ease-in-out;
+	transition: max-height 0.3s ease-in-out;
 }
 
 .mn-sub.open {
-  max-height: 200px;
-  overflow: auto !important;
-  opacity: 1 !important;
+	max-height: 200px;
+	overflow: auto !important;
+	opacity: 1 !important;
 }
 html {
-  scroll-behavior: smooth !important;
+	scroll-behavior: smooth !important;
 }
 
 /* ==============================
@@ -230,60 +230,60 @@ html {
 
 /* Crimson red header background */
 .main-nav.transparent {
-  background-color: #A51C30 !important;
+	background-color: #a51c30 !important;
 }
 
 .main-nav {
-  background-color: #A51C30 !important;
+	background-color: #a51c30 !important;
 }
 
 /* White text for navigation */
 .main-nav .inner-nav ul li a {
-  color: white !important;
+	color: white !important;
 }
 
 /* Logo text white */
 .main-nav .logo .logo-text {
-  color: white !important;
+	color: white !important;
 }
 
 /* Mobile menu button white */
 .main-nav .mobile-nav-icon {
-  background-color: white;
+	background-color: white;
 }
 
 .main-nav .mobile-nav-icon::before,
 .main-nav .mobile-nav-icon::after {
-  background-color: white;
+	background-color: white;
 }
 
 /* Language selector white text */
 .main-nav .languageSelect a {
-  color: white !important;
+	color: white !important;
 }
 
 /* Header CTA button - white border with white text */
 .main-nav .link-strong {
-  color: white !important;
+	color: white !important;
 }
 
 /* Hover effects for navigation */
 .main-nav .inner-nav ul li a:hover {
-  color: #F4EDCA !important; /* Creme on hover */
+	color: #f4edca !important; /* Creme on hover */
 }
 
 /* Dropdown menu styling */
 .main-nav .mn-sub {
-  background-color: #8E1829 !important; /* Darker crimson for dropdown */
+	background-color: #8e1829 !important; /* Darker crimson for dropdown */
 }
 
 .main-nav .mn-sub li a {
-  color: white !important;
+	color: white !important;
 }
 
 .main-nav .mn-sub li a:hover {
-  background-color: #A51C30 !important;
-  color: #F4EDCA !important;
+	background-color: #a51c30 !important;
+	color: #f4edca !important;
 }
 
 /* ==============================
@@ -293,42 +293,41 @@ html {
 /* Crimson red footer */
 .footer-brand.bg-gray-light-1,
 .footer-brand {
-  background-color: #A51C30 !important;
-  color: white !important;
+	background-color: #a51c30 !important;
+	color: white !important;
 }
 
 .footer .text-gray {
-  color: rgba(255, 255, 255, 0.9) !important;
+	color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .footer .fw-title {
-  color: white !important;
+	color: white !important;
 }
 
 .footer .fw-menu a {
-  color: rgba(255, 255, 255, 0.8) !important;
+	color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .footer .fw-menu a:hover {
-  color: #F4EDCA !important;
+	color: #f4edca !important;
 }
 
 .footer .clearlinks a {
-  color: white !important;
+	color: white !important;
 }
 
 .footer .clearlinks a:hover {
-  color: #F4EDCA !important;
+	color: #f4edca !important;
 }
 
 .footer .link-to-top {
-  color: white !important;
-  border-color: white !important;
+	color: #000 !important;
+	border-color: white !important;
 }
 
 .footer .link-to-top:hover {
-  background-color: white !important;
-  color: #A51C30 !important;
+	color: #a51c30 !important;
 }
 
 /* ==============================
@@ -337,42 +336,42 @@ html {
 
 /* Alternate section backgrounds with brand colors */
 .page-section.bg-gray-light-1 {
-  background-color: #F3F3F1 !important; /* Parchment */
+	background-color: #f3f3f1 !important; /* Parchment */
 }
 
 /* Team section - Creme background */
 #equipa.page-section {
-  background-color: #F4EDCA !important; /* Creme */
+	background-color: #f4edca !important; /* Creme */
 }
 
 /* Brands/Partners section - Light crimson tint */
 .page-section:has(.logo-grid) {
-  background-color: #F5E5E7 !important;
+	background-color: #f5e5e7 !important;
 }
 
 /* Partners inline layout */
 .logo-grid {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: center !important;
-  align-items: center !important;
+	display: flex !important;
+	flex-wrap: wrap !important;
+	justify-content: center !important;
+	align-items: center !important;
 }
 
 .logo-grid-img {
-  display: inline-flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  text-align: center !important;
+	display: inline-flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+	text-align: center !important;
 }
 
 /* Benefits section - Parchment */
 .page-section:has(.alt-features-item) {
-  background-color: #F3F3F1 !important;
+	background-color: #f3f3f1 !important;
 }
 
 /* Testimonials section background - Light blue tint */
 .bg-gray-light-1 .pt-80.pb-80 {
-  background-color: #E8F1F9 !important; /* Light blue for testimonials */
+	background-color: #e8f1f9 !important; /* Light blue for testimonials */
 }
 
 /* ==============================
@@ -382,49 +381,49 @@ html {
 /* Primary buttons - Crimson */
 .btn-mod.btn-large,
 .btn-mod {
-  background-color: #A51C30 !important;
-  border-color: #A51C30 !important;
-  color: white !important;
+	background-color: #a51c30 !important;
+	border-color: #a51c30 !important;
+	color: white !important;
 }
 
 .btn-mod.btn-large:hover,
 .btn-mod:hover {
-  background-color: #8E1829 !important;
-  border-color: #8E1829 !important;
+	background-color: #8e1829 !important;
+	border-color: #8e1829 !important;
 }
 
 /* Border buttons */
 .btn-mod.btn-border {
-  background-color: transparent !important;
-  border-color: #A51C30 !important;
-  color: #A51C30 !important;
+	background-color: transparent !important;
+	border-color: #a51c30 !important;
+	color: #a51c30 !important;
 }
 
 .btn-mod.btn-border:hover {
-  background-color: #A51C30 !important;
-  color: white !important;
+	background-color: #a51c30 !important;
+	color: white !important;
 }
 
 /* White buttons on crimson backgrounds */
 .btn-mod.btn-w {
-  background-color: white !important;
-  border-color: white !important;
-  color: #A51C30 !important;
+	background-color: white !important;
+	border-color: white !important;
+	color: #a51c30 !important;
 }
 
 .btn-mod.btn-w:hover {
-  background-color: #F4EDCA !important;
-  border-color: #F4EDCA !important;
-  color: #A51C30 !important;
+	background-color: #f4edca !important;
+	border-color: #f4edca !important;
+	color: #a51c30 !important;
 }
 
 /* Links - Crimson accent */
 a:not(.btn):not(.link-to-top) {
-  color: #A51C30;
+	color: #a51c30;
 }
 
 a:not(.btn):not(.link-to-top):hover {
-  color: #8E1829;
+	color: #8e1829;
 }
 
 /* ==============================
@@ -432,18 +431,18 @@ a:not(.btn):not(.link-to-top):hover {
    ============================== */
 
 .section-caption {
-  color: #A51C30 !important;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-weight: 600;
+	color: #a51c30 !important;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-weight: 600;
 }
 
 /* Mark decoration with brand color */
 .mark-decoration-1 {
-  background: linear-gradient(to right, #A51C30 0%, #E6A8B3 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+	background: linear-gradient(to right, #a51c30 0%, #e6a8b3 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
 }
 
 /* ==============================
@@ -455,12 +454,13 @@ a:not(.btn):not(.link-to-top):hover {
 .works-filter .filter.active,
 .works-filter a:hover,
 .works-filter a.active {
-  color: #A51C30 !important;
+	color: #a51c30 !important;
 }
 
 .works-filter .filter.active:after,
-.works-filter a.active:after {
-  background-color: #A51C30 !important;
+.works-filter a.active:after,
+.works-filter a:hover:after {
+	background-color: #a51c30 !important;
 }
 
 /* ==============================
@@ -472,9 +472,9 @@ a:not(.btn):not(.link-to-top):hover {
 .blog-item-img img,
 .post-prev-img,
 .post-prev-img img {
-  height: 300px !important;
-  object-fit: cover !important;
-  width: 100% !important;
+	height: 300px !important;
+	object-fit: cover !important;
+	width: 100% !important;
 }
 
 /* ==============================
@@ -483,19 +483,19 @@ a:not(.btn):not(.link-to-top):hover {
 
 /* Partner logos - bigger and closer */
 .logo-grid {
-  gap: 30px 40px !important;
+	gap: 30px 40px !important;
 }
 
 .logo-grid-img {
-  margin: 0 !important;
+	margin: 0 !important;
 }
 
 .logo-grid-img img {
-  max-width: 160px !important;
-  max-height: 60px !important;
-  width: auto !important;
-  height: auto !important;
-  object-fit: contain !important;
+	max-width: 160px !important;
+	max-height: 60px !important;
+	width: auto !important;
+	height: auto !important;
+	object-fit: contain !important;
 }
 
 /* ==============================
@@ -504,28 +504,28 @@ a:not(.btn):not(.link-to-top):hover {
 
 /* Newsletter on dark background - use crimson button */
 .light-content .newsletter-button.btn-mod {
-  background-color: #A51C30 !important;
-  border-color: #A51C30 !important;
-  color: white !important;
+	background-color: #a51c30 !important;
+	border-color: #a51c30 !important;
+	color: white !important;
 }
 
 .light-content .newsletter-button.btn-mod:hover {
-  background-color: #8E1829 !important;
-  border-color: #8E1829 !important;
+	background-color: #8e1829 !important;
+	border-color: #8e1829 !important;
 }
 
 /* Newsletter field styling */
 .newsletter-field {
-  border-color: rgba(255, 255, 255, 0.2) !important;
+	border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .light-content .newsletter-field {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  color: white !important;
+	background-color: rgba(255, 255, 255, 0.1) !important;
+	color: white !important;
 }
 
 .light-content .newsletter-field::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
+	color: rgba(255, 255, 255, 0.6) !important;
 }
 
 /* ==============================
@@ -536,23 +536,23 @@ a:not(.btn):not(.link-to-top):hover {
 .home-section .wow,
 .home-content .wow,
 #home .wow {
-  animation-duration: 0.8s !important;
-  animation-fill-mode: both !important;
+	animation-duration: 0.8s !important;
+	animation-fill-mode: both !important;
 }
 
 /* Fallback: show content after 1 second if still hidden */
 @keyframes fadeInFallback {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 .home-section,
 .home-content {
-  animation: fadeInFallback 0.5s ease-in 0.8s both;
+	animation: fadeInFallback 0.5s ease-in 0.8s both;
 }
 
 /* Ensure critical content is visible */
@@ -561,8 +561,8 @@ a:not(.btn):not(.link-to-top):hover {
 .section-descr,
 .number-title,
 .number-descr {
-  opacity: 1 !important;
-  visibility: visible !important;
+	opacity: 1 !important;
+	visibility: visible !important;
 }
 
 /* ==============================
@@ -571,16 +571,16 @@ a:not(.btn):not(.link-to-top):hover {
 
 /* Fix icon overflow at bottom */
 .alt-features-icon {
-  overflow: visible !important;
+	overflow: visible !important;
 }
 
 .alt-features-icon svg {
-  overflow: visible !important;
-  display: block !important;
+	overflow: visible !important;
+	display: block !important;
 }
 
 .alt-features-item {
-  overflow: visible !important;
+	overflow: visible !important;
 }
 
 /* ==============================
@@ -592,8 +592,8 @@ a:not(.btn):not(.link-to-top):hover {
 #home .home-section,
 #home .home-content,
 #home .container {
-  opacity: 1 !important;
-  visibility: visible !important;
+	opacity: 1 !important;
+	visibility: visible !important;
 }
 
 /* Force all hero child elements visible */
@@ -603,19 +603,37 @@ a:not(.btn):not(.link-to-top):hover {
 #home .btn,
 #home .stack-images,
 #home img {
-  opacity: 1 !important;
-  visibility: visible !important;
+	opacity: 1 !important;
+	visibility: visible !important;
 }
 
 /* Force Facts/Stats section visible */
 .number-title,
 .number-descr {
-  opacity: 1 !important;
-  visibility: visible !important;
+	opacity: 1 !important;
+	visibility: visible !important;
 }
 
 /* Ensure parallax containers show content */
 .parallax-5,
 .parallax-mousemove-scene {
-  opacity: 1 !important;
+	opacity: 1 !important;
+}
+
+/* Button styling - border color matches background on hover */
+.btn.btn-mod.btn-large.btn-round.btn-hover-anim:hover {
+	border-color: #3d3d3d !important;
+}
+
+.newsletter-button.btn.btn-mod.btn-large.btn-round.btn-hover-anim:hover {
+	border-color: #3d3d3d !important;
+}
+
+/* "Ver o campus" button - text color changes to red on hover */
+.lightbox.mfp-iframe {
+	transition: color 0.3s ease;
+}
+
+.lightbox.mfp-iframe:hover {
+	color: #a51c30 !important;
 }
