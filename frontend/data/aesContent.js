@@ -35,20 +35,119 @@ const navLinkEntries = [
 		labels: { pt: "Início", en: "Home" },
 	},
 	{
-		href: "/sobre",
-		labels: { pt: "Sobre Nós", en: "About" },
+		labels: { pt: "Escola", en: "School" },
+		dropdown: [
+			{
+				labels: { pt: "Sobre Nós", en: "About Us" },
+				href: "/sobre",
+			},
+			{
+				labels: { pt: "Estrutura", en: "Structure" },
+				subItems: [
+					{
+						labels: { pt: "Instalações", en: "Facilities" },
+						href: "/instalacoes",
+					},
+					{
+						labels: { pt: "Regulamento Interno", en: "Internal Regulations" },
+						href: "/regulamento",
+					},
+					{
+						labels: { pt: "Organograma", en: "Organizational Chart" },
+						href: "/organograma",
+					},
+				],
+			},
+			{
+				labels: { pt: "Educação", en: "Education" },
+				href: "/educacao",
+			},
+			{
+				labels: { pt: "Associação de Pais", en: "Parents Association" },
+				href: "/associacao-pais",
+			},
+			{
+				labels: { pt: "EQAVET", en: "EQAVET" },
+				href: "/eqavet",
+			},
+		],
 	},
 	{
-		href: "/projetos",
-		labels: { pt: "Projetos", en: "Projects" },
+		labels: { pt: "Secretaria", en: "Secretary" },
+		dropdown: [
+			{
+				labels: { pt: "Informação Académica", en: "Academic Information" },
+				subItems: [
+					{
+						labels: { pt: "Exames Nacionais", en: "National Exams" },
+						href: "/exames-nacionais",
+					},
+					{
+						labels: { pt: "Manuais Escolares", en: "School Textbooks" },
+						href: "/manuais-escolares",
+					},
+					{
+						labels: { pt: "Plano Escolar", en: "School Plan" },
+						href: "/plano-escolar",
+					},
+					{
+						labels: { pt: "Ementa", en: "Menu" },
+						href: "/ementa",
+					},
+					{
+						labels: { pt: "Regulamento de Cursos", en: "Course Regulations" },
+						href: "/regulamento-cursos",
+					},
+				],
+			},
+			{
+				labels: { pt: "Processos e Serviços", en: "Processes & Services" },
+				subItems: [
+					{
+						labels: { pt: "Inscrições", en: "Registrations" },
+						href: "/inscricoes",
+					},
+					{
+						labels: { pt: "Legislação", en: "Legislation" },
+						href: "/legislacao",
+					},
+					{
+						labels: { pt: "Informações", en: "Information" },
+						href: "/informacoes",
+					},
+				],
+			},
+			{
+				labels: { pt: "Apoio ao Utilizador", en: "User Support" },
+				subItems: [
+					{
+						labels: { pt: "Tutoriais", en: "Tutorials" },
+						href: "/tutoriais",
+					},
+					{
+						labels: { pt: "FAQ", en: "FAQ" },
+						href: "/faq",
+					},
+				],
+			},
+		],
 	},
 	{
-		href: "/eventos",
-		labels: { pt: "Eventos", en: "Events" },
-	},
-	{
-		href: "/blog",
-		labels: { pt: "Blog", en: "Blog" },
+		labels: { pt: "Comunicação", en: "Media" },
+		dropdown: [
+			{
+				labels: { pt: "Projetos", en: "Projects" },
+				href: "/projetos",
+			},
+			{
+				labels: { pt: "Notícias", en: "News" },
+				href: "/blog",
+			},
+			{
+				labels: { pt: "Eventos", en: "Events" },
+				href: "/eventos",
+			},
+		],
 	},
 	{
 		href: "/contactos",
