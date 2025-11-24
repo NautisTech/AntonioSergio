@@ -673,3 +673,20 @@ a:not(.btn):not(.link-to-top):hover {
 .lightbox.mfp-iframe:hover {
 	color: #a51c30 !important;
 }
+
+/* ==============================
+   Work Navigation Dark Mode
+   ============================== */
+
+/* Dark background for work navigation in dark mode */
+.work-navigation.light-content {
+	background-color: var(--color-dark-1) !important;
+}
+
+.work-navigation.light-content a span {
+	background-color: transparent !important;
+}
+
+.work-navigation.light-content span:hover {
+	background-color: rgba(255, 255, 255, 0.05) !important;
+}
