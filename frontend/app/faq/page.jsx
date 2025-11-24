@@ -21,11 +21,7 @@ export default function MainFaqPage1() {
 			<div className="theme-main">
 				<div className={isDark ? "dark-mode" : ""}>
 					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
-						<nav
-							className={`main-nav transparent stick-fixed wow-menubar ${
-								isDark ? "dark dark-mode" : ""
-							}`}
-						>
+						<nav className="main-nav transparent stick-fixed wow-menubar">
 							<Header />
 						</nav>
 					<main id="main">

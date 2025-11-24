@@ -55,10 +55,7 @@ export default function HomeSchool() {
 				</div>
 			</section>
 
-			<section
-				className={`page-section ${isDark ? "bg-dark-2 light-content" : "bg-gray-light-1"}`}
-				id="equipa"
-			>
+			<section className="page-section bg-gray-light-1" id="equipa">
 				<Team />
 			</section>
 
@@ -70,11 +67,7 @@ export default function HomeSchool() {
 			</section>
 
 			<ParallaxContainer
-				className={`page-section ${
-					isDark
-						? "bg-light-1 bg-light-alpha-90 parallax-5"
-						: "bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
-				}`}
+				className="page-section bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
 				style={{
 					backgroundImage:
 						"url(/assets/school/breadcrumb/breadcrumb-1.jpg)",
@@ -128,7 +121,7 @@ export default function HomeSchool() {
 				<Testimonials />
 			</section>
 
-			<section className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}>
+			<section className="page-section">
 				<Brands />
 			</section>
 

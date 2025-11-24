@@ -1,17 +1,24 @@
 "use client";
 import { aesContent } from "@/data/aesContent";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 export default function Testimonials() {
 	const { language } = useLanguage();
+	const { theme } = useTheme();
 	const content = aesContent[language];
 	const schoolTestimonials = content.testimonials;
+	const isDark = theme === "dark";
 
 	return (
 		<div className="container position-relative">
-			<div className="pt-80 pb-80 pt-sm-70 pb-sm-70 px-4 bg-gray-light-1">
+			<div
+				className={`pt-80 pb-80 pt-sm-70 pb-sm-70 px-4 ${
+					isDark ? "" : "bg-gray-light-1"
+				}`}
+			>
 				<div className="row">
 					<div className="col-lg-8 offset-lg-2 wow fadeInUp">
 						<div className="row">
