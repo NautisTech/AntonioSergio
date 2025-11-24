@@ -1,6 +1,6 @@
 "use client";
+import { use } from "react";
 import Footer1 from "@/components/footers/Footer1";
-import Image from "next/image";
 import Link from "next/link";
 import ParallaxContainer from "@/components/common/ParallaxContainer";
 import Header from "@/components/site/Header";
@@ -10,10 +10,11 @@ import { events } from "@/data/aesContent";
 import { notFound } from "next/navigation";
 
 export default function EventDetailPage({ params }) {
+	const unwrappedParams = use(params);
 	const { language } = useLanguage();
 
 	// Find the event by slug
-	const event = events.find(evt => evt.slug === params.id);
+	const event = events.find(evt => evt.slug === unwrappedParams.id);
 
 	if (!event) {
 		notFound();
@@ -39,10 +40,6 @@ export default function EventDetailPage({ params }) {
 		description: {
 			pt: "Descrição",
 			en: "Description",
-		},
-		agenda: {
-			pt: "Agenda",
-			en: "Agenda",
 		},
 		previous: {
 			pt: "Anterior",
@@ -75,7 +72,9 @@ export default function EventDetailPage({ params }) {
 	};
 
 	// Find previous and next events
-	const currentIndex = events.findIndex(evt => evt.slug === params.id);
+	const currentIndex = events.findIndex(
+		evt => evt.slug === unwrappedParams.id
+	);
 	const prevEvent = currentIndex > 0 ? events[currentIndex - 1] : null;
 	const nextEvent =
 		currentIndex < events.length - 1 ? events[currentIndex + 1] : null;
@@ -183,28 +182,6 @@ export default function EventDetailPage({ params }) {
 													<div className="col-sm-8">{event.location}</div>
 												</div>
 												<hr className="mb-20" />
-
-												{/* Agenda */}
-												{event.agenda && event.agenda.length > 0 && (
-													<>
-														<h3 className="h4 mt-40 mb-20">
-															{translations.agenda[language]}
-														</h3>
-														{event.agenda.map((item, index) => (
-															<div key={index}>
-																<div className="row text-gray">
-																	<div className="col-sm-4">
-																		<b>{item.time}</b>
-																	</div>
-																	<div className="col-sm-8">{item.title}</div>
-																</div>
-																{index < event.agenda.length - 1 && (
-																	<hr className="mb-20" />
-																)}
-															</div>
-														))}
-													</>
-												)}
 											</div>
 											{/* End Event Details */}
 
@@ -234,34 +211,36 @@ export default function EventDetailPage({ params }) {
 
 							{/* Work Navigation */}
 							<div className="work-navigation clearfix">
-								{prevEvent && (
-									<Link
-										href={`/eventos/${prevEvent.slug}`}
-										className="work-prev"
-									>
-										<span>
-											<i className="mi-arrow-left size-24 align-middle" />{" "}
-											{translations.previous[language]}
-										</span>
-									</Link>
-								)}
+								<Link
+									href={prevEvent ? `/eventos/${prevEvent.slug}` : "#"}
+									className="work-prev"
+									style={{
+										visibility: prevEvent ? "visible" : "hidden",
+									}}
+								>
+									<span>
+										<i className="mi-arrow-left size-24 align-middle" />{" "}
+										{translations.previous[language]}
+									</span>
+								</Link>
 								<Link href="/eventos" className="work-all">
 									<span>
 										<i className="mi-close size-24 align-middle" />{" "}
 										{translations.allEvents[language]}
 									</span>
 								</Link>
-								{nextEvent && (
-									<Link
-										href={`/eventos/${nextEvent.slug}`}
-										className="work-next"
-									>
-										<span>
-											{translations.next[language]}{" "}
-											<i className="mi-arrow-right size-24 align-middle" />
-										</span>
-									</Link>
-								)}
+								<Link
+									href={nextEvent ? `/eventos/${nextEvent.slug}` : "#"}
+									className="work-next"
+									style={{
+										visibility: nextEvent ? "visible" : "hidden",
+									}}
+								>
+									<span>
+										{translations.next[language]}{" "}
+										<i className="mi-arrow-right size-24 align-middle" />
+									</span>
+								</Link>
 							</div>
 						</>
 					</main>

@@ -1,4 +1,5 @@
 "use client";
+import { use } from "react";
 import Footer1 from "@/components/footers/Footer1";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,12 +11,13 @@ import { aesContent } from "@/data/aesContent";
 import { notFound } from "next/navigation";
 
 export default function ProjectDetailPage({ params }) {
+	const unwrappedParams = use(params);
 	const { language } = useLanguage();
 	const content = aesContent[language];
 	const projects = content.projects || [];
 
 	// Find the project by slug
-	const project = projects.find(proj => proj.slug === params.id);
+	const project = projects.find(proj => proj.slug === unwrappedParams.id);
 
 	if (!project) {
 		notFound();
@@ -69,7 +71,9 @@ export default function ProjectDetailPage({ params }) {
 	};
 
 	// Find previous and next projects
-	const currentIndex = projects.findIndex(proj => proj.slug === params.id);
+	const currentIndex = projects.findIndex(
+		proj => proj.slug === unwrappedParams.id
+	);
 	const prevProject = currentIndex > 0 ? projects[currentIndex - 1] : null;
 	const nextProject =
 		currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null;
@@ -201,7 +205,7 @@ export default function ProjectDetailPage({ params }) {
 											)}
 
 											{/* Goals */}
-											{project.goals && project.goals.length > 0 && (
+											{project.goals && Array.isArray(project.goals) && (
 												<div className="mb-60">
 													<h2 className="h3 mb-20">
 														{translations.goals[language]}
@@ -215,16 +219,12 @@ export default function ProjectDetailPage({ params }) {
 											)}
 
 											{/* Outcomes */}
-											{project.outcomes && project.outcomes.length > 0 && (
+											{project.outcomes && (
 												<div className="mb-60">
 													<h2 className="h3 mb-20">
 														{translations.outcomes[language]}
 													</h2>
-													<ul className="text-gray">
-														{project.outcomes.map((outcome, index) => (
-															<li key={index}>{outcome}</li>
-														))}
-													</ul>
+													<p className="text-gray">{project.outcomes}</p>
 												</div>
 											)}
 
@@ -258,34 +258,36 @@ export default function ProjectDetailPage({ params }) {
 
 							{/* Work Navigation */}
 							<div className="work-navigation clearfix">
-								{prevProject && (
-									<Link
-										href={`/projetos/${prevProject.slug}`}
-										className="work-prev"
-									>
-										<span>
-											<i className="mi-arrow-left size-24 align-middle" />{" "}
-											{translations.previous[language]}
-										</span>
-									</Link>
-								)}
+								<Link
+									href={prevProject ? `/projetos/${prevProject.slug}` : "#"}
+									className="work-prev"
+									style={{
+										visibility: prevProject ? "visible" : "hidden",
+									}}
+								>
+									<span>
+										<i className="mi-arrow-left size-24 align-middle" />{" "}
+										{translations.previous[language]}
+									</span>
+								</Link>
 								<Link href="/projetos" className="work-all">
 									<span>
 										<i className="mi-close size-24 align-middle" />{" "}
 										{translations.allProjects[language]}
 									</span>
 								</Link>
-								{nextProject && (
-									<Link
-										href={`/projetos/${nextProject.slug}`}
-										className="work-next"
-									>
-										<span>
-											{translations.next[language]}{" "}
-											<i className="mi-arrow-right size-24 align-middle" />
-										</span>
-									</Link>
-								)}
+								<Link
+									href={nextProject ? `/projetos/${nextProject.slug}` : "#"}
+									className="work-next"
+									style={{
+										visibility: nextProject ? "visible" : "hidden",
+									}}
+								>
+									<span>
+										{translations.next[language]}{" "}
+										<i className="mi-arrow-right size-24 align-middle" />
+									</span>
+								</Link>
 							</div>
 						</>
 					</main>

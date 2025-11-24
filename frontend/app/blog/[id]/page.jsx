@@ -1,4 +1,5 @@
 "use client";
+import { use } from "react";
 import Footer1 from "@/components/footers/Footer1";
 import ParallaxContainer from "@/components/common/ParallaxContainer";
 import Header from "@/components/site/Header";
@@ -11,12 +12,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default function BlogDetailPage({ params }) {
+	const unwrappedParams = use(params);
 	const { language } = useLanguage();
 	const content = aesContent[language];
 	const blogPosts = content.blogPosts || [];
 
-	// Find the blog post by slug (params.id is actually the slug)
-	const blog = blogPosts.find(post => post.slug === params.id);
+	// Find the blog post by slug (unwrappedParams.id is actually the slug)
+	const blog = blogPosts.find(post => post.slug === unwrappedParams.id);
 
 	if (!blog) {
 		notFound();
@@ -58,7 +60,9 @@ export default function BlogDetailPage({ params }) {
 	};
 
 	// Find previous and next posts
-	const currentIndex = blogPosts.findIndex(post => post.slug === params.id);
+	const currentIndex = blogPosts.findIndex(
+		post => post.slug === unwrappedParams.id
+	);
 	const prevPost = currentIndex > 0 ? blogPosts[currentIndex - 1] : null;
 	const nextPost =
 		currentIndex < blogPosts.length - 1 ? blogPosts[currentIndex + 1] : null;
