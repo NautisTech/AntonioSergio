@@ -144,9 +144,10 @@ export default function ProjectDetailPage({ params }) {
 							<section className="page-section">
 								<div className="container position-relative">
 									<div className="row">
-										{/* Project Details */}
-										<div className="col-md-4 mb-sm-40 wow fadeInUp">
-											<div className="block-sticky">
+										{/* Left Column - All Text Content */}
+										<div className="col-md-6 mb-sm-40 wow fadeInUp">
+											{/* Project Details */}
+											<div className="mb-60">
 												<h2 className="h3 mb-20">
 													{translations.projectDetails[language]}
 												</h2>
@@ -190,10 +191,8 @@ export default function ProjectDetailPage({ params }) {
 													</>
 												)}
 											</div>
-										</div>
-										{/* End Project Details */}
+											{/* End Project Details */}
 
-										<div className="col-md-8">
 											{/* Description */}
 											{project.description && (
 												<div className="mb-60">
@@ -227,13 +226,14 @@ export default function ProjectDetailPage({ params }) {
 													<p className="text-gray">{project.outcomes}</p>
 												</div>
 											)}
+										</div>
+										{/* End Left Column */}
 
-											{/* Gallery */}
+										{/* Right Column - Only Images */}
+										<div className="col-md-6">
+											{/* Gallery Images */}
 											{project.gallery && project.gallery.length > 0 && (
 												<div className="mb-n30">
-													<h2 className="h3 mb-40">
-														{translations.gallery[language]}
-													</h2>
 													{project.gallery.map((image, index) => (
 														<div key={index} className="mb-30 wow fadeInUp">
 															<Image
@@ -247,6 +247,7 @@ export default function ProjectDetailPage({ params }) {
 												</div>
 											)}
 										</div>
+										{/* End Right Column */}
 									</div>
 								</div>
 							</section>
