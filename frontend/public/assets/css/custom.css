@@ -369,6 +369,12 @@ html {
 	background-color: #f3f3f1 !important;
 }
 
+/* Remove background in dark mode */
+.dark-mode .page-section:has(.alt-features-item),
+.light-content .page-section:has(.alt-features-item) {
+	background-color: transparent !important;
+}
+
 /* Testimonials section background - Light blue tint */
 .bg-gray-light-1 .pt-80.pb-80 {
 	background-color: #e8f1f9 !important; /* Light blue for testimonials */
@@ -460,6 +466,11 @@ a:not(.btn):not(.link-to-top):hover {
 .works-filter .filter.active:after,
 .works-filter a.active:after,
 .works-filter a:hover:after {
+	background-color: #a51c30 !important;
+}
+
+/* Keep red underline in dark mode */
+.light-content .works-filter a:after {
 	background-color: #a51c30 !important;
 }
 
@@ -587,11 +598,19 @@ a:not(.btn):not(.link-to-top):hover {
    Hero Loading Fix (Aggressive)
    ============================== */
 
+/* Disable WOW animations - show everything immediately */
+.wow {
+	visibility: visible !important;
+	animation-name: none !important;
+}
+
 /* Force hero content to be visible immediately */
 #home,
 #home .home-section,
 #home .home-content,
-#home .container {
+#home .container,
+.home-section,
+.home-content {
 	opacity: 1 !important;
 	visibility: visible !important;
 }
@@ -602,22 +621,39 @@ a:not(.btn):not(.link-to-top):hover {
 #home .section-descr,
 #home .btn,
 #home .stack-images,
-#home img {
+#home img,
+.hs-title-1,
+.section-caption,
+.section-descr {
+	opacity: 1 !important;
+	visibility: visible !important;
+}
+
+/* Force header visible */
+.main-nav,
+.main-nav-sub,
+.inner-nav,
+.nav-logo-wrap,
+.logo {
 	opacity: 1 !important;
 	visibility: visible !important;
 }
 
 /* Force Facts/Stats section visible */
 .number-title,
-.number-descr {
+.number-descr,
+.count-number {
 	opacity: 1 !important;
 	visibility: visible !important;
 }
 
 /* Ensure parallax containers show content */
 .parallax-5,
-.parallax-mousemove-scene {
+.parallax-mousemove-scene,
+.parallax-5 *,
+.parallax-mousemove-scene * {
 	opacity: 1 !important;
+	visibility: visible !important;
 }
 
 /* Button styling - border color matches background on hover */

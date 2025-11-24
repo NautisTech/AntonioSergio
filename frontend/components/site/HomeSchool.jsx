@@ -67,7 +67,11 @@ export default function HomeSchool() {
 			</section>
 
 			<ParallaxContainer
-				className="page-section bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+				className={`page-section ${
+					isDark
+						? "bg-light-1 bg-light-alpha-90 parallax-5"
+						: "bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+				}`}
 				style={{
 					backgroundImage:
 						"url(/assets/school/breadcrumb/breadcrumb-1.jpg)",
