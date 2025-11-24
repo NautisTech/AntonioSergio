@@ -1,12 +1,13 @@
 "use client";
 import { aesContent } from "@/data/aesContent";
 import { toggleMobileMenu } from "@/utlis/toggleMobileMenu";
+import { init_classic_menu_resize } from "@/utlis/menuToggle";
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
 import Image from "next/image";
 import LanguageSelect from "./LanguageSelect";
 import ThemeToggle from "./ThemeToggle";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const resolveHref = (link, variant) => {
 	if (variant === "dark" && link.darkHref) return link.darkHref;
@@ -16,7 +17,23 @@ const resolveHref = (link, variant) => {
 export default function Header({ variant = "light" }) {
 	const { language } = useLanguage();
 	const content = aesContent[language];
-	const [openDropdown, setOpenDropdown] = useState(null);
+	const [menuOpen, setMenuOpen] = useState(-1);
+
+	const toggleDropdown = (i) => {
+		if (menuOpen === i) {
+			setMenuOpen(-1);
+		} else {
+			setMenuOpen(i);
+		}
+	};
+
+	useEffect(() => {
+		init_classic_menu_resize();
+		window.addEventListener("resize", init_classic_menu_resize);
+		return () => {
+			window.removeEventListener("resize", init_classic_menu_resize);
+		};
+	}, []);
 
 	return (
 		<header className="main-nav-sub full-wrapper">
@@ -48,49 +65,66 @@ export default function Header({ variant = "light" }) {
 				<ul className="clearlist local-scroll">
 					{content.navLinks.map((link, index) => {
 						if (link.dropdown) {
+							// Check if all items are simple links (no subItems)
+							const hasOnlySimpleLinks = link.dropdown.every(
+								item => !item.subItems || item.subItems.length === 0
+							);
+
 							// Nav item with dropdown
 							return (
 								<li
 									key={index}
-									className="mn-has-sub"
-									onMouseEnter={() => setOpenDropdown(index)}
-									onMouseLeave={() => setOpenDropdown(null)}
+									className={menuOpen === index ? "js-opened" : ""}
 								>
-									<a className="mn-group-title">{link.label}</a>
-									<ul
-										className="mn-sub to-left"
-										style={{
-											display: openDropdown === index ? "block" : "none",
-										}}
+									<a
+										href="#"
+										onClick={() => toggleDropdown(index)}
+										className="mn-has-sub"
 									>
-										{link.dropdown.map((item, itemIndex) => {
-											if (item.subItems) {
-												// Dropdown item with sub-items (nested)
-												return (
-													<li key={itemIndex} className="mn-has-sub">
+										{link.label} <i className="mi-chevron-down" />
+									</a>
+									<ul
+										className={`${hasOnlySimpleLinks ? "mn-sub" : "mn-sub mn-has-multi"} ${menuOpen === index ? "mobile-sub-active" : ""}`}
+									>
+										{hasOnlySimpleLinks ? (
+											// Simple vertical list
+											link.dropdown.map((item, itemIndex) => (
+												<li key={itemIndex}>
+													<Link href={item.href}>
+														{item.labels[language]}
+													</Link>
+												</li>
+											))
+										) : (
+											// Multi-column layout
+											link.dropdown.map((column, columnIndex) => (
+												<li key={columnIndex} className="mn-sub-multi">
+													{/* Column Header */}
+													{column.isLink && column.href ? (
+														<Link href={column.href} className="mn-group-title">
+															{column.labels[language]}
+														</Link>
+													) : (
 														<span className="mn-group-title">
-															{item.label}
+															{column.labels[language]}
 														</span>
-														<ul className="mn-sub">
-															{item.subItems.map((subItem, subIndex) => (
+													)}
+
+													{/* Column Items */}
+													{column.subItems && column.subItems.length > 0 ? (
+														<ul>
+															{column.subItems.map((subItem, subIndex) => (
 																<li key={subIndex}>
 																	<Link href={subItem.href}>
-																		{subItem.label}
+																		{subItem.labels[language]}
 																	</Link>
 																</li>
 															))}
 														</ul>
-													</li>
-												);
-											} else {
-												// Dropdown item without sub-items
-												return (
-													<li key={itemIndex}>
-														<Link href={item.href}>{item.label}</Link>
-													</li>
-												);
-											}
-										})}
+													) : null}
+												</li>
+											))
+										)}
 									</ul>
 								</li>
 							);

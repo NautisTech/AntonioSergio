@@ -64,13 +64,15 @@ export default function Footer1({ dark = false }) {
 									{footerCopy.navigationTitle}
 								</h3>
 								<ul className="fw-menu clearlist local-scroll">
-									{navLinks.map(link => (
-										<li key={link.href}>
-											<Link href={link.href}>
-												{link.label}
-											</Link>
-										</li>
-									))}
+									{navLinks
+										.filter(link => link.href)
+										.map(link => (
+											<li key={link.href}>
+												<Link href={link.href}>
+													{link.label}
+												</Link>
+											</li>
+										))}
 								</ul>
 							</div>
 							{/* End Footer Widget */}

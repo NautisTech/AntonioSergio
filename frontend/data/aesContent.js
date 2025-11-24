@@ -39,10 +39,26 @@ const navLinkEntries = [
 		dropdown: [
 			{
 				labels: { pt: "Sobre Nós", en: "About Us" },
+				isLink: true,
 				href: "/sobre",
+				subItems: [
+					{
+						labels: { pt: "Boas-vindas", en: "Welcome" },
+						href: "/sobre#welcome",
+					},
+					{
+						labels: { pt: "Missão e Valores", en: "Mission & Values" },
+						href: "/sobre#mission-values",
+					},
+					{
+						labels: { pt: "Projeto Educativo", en: "Educational Project" },
+						href: "/sobre#educational-project",
+					},
+				],
 			},
 			{
 				labels: { pt: "Estrutura", en: "Structure" },
+				isLink: false,
 				subItems: [
 					{
 						labels: { pt: "Instalações", en: "Facilities" },
@@ -60,14 +76,35 @@ const navLinkEntries = [
 			},
 			{
 				labels: { pt: "Educação", en: "Education" },
+				isLink: true,
 				href: "/educacao",
+				subItems: [
+					{
+						labels: { pt: "Jardim de Infância", en: "Kindergarten" },
+						href: "/educacao#jardim-infancia",
+					},
+					{
+						labels: { pt: "1º Ciclo", en: "Primary School" },
+						href: "/educacao#primario",
+					},
+					{
+						labels: { pt: "2º e 3º Ciclos", en: "Middle School" },
+						href: "/educacao#basico",
+					},
+					{
+						labels: { pt: "Ensino Secundário", en: "High School" },
+						href: "/educacao#secundario",
+					},
+				],
 			},
 			{
 				labels: { pt: "Associação de Pais", en: "Parents Association" },
+				isLink: true,
 				href: "/associacao-pais",
 			},
 			{
 				labels: { pt: "EQAVET", en: "EQAVET" },
+				isLink: true,
 				href: "/eqavet",
 			},
 		],
@@ -77,6 +114,7 @@ const navLinkEntries = [
 		dropdown: [
 			{
 				labels: { pt: "Informação Académica", en: "Academic Information" },
+				isLink: false,
 				subItems: [
 					{
 						labels: { pt: "Exames Nacionais", en: "National Exams" },
@@ -102,6 +140,7 @@ const navLinkEntries = [
 			},
 			{
 				labels: { pt: "Processos e Serviços", en: "Processes & Services" },
+				isLink: false,
 				subItems: [
 					{
 						labels: { pt: "Inscrições", en: "Registrations" },
@@ -119,6 +158,7 @@ const navLinkEntries = [
 			},
 			{
 				labels: { pt: "Apoio ao Utilizador", en: "User Support" },
+				isLink: false,
 				subItems: [
 					{
 						labels: { pt: "Tutoriais", en: "Tutorials" },
@@ -137,14 +177,17 @@ const navLinkEntries = [
 		dropdown: [
 			{
 				labels: { pt: "Projetos", en: "Projects" },
+				isLink: true,
 				href: "/projetos",
 			},
 			{
 				labels: { pt: "Notícias", en: "News" },
+				isLink: true,
 				href: "/blog",
 			},
 			{
 				labels: { pt: "Eventos", en: "Events" },
+				isLink: true,
 				href: "/eventos",
 			},
 		],
