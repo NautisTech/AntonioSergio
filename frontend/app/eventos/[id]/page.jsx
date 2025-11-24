@@ -85,11 +85,10 @@ export default function EventDetailPage({ params }) {
 	return (
 		<>
 			<div className="theme-main">
-				<div className={isDark ? "dark-mode" : ""}>
-					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
-						<nav className="main-nav dark transparent light-after-scroll stick-fixed wow-menubar">
-							<Header />
-						</nav>
+				<div className="page" id="top">
+					<nav className="main-nav transparent stick-fixed wow-menubar">
+						<Header />
+					</nav>
 					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">
 							<ParallaxContainer
@@ -206,18 +205,18 @@ export default function EventDetailPage({ params }) {
 								{/* End Section */}
 
 								{/* Divider */}
-								<hr className="mt-0 mb-0" />
+								<hr className={`mt-0 mb-0 ${isDark ? "white" : ""}`} />
 								{/* End Divider */}
 							</>
 
 							{/* End Divider */}
 
 							{/* Divider */}
-							<hr className="mt-0 mb-0" />
+							<hr className={`mt-0 mb-0 ${isDark ? "white" : ""}`} />
 							{/* End Divider */}
 
 							{/* Work Navigation */}
-							<div className="work-navigation clearfix">
+							<div className={`work-navigation clearfix ${isDark ? "light-content" : ""}`}>
 								<Link
 									href={prevEvent ? `/eventos/${prevEvent.slug}` : "#"}
 									className="work-prev"
@@ -251,8 +250,7 @@ export default function EventDetailPage({ params }) {
 							</div>
 						</>
 					</main>
-					<Footer1 dark={isDark} />
-				</div>
+					<Footer1 />
 				</div>
 			</div>
 		</>
