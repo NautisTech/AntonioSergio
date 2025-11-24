@@ -1,8 +1,7 @@
 "use client";
 import Footer1 from "@/components/footers/Footer1";
 import ParallaxContainer from "@/components/common/ParallaxContainer";
-import { menuItems } from "@/data/menu";
-import Header1Multipage from "@/components/headers/Header1Multipage";
+import Header from "@/components/site/Header";
 import AnimatedText from "@/components/common/AnimatedText";
 import PortfolioMassonry2 from "@/components/portfolio/PortfolioMassonry2";
 import { useLanguage } from "@/context/LanguageContext";
@@ -17,7 +16,7 @@ export default function EventosPage() {
 			<div className="theme-main">
 				<div className="page" id="top">
 					<nav className="main-nav transparent stick-fixed wow-menubar">
-						<Header1Multipage links={menuItems} />
+						<Header />
 					</nav>
 					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">

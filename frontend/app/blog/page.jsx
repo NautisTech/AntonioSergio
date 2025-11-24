@@ -1,12 +1,11 @@
 "use client";
 import Footer1 from "@/components/footers/Footer1";
 import ParallaxContainer from "@/components/common/ParallaxContainer";
-import Header1Multipage from "@/components/headers/Header1Multipage";
+import Header from "@/components/site/Header";
 import AnimatedText from "@/components/common/AnimatedText";
 import Widget1 from "@/components/blog/widgets/Widget1";
 import Pagination from "@/components/common/Pagination";
 import Content1 from "@/components/blog/content/Content1";
-import { menuItems } from "@/data/menu";
 import { useLanguage } from "@/context/LanguageContext";
 import { pageTranslations } from "@/data/aesContent";
 
@@ -19,7 +18,7 @@ export default function BlogPage() {
 			<div className="theme-main">
 				<div className="page" id="top">
 					<nav className="main-nav transparent stick-fixed wow-menubar">
-						<Header1Multipage links={menuItems} />
+						<Header />
 					</nav>
 					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">
