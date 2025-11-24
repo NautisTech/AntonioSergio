@@ -12,12 +12,13 @@ import Benefits from "@/components/home/Benefits";
 import Brands from "@/components/home/Brands";
 import { schoolIdentity, pageTranslations } from "@/data/aesContent";
 import { useLanguage } from "@/context/LanguageContext";
-
-const dark = false;
+import { useTheme } from "@/context/ThemeContext";
 
 export default function MainAboutPage2() {
 	const { language } = useLanguage();
+	const { theme } = useTheme();
 	const t = pageTranslations.about;
+	const isDark = theme === "dark";
 
 	return (
 		<>
@@ -29,7 +30,11 @@ export default function MainAboutPage2() {
 					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">
 							<ParallaxContainer
-								className="page-section bg-gray-light-1 bg-light-alpha-90 parallax-5"
+								className={`page-section ${
+									isDark
+										? "bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+										: "bg-gray-light-1 bg-light-alpha-90 parallax-5"
+								}`}
 								style={{
 									backgroundImage:
 										"url(/assets/school/campus/campus-1.jpg)",
@@ -128,7 +133,12 @@ export default function MainAboutPage2() {
 								</div>
 							</div>
 						</div>
-						<section className="page-section" id="about">
+						<section
+							className={`page-section ${
+								isDark ? "bg-dark-1 light-content" : ""
+							}`}
+							id="about"
+						>
 							<div className="container">
 								<div className="row">
 									<div className="col-sm-4 mb-xs-50">
@@ -203,7 +213,11 @@ export default function MainAboutPage2() {
 							</div>
 						</section>
 						<ParallaxContainer
-							className="page-section bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+							className={`page-section ${
+								isDark
+									? "bg-light-1 bg-light-alpha-90 parallax-5"
+									: "bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+							}`}
 							style={{
 								backgroundImage:
 									"url(/assets/school/campus/campus-5.jpg)",
@@ -239,28 +253,32 @@ export default function MainAboutPage2() {
 								</div>
 							</div>
 						</ParallaxContainer>
-						<section className="page-section bg-gray-light-2 overflow-hidden">
+						<section
+							className={`page-section overflow-hidden ${
+								isDark ? "bg-dark-1 light-content" : "bg-gray-light-2"
+							}`}
+						>
 							<Testimonials3 />
 						</section>
 						<section
 							className={`page-section ${
-								dark ? "light-content" : ""
+								isDark ? "bg-dark-1 light-content" : ""
 							}`}
 						>
 							<Brands />
 						</section>
-						<hr className={`mt-0 mb-0 ${dark ? "white" : ""}`} />
+						<hr className={`mt-0 mb-0 ${isDark ? "white" : ""}`} />
 						<section
 							className={`page-section ${
-								dark ? "bg-dark-1 light-content" : ""
+								isDark ? "bg-dark-1 light-content" : ""
 							}`}
 						>
 							<Benefits />
 						</section>
-						<hr className={`mt-0 mb-0 ${dark ? "white" : ""}`} />
+						<hr className={`mt-0 mb-0 ${isDark ? "white" : ""}`} />
 						<section
 							className={`page-section ${
-								dark ? "bg-dark-1 light-content" : ""
+								isDark ? "bg-dark-1 light-content" : ""
 							}`}
 						>
 							<div className="container position-relative">
