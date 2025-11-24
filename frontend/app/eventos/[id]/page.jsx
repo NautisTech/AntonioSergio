@@ -180,14 +180,14 @@ export default function EventDetailPage({ params }) {
 														{formatDate(event.date)}
 													</div>
 												</div>
-												<hr className="mb-20" />
+												<hr className={`mb-20 ${isDark ? "white" : ""}`} />
 												<div className="row text-gray">
 													<div className="col-sm-4">
 														<b>{translations.location[language]}:</b>
 													</div>
 													<div className="col-sm-8">{event.location}</div>
 												</div>
-												<hr className="mb-20" />
+												<hr className={`mb-20 ${isDark ? "white" : ""}`} />
 											</div>
 											{/* End Event Details */}
 

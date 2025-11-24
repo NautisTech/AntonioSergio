@@ -156,7 +156,7 @@ export default function ProjectDetailPage({ params }) {
 												<h2 className="h3 mb-20">
 													{translations.projectDetails[language]}
 												</h2>
-												<hr className="mb-20" />
+												<hr className={`mb-20 ${isDark ? "white" : ""}`} />
 
 												{project.status && (
 													<>
@@ -166,7 +166,7 @@ export default function ProjectDetailPage({ params }) {
 															</div>
 															<div className="col-sm-7">{project.status}</div>
 														</div>
-														<hr className="mb-20" />
+														<hr className={`mb-20 ${isDark ? "white" : ""}`} />
 													</>
 												)}
 
@@ -180,7 +180,7 @@ export default function ProjectDetailPage({ params }) {
 																{project.partners.join(", ")}
 															</div>
 														</div>
-														<hr className="mb-20" />
+														<hr className={`mb-20 ${isDark ? "white" : ""}`} />
 													</>
 												)}
 
@@ -192,7 +192,7 @@ export default function ProjectDetailPage({ params }) {
 															</div>
 															<div>{project.summary}</div>
 														</div>
-														<hr className="mb-20" />
+														<hr className={`mb-20 ${isDark ? "white" : ""}`} />
 													</>
 												)}
 											</div>
