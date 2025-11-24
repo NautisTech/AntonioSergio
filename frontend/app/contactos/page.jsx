@@ -19,15 +19,14 @@ export default function MainContactPage() {
 	return (
 		<>
 			<div className="theme-main">
-				<div className={isDark ? "dark-mode" : ""}>
-					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
-						<nav
-							className={`main-nav transparent stick-fixed wow-menubar ${
-								isDark ? "dark dark-mode" : ""
-							}`}
-						>
-							<Header />
-						</nav>
+				<div className="page" id="top">
+					<nav
+						className={`main-nav transparent stick-fixed wow-menubar ${
+							isDark ? "" : "dark"
+						}`}
+					>
+						<Header />
+					</nav>
 					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">
 							<ParallaxContainer
@@ -102,7 +101,7 @@ export default function MainContactPage() {
 							</div>
 							{/* End Contact Section */}
 							{/* Divider */}
-							<hr className="mt-0 mb-0" />
+							<hr className={`mt-0 mb-0 ${isDark ? "white" : ""}`} />
 							{/* End Divider */}
 							{/* FAQ Section */}
 							<section
@@ -133,8 +132,7 @@ export default function MainContactPage() {
 							</section>
 						</>
 					</main>
-					<Footer1 dark={isDark} />
-				</div>
+					<Footer1 />
 				</div>
 			</div>
 		</>
