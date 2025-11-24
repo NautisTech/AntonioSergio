@@ -15,15 +15,21 @@ import Team from "@/components/home/Team";
 import Testimonials from "@/components/home/Testimonials";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 import { aesContent } from "@/data/aesContent";
 
 export default function HomeSchool() {
 	const { language } = useLanguage();
+	const { theme } = useTheme();
 	const content = aesContent[language];
+	const isDark = theme === "dark";
 
 	return (
 		<>
-			<section className="page-section scrollSpysection" id="sobre">
+			<section
+				className={`page-section scrollSpysection ${isDark ? "bg-dark-1 light-content" : ""}`}
+				id="sobre"
+			>
 				<div className="container position-relative">
 					<div className="row mb-50">
 						<div className="col-md-6">
@@ -49,16 +55,26 @@ export default function HomeSchool() {
 				</div>
 			</section>
 
-			<section className="page-section bg-gray-light-1" id="equipa">
+			<section
+				className={`page-section ${isDark ? "bg-dark-2 light-content" : "bg-gray-light-1"}`}
+				id="equipa"
+			>
 				<Team />
 			</section>
 
-			<section className="page-section" id="oferta">
+			<section
+				className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+				id="oferta"
+			>
 				<Service />
 			</section>
 
 			<ParallaxContainer
-				className="page-section bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+				className={`page-section ${
+					isDark
+						? "bg-light-1 bg-light-alpha-90 parallax-5"
+						: "bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+				}`}
 				style={{
 					backgroundImage:
 						"url(/assets/school/breadcrumb/breadcrumb-1.jpg)",
@@ -82,7 +98,9 @@ export default function HomeSchool() {
 							>
 								<Link
 									href="/contactos"
-									className="btn btn-mod btn-w btn-large btn-round btn-hover-anim"
+									className={`btn btn-mod ${
+										isDark ? "btn-border" : "btn-w"
+									} btn-large btn-round btn-hover-anim`}
 								>
 									<span>{content.homeSections.stats.ctaLabel}</span>
 								</Link>
@@ -93,24 +111,33 @@ export default function HomeSchool() {
 				</div>
 			</ParallaxContainer>
 
-			<section className="page-section" id="projetos">
+			<section
+				className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+				id="projetos"
+			>
 				<Portfolio />
 			</section>
 
-			<section className="page-section bg-gray-light-1">
+			<section
+				className={`page-section ${isDark ? "bg-dark-2 light-content" : "bg-gray-light-1"}`}
+			>
 				<Benefits />
 			</section>
 
-			<section className="page-section">
+			<section className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}>
 				<Testimonials />
 			</section>
 
-			<section className="page-section">
+			<section className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}>
 				<Brands />
 			</section>
 
 			<section
-				className="page-section bg-dark bg-dark-alpha-70 light-content"
+				className={`page-section ${
+					isDark
+						? "bg-light bg-light-alpha-70"
+						: "bg-dark bg-dark-alpha-70 light-content"
+				}`}
 				style={{
 					backgroundImage: "url(/assets/school/campus/campus-4.jpg)",
 				}}
@@ -118,7 +145,10 @@ export default function HomeSchool() {
 				<Features />
 			</section>
 
-			<section className="page-section" id="faq">
+			<section
+				className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+				id="faq"
+			>
 				<div className="container position-relative">
 					<div className="row mb-40">
 						<div className="col-md-8">
@@ -144,7 +174,10 @@ export default function HomeSchool() {
 				</div>
 			</section>
 
-			<section className="page-section" id="blog">
+			<section
+				className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+				id="blog"
+			>
 				<div className="container position-relative">
 					<div className="row mb-60 mb-xs-30">
 						<div className="col-md-6">
@@ -171,7 +204,11 @@ export default function HomeSchool() {
 			</section>
 
 			<ParallaxContainer
-				className="page-section bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+				className={`page-section ${
+					isDark
+						? "bg-light-1 bg-light-alpha-90 parallax-5"
+						: "bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+				}`}
 				style={{
 					backgroundImage:
 						"url(/assets/school/campus/campus-3.jpg)",
@@ -180,7 +217,10 @@ export default function HomeSchool() {
 				<NewsLetter />
 			</ParallaxContainer>
 
-			<section className="page-section bg-gray-light-1" id="contactos">
+			<section
+				className={`page-section ${isDark ? "bg-dark-2 light-content" : "bg-gray-light-1"}`}
+				id="contactos"
+			>
 				<Contact />
 			</section>
 		</>

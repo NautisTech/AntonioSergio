@@ -18,7 +18,7 @@ export default function Home1MainDemoMultiPage() {
 					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
 						<nav
 							className={`main-nav transparent stick-fixed wow-menubar ${
-								isDark ? "dark dark-mode" : ""
+								isDark ? "" : "dark"
 							}`}
 						>
 							<Header />
