@@ -7,14 +7,17 @@ import ParallaxContainer from "@/components/common/ParallaxContainer";
 import Header from "@/components/site/Header";
 import AnimatedText from "@/components/common/AnimatedText";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 import { aesContent } from "@/data/aesContent";
 import { notFound } from "next/navigation";
 
 export default function ProjectDetailPage({ params }) {
 	const unwrappedParams = use(params);
 	const { language } = useLanguage();
+	const { theme } = useTheme();
 	const content = aesContent[language];
 	const projects = content.projects || [];
+	const isDark = theme === "dark";
 
 	// Find the project by slug
 	const project = projects.find(proj => proj.slug === unwrappedParams.id);
@@ -81,10 +84,15 @@ export default function ProjectDetailPage({ params }) {
 	return (
 		<>
 			<div className="theme-main">
-				<div className="page" id="top">
-					<nav className="main-nav transparent stick-fixed wow-menubar">
-						<Header />
-					</nav>
+				<div className={isDark ? "dark-mode" : ""}>
+					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
+						<nav
+							className={`main-nav transparent stick-fixed wow-menubar ${
+								isDark ? "dark dark-mode" : ""
+							}`}
+						>
+							<Header />
+						</nav>
 					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">
 							<ParallaxContainer
@@ -141,7 +149,9 @@ export default function ProjectDetailPage({ params }) {
 						</section>
 						<>
 							{/* Section */}
-							<section className="page-section">
+							<section
+								className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+							>
 								<div className="container position-relative">
 									<div className="row">
 										{/* Left Column - All Text Content */}
@@ -292,7 +302,8 @@ export default function ProjectDetailPage({ params }) {
 							</div>
 						</>
 					</main>
-					<Footer1 />
+					<Footer1 dark={isDark} />
+				</div>
 				</div>
 			</div>
 		</>

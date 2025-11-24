@@ -6,6 +6,7 @@ import Header from "@/components/site/Header";
 import AnimatedText from "@/components/common/AnimatedText";
 import Widget1 from "@/components/blog/widgets/Widget1";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 import { aesContent } from "@/data/aesContent";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,8 +15,10 @@ import { notFound } from "next/navigation";
 export default function BlogDetailPage({ params }) {
 	const unwrappedParams = use(params);
 	const { language } = useLanguage();
+	const { theme } = useTheme();
 	const content = aesContent[language];
 	const blogPosts = content.blogPosts || [];
+	const isDark = theme === "dark";
 
 	// Find the blog post by slug (unwrappedParams.id is actually the slug)
 	const blog = blogPosts.find(post => post.slug === unwrappedParams.id);
@@ -70,10 +73,15 @@ export default function BlogDetailPage({ params }) {
 	return (
 		<>
 			<div className="theme-main">
-				<div className="page" id="top">
-					<nav className="main-nav transparent stick-fixed wow-menubar">
-						<Header />
-					</nav>
+				<div className={isDark ? "dark-mode" : ""}>
+					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
+						<nav
+							className={`main-nav transparent stick-fixed wow-menubar ${
+								isDark ? "dark dark-mode" : ""
+							}`}
+						>
+							<Header />
+						</nav>
 					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">
 							<ParallaxContainer
@@ -156,7 +164,9 @@ export default function BlogDetailPage({ params }) {
 						</section>
 						<>
 							{/* Section */}
-							<section className="page-section">
+							<section
+								className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+							>
 								<div className="container relative">
 									<div className="row">
 										{/* Content */}
@@ -220,7 +230,8 @@ export default function BlogDetailPage({ params }) {
 							{/* End Section */}
 						</>
 					</main>
-					<Footer1 />
+					<Footer1 dark={isDark} />
+				</div>
 				</div>
 			</div>
 		</>

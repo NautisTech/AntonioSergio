@@ -8,22 +8,34 @@ import Contact from "@/components/contact/Contact";
 import Map from "@/components/common/Map";
 import { pageTranslations } from "@/data/aesContent";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function MainContactPage() {
 	const { language } = useLanguage();
+	const { theme } = useTheme();
 	const t = pageTranslations.contact;
+	const isDark = theme === "dark";
 
 	return (
 		<>
 			<div className="theme-main">
-				<div className="page" id="top">
-					<nav className="main-nav transparent stick-fixed wow-menubar">
-						<Header />
-					</nav>
+				<div className={isDark ? "dark-mode" : ""}>
+					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
+						<nav
+							className={`main-nav transparent stick-fixed wow-menubar ${
+								isDark ? "dark dark-mode" : ""
+							}`}
+						>
+							<Header />
+						</nav>
 					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">
 							<ParallaxContainer
-								className="page-section bg-gray-light-1 bg-light-alpha-90 parallax-5"
+								className={`page-section ${
+									isDark
+										? "bg-dark-1 bg-dark-alpha-80 light-content"
+										: "bg-gray-light-1 bg-light-alpha-90"
+								} parallax-5`}
 								style={{
 									backgroundImage:
 										"url(/assets/school/campus/campus-5.jpg)",
@@ -31,7 +43,13 @@ export default function MainContactPage() {
 							>
 								<>
 									<>
-										<div className="position-absolute top-0 bottom-0 start-0 end-0 bg-gradient-white" />
+										<div
+											className={`position-absolute top-0 bottom-0 start-0 end-0 ${
+												isDark
+													? "bg-gradient-dark"
+													: "bg-gradient-white"
+											}`}
+										/>
 										<div className="container position-relative pt-50">
 											{/* Section Content */}
 											<div className="text-center">
@@ -73,10 +91,13 @@ export default function MainContactPage() {
 						</section>
 						<>
 							{/* Contact Section */}
-							<section className="page-section pt-0" id="contact">
+							<section
+								className={`page-section pt-0 ${isDark ? "bg-dark-1 light-content" : ""}`}
+								id="contact"
+							>
 								<Contact />
 							</section>
-							<div className="google-map">
+							<div className={`google-map ${isDark ? "light-content" : ""}`}>
 								<Map />
 							</div>
 							{/* End Contact Section */}
@@ -84,7 +105,11 @@ export default function MainContactPage() {
 							<hr className="mt-0 mb-0" />
 							{/* End Divider */}
 							{/* FAQ Section */}
-							<section className="page-section bg-gray-light-1 z-index-1">
+							<section
+								className={`page-section ${
+									isDark ? "bg-dark-1 light-content" : "bg-gray-light-1"
+								} z-index-1`}
+							>
 								<div className="container position-relative">
 									{/* Decorative Waves */}
 
@@ -108,8 +133,9 @@ export default function MainContactPage() {
 							</section>
 						</>
 					</main>
-					<Footer1 />
-				</div>{" "}
+					<Footer1 dark={isDark} />
+				</div>
+				</div>
 			</div>
 		</>
 	);

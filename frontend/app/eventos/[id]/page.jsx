@@ -6,12 +6,15 @@ import ParallaxContainer from "@/components/common/ParallaxContainer";
 import Header from "@/components/site/Header";
 import AnimatedText from "@/components/common/AnimatedText";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 import { events } from "@/data/aesContent";
 import { notFound } from "next/navigation";
 
 export default function EventDetailPage({ params }) {
 	const unwrappedParams = use(params);
 	const { language } = useLanguage();
+	const { theme } = useTheme();
+	const isDark = theme === "dark";
 
 	// Find the event by slug
 	const event = events.find(evt => evt.slug === unwrappedParams.id);
@@ -82,10 +85,11 @@ export default function EventDetailPage({ params }) {
 	return (
 		<>
 			<div className="theme-main">
-				<div className="page" id="top">
-					<nav className="main-nav dark transparent light-after-scroll stick-fixed wow-menubar">
-						<Header />
-					</nav>
+				<div className={isDark ? "dark-mode" : ""}>
+					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
+						<nav className="main-nav dark transparent light-after-scroll stick-fixed wow-menubar">
+							<Header />
+						</nav>
 					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">
 							<ParallaxContainer
@@ -158,7 +162,10 @@ export default function EventDetailPage({ params }) {
 						<>
 							<>
 								{/* Section */}
-								<section className="page-section" id="start">
+								<section
+									className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+									id="start"
+								>
 									<div className="container relative">
 										<div className="row mb-80 mb-sm-40">
 											{/* Event Details */}
@@ -244,7 +251,8 @@ export default function EventDetailPage({ params }) {
 							</div>
 						</>
 					</main>
-					<Footer1 />
+					<Footer1 dark={isDark} />
+				</div>
 				</div>
 			</div>
 		</>

@@ -5,6 +5,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
 import Image from "next/image";
 import LanguageSelect from "./LanguageSelect";
+import ThemeToggle from "./ThemeToggle";
 
 const resolveHref = (link, variant) => {
 	if (variant === "dark" && link.darkHref) return link.darkHref;
@@ -52,6 +53,7 @@ export default function Header({ variant = "light" }) {
 					))}
 				</ul>
 				<ul className="items-end clearlist">
+					<ThemeToggle variant={variant} />
 					<LanguageSelect variant={variant} />
 					<li>
 						<Link href="/contactos" className="opacity-1 no-hover">

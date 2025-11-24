@@ -8,22 +8,34 @@ import Link from "next/link";
 import Faq from "@/components/common/Faq";
 import { pageTranslations } from "@/data/aesContent";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function MainFaqPage1() {
 	const { language } = useLanguage();
+	const { theme } = useTheme();
 	const t = pageTranslations.faq;
+	const isDark = theme === "dark";
 
 	return (
 		<>
 			<div className="theme-main">
-				<div className="page" id="top">
-					<nav className="main-nav transparent stick-fixed wow-menubar">
-						<Header />
-					</nav>
+				<div className={isDark ? "dark-mode" : ""}>
+					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
+						<nav
+							className={`main-nav transparent stick-fixed wow-menubar ${
+								isDark ? "dark dark-mode" : ""
+							}`}
+						>
+							<Header />
+						</nav>
 					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">
 							<ParallaxContainer
-								className="page-section bg-gray-light-1 bg-light-alpha-90 parallax-5"
+								className={`page-section ${
+									isDark
+										? "bg-dark-1 bg-dark-alpha-80 light-content"
+										: "bg-gray-light-1 bg-light-alpha-90"
+								} parallax-5`}
 								style={{
 									backgroundImage:
 										"url(/assets/school/campus/campus-1.jpg)",
@@ -59,7 +71,11 @@ export default function MainFaqPage1() {
 								</div>
 							</ParallaxContainer>
 						</section>
-						<section className="page-section pt-40 pt-sm-20">
+						<section
+							className={`page-section pt-40 pt-sm-20 ${
+								isDark ? "bg-dark-1 light-content" : ""
+							}`}
+						>
 							<div className="container relative">
 								<div className="row">
 									<div className="col-md-8 offset-md-2">
@@ -102,7 +118,11 @@ export default function MainFaqPage1() {
 								</div>
 							</div>
 						</section>
-						<div className="page-section bg-gray-light-1 z-index-1">
+						<div
+							className={`page-section ${
+								isDark ? "bg-dark-1 light-content" : "bg-gray-light-1"
+							} z-index-1`}
+						>
 							<div className="container position-relative">
 								<div className="row position-relative text-center">
 									<div className="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
@@ -150,7 +170,8 @@ export default function MainFaqPage1() {
 							</div>
 						</div>
 					</main>
-					<Footer1 />
+					<Footer1 dark={isDark} />
+				</div>
 				</div>
 			</div>
 		</>

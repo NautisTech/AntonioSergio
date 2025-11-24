@@ -7,19 +7,27 @@ import Widget1 from "@/components/blog/widgets/Widget1";
 import Pagination from "@/components/common/Pagination";
 import Content1 from "@/components/blog/content/Content1";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 import { pageTranslations } from "@/data/aesContent";
 
 export default function BlogPage() {
 	const { language } = useLanguage();
+	const { theme } = useTheme();
 	const pageContent = pageTranslations.blog;
+	const isDark = theme === "dark";
 
 	return (
 		<>
 			<div className="theme-main">
-				<div className="page" id="top">
-					<nav className="main-nav transparent stick-fixed wow-menubar">
-						<Header />
-					</nav>
+				<div className={isDark ? "dark-mode" : ""}>
+					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
+						<nav
+							className={`main-nav transparent stick-fixed wow-menubar ${
+								isDark ? "dark dark-mode" : ""
+							}`}
+						>
+							<Header />
+						</nav>
 					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">
 							<ParallaxContainer
@@ -58,7 +66,9 @@ export default function BlogPage() {
 						</section>
 						<>
 							{/* Section */}
-							<section className="page-section">
+							<section
+								className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+							>
 								<div className="container relative">
 									<div className="row">
 										{/* Content */}
@@ -83,8 +93,9 @@ export default function BlogPage() {
 							{/* End Section */}
 						</>
 					</main>
-					<Footer1 />
-				</div>{" "}
+					<Footer1 dark={isDark} />
+				</div>
+				</div>
 			</div>
 		</>
 	);
