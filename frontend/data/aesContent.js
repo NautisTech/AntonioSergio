@@ -1311,6 +1311,75 @@ export const pageTranslations = {
 			},
 		},
 	},
+	// Blog Page
+	blog: {
+		meta: {
+			title: {
+				pt: `Notícias | ${baseIdentity.name}`,
+				en: `Blog | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Acompanhe as últimas notícias, novidades e acontecimentos do Agrupamento de Escolas António Sérgio.",
+				en: "Follow the latest news, updates and events from António Sérgio School Group.",
+			},
+		},
+		hero: {
+			eyebrow: {
+				pt: "Notícias",
+				en: "Blog",
+			},
+			title: {
+				pt: "Últimas Notícias e Novidades",
+				en: "Latest Blogs and News",
+			},
+		},
+	},
+	// Eventos Page
+	eventos: {
+		meta: {
+			title: {
+				pt: `Eventos | ${baseIdentity.name}`,
+				en: `Events | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Descubra os próximos eventos e atividades do Agrupamento de Escolas António Sérgio.",
+				en: "Discover upcoming events and activities from António Sérgio School Group.",
+			},
+		},
+		hero: {
+			eyebrow: {
+				pt: "Eventos",
+				en: "Events",
+			},
+			title: {
+				pt: "Próximos Eventos e Atividades",
+				en: "Next Events and Activities",
+			},
+		},
+	},
+	// Projetos Page
+	projetos: {
+		meta: {
+			title: {
+				pt: `Projetos | ${baseIdentity.name}`,
+				en: `Projects | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Conheça os projetos desenvolvidos no Agrupamento de Escolas António Sérgio.",
+				en: "Discover the projects developed at António Sérgio School Group.",
+			},
+		},
+		hero: {
+			eyebrow: {
+				pt: "Projetos",
+				en: "Projects",
+			},
+			title: {
+				pt: "Projetos e Iniciativas",
+				en: "Projects and Initiatives",
+			},
+		},
+	},
 	// FAQ Page
 	faq: {
 		meta: {
