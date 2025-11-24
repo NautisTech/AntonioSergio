@@ -72,11 +72,6 @@ export default function Content1() {
 									width={1350}
 									height={865}
 									alt={post.title}
-									style={{
-										width: "100%",
-										height: "auto",
-										objectFit: "cover",
-									}}
 								/>
 							</Link>
 						</div>

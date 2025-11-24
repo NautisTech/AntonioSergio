@@ -95,12 +95,6 @@ export default function PortfolioMassonry2() {
 									height={773}
 									src={event.cover}
 									alt={event.title}
-									style={{
-										width: "100%",
-										height: "auto",
-										objectFit: "cover",
-										minHeight: "400px",
-									}}
 								/>
 							</div>
 							<div className="work-intro text-start">

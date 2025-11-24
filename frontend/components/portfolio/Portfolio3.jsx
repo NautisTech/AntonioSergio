@@ -101,12 +101,6 @@ export default function Portfolio3({ gridClass = "" }) {
 										height={773}
 										src={project.cover}
 										alt={project.title}
-										style={{
-											width: "100%",
-											height: "auto",
-											objectFit: "cover",
-											minHeight: "400px",
-										}}
 									/>
 								</div>
 								<div className="work-intro text-start">

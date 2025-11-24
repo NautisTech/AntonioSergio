@@ -147,11 +147,7 @@ export default function Widget1({
 											width={100}
 											alt={post.title}
 											className="widget-posts-img"
-											style={{
-												objectFit: "cover",
-												height: "70px",
-												width: "100px",
-											}}
+											style={{ height: "fit-content" }}
 										/>
 									</Link>
 									<div className="widget-posts-descr">
