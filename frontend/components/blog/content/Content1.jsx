@@ -24,6 +24,10 @@ export default function Content1() {
 			pt: "Comentários",
 			en: "Comments",
 		},
+		noResults: {
+			pt: "Nenhuma notícia disponível para esta escola.",
+			en: "No news available for this school.",
+		},
 	};
 
 	const formatDate = dateString => {
@@ -41,6 +45,14 @@ export default function Content1() {
 			day: "numeric",
 		});
 	};
+
+	if (blogPosts.length === 0) {
+		return (
+			<div className="text-center py-5">
+				<p className="text-gray">{translations.noResults[language]}</p>
+			</div>
+		);
+	}
 
 	return (
 		<>

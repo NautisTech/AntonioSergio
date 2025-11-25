@@ -14,12 +14,29 @@ export default function Blog() {
 	// Filter blog posts by selected entity
 	const blogPosts = filterByEntity(allBlogPosts, selectedEntity);
 
+	const translations = {
+		noResults: {
+			pt: "Nenhuma notícia disponível para esta escola.",
+			en: "No news available for this school.",
+		},
+	};
+
+	if (blogPosts.length === 0) {
+		return (
+			<div className="row mt-n50">
+				<div className="col-12 text-center">
+					<p className="text-gray">{translations.noResults[language]}</p>
+				</div>
+			</div>
+		);
+	}
+
 	return (
 		<div className="row mt-n50">
 			{/* Post Item */}
 			{blogPosts.map((post, i) => (
 				<div
-					key={i}
+					key={post.slug}
 					className="post-prev col-md-6 col-lg-4 mt-50 wow fadeInLeft"
 					data-wow-delay={`${0.2 + i * 0.1}s`}
 				>
