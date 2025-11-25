@@ -8,12 +8,6 @@ import React, {
 	useCallback,
 } from "react";
 
-export interface Entity {
-	key: string;
-	value: string;
-	displayName: string;
-}
-
 export const ENTITIES = [
 	{
 		key: "ESAntonioSergio",
@@ -52,21 +46,12 @@ export const ENTITIES = [
 	},
 ];
 
-interface EntityContextType {
-	entities: Entity[];
-	selectedEntity: Entity | null;
-	setSelectedEntity: (entity: Entity | null) => void;
-	isEntitySelected: boolean;
-}
-
-const EntityContext = createContext<EntityContextType | undefined>(undefined);
+const EntityContext = createContext(undefined);
 
 const STORAGE_KEY = "selectedEntity";
 
-export function EntityProvider({ children }: { children: React.ReactNode }) {
-	const [selectedEntity, setSelectedEntityState] = useState<Entity | null>(
-		null
-	);
+export function EntityProvider({ children }) {
+	const [selectedEntity, setSelectedEntityState] = useState(null);
 	const [isStorageLoaded, setIsStorageLoaded] = useState(false);
 
 	// Load from localStorage on mount
@@ -83,7 +68,7 @@ export function EntityProvider({ children }: { children: React.ReactNode }) {
 		setIsStorageLoaded(true);
 	}, []);
 
-	const setSelectedEntity = useCallback((entity: Entity | null) => {
+	const setSelectedEntity = useCallback(entity => {
 		setSelectedEntityState(entity);
 		if (entity) {
 			localStorage.setItem(STORAGE_KEY, entity.value);
@@ -121,11 +106,13 @@ export function useEntity() {
 	return context;
 }
 
-// Helper function to filter content by entity
-export function filterByEntity<T extends { entities?: string[] }>(
-	items: T[],
-	selectedEntity: Entity | null
-): T[] {
+/**
+ * Helper function to filter content by entity
+ * @param {Array} items - Array of items with optional entities field
+ * @param {Object|null} selectedEntity - Selected entity object or null for all
+ * @returns {Array} Filtered items
+ */
+export function filterByEntity(items, selectedEntity) {
 	if (!selectedEntity) {
 		return items;
 	}
