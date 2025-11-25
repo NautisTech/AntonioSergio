@@ -8,6 +8,49 @@ import { useTheme } from "@/context/ThemeContext";
 import Image from "next/image";
 import { Item, Gallery } from "react-photoswipe-gallery";
 
+const imageTitles = {
+	pt: {
+		classroom1: "Sala de Aula Moderna",
+		classroom2: "Espaço de Aprendizagem Interativo",
+		classroom3: "Sala de Aula com Tecnologia",
+		lab1: "Laboratório de Ciências",
+		lab2: "Laboratório de Informática",
+		lab3: "Laboratório de Química",
+		workshop1: "Oficina Técnica",
+		workshop2: "Oficina de Engenharia",
+		workshop3: "Oficina de Eletrónica",
+		playground1: "Campo Desportivo",
+		playground2: "Campo de Basquetebol",
+		playground3: "Área de Recreio",
+		library1: "Biblioteca Principal",
+		library2: "Área de Leitura",
+		library3: "Espaços de Estudo",
+		common1: "Sala de Estudantes",
+		common2: "Cantina",
+		common3: "Área de Receção",
+	},
+	en: {
+		classroom1: "Modern Classroom",
+		classroom2: "Interactive Learning Space",
+		classroom3: "Technology-Enhanced Classroom",
+		lab1: "Science Laboratory",
+		lab2: "Computer Lab",
+		lab3: "Chemistry Lab",
+		workshop1: "Technical Workshop",
+		workshop2: "Engineering Workshop",
+		workshop3: "Electronics Workshop",
+		playground1: "Sports Field",
+		playground2: "Basketball Court",
+		playground3: "Playground Area",
+		library1: "Main Library",
+		library2: "Reading Area",
+		library3: "Study Spaces",
+		common1: "Student Lounge",
+		common2: "Cafeteria",
+		common3: "Reception Area",
+	},
+};
+
 export default function InstalacoesPage() {
 	const { language } = useLanguage();
 	const { theme } = useTheme();
@@ -91,120 +134,51 @@ export default function InstalacoesPage() {
 	};
 
 	const t = content[language];
+	const titles = imageTitles[language];
 
-	// Facility images with placeholder images (can be replaced with actual school images)
 	const facilityImages = {
 		classrooms: [
-			{
-				src: "/assets/school/campus/campus-1.jpg",
-				title:
-					language === "pt"
-						? "Sala de Aula Moderna"
-						: "Modern Classroom",
-			},
-			{
-				src: "/assets/school/campus/campus-2.jpg",
-				title:
-					language === "pt"
-						? "Espaço de Aprendizagem Interativo"
-						: "Interactive Learning Space",
-			},
-			{
-				src: "/assets/school/campus/campus-3.jpg",
-				title:
-					language === "pt"
-						? "Sala de Aula com Tecnologia"
-						: "Technology-Enhanced Classroom",
-			},
+			{ src: "/assets/school/campus/campus-1.jpg", title: titles.classroom1 },
+			{ src: "/assets/school/campus/campus-2.jpg", title: titles.classroom2 },
+			{ src: "/assets/school/campus/campus-3.jpg", title: titles.classroom3 },
 		],
 		labs: [
-			{
-				src: "/assets/school/campus/campus-4.jpg",
-				title:
-					language === "pt"
-						? "Laboratório de Ciências"
-						: "Science Laboratory",
-			},
-			{
-				src: "/assets/school/courses/course-1.jpg",
-				title:
-					language === "pt"
-						? "Laboratório de Informática"
-						: "Computer Lab",
-			},
-			{
-				src: "/assets/school/courses/course-2.jpg",
-				title:
-					language === "pt"
-						? "Laboratório de Química"
-						: "Chemistry Lab",
-			},
+			{ src: "/assets/school/campus/campus-4.jpg", title: titles.lab1 },
+			{ src: "/assets/school/courses/course-1.jpg", title: titles.lab2 },
+			{ src: "/assets/school/courses/course-2.jpg", title: titles.lab3 },
 		],
 		workshops: [
-			{
-				src: "/assets/school/courses/course-3.jpg",
-				title: language === "pt" ? "Oficina Técnica" : "Technical Workshop",
-			},
-			{
-				src: "/assets/school/courses/course-4.jpg",
-				title:
-					language === "pt"
-						? "Oficina de Engenharia"
-						: "Engineering Workshop",
-			},
-			{
-				src: "/assets/school/courses/course-5.jpg",
-				title:
-					language === "pt"
-						? "Oficina de Eletrónica"
-						: "Electronics Workshop",
-			},
+			{ src: "/assets/school/courses/course-3.jpg", title: titles.workshop1 },
+			{ src: "/assets/school/courses/course-4.jpg", title: titles.workshop2 },
+			{ src: "/assets/school/courses/course-5.jpg", title: titles.workshop3 },
 		],
 		playground: [
-			{
-				src: "/assets/school/campus/campus-5.jpg",
-				title: language === "pt" ? "Campo Desportivo" : "Sports Field",
-			},
-			{
-				src: "/assets/school/campus/campus-6.jpg",
-				title:
-					language === "pt"
-						? "Campo de Basquetebol"
-						: "Basketball Court",
-			},
+			{ src: "/assets/school/campus/campus-5.jpg", title: titles.playground1 },
+			{ src: "/assets/school/campus/campus-6.jpg", title: titles.playground2 },
 			{
 				src: "/assets/school/breadcrumb/breadcrumb-1.jpg",
-				title: language === "pt" ? "Área de Recreio" : "Playground Area",
+				title: titles.playground3,
 			},
 		],
 		library: [
 			{
 				src: "/assets/school/breadcrumb/breadcrumb-2.jpg",
-				title: language === "pt" ? "Biblioteca Principal" : "Main Library",
+				title: titles.library1,
 			},
 			{
 				src: "/assets/school/breadcrumb/breadcrumb-3.jpg",
-				title: language === "pt" ? "Área de Leitura" : "Reading Area",
+				title: titles.library2,
 			},
 			{
 				src: "/assets/school/breadcrumb/breadcrumb-4.jpg",
-				title: language === "pt" ? "Espaços de Estudo" : "Study Spaces",
+				title: titles.library3,
 			},
 		],
 		common: [
-			{
-				src: "/assets/school/about/about-1.jpg",
-				title: language === "pt" ? "Sala de Estudantes" : "Student Lounge",
-			},
-			{
-				src: "/assets/school/about/about-2.jpg",
-				title: language === "pt" ? "Cantina" : "Cafeteria",
-			},
-			{
-				src: "/assets/school/about/about-3.jpg",
-				title: language === "pt" ? "Área de Receção" : "Reception Area",
-			},
-		},
+			{ src: "/assets/school/about/about-1.jpg", title: titles.common1 },
+			{ src: "/assets/school/about/about-2.jpg", title: titles.common2 },
+			{ src: "/assets/school/about/about-3.jpg", title: titles.common3 },
+		],
 	};
 
 	const FacilitySection = ({ category, images, index }) => {
@@ -219,17 +193,11 @@ export default function InstalacoesPage() {
 				<div className="container position-relative">
 					<div className="text-center mb-60 mb-sm-40">
 						<h2
-							className={`section-title ${
-								isDark ? "light-content" : ""
-							}`}
+							className={`section-title ${isDark ? "light-content" : ""}`}
 						>
 							{t.categories[category].title}
 						</h2>
-						<p
-							className={`section-descr mb-0 ${
-								isDark ? "text-gray" : ""
-							}`}
-						>
+						<p className={`section-descr mb-0 ${isDark ? "text-gray" : ""}`}>
 							{t.categories[category].description}
 						</p>
 					</div>
