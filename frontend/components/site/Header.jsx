@@ -6,6 +6,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
 import Image from "next/image";
 import LanguageSelect from "./LanguageSelect";
+import EntitySelector from "../common/EntitySelector";
 import ThemeToggle from "./ThemeToggle";
 import { useState, useEffect } from "react";
 
@@ -165,6 +166,7 @@ export default function Header({ variant = "light" }) {
 				</ul>
 				<ul className="items-end clearlist">
 					<ThemeToggle variant={variant} />
+					<EntitySelector />
 					<LanguageSelect variant={variant} />
 					<li>
 						<Link href="/contactos" className="opacity-1 no-hover">

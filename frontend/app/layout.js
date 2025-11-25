@@ -14,6 +14,7 @@ import { init_wow } from "@/utlis/initWowjs";
 import { headerChangeOnScroll } from "@/utlis/changeHeaderOnScroll";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { EntityProvider } from "@/context/EntityContext";
 
 export default function RootLayout({ children }) {
 	const path = usePathname();
@@ -73,7 +74,9 @@ export default function RootLayout({ children }) {
 			</head>
 			<body className="appear-animate body">
 				<ThemeProvider>
-					<LanguageProvider>{children}</LanguageProvider>
+					<LanguageProvider>
+					<EntityProvider>{children}</EntityProvider>
+				</LanguageProvider>
 				</ThemeProvider>
 			</body>
 		</html>
