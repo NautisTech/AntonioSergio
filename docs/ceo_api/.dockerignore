@@ -1,0 +1,82 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+yarn.lock
+
+# Build
+dist
+build
+.next
+out
+
+# Environment
+src/env/*
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+
+# Testing
+coverage
+.nyc_output
+*.test.ts
+*.spec.ts
+test
+tests
+__tests__
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Git
+.git
+.gitignore
+.gitattributes
+.github
+
+# Documentation
+README.md
+CHANGELOG.md
+LICENSE
+*.md
+
+# CI/CD
+.gitlab-ci.yml
+.travis.yml
+.circleci
+azure-pipelines.yml
+
+# Docker
+docker-compose*.yml
+
+# Logs
+logs
+*.log
+
+# OS
+Thumbs.db
+
+# Uploads (não incluir uploads no build)
+uploads/*
+!uploads/.gitkeep
+
+# Temporary files
+tmp
+temp
+*.tmp
+
+# Database
+*.sqlite
+*.db
+
+# Backup files
+*.backup
+*.bak
+*.old
