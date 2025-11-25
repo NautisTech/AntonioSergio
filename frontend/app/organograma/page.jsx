@@ -5,6 +5,7 @@ import Header from "@/components/site/Header";
 import AnimatedText from "@/components/common/AnimatedText";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
+import Image from "next/image";
 
 export default function OrganogramaPage() {
 	const { language } = useLanguage();
@@ -14,14 +15,14 @@ export default function OrganogramaPage() {
 	const content = {
 		pt: {
 			title: "Organograma",
-			subtitle: "Estrutura Organizacional",
-			description: "Conteúdo em desenvolvimento."
+			subtitle:
+				"Compreenda a estrutura da nossa escola e os papéis do pessoal chave dedicado a apoiar o sucesso dos nossos alunos.",
 		},
 		en: {
 			title: "Organizational Chart",
-			subtitle: "Organizational Structure",
-			description: "Content under development."
-		}
+			subtitle:
+				"Understand our school structure and the roles of key personnel dedicated to supporting our students' success.",
+		},
 	};
 
 	const t = content[language];
@@ -47,7 +48,7 @@ export default function OrganogramaPage() {
 								} parallax-5`}
 								style={{
 									backgroundImage:
-										"url(/assets/school/campus/campus-2.jpg)",
+										"url(/assets/school/about/about-1.jpg)",
 								}}
 							>
 								<div className="container position-relative pt-50 pb-100 pb-sm-20">
@@ -79,15 +80,28 @@ export default function OrganogramaPage() {
 								</div>
 							</ParallaxContainer>
 						</section>
+
 						<section
 							className={`page-section ${
 								isDark ? "bg-dark-1 light-content" : ""
 							}`}
 						>
 							<div className="container position-relative">
-								<div className="row">
-									<div className="col-lg-8 offset-lg-2">
-										<p className="text-gray mb-0">{t.description}</p>
+								<div className="row justify-content-center">
+									<div className="col-lg-10">
+										<div className="text-center">
+											<Image
+												src="/assets/img/about/organization.png"
+												width={1200}
+												height={800}
+												alt={t.title}
+												className="w-100 rounded-0 wow fadeInUp"
+												data-wow-delay="0.3s"
+												style={{
+													objectFit: "contain",
+												}}
+											/>
+										</div>
 									</div>
 								</div>
 							</div>

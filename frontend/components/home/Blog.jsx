@@ -1,13 +1,18 @@
 "use client";
 import { aesContent } from "@/data/aesContent";
 import { useLanguage } from "@/context/LanguageContext";
+import { useEntity, filterByEntity } from "@/context/EntityContext";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 export default function Blog() {
 	const { language } = useLanguage();
-	const blogPosts = aesContent[language].blogPosts;
+	const { selectedEntity } = useEntity();
+	const allBlogPosts = aesContent[language].blogPosts;
+
+	// Filter blog posts by selected entity
+	const blogPosts = filterByEntity(allBlogPosts, selectedEntity);
 
 	return (
 		<div className="row mt-n50">

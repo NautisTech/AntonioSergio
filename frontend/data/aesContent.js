@@ -193,6 +193,71 @@ const navLinkEntries = [
 		],
 	},
 	{
+		labels: { pt: "Ligações", en: "Links" },
+		dropdown: [
+			{
+				labels: { pt: "Inovar", en: "Inovar" },
+				isLink: true,
+				href: "https://inovar.antoniosergio.pt/InovarAlunos/Inicial.wgx",
+				subItems: [
+					{
+						labels: { pt: "Alunos", en: "Students" },
+						href: "https://inovar.antoniosergio.pt/InovarAlunos/Inicial.wgx",
+					},
+					{
+						labels: { pt: "Consulta", en: "Consultation" },
+						href: "https://inovar.antoniosergio.pt/Inovarconsulta/app/index.html#/login",
+					},
+					{
+						labels: { pt: "Recorrente", en: "Recurring" },
+						href: "https://inovar.antoniosergio.pt/InovarRecorrente/Inicial.wgx",
+					},
+					{
+						labels: { pt: "PAA", en: "PAA" },
+						href: "https://inovar.antoniosergio.pt/InovarPAA/Inicial.wgx",
+					},
+					{
+						labels: { pt: "SIGE", en: "SIGE" },
+						href: "https://antoniosergio.unicard.pt:8090/",
+					},
+				],
+			},
+			{
+				labels: { pt: "Espaço Digital", en: "Digital Space" },
+				isLink: false,
+				subItems: [
+					{
+						labels: { pt: "Biblioteca", en: "Library" },
+						href: "https://sites.google.com/view/maisqueletra",
+					},
+					{
+						labels: { pt: "Jornal", en: "Journal" },
+						href: "https://true.publico.pt/antoniosergio",
+					},
+					{
+						labels: { pt: "Centro Qualifica", en: "Qualifica Center" },
+						href: "https://centroqualificaaeasergio.weebly.com/",
+					},
+				],
+			},
+			{
+				labels: { pt: "Webmail", en: "Webmail" },
+				isLink: true,
+				href: "https://accounts.google.com/ServiceLogin?service=CPanel&passive=1209600&cpbps=1&continue=https%3A%2F%2Fadmin.google.com%2Fantoniosergio.pt%2FDashboard&followup=https%3A%2F%2Fadmin.google.com%2Fantoniosergio.pt%2FDashboard&skipvpage=true#identifier",
+			},
+			{
+				labels: { pt: "Livro de Reclamações", en: "Complaint Book" },
+				isLink: true,
+				href: "https://www.livroreclamacoes.pt/Inicio/",
+			},
+			{
+				labels: { pt: "E-Learning", en: "E-Learning" },
+				isLink: true,
+				href: "https://lab.antoniosergio.pt/",
+			},
+		],
+	},
+	{
 		href: "/contactos",
 		labels: { pt: "Contactos", en: "Contact" },
 	},
@@ -618,6 +683,7 @@ const blogEntries = [
 		slug: "eqavet-reforca-cultura-de-qualidade",
 		cover: "/assets/school/eqavet/eqavet-11.jpg",
 		date: "2025-02-10",
+		entities: ["antoniosergio"], // ES António Sérgio
 		author: {
 			name: "Helena Andrade",
 			role: { pt: "Coordenadora EQAVET", en: "EQAVET Coordinator" },
@@ -651,6 +717,7 @@ const blogEntries = [
 		slug: "laboratorios-abertos-semana-ciencia",
 		cover: "/assets/school/campus/campus-3.jpg",
 		date: "2025-03-18",
+		entities: ["stamarinha", "marco"], // EB2/3 Santa Marinha, EB1/JI Marco
 		author: {
 			name: "Rui Barbosa",
 			role: { pt: "Coordenador de Ciências", en: "Science Coordinator" },
@@ -684,6 +751,7 @@ const blogEntries = [
 		slug: "oferta-profissional-2025",
 		cover: "/assets/school/courses/course-3.jpg",
 		date: "2025-04-05",
+		entities: ["antoniosergio"], // ES António Sérgio
 		author: {
 			name: "Teresa Carvalho",
 			role: {
@@ -722,6 +790,7 @@ const projectEntries = [
 	{
 		slug: "laboratorio-aberto-de-tecnologia",
 		cover: "/assets/school/campus/campus-5.jpg",
+		entities: ["antoniosergio", "stamarinha"], // ES António Sérgio, EB2/3 Santa Marinha
 		gallery: [
 			"/assets/school/courses/course-2.jpg",
 			"/assets/school/campus/campus-2.jpg",
@@ -764,6 +833,7 @@ const projectEntries = [
 	{
 		slug: "plano-digital-de-transicao",
 		cover: "/assets/school/campus/campus-3.jpg",
+		entities: [], // All schools
 		gallery: [
 			"/assets/school/icon/counter/counter-1.png",
 			"/assets/school/icon/counter/counter-3.png",
@@ -811,6 +881,7 @@ const projectEntries = [
 	{
 		slug: "oficinas-criativas-de-artes-e-design",
 		cover: "/assets/school/breadcrumb/breadcrumb-4.jpg",
+		entities: ["praia", "pedras", "qntchas"], // EB1/JI Praia, Pedras, Quinta das Chãs
 		gallery: [
 			"/assets/school/about/about-1.jpg",
 			"/assets/school/about/about-2.jpg",
@@ -985,10 +1056,31 @@ const footerCopyLocales = {
 	pt: {
 		navigationTitle: "Navegação",
 		socialTitle: "Redes sociais",
-		usefulTitle: "Informação útil",
-		usefulLinks: [
-			{ href: "/contactos", label: "Contactos" },
-			{ href: "/sobre", label: "Plano estratégico" },
+		schoolTitle: "Escola",
+		schoolLinks: [
+			{ href: "/sobre", label: "Sobre Nós" },
+			{ href: "/instalacoes", label: "Instalações" },
+			{ href: "/educacao", label: "Educação" },
+			{ href: "/organograma", label: "Organograma" },
+			{ href: "/eqavet", label: "EQAVET" },
+		],
+		servicesTitle: "Serviços",
+		servicesLinks: [
+			{ href: "/inscricoes", label: "Inscrições" },
+			{ href: "/informacoes", label: "Informações" },
+			{ href: "/tutoriais", label: "Tutoriais" },
+			{ href: "/faq", label: "FAQ" },
+		],
+		communicationTitle: "Comunicação",
+		communicationLinks: [
+			{ href: "/projetos", label: "Projetos" },
+			{ href: "/blog", label: "Notícias" },
+			{ href: "/eventos", label: "Eventos" },
+		],
+		legalTitle: "Legal",
+		legalLinks: [
+			{ href: "/regulamento", label: "Regulamento Interno" },
+			{ href: "/legislacao", label: "Legislação" },
 			{
 				href: "/politica-de-privacidade",
 				label: "Política de Privacidade",
@@ -999,10 +1091,31 @@ const footerCopyLocales = {
 	en: {
 		navigationTitle: "Navigation",
 		socialTitle: "Social media",
-		usefulTitle: "Useful information",
-		usefulLinks: [
-			{ href: "/contactos", label: "Contacts" },
-			{ href: "/sobre", label: "Strategic plan" },
+		schoolTitle: "School",
+		schoolLinks: [
+			{ href: "/sobre", label: "About Us" },
+			{ href: "/instalacoes", label: "Facilities" },
+			{ href: "/educacao", label: "Education" },
+			{ href: "/organograma", label: "Organizational Chart" },
+			{ href: "/eqavet", label: "EQAVET" },
+		],
+		servicesTitle: "Services",
+		servicesLinks: [
+			{ href: "/inscricoes", label: "Registrations" },
+			{ href: "/informacoes", label: "Information" },
+			{ href: "/tutoriais", label: "Tutorials" },
+			{ href: "/faq", label: "FAQ" },
+		],
+		communicationTitle: "Communication",
+		communicationLinks: [
+			{ href: "/projetos", label: "Projects" },
+			{ href: "/blog", label: "News" },
+			{ href: "/eventos", label: "Events" },
+		],
+		legalTitle: "Legal",
+		legalLinks: [
+			{ href: "/regulamento", label: "Internal Regulations" },
+			{ href: "/legislacao", label: "Legislation" },
 			{ href: "/politica-de-privacidade", label: "Privacy Policy" },
 		],
 		locationNote: "Based in Vila Nova de Gaia, Portugal.",
@@ -1233,6 +1346,7 @@ export const events = [
 		title: "Feira das Profissões 2025",
 		date: "2025-05-15",
 		location: "Pavilhão António Sérgio",
+		entities: ["antoniosergio"], // ES António Sérgio
 		summary:
 			"Empresas, universidades e antigos alunos apresentam percursos académicos e profissionais.",
 		description:
@@ -1256,6 +1370,7 @@ export const events = [
 		title: "Semana da Ciência e Tecnologia",
 		date: "2025-11-04",
 		location: "Laboratórios e auditório principal",
+		entities: [], // All schools
 		summary:
 			"Mostra interativa de projetos STEAM, residências científicas e encontros com investigadores.",
 		description:
@@ -1276,6 +1391,7 @@ export const events = [
 		title: "Encontro da Comunidade Educativa",
 		date: "2025-01-27",
 		location: "Auditório AE António Sérgio",
+		entities: [], // All schools
 		summary:
 			"Partilha de boas práticas, apresentação do plano anual e momentos culturais dinamizados pelos alunos.",
 		description:

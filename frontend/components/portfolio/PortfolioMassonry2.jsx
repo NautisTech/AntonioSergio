@@ -4,10 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { events } from "@/data/aesContent";
+import { useEntity, filterByEntity } from "@/context/EntityContext";
+import { events as allEvents } from "@/data/aesContent";
 
 export default function PortfolioMassonry2() {
 	const { language } = useLanguage();
+	const { selectedEntity } = useEntity();
+
+	// Filter events by selected entity
+	const events = filterByEntity(allEvents, selectedEntity);
 	const [currentCategory, setCurrentCategory] = useState("all");
 	const isotopContainer = useRef();
 	const isotope = useRef();

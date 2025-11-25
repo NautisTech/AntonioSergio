@@ -4,12 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useEntity, filterByEntity } from "@/context/EntityContext";
 import { aesContent } from "@/data/aesContent";
 
 export default function Portfolio3({ gridClass = "" }) {
 	const { language } = useLanguage();
+	const { selectedEntity } = useEntity();
 	const content = aesContent[language];
-	const projects = content.projects || [];
+	const allProjects = content.projects || [];
+
+	// Filter projects by selected entity
+	const projects = filterByEntity(allProjects, selectedEntity);
 	const [currentCategory, setCurrentCategory] = useState("all");
 	const isotopContainer = useRef();
 	const isotope = useRef();
