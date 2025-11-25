@@ -193,6 +193,71 @@ const navLinkEntries = [
 		],
 	},
 	{
+		labels: { pt: "Ligações", en: "Links" },
+		dropdown: [
+			{
+				labels: { pt: "Inovar", en: "Inovar" },
+				isLink: true,
+				href: "https://inovar.antoniosergio.pt/InovarAlunos/Inicial.wgx",
+				subItems: [
+					{
+						labels: { pt: "Alunos", en: "Students" },
+						href: "https://inovar.antoniosergio.pt/InovarAlunos/Inicial.wgx",
+					},
+					{
+						labels: { pt: "Consulta", en: "Consultation" },
+						href: "https://inovar.antoniosergio.pt/Inovarconsulta/app/index.html#/login",
+					},
+					{
+						labels: { pt: "Recorrente", en: "Recurring" },
+						href: "https://inovar.antoniosergio.pt/InovarRecorrente/Inicial.wgx",
+					},
+					{
+						labels: { pt: "PAA", en: "PAA" },
+						href: "https://inovar.antoniosergio.pt/InovarPAA/Inicial.wgx",
+					},
+					{
+						labels: { pt: "SIGE", en: "SIGE" },
+						href: "https://antoniosergio.unicard.pt:8090/",
+					},
+				],
+			},
+			{
+				labels: { pt: "Espaço Digital", en: "Digital Space" },
+				isLink: false,
+				subItems: [
+					{
+						labels: { pt: "Biblioteca", en: "Library" },
+						href: "https://sites.google.com/view/maisqueletra",
+					},
+					{
+						labels: { pt: "Jornal", en: "Journal" },
+						href: "https://true.publico.pt/antoniosergio",
+					},
+					{
+						labels: { pt: "Centro Qualifica", en: "Qualifica Center" },
+						href: "https://centroqualificaaeasergio.weebly.com/",
+					},
+				],
+			},
+			{
+				labels: { pt: "Webmail", en: "Webmail" },
+				isLink: true,
+				href: "https://accounts.google.com/ServiceLogin?service=CPanel&passive=1209600&cpbps=1&continue=https%3A%2F%2Fadmin.google.com%2Fantoniosergio.pt%2FDashboard&followup=https%3A%2F%2Fadmin.google.com%2Fantoniosergio.pt%2FDashboard&skipvpage=true#identifier",
+			},
+			{
+				labels: { pt: "Livro de Reclamações", en: "Complaint Book" },
+				isLink: true,
+				href: "https://www.livroreclamacoes.pt/Inicio/",
+			},
+			{
+				labels: { pt: "E-Learning", en: "E-Learning" },
+				isLink: true,
+				href: "https://lab.antoniosergio.pt/",
+			},
+		],
+	},
+	{
 		href: "/contactos",
 		labels: { pt: "Contactos", en: "Contact" },
 	},
@@ -985,10 +1050,31 @@ const footerCopyLocales = {
 	pt: {
 		navigationTitle: "Navegação",
 		socialTitle: "Redes sociais",
-		usefulTitle: "Informação útil",
-		usefulLinks: [
-			{ href: "/contactos", label: "Contactos" },
-			{ href: "/sobre", label: "Plano estratégico" },
+		schoolTitle: "Escola",
+		schoolLinks: [
+			{ href: "/sobre", label: "Sobre Nós" },
+			{ href: "/instalacoes", label: "Instalações" },
+			{ href: "/educacao", label: "Educação" },
+			{ href: "/organograma", label: "Organograma" },
+			{ href: "/eqavet", label: "EQAVET" },
+		],
+		servicesTitle: "Serviços",
+		servicesLinks: [
+			{ href: "/inscricoes", label: "Inscrições" },
+			{ href: "/informacoes", label: "Informações" },
+			{ href: "/tutoriais", label: "Tutoriais" },
+			{ href: "/faq", label: "FAQ" },
+		],
+		communicationTitle: "Comunicação",
+		communicationLinks: [
+			{ href: "/projetos", label: "Projetos" },
+			{ href: "/blog", label: "Notícias" },
+			{ href: "/eventos", label: "Eventos" },
+		],
+		legalTitle: "Legal",
+		legalLinks: [
+			{ href: "/regulamento", label: "Regulamento Interno" },
+			{ href: "/legislacao", label: "Legislação" },
 			{
 				href: "/politica-de-privacidade",
 				label: "Política de Privacidade",
@@ -999,10 +1085,31 @@ const footerCopyLocales = {
 	en: {
 		navigationTitle: "Navigation",
 		socialTitle: "Social media",
-		usefulTitle: "Useful information",
-		usefulLinks: [
-			{ href: "/contactos", label: "Contacts" },
-			{ href: "/sobre", label: "Strategic plan" },
+		schoolTitle: "School",
+		schoolLinks: [
+			{ href: "/sobre", label: "About Us" },
+			{ href: "/instalacoes", label: "Facilities" },
+			{ href: "/educacao", label: "Education" },
+			{ href: "/organograma", label: "Organizational Chart" },
+			{ href: "/eqavet", label: "EQAVET" },
+		],
+		servicesTitle: "Services",
+		servicesLinks: [
+			{ href: "/inscricoes", label: "Registrations" },
+			{ href: "/informacoes", label: "Information" },
+			{ href: "/tutoriais", label: "Tutorials" },
+			{ href: "/faq", label: "FAQ" },
+		],
+		communicationTitle: "Communication",
+		communicationLinks: [
+			{ href: "/projetos", label: "Projects" },
+			{ href: "/blog", label: "News" },
+			{ href: "/eventos", label: "Events" },
+		],
+		legalTitle: "Legal",
+		legalLinks: [
+			{ href: "/regulamento", label: "Internal Regulations" },
+			{ href: "/legislacao", label: "Legislation" },
 			{ href: "/politica-de-privacidade", label: "Privacy Policy" },
 		],
 		locationNote: "Based in Vila Nova de Gaia, Portugal.",

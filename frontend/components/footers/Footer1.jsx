@@ -31,7 +31,7 @@ export default function Footer1({ dark = false }) {
 		>
 			<div className="container">
 				<div className="row pb-120 pb-sm-80 pb-xs-50">
-					<div className="col-md-4 col-lg-3 text-gray mb-sm-50">
+					<div className="col-md-12 col-lg-3 text-gray mb-sm-50">
 						<Link href={"/"} className="mb-30 d-inline-block">
 							<Image
 								src="/assets/img/logo/logo-rw.svg"
@@ -56,54 +56,60 @@ export default function Footer1({ dark = false }) {
 							</a>
 						</div>
 					</div>
-					<div className="col-md-7 offset-md-1 offset-lg-2">
+					<div className="col-md-12 col-lg-9">
 						<div className="row mt-n30">
-							{/* Footer Widget */}
-							<div className="col-sm-4 mt-30">
-								<h3 className="fw-title">
-									{footerCopy.navigationTitle}
-								</h3>
+							{/* School Links */}
+							<div className="col-6 col-sm-3 mt-30">
+								<h3 className="fw-title">{footerCopy.schoolTitle}</h3>
 								<ul className="fw-menu clearlist local-scroll">
-									{navLinks
-										.filter(link => link.href)
-										.map(link => (
-											<li key={link.href}>
-												<Link href={link.href}>
-													{link.label}
-												</Link>
-											</li>
-										))}
+									{footerCopy.schoolLinks.map((link, index) => (
+										<li key={index}>
+											<Link href={link.href}>{link.label}</Link>
+										</li>
+									))}
 								</ul>
 							</div>
-							{/* End Footer Widget */}
-							{/* Footer Widget */}
-							<div className="col-sm-4 mt-30">
+							{/* Services Links */}
+							<div className="col-6 col-sm-3 mt-30">
+								<h3 className="fw-title">{footerCopy.servicesTitle}</h3>
+								<ul className="fw-menu clearlist local-scroll">
+									{footerCopy.servicesLinks.map((link, index) => (
+										<li key={index}>
+											<Link href={link.href}>{link.label}</Link>
+										</li>
+									))}
+								</ul>
+							</div>
+							{/* Communication Links */}
+							<div className="col-6 col-sm-3 mt-30">
 								<h3 className="fw-title">
+									{footerCopy.communicationTitle}
+								</h3>
+								<ul className="fw-menu clearlist local-scroll">
+									{footerCopy.communicationLinks.map((link, index) => (
+										<li key={index}>
+											<Link href={link.href}>{link.label}</Link>
+										</li>
+									))}
+								</ul>
+							</div>
+							{/* Legal & Social */}
+							<div className="col-6 col-sm-3 mt-30">
+								<h3 className="fw-title">{footerCopy.legalTitle}</h3>
+								<ul className="fw-menu clearlist local-scroll">
+									{footerCopy.legalLinks.map((link, index) => (
+										<li key={index}>
+											<Link href={link.href}>{link.label}</Link>
+										</li>
+									))}
+								</ul>
+								<h3 className="fw-title mt-30">
 									{footerCopy.socialTitle}
 								</h3>
 								<ul className="fw-menu clearlist">
 									<FooterSocials />
 								</ul>
 							</div>
-							{/* End Footer Widget */}
-							{/* Footer Widget */}
-							<div className="col-sm-4 mt-30">
-								<h3 className="fw-title">
-									{footerCopy.usefulTitle}
-								</h3>
-								<ul className="fw-menu clearlist">
-									{footerCopy.usefulLinks.map(
-										(link, index) => (
-											<li key={index}>
-												<Link href={link.href}>
-													{link.label}
-												</Link>
-											</li>
-										)
-									)}
-								</ul>
-							</div>
-							{/* End Footer Widget */}
 						</div>
 					</div>
 				</div>
