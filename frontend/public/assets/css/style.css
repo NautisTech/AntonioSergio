@@ -3940,7 +3940,8 @@ a.logo:hover {
   width: 220px;
   position: absolute;
   top: 100%;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 0;
   background: rgba(35, 35, 35, 0.9927);
   border-radius: 0 0 3px 3px;
@@ -4012,6 +4013,7 @@ a.logo:hover {
 .inner-nav li .mn-sub.to-left {
   left: auto;
   right: 0;
+  transform: none;
 }
 .inner-nav > ul > li:last-child .mn-sub li ul,
 .inner-nav > li:last-child .mn-sub li ul,

@@ -70,6 +70,14 @@ export default function Header({ variant = "light" }) {
 								item => !item.subItems || item.subItems.length === 0
 							);
 
+							// Separate items with subItems from items without
+							const itemsWithSubItems = link.dropdown.filter(
+								item => item.subItems && item.subItems.length > 0
+							);
+							const itemsWithoutSubItems = link.dropdown.filter(
+								item => !item.subItems || item.subItems.length === 0
+							);
+
 							// Nav item with dropdown
 							return (
 								<li
@@ -96,22 +104,22 @@ export default function Header({ variant = "light" }) {
 												</li>
 											))
 										) : (
-											// Multi-column layout
-											link.dropdown.map((column, columnIndex) => (
-												<li key={columnIndex} className="mn-sub-multi">
-													{/* Column Header */}
-													{column.isLink && column.href ? (
-														<Link href={column.href} className="mn-group-title">
-															{column.labels[language]}
-														</Link>
-													) : (
-														<span className="mn-group-title">
-															{column.labels[language]}
-														</span>
-													)}
+											<>
+												{/* Render items with subItems as columns */}
+												{itemsWithSubItems.map((column, columnIndex) => (
+													<li key={`with-sub-${columnIndex}`} className="mn-sub-multi">
+														{/* Column Header */}
+														{column.isLink && column.href ? (
+															<Link href={column.href} className="mn-group-title">
+																{column.labels[language]}
+															</Link>
+														) : (
+															<span className="mn-group-title">
+																{column.labels[language]}
+															</span>
+														)}
 
-													{/* Column Items */}
-													{column.subItems && column.subItems.length > 0 ? (
+														{/* Column Items */}
 														<ul>
 															{column.subItems.map((subItem, subIndex) => (
 																<li key={subIndex}>
@@ -121,9 +129,24 @@ export default function Header({ variant = "light" }) {
 																</li>
 															))}
 														</ul>
-													) : null}
-												</li>
-											))
+													</li>
+												))}
+
+												{/* Render items without subItems in a single column */}
+												{itemsWithoutSubItems.length > 0 && (
+													<li className="mn-sub-multi">
+														<ul>
+															{itemsWithoutSubItems.map((item, itemIndex) => (
+																<li key={`without-sub-${itemIndex}`}>
+																	<Link href={item.href}>
+																		{item.labels[language]}
+																	</Link>
+																</li>
+															))}
+														</ul>
+													</li>
+												)}
+											</>
 										)}
 									</ul>
 								</li>
