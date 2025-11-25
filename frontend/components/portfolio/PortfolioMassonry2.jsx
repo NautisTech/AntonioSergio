@@ -22,6 +22,10 @@ export default function PortfolioMassonry2() {
 			pt: "Todos os eventos",
 			en: "All events",
 		},
+		noResults: {
+			pt: "Nenhum evento disponível para esta escola.",
+			en: "No events available for this school.",
+		},
 	};
 
 	const formatDate = dateString => {
@@ -65,6 +69,24 @@ export default function PortfolioMassonry2() {
 	useEffect(() => {
 		initIsotop();
 	}, []);
+
+	// Re-layout isotope when filtered events change
+	useEffect(() => {
+		if (isotope.current) {
+			isotope.current.reloadItems();
+			isotope.current.arrange({ filter: currentCategory === "all" ? "*" : "." + currentCategory });
+		}
+	}, [events, currentCategory]);
+
+	if (events.length === 0) {
+		return (
+			<div className="container">
+				<div className="text-center py-5">
+					<p className="text-gray">{translations.noResults[language]}</p>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="container">

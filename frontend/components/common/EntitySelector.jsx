@@ -58,8 +58,7 @@ export default function EntitySelector() {
 					toggleDropdown();
 				}}
 			>
-				<i className="mi-building" style={{ fontSize: "16px" }} />{" "}
-				<i className="mi-chevron-down" />
+				{displayText} <i className="mi-chevron-down" />
 			</a>
 
 			{/* Dropdown menu with sliding effect */}

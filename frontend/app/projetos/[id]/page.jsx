@@ -8,6 +8,7 @@ import Header from "@/components/site/Header";
 import AnimatedText from "@/components/common/AnimatedText";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
+import { useEntity, filterByEntity } from "@/context/EntityContext";
 import { aesContent } from "@/data/aesContent";
 import { notFound } from "next/navigation";
 
@@ -15,12 +16,14 @@ export default function ProjectDetailPage({ params }) {
 	const unwrappedParams = use(params);
 	const { language } = useLanguage();
 	const { theme } = useTheme();
+	const { selectedEntity } = useEntity();
 	const content = aesContent[language];
-	const projects = content.projects || [];
+	const allProjects = content.projects || [];
+	const projects = filterByEntity(allProjects, selectedEntity);
 	const isDark = theme === "dark";
 
 	// Find the project by slug
-	const project = projects.find(proj => proj.slug === unwrappedParams.id);
+	const project = allProjects.find(proj => proj.slug === unwrappedParams.id);
 
 	if (!project) {
 		notFound();

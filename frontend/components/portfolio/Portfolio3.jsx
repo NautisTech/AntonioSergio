@@ -24,6 +24,10 @@ export default function Portfolio3({ gridClass = "" }) {
 			pt: "Todos os projetos",
 			en: "All projects",
 		},
+		noResults: {
+			pt: "Nenhum projeto disponível para esta escola.",
+			en: "No projects available for this school.",
+		},
 	};
 
 	// Get unique categories from projects
@@ -62,6 +66,24 @@ export default function Portfolio3({ gridClass = "" }) {
 	useEffect(() => {
 		initIsotop();
 	}, []);
+
+	// Re-layout isotope when filtered projects change
+	useEffect(() => {
+		if (isotope.current) {
+			isotope.current.reloadItems();
+			isotope.current.arrange({ filter: currentCategory === "all" ? "*" : "." + currentCategory });
+		}
+	}, [projects, currentCategory]);
+
+	if (projects.length === 0) {
+		return (
+			<div className="full-wrapper position-relative">
+				<div className="text-center py-5">
+					<p className="text-gray">{translations.noResults[language]}</p>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="full-wrapper position-relative">
