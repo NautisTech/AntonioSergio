@@ -1213,6 +1213,7 @@ const buildBlogPosts = lang =>
 		cover: post.cover,
 		date: post.date,
 		tags: post.tags,
+		entities: post.entities,
 		title: post.title[lang],
 		category: post.category[lang],
 		readingTime: post.readingTime[lang],
@@ -1231,6 +1232,7 @@ const buildProjects = lang =>
 		cover: project.cover,
 		gallery: project.gallery,
 		partners: project.partners,
+		entities: project.entities,
 		categories: project.categories.map(category => ({
 			slug: category.slug,
 			label: category.label[lang],

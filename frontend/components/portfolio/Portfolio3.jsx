@@ -63,6 +63,14 @@ export default function Portfolio3({ gridClass = "" }) {
 		initIsotop();
 	}, []);
 
+	// Re-layout isotope when filtered projects change
+	useEffect(() => {
+		if (isotope.current) {
+			isotope.current.reloadItems();
+			isotope.current.arrange({ filter: currentCategory === "all" ? "*" : "." + currentCategory });
+		}
+	}, [projects, currentCategory]);
+
 	return (
 		<div className="full-wrapper position-relative">
 			{/* Works Filter */}

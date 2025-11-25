@@ -58,7 +58,7 @@ export default function EntitySelector() {
 					toggleDropdown();
 				}}
 			>
-				<i className="mi-building" style={{ fontSize: "16px" }} />{" "}
+				<i className="mi-home" style={{ fontSize: "16px" }} />{" "}
 				<i className="mi-chevron-down" />
 			</a>
 

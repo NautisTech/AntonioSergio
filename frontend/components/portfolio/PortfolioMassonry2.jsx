@@ -66,6 +66,14 @@ export default function PortfolioMassonry2() {
 		initIsotop();
 	}, []);
 
+	// Re-layout isotope when filtered events change
+	useEffect(() => {
+		if (isotope.current) {
+			isotope.current.reloadItems();
+			isotope.current.arrange({ filter: currentCategory === "all" ? "*" : "." + currentCategory });
+		}
+	}, [events, currentCategory]);
+
 	return (
 		<div className="container">
 			{/* Works Filter */}

@@ -55,6 +55,14 @@ export default function Portfolio() {
 		initIsotop();
 	}, []);
 
+	// Re-layout isotope when filtered projects change
+	useEffect(() => {
+		if (isotope.current) {
+			isotope.current.reloadItems();
+			isotope.current.arrange({ filter: currentCategory === "all" ? "*" : "." + currentCategory });
+		}
+	}, [projects, currentCategory]);
+
 	const filters = useMemo(() => {
 		const categories = Array.from(
 			new Set(
