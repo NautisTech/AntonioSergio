@@ -32,32 +32,168 @@ const identityCopy = {
 const navLinkEntries = [
 	{
 		href: "/",
-		darkHref: "/inicio-dark",
 		labels: { pt: "Início", en: "Home" },
 	},
 	{
-		href: "/sobre-nos",
-		darkHref: "/sobre-nos-dark",
-		labels: { pt: "Sobre Nós", en: "About" },
+		labels: { pt: "Escola", en: "School" },
+		dropdown: [
+			{
+				labels: { pt: "Sobre Nós", en: "About Us" },
+				isLink: true,
+				href: "/sobre",
+				subItems: [
+					{
+						labels: { pt: "Boas-vindas", en: "Welcome" },
+						href: "/sobre#welcome",
+					},
+					{
+						labels: { pt: "Missão e Valores", en: "Mission & Values" },
+						href: "/sobre#mission-values",
+					},
+					{
+						labels: { pt: "Projeto Educativo", en: "Educational Project" },
+						href: "/sobre#educational-project",
+					},
+				],
+			},
+			{
+				labels: { pt: "Estrutura", en: "Structure" },
+				isLink: false,
+				subItems: [
+					{
+						labels: { pt: "Instalações", en: "Facilities" },
+						href: "/instalacoes",
+					},
+					{
+						labels: { pt: "Regulamento Interno", en: "Internal Regulations" },
+						href: "/regulamento",
+					},
+					{
+						labels: { pt: "Organograma", en: "Organizational Chart" },
+						href: "/organograma",
+					},
+				],
+			},
+			{
+				labels: { pt: "Educação", en: "Education" },
+				isLink: true,
+				href: "/educacao",
+				subItems: [
+					{
+						labels: { pt: "Jardim de Infância", en: "Kindergarten" },
+						href: "/educacao#jardim-infancia",
+					},
+					{
+						labels: { pt: "1º Ciclo", en: "Primary School" },
+						href: "/educacao#primario",
+					},
+					{
+						labels: { pt: "2º e 3º Ciclos", en: "Middle School" },
+						href: "/educacao#basico",
+					},
+					{
+						labels: { pt: "Ensino Secundário", en: "High School" },
+						href: "/educacao#secundario",
+					},
+				],
+			},
+			{
+				labels: { pt: "Associação de Pais", en: "Parents Association" },
+				isLink: true,
+				href: "/associacao-pais",
+			},
+			{
+				labels: { pt: "EQAVET", en: "EQAVET" },
+				isLink: true,
+				href: "/eqavet",
+			},
+		],
 	},
 	{
-		href: "/projetos",
-		darkHref: "/projetos-dark",
-		labels: { pt: "Projetos", en: "Projects" },
+		labels: { pt: "Secretaria", en: "Secretary" },
+		dropdown: [
+			{
+				labels: { pt: "Informação Académica", en: "Academic Information" },
+				isLink: false,
+				subItems: [
+					{
+						labels: { pt: "Exames Nacionais", en: "National Exams" },
+						href: "/exames-nacionais",
+					},
+					{
+						labels: { pt: "Manuais Escolares", en: "School Textbooks" },
+						href: "/manuais-escolares",
+					},
+					{
+						labels: { pt: "Plano Escolar", en: "School Plan" },
+						href: "/plano-escolar",
+					},
+					{
+						labels: { pt: "Ementa", en: "Menu" },
+						href: "/ementa",
+					},
+					{
+						labels: { pt: "Regulamento de Cursos", en: "Course Regulations" },
+						href: "/regulamento-cursos",
+					},
+				],
+			},
+			{
+				labels: { pt: "Processos e Serviços", en: "Processes & Services" },
+				isLink: false,
+				subItems: [
+					{
+						labels: { pt: "Inscrições", en: "Registrations" },
+						href: "/inscricoes",
+					},
+					{
+						labels: { pt: "Legislação", en: "Legislation" },
+						href: "/legislacao",
+					},
+					{
+						labels: { pt: "Informações", en: "Information" },
+						href: "/informacoes",
+					},
+				],
+			},
+			{
+				labels: { pt: "Apoio ao Utilizador", en: "User Support" },
+				isLink: false,
+				subItems: [
+					{
+						labels: { pt: "Tutoriais", en: "Tutorials" },
+						href: "/tutoriais",
+					},
+					{
+						labels: { pt: "FAQ", en: "FAQ" },
+						href: "/faq",
+					},
+				],
+			},
+		],
 	},
 	{
-		href: "/eventos",
-		darkHref: "/eventos-dark",
-		labels: { pt: "Eventos", en: "Events" },
-	},
-	{
-		href: "/blog",
-		darkHref: "/blog/dark",
-		labels: { pt: "Blog", en: "Blog" },
+		labels: { pt: "Comunicação", en: "Media" },
+		dropdown: [
+			{
+				labels: { pt: "Projetos", en: "Projects" },
+				isLink: true,
+				href: "/projetos",
+			},
+			{
+				labels: { pt: "Notícias", en: "News" },
+				isLink: true,
+				href: "/blog",
+			},
+			{
+				labels: { pt: "Eventos", en: "Events" },
+				isLink: true,
+				href: "/eventos",
+			},
+		],
 	},
 	{
 		href: "/contactos",
-		darkHref: "/contactos-dark",
 		labels: { pt: "Contactos", en: "Contact" },
 	},
 ];
@@ -75,7 +211,7 @@ const heroCopy = {
 			"Definimo-nos como pioneiros da inovação educativa em Portugal, incentivando cada aluno a desenvolver o seu potencial e a tornar-se um cidadão ativo, consciente e resiliente.",
 		primaryCta: {
 			label: "Conhecer a oferta educativa",
-			href: "/sobre-nos",
+			href: "/sobre",
 		},
 		secondaryCta: { label: "Contactar a secretaria", href: "/contactos" },
 		videoCta: { label: "Ver o campus", videoId: "vTIIMJ9tUc8" },
@@ -86,7 +222,7 @@ const heroCopy = {
 		title: "Excellence and innovation for every learning stage.",
 		description:
 			"We lead educational innovation in Portugal, encouraging each student to unlock their potential and become an engaged, resilient citizen.",
-		primaryCta: { label: "Explore our academic offer", href: "/sobre-nos" },
+		primaryCta: { label: "Explore our academic offer", href: "/sobre" },
 		secondaryCta: { label: "Talk to the office", href: "/contactos" },
 		videoCta: { label: "Watch the campus", videoId: "vTIIMJ9tUc8" },
 		scrollLabel: "Explore",
@@ -95,28 +231,40 @@ const heroCopy = {
 
 const heroHighlights = [
 	{
-		value: "65+ anos",
+		values: {
+			pt: "65+ anos",
+			en: "65+ years",
+		},
 		labels: {
 			pt: "de reconhecimento e alcance internacional",
 			en: "of recognition and international reach",
 		},
 	},
 	{
-		value: "25 espaços",
+		values: {
+			pt: "25 espaços",
+			en: "25 spaces",
+		},
 		labels: {
 			pt: "e ferramentas digitais colaborativas",
 			en: "and collaborative digital spaces",
 		},
 	},
 	{
-		value: "220 docentes",
+		values: {
+			pt: "220 docentes",
+			en: "220 teachers",
+		},
 		labels: {
 			pt: "altamente qualificados e próximos",
 			en: "highly qualified and close to students",
 		},
 	},
 	{
-		value: "3 600 alunos",
+		values: {
+			pt: "3 600 alunos",
+			en: "3,600 students",
+		},
 		labels: {
 			pt: "acompanhados em cada ano letivo",
 			en: "supported every school year",
@@ -218,6 +366,14 @@ const featureItems = [
 			en: "Psychology, tutoring, and social support services always available.",
 		},
 	},
+	{
+		icon: "mi-lightbulb",
+		title: { pt: "Inovação pedagógica", en: "Pedagogical innovation" },
+		description: {
+			pt: "Metodologias modernas e tecnologia integrada para preparar os alunos para o futuro.",
+			en: "Modern methodologies and integrated technology to prepare students for the future.",
+		},
+	},
 ];
 
 const missionCopy = {
@@ -244,8 +400,9 @@ const benefitsCopy = {
 
 const benefitItems = [
 	{
+		// Education/graduation cap icon - represents complete educational pathways
 		svgPath:
-			"M21.62 20.196c1.055-.922 1.737-2.262 1.737-3.772 0-1.321-.521-2.515-1.357-3.412v-6.946l-11.001-6.066-11 6v12.131l11 5.869 5.468-2.917c.578.231 1.205.367 1.865.367.903 0 1.739-.258 2.471-.676l2.394 3.226.803-.596-2.38-3.208zm-11.121 2.404l-9.5-5.069v-10.447l9.5 4.946v10.57zm1-.001v-10.567l5.067-2.608.029.015.021-.04 4.384-2.256v5.039c-.774-.488-1.686-.782-2.668-.782-2.773 0-5.024 2.252-5.024 5.024 0 1.686.838 3.171 2.113 4.083l-3.922 2.092zm6.833-2.149c-2.219 0-4.024-1.808-4.024-4.026s1.805-4.025 4.024-4.025c2.22 0 4.025 1.807 4.025 4.025 0 2.218-1.805 4.026-4.025 4.026zm-.364-3.333l-1.306-1.147-.66.751 2.029 1.782 2.966-3.12-.725-.689-2.304 2.423zm-16.371-10.85l4.349-2.372 9.534 4.964-4.479 2.305-9.404-4.897zm9.4-5.127l9.404 5.186-3.832 1.972-9.565-4.98 3.993-2.178z",
+			"M12 3L1 9l11 6 9-4.909V17h2V9L12 3zm0 13.645l-9-4.909V17c0 1.657 4.03 3 9 3s9-1.343 9-3v-5.264l-9 4.909z",
 		title: { pt: "Percursos completos", en: "Complete pathways" },
 		description: {
 			pt: "Do pré-escolar ao secundário, com orientação vocacional e apoio personalizado.",
@@ -253,8 +410,9 @@ const benefitItems = [
 		},
 	},
 	{
+		// Handshake icon - represents partnerships and collaboration
 		svgPath:
-			"M12 0c-3.371 2.866-5.484 3-9 3v11.535c0 4.603 3.203 5.804 9 9.465 5.797-3.661 9-4.862 9-9.465v-11.535c-3.516 0-5.629-.134-9-3zm0 1.292c2.942 2.31 5.12 2.655 8 2.701v10.542c0 3.891-2.638 4.943-8 8.284-5.375-3.35-8-4.414-8-8.284v-10.542c2.88-.046 5.058-.391 8-2.701zm5 7.739l-5.992 6.623-3.672-3.931.701-.683 3.008 3.184 5.227-5.878.728.685z",
+			"M7 8c0 2.761 2.239 5 5 5s5-2.239 5-5-2.239-5-5-5-5 2.239-5 5zm11.122 6.708c-.706-.325-1.46-.484-2.248-.484-1.493 0-2.874.676-3.874 1.837-1-.746-2.215-1.176-3.5-1.176-1.42 0-2.748.506-3.777 1.384l2.195 3.731c.476-.29 1.025-.445 1.582-.445.48 0 .953.117 1.368.339l1.882 1.006 1.076-1.076-1.382-2.072c.463-.316.993-.517 1.553-.517.827 0 1.606.336 2.195.947l3.208-3.474z",
 		title: { pt: "Parcerias estratégicas", en: "Strategic partnerships" },
 		description: {
 			pt: "Protocolos com empresas, universidades e instituições científicas para projetos e estágios.",
@@ -262,8 +420,9 @@ const benefitItems = [
 		},
 	},
 	{
+		// Heart icon - represents care, support and family well-being
 		svgPath:
-			"M6.514 24.015h-3v-3.39c-2.08-.638-3.5-2.652-3.5-5.04 0-1.19.202-1.693 1.774-5.603.521-1.294 1.195-2.97 2.068-5.179.204-.518.67-.806 1.17-.802.482.004.941.284 1.146.802.718 1.817 1.302 3.274 1.777 4.454.26-.596.567-1.288.928-2.103.694-1.565 1.591-3.592 2.754-6.265.258-.592.881-.906 1.397-.888.572.015 1.126.329 1.369.888 1.163 2.673 2.06 4.7 2.754 6.265 2.094 4.727 2.363 5.334 2.363 6.764 0 2.927-2.078 5.422-5 6.082v4.015h-3v-4.015c-.943-.213-1.797-.617-2.523-1.165-.612.845-1.466 1.48-2.477 1.79v3.39zm14.493-6c1.652 0 2.993 1.341 2.993 2.993s-1.341 2.993-2.993 2.993-2.993-1.341-2.993-2.993 1.341-2.993 2.993-2.993zm.007.993c1.104 0 2 .896 2 2s-.896 2-2 2-2-.896-2-2 .896-2 2-2zm-7.5 3.993v-3.839c4.906-.786 5-4.751 5-5.244 0-1.218-.216-1.705-2.277-6.359-2.134-4.82-2.721-6.198-2.755-6.261-.079-.145-.193-.292-.455-.297-.238 0-.37.092-.481.297-.034.063-.621 1.441-2.755 6.261-2.061 4.654-2.277 5.141-2.277 6.359 0 .493.094 4.458 5 5.244v3.839h1zm-6.123-12.448l-.08-.198c-1.589-3.957-2.04-5.116-2.067-5.171-.072-.151-.15-.226-.226-.228-.109 0-.188.13-.235.228-.028.05-.316.818-2.066 5.171-1.542 3.833-1.703 4.233-1.703 5.23 0 1.988 1.076 3.728 3.5 4.25v3.166h1v-3.166c1.266-.273 2.159-.876 2.725-1.666-1.078-1.12-1.725-2.619-1.725-4.251 0-.979.126-1.572.877-3.365z",
+			"M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z",
 		title: { pt: "Apoio às famílias", en: "Family support" },
 		description: {
 			pt: "Serviços de psicologia, ação social e clubes que reforçam o bem-estar.",
@@ -358,8 +517,26 @@ const testimonialEntries = [
 ];
 
 const partnersSectionCopy = {
-	pt: "Rede de parceiros institucionais",
-	en: "Network of institutional partners",
+	pt: "Parceiros que nos apoiam",
+	en: "Partners who support us",
+};
+
+const newsletterCopy = {
+	pt: {
+		title: "Fique a par das nossas novidades.",
+		emailLabel: "O seu email",
+		emailPlaceholder: "Insira o seu email",
+		buttonText: "Subscrever",
+		disclaimer:
+			"Respeitamos a sua privacidade e não partilhamos os seus dados.",
+	},
+	en: {
+		title: "Stay informed about our news.",
+		emailLabel: "Your email",
+		emailPlaceholder: "Enter your email",
+		buttonText: "Subscribe",
+		disclaimer: "We respect your privacy and do not share your data.",
+	},
 };
 
 const partnersEntries = [
@@ -811,7 +988,7 @@ const footerCopyLocales = {
 		usefulTitle: "Informação útil",
 		usefulLinks: [
 			{ href: "/contactos", label: "Contactos" },
-			{ href: "/sobre-nos", label: "Plano estratégico" },
+			{ href: "/sobre", label: "Plano estratégico" },
 			{
 				href: "/politica-de-privacidade",
 				label: "Política de Privacidade",
@@ -825,7 +1002,7 @@ const footerCopyLocales = {
 		usefulTitle: "Useful information",
 		usefulLinks: [
 			{ href: "/contactos", label: "Contacts" },
-			{ href: "/sobre-nos", label: "Strategic plan" },
+			{ href: "/sobre", label: "Strategic plan" },
 			{ href: "/politica-de-privacidade", label: "Privacy Policy" },
 		],
 		locationNote: "Based in Vila Nova de Gaia, Portugal.",
@@ -838,7 +1015,7 @@ const buildNavLinks = lang =>
 const buildHeroContent = lang => ({
 	...heroCopy[lang],
 	highlights: heroHighlights.map(item => ({
-		value: item.value,
+		value: item.values[lang],
 		label: item.labels[lang],
 	})),
 });
@@ -1009,6 +1186,7 @@ const buildLocaleContent = lang => ({
 	testimonials: buildTestimonials(lang),
 	partnersSectionTitle: partnersSectionCopy[lang],
 	partners: buildPartners(lang),
+	newsletter: newsletterCopy[lang],
 	faqItems: buildFaqItems(lang),
 	blogPosts: buildBlogPosts(lang),
 	projects: buildProjects(lang),
@@ -1114,3 +1292,281 @@ export const events = [
 		},
 	},
 ];
+
+// Page translations
+export const pageTranslations = {
+	// About Page
+	about: {
+		meta: {
+			title: {
+				pt: `Sobre Nós | ${baseIdentity.name}`,
+				en: `About Us | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Conheça o Agrupamento de Escolas António Sérgio. Uma instituição dedicada à excelência educativa e ao desenvolvimento integral dos nossos alunos.",
+				en: "Learn about António Sérgio School Group. An institution dedicated to educational excellence and the holistic development of our students.",
+			},
+		},
+		hero: {
+			title: {
+				pt: "Agrupamento de Escolas António Sérgio",
+				en: "António Sérgio School Group",
+			},
+			subtitle: {
+				pt: "Uma instituição dedicada à excelência educativa, à inovação e ao desenvolvimento integral dos nossos alunos.",
+				en: "An institution dedicated to educational excellence, innovation and the holistic development of our students.",
+			},
+		},
+		marquee: {
+			text1: {
+				pt: "Agrupamento de Escolas",
+				en: "School Group",
+			},
+			text2: {
+				pt: "António Sérgio",
+				en: "António Sérgio",
+			},
+		},
+		mission: {
+			title: {
+				pt: "A Nossa Missão",
+				en: "Our Mission",
+			},
+			content: {
+				pt: "O Agrupamento de Escolas António Sérgio tem como missão proporcionar uma educação de excelência, preparando os nossos alunos para os desafios do futuro. Através de instalações renovadas e metodologias inovadoras, criamos um ambiente propício ao desenvolvimento integral de cada estudante.",
+				en: "António Sérgio School Group's mission is to provide excellent education, preparing our students for future challenges. Through renovated facilities and innovative methodologies, we create an environment conducive to the holistic development of each student.",
+			},
+		},
+		vision: {
+			title: {
+				pt: "A Nossa Visão",
+				en: "Our Vision",
+			},
+			content: {
+				pt: "Aspiramos ser uma referência educativa, reconhecida pela qualidade do ensino, pelo compromisso com a comunidade e pela capacidade de inspirar e formar cidadãos conscientes, críticos e preparados para construir um futuro melhor.",
+				en: "We aspire to be an educational reference, recognized for teaching quality, community commitment and the ability to inspire and educate conscious, critical citizens prepared to build a better future.",
+			},
+		},
+		facts: {
+			title: {
+				pt: "Os Nossos Números",
+				en: "Our Numbers",
+			},
+			subtitle: {
+				pt: "Dados que refletem o nosso compromisso com a excelência educativa.",
+				en: "Data reflecting our commitment to educational excellence.",
+			},
+			button: {
+				pt: "Agendar Visita",
+				en: "Schedule Visit",
+			},
+		},
+		facilities: {
+			title: {
+				pt: "Como Trabalhamos?",
+				en: "How We Work?",
+			},
+			button: {
+				pt: "Contactar",
+				en: "Contact Us",
+			},
+		},
+	},
+	// Contact Page
+	contact: {
+		meta: {
+			title: {
+				pt: `Contactos | ${baseIdentity.name}`,
+				en: `Contact | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Entre em contacto com o Agrupamento de Escolas António Sérgio. Estamos prontos para responder às suas questões e acompanhar o seu percurso educativo.",
+				en: "Contact António Sérgio School Group. We're ready to answer your questions and support your educational journey.",
+			},
+		},
+		hero: {
+			eyebrow: {
+				pt: "Contactos",
+				en: "Contact",
+			},
+			title: {
+				pt: "Estamos aqui para ajudar no seu percurso educativo",
+				en: "We're here to help with your educational journey",
+			},
+		},
+		form: {
+			name: {
+				label: {
+					pt: "Nome",
+					en: "Name",
+				},
+				placeholder: {
+					pt: "Insira o seu nome",
+					en: "Enter your name",
+				},
+			},
+			email: {
+				label: {
+					pt: "Email",
+					en: "Email",
+				},
+				placeholder: {
+					pt: "Insira o seu email",
+					en: "Enter your email",
+				},
+			},
+			message: {
+				label: {
+					pt: "Mensagem",
+					en: "Message",
+				},
+				placeholder: {
+					pt: "Escreva a sua mensagem",
+					en: "Enter your message",
+				},
+			},
+			tip: {
+				pt: "Todos os campos são obrigatórios. Ao enviar o formulário, concorda com os",
+				en: "All fields are required. By sending the form you agree to the",
+			},
+			terms: {
+				pt: "Termos e Condições",
+				en: "Terms & Conditions",
+			},
+			privacy: {
+				pt: "Política de Privacidade",
+				en: "Privacy Policy",
+			},
+			submit: {
+				pt: "Enviar Mensagem",
+				en: "Send Message",
+			},
+		},
+		faq: {
+			title: {
+				pt: "Perguntas Frequentes",
+				en: "Frequently Asked Questions",
+			},
+			content: {
+				pt: "Tem dúvidas sobre matrículas, horários ou programas educativos? Consulte as nossas perguntas mais frequentes ou entre em contacto connosco diretamente.",
+				en: "Have questions about enrollment, schedules or educational programs? Check our frequently asked questions or contact us directly.",
+			},
+		},
+	},
+	// Blog Page
+	blog: {
+		meta: {
+			title: {
+				pt: `Notícias | ${baseIdentity.name}`,
+				en: `Blog | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Acompanhe as últimas notícias, novidades e acontecimentos do Agrupamento de Escolas António Sérgio.",
+				en: "Follow the latest news, updates and events from António Sérgio School Group.",
+			},
+		},
+		hero: {
+			eyebrow: {
+				pt: "Notícias",
+				en: "Blog",
+			},
+			title: {
+				pt: "Últimas Notícias e Novidades",
+				en: "Latest Blogs and News",
+			},
+		},
+	},
+	// Eventos Page
+	eventos: {
+		meta: {
+			title: {
+				pt: `Eventos | ${baseIdentity.name}`,
+				en: `Events | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Descubra os próximos eventos e atividades do Agrupamento de Escolas António Sérgio.",
+				en: "Discover upcoming events and activities from António Sérgio School Group.",
+			},
+		},
+		hero: {
+			eyebrow: {
+				pt: "Eventos",
+				en: "Events",
+			},
+			title: {
+				pt: "Próximos Eventos e Atividades",
+				en: "Next Events and Activities",
+			},
+		},
+	},
+	// Projetos Page
+	projetos: {
+		meta: {
+			title: {
+				pt: `Projetos | ${baseIdentity.name}`,
+				en: `Projects | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Conheça os projetos desenvolvidos no Agrupamento de Escolas António Sérgio.",
+				en: "Discover the projects developed at António Sérgio School Group.",
+			},
+		},
+		hero: {
+			eyebrow: {
+				pt: "Projetos",
+				en: "Projects",
+			},
+			title: {
+				pt: "Projetos e Iniciativas",
+				en: "Projects and Initiatives",
+			},
+		},
+	},
+	// FAQ Page
+	faq: {
+		meta: {
+			title: {
+				pt: `Perguntas Frequentes | ${baseIdentity.name}`,
+				en: `FAQ | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Encontre respostas às perguntas mais frequentes sobre o Agrupamento de Escolas António Sérgio. Informações sobre matrículas, horários e muito mais.",
+				en: "Find answers to frequently asked questions about António Sérgio School Group. Information about enrollment, schedules and more.",
+			},
+		},
+		hero: {
+			eyebrow: {
+				pt: "Perguntas Frequentes",
+				en: "FAQ",
+			},
+			title: {
+				pt: "Encontre as respostas que precisa",
+				en: "Find the answers you need",
+			},
+		},
+		search: {
+			placeholder: {
+				pt: "Pesquisar...",
+				en: "Search...",
+			},
+			button: {
+				pt: "Pesquisar",
+				en: "Search",
+			},
+		},
+		cta: {
+			title: {
+				pt: "Não encontrou a resposta?",
+				en: "Didn't find the answer?",
+			},
+			text: {
+				pt: "Entre em contacto connosco e teremos todo o gosto em ajudar.",
+				en: "Contact us and we'll be happy to help.",
+			},
+			button: {
+				pt: "Contactar",
+				en: "Contact Us",
+			},
+		},
+	},
+};

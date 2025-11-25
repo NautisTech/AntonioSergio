@@ -1,9 +1,14 @@
-import { blogPosts } from "@/data/aesContent";
+"use client";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 export default function Blog() {
+	const { language } = useLanguage();
+	const blogPosts = aesContent[language].blogPosts;
+
 	return (
 		<div className="row mt-n50">
 			{/* Post Item */}
@@ -14,7 +19,10 @@ export default function Blog() {
 					data-wow-delay={`${0.2 + i * 0.1}s`}
 				>
 					<div className="post-prev-container">
-						<div className="post-prev-img">
+						<div
+							className="post-prev-img"
+							style={{ border: "1px solid #e0e0e0" }}
+						>
 							<Link href={`/blog/${post.slug}`}>
 								<Image
 									width={650}
@@ -46,7 +54,7 @@ export default function Blog() {
 							<div className="float-end">
 								<span>
 									{new Date(post.date).toLocaleDateString(
-										"pt-PT"
+										language === "pt" ? "pt-PT" : "en-US"
 									)}
 								</span>
 							</div>

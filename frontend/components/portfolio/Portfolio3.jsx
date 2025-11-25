@@ -1,128 +1,123 @@
 "use client";
 
-import { portfolios13 } from "@/data/portfolio";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { Gallery, Item } from "react-photoswipe-gallery";
-const filters = [
-  { name: "All works", category: "all" },
-  { name: "Branding", category: "branding" },
-  { name: "Design", category: "design" },
-  { name: "Development", category: "development" },
-];
+import { useLanguage } from "@/context/LanguageContext";
+import { aesContent } from "@/data/aesContent";
+
 export default function Portfolio3({ gridClass = "" }) {
-  const [currentCategory, setCurrentCategory] = useState("all");
-  const isotopContainer = useRef();
-  const isotope = useRef();
-  const initIsotop = async () => {
-    const Isotope = (await import("isotope-layout")).default;
-    const imagesloaded = (await import("imagesloaded")).default;
+	const { language } = useLanguage();
+	const content = aesContent[language];
+	const projects = content.projects || [];
+	const [currentCategory, setCurrentCategory] = useState("all");
+	const isotopContainer = useRef();
+	const isotope = useRef();
 
-    // Initialize Isotope in the mounted hook
-    isotope.current = new Isotope(isotopContainer.current, {
-      itemSelector: ".work-item",
-      layoutMode: "masonry", // or 'fitRows', depending on your layout needs
-    });
-    imagesloaded(isotopContainer.current).on("progress", function () {
-      // Trigger Isotope layout
-      isotope.current.layout();
-    });
-  };
-  const updateCategory = (val) => {
-    setCurrentCategory(val);
-    isotope.current.arrange({
-      filter: val == "all" ? "*" : "." + val,
-    });
-    //   isotope.value.layout();
-  };
-  useEffect(() => {
-    /////////////////////////////////////////////////////
-    // Magnate Animation
+	const translations = {
+		allProjects: {
+			pt: "Todos os projetos",
+			en: "All projects",
+		},
+	};
 
-    initIsotop();
-  }, []);
-  return (
-    <div className="full-wrapper position-relative">
-      {/* Works Filter */}
-      <div className="works-filter text-center mb-60 mb-sm-40 z-index-1">
-        {filters.map((elm, i) => (
-          <a
-            onClick={() => updateCategory(elm.category)}
-            key={i}
-            className={`filter ${
-              currentCategory == elm.category ? "active" : ""
-            }`}
-          >
-            {elm.name}
-          </a>
-        ))}
-      </div>
-      {/* End Works Filter */}
-      {/* Works Grid */}
-      <ul
-        ref={isotopContainer}
-        className={`works-grid work-grid-gut clearfix hide-titles hover-white ${gridClass} masonry`}
-        id="work-grid"
-      >
-        <Gallery>
-          {portfolios13.slice(0, 6).map((item, index) => (
-            <li key={index} className={"work-item mix  " + item.mix}>
-              {item.type == "lightbox" ? (
-                <a className={"work-lightbox-link mfp-image"}>
-                  <Item
-                    original={item.imgSrc}
-                    thumbnail={item.imgSrc}
-                    width={719}
-                    height={461}
-                  >
-                    {({ ref, open }) => (
-                      <>
-                        <div className="work-img">
-                          <div className="work-img-bg " />
-                          <Image
-                            width={719}
-                            height={461}
-                            ref={ref}
-                            src={item.imgSrc}
-                            alt={item.imgAlt}
-                            data-wow-delay={item.delay}
-                          />
-                        </div>
-                        <div onClick={open} className="work-intro text-start">
-                          <h3 className="work-title">{item.title}</h3>
-                          <div className="work-descr">{item.descr}</div>
-                        </div>
-                      </>
-                    )}
-                  </Item>
-                </a>
-              ) : (
-                <Link
-                  href={`/main-portfolio-single-1/${item.id}`}
-                  className={"work-lightbox-link mfp-image"}
-                >
-                  <div className="work-img">
-                    <div className="work-img-bg " />
-                    <Image
-                      width={650}
-                      height={773}
-                      src={item.imgSrc}
-                      alt={item.imgAlt}
-                      data-wow-delay={item.delay}
-                    />
-                  </div>
-                  <div className="work-intro text-start">
-                    <h3 className="work-title">{item.title}</h3>
-                    <div className="work-descr">{item.description}</div>
-                  </div>
-                </Link>
-              )}
-            </li>
-          ))}
-        </Gallery>
-      </ul>
-      {/* End Works Grid */}
-    </div>
-  );
+	// Get unique categories from projects
+	const categories = [
+		{ name: translations.allProjects[language], slug: "all" },
+		...projects
+			.flatMap(p => p.categories || [])
+			.filter(
+				(cat, index, self) =>
+					index === self.findIndex(c => c.slug === cat.slug)
+			),
+	];
+
+	const initIsotop = async () => {
+		const Isotope = (await import("isotope-layout")).default;
+		const imagesloaded = (await import("imagesloaded")).default;
+
+		// Initialize Isotope in the mounted hook
+		isotope.current = new Isotope(isotopContainer.current, {
+			itemSelector: ".work-item",
+			layoutMode: "masonry",
+		});
+		imagesloaded(isotopContainer.current).on("progress", function () {
+			// Trigger Isotope layout
+			isotope.current.layout();
+		});
+	};
+
+	const updateCategory = val => {
+		setCurrentCategory(val);
+		isotope.current.arrange({
+			filter: val == "all" ? "*" : "." + val,
+		});
+	};
+
+	useEffect(() => {
+		initIsotop();
+	}, []);
+
+	return (
+		<div className="full-wrapper position-relative">
+			{/* Works Filter */}
+			<div className="works-filter text-center mb-60 mb-sm-40 z-index-1">
+				{categories.map((cat, i) => (
+					<a
+						onClick={() => updateCategory(cat.slug)}
+						key={i}
+						className={`filter ${
+							currentCategory == cat.slug ? "active" : ""
+						}`}
+					>
+						{cat.label || cat.name}
+					</a>
+				))}
+			</div>
+			{/* End Works Filter */}
+
+			{/* Works Grid */}
+			<ul
+				ref={isotopContainer}
+				className={`works-grid work-grid-gut clearfix hide-titles hover-white ${gridClass} masonry`}
+				id="work-grid"
+			>
+				{projects.map((project, index) => {
+					const categoryClasses =
+						project.categories?.map(cat => cat.slug).join(" ") || "all";
+					return (
+						<li
+							key={project.slug || index}
+							className={`work-item mix ${categoryClasses}`}
+						>
+							<Link
+								href={`/projetos/${project.slug}`}
+								className={"work-lightbox-link mfp-image"}
+							>
+								<div className="work-img">
+									<div className="work-img-bg" />
+									<Image
+										width={650}
+										height={773}
+										src={project.cover}
+										alt={project.title}
+										style={{
+											width: "650px",
+											height: "773px",
+											objectFit: "cover",
+										}}
+									/>
+								</div>
+								<div className="work-intro text-start">
+									<h3 className="work-title">{project.title}</h3>
+									<div className="work-descr">{project.summary}</div>
+								</div>
+							</Link>
+						</li>
+					);
+				})}
+			</ul>
+			{/* End Works Grid */}
+		</div>
+	);
 }

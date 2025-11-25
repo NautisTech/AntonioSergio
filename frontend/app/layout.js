@@ -13,6 +13,7 @@ import "tippy.js/dist/tippy.css";
 import { init_wow } from "@/utlis/initWowjs";
 import { headerChangeOnScroll } from "@/utlis/changeHeaderOnScroll";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export default function RootLayout({ children }) {
 	const path = usePathname();
@@ -71,7 +72,9 @@ export default function RootLayout({ children }) {
 				/>
 			</head>
 			<body className="appear-animate body">
-				<LanguageProvider>{children}</LanguageProvider>
+				<ThemeProvider>
+					<LanguageProvider>{children}</LanguageProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	);

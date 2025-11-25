@@ -1,8 +1,14 @@
 "use client";
-import { missionBlock, schoolIdentity } from "@/data/aesContent";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 
 export default function About() {
+	const { language } = useLanguage();
+	const content = aesContent[language];
+	const missionBlock = content.missionBlock;
+	const schoolIdentity = content.schoolIdentity;
+
 	return (
 		<div className="row wow fadeInUp" data-wow-delay="0.5s">
 			<div className="col-lg-6 mb-md-60">
@@ -37,20 +43,15 @@ export default function About() {
 				</div>
 			</div>
 			<div className="col-lg-6 col-xl-5 offset-xl-1">
-				<h4 className="h5">Missão</h4>
-				<p className="text-gray">{missionBlock.description}</p>
-				<h4 className="h5">Visão</h4>
-				<p className="text-gray">
-					Somos uma comunidade escolar que trabalha em rede com
-					famílias, parceiros científicos e empresas para garantir
-					percursos flexíveis e relevantes em todas as etapas de
-					formação.
-				</p>
+				<h4 className="h5">{missionBlock.missionLabel}</h4>
+				<p className="text-gray">{missionBlock.missionDescription}</p>
+				<h4 className="h5">{missionBlock.visionLabel}</h4>
+				<p className="text-gray">{missionBlock.visionDescription}</p>
 				<a
 					href={missionBlock.button.href}
-					className="btn btn-mod btn-border btn-round btn-small mt-20"
+					className="btn btn-mod btn-large btn-round btn-hover-anim mt-20"
 				>
-					{missionBlock.button.label}
+					<span>{missionBlock.button.label}</span>
 				</a>
 			</div>
 		</div>

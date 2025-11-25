@@ -1,3 +1,4 @@
+"use client";
 import About from "@/components/home/About";
 import Benefits from "@/components/home/Benefits";
 import Blog from "@/components/home/Blog";
@@ -6,25 +7,37 @@ import Contact from "@/components/home/Contact";
 import Facts from "@/components/home/Facts";
 import Faq from "@/components/home/Faq";
 import Features from "@/components/home/Features";
+import NewsLetter from "@/components/home/NewsLetter";
 import ParallaxContainer from "@/components/common/ParallaxContainer";
 import Portfolio from "@/components/home/Portfolio";
 import Service from "@/components/home/Service";
 import Team from "@/components/home/Team";
 import Testimonials from "@/components/home/Testimonials";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
+import { aesContent } from "@/data/aesContent";
 
 export default function HomeSchool() {
+	const { language } = useLanguage();
+	const { theme } = useTheme();
+	const content = aesContent[language];
+	const isDark = theme === "dark";
+
 	return (
 		<>
-			<section className="page-section scrollSpysection" id="sobre">
+			<section
+				className={`page-section scrollSpysection ${isDark ? "bg-dark-1 light-content" : ""}`}
+				id="sobre"
+			>
 				<div className="container position-relative">
 					<div className="row mb-50">
 						<div className="col-md-6">
 							<h2 className="section-caption mb-xs-10">
-								Quem somos
+								{content.homeSections.about.caption}
 							</h2>
 							<h3 className="section-title mb-0">
-								Conheça o Agrupamento de Escolas António Sérgio.
+								{content.homeSections.about.title}
 							</h3>
 						</div>
 						<div className="col-md-5 offset-md-1 text-start text-md-end pt-40 pt-sm-20">
@@ -33,7 +46,7 @@ export default function HomeSchool() {
 								className="link-hover-anim underline align-middle"
 								data-link-animate="y"
 							>
-								História, missão e campus{" "}
+								{content.homeSections.about.actionLabel}{" "}
 								<i className="mi-arrow-right size-18" />
 							</Link>
 						</div>
@@ -46,12 +59,19 @@ export default function HomeSchool() {
 				<Team />
 			</section>
 
-			<section className="page-section" id="oferta">
+			<section
+				className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+				id="oferta"
+			>
 				<Service />
 			</section>
 
 			<ParallaxContainer
-				className="page-section bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+				className={`page-section ${
+					isDark
+						? "bg-light-1 bg-light-alpha-90 parallax-5"
+						: "bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+				}`}
 				style={{
 					backgroundImage:
 						"url(/assets/school/breadcrumb/breadcrumb-1.jpg)",
@@ -61,15 +81,13 @@ export default function HomeSchool() {
 					<div className="row">
 						<div className="col-lg-4 mb-md-60 mb-xs-50">
 							<h2 className="section-title mb-20 wow fadeInUp">
-								Impacto em números
+								{content.homeSections.stats.title}
 							</h2>
 							<p
 								className="section-descr mb-40 wow fadeInUp"
 								data-wow-delay="0.1s"
 							>
-								Uma comunidade educativa que cresce com projetos
-								europeus, redes empresariais e inovação
-								pedagógica.
+								{content.homeSections.stats.description}
 							</p>
 							<div
 								className="local-scroll wow fadeInUp"
@@ -77,9 +95,11 @@ export default function HomeSchool() {
 							>
 								<Link
 									href="/contactos"
-									className="btn btn-mod btn-w btn-large btn-round btn-hover-anim"
+									className={`btn btn-mod ${
+										isDark ? "btn-border" : "btn-w"
+									} btn-large btn-round btn-hover-anim`}
 								>
-									<span>Agendar visita</span>
+									<span>{content.homeSections.stats.ctaLabel}</span>
 								</Link>
 							</div>
 						</div>
@@ -88,15 +108,20 @@ export default function HomeSchool() {
 				</div>
 			</ParallaxContainer>
 
-			<section className="page-section" id="projetos">
+			<section
+				className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+				id="projetos"
+			>
 				<Portfolio />
 			</section>
 
-			<section className="page-section bg-gray-light-1">
+			<section
+				className={`page-section ${isDark ? "bg-dark-2 light-content" : "bg-gray-light-1"}`}
+			>
 				<Benefits />
 			</section>
 
-			<section className="page-section">
+			<section className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}>
 				<Testimonials />
 			</section>
 
@@ -105,7 +130,11 @@ export default function HomeSchool() {
 			</section>
 
 			<section
-				className="page-section bg-dark bg-dark-alpha-70 light-content"
+				className={`page-section ${
+					isDark
+						? "bg-light bg-light-alpha-70"
+						: "bg-dark bg-dark-alpha-70 light-content"
+				}`}
 				style={{
 					backgroundImage: "url(/assets/school/campus/campus-4.jpg)",
 				}}
@@ -113,15 +142,18 @@ export default function HomeSchool() {
 				<Features />
 			</section>
 
-			<section className="page-section" id="faq">
+			<section
+				className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+				id="faq"
+			>
 				<div className="container position-relative">
 					<div className="row mb-40">
 						<div className="col-md-8">
 							<h2 className="section-caption mb-xs-10">
-								Perguntas frequentes
+								{content.homeSections.faq.caption}
 							</h2>
 							<h3 className="section-title mb-0">
-								Informação útil para famílias e alunos.
+								{content.homeSections.faq.title}
 							</h3>
 						</div>
 						<div className="col-md-4 text-md-end pt-30">
@@ -130,7 +162,7 @@ export default function HomeSchool() {
 								className="link-hover-anim underline align-middle"
 								data-link-animate="y"
 							>
-								Falar com a secretaria{" "}
+								{content.homeSections.faq.actionLabel}{" "}
 								<i className="mi-arrow-right size-18" />
 							</Link>
 						</div>
@@ -139,13 +171,18 @@ export default function HomeSchool() {
 				</div>
 			</section>
 
-			<section className="page-section" id="blog">
+			<section
+				className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+				id="blog"
+			>
 				<div className="container position-relative">
 					<div className="row mb-60 mb-xs-30">
 						<div className="col-md-6">
-							<h2 className="section-caption mb-xs-10">Blog</h2>
+							<h2 className="section-caption mb-xs-10">
+								{content.homeSections.blog.caption}
+							</h2>
 							<h3 className="section-title mb-0">
-								Histórias e projetos em destaque.
+								{content.homeSections.blog.title}
 							</h3>
 						</div>
 						<div className="col-md-5 offset-md-1 text-start text-md-end pt-40 pt-sm-20">
@@ -154,7 +191,7 @@ export default function HomeSchool() {
 								className="link-hover-anim underline align-middle"
 								data-link-animate="y"
 							>
-								Ler todas as notícias{" "}
+								{content.homeSections.blog.actionLabel}{" "}
 								<i className="mi-arrow-right size-18" />
 							</Link>
 						</div>
@@ -163,7 +200,24 @@ export default function HomeSchool() {
 				</div>
 			</section>
 
-			<section className="page-section bg-gray-light-1" id="contactos">
+			<ParallaxContainer
+				className={`page-section ${
+					isDark
+						? "bg-light-1 bg-light-alpha-90 parallax-5"
+						: "bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+				}`}
+				style={{
+					backgroundImage:
+						"url(/assets/school/campus/campus-3.jpg)",
+				}}
+			>
+				<NewsLetter />
+			</ParallaxContainer>
+
+			<section
+				className={`page-section ${isDark ? "bg-dark-2 light-content" : "bg-gray-light-1"}`}
+				id="contactos"
+			>
 				<Contact />
 			</section>
 		</>

@@ -1,10 +1,14 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import { leadership } from "@/data/aesContent";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 
 export default function Team() {
+	const { language } = useLanguage();
+	const leadership = aesContent[language].leadership;
+
 	return (
 		<div className="container position-relative">
 			<div className="row">
@@ -40,6 +44,7 @@ export default function Team() {
 								},
 							}}
 							modules={[Navigation]}
+							loop={true}
 							navigation={{
 								prevEl: ".snbp1",
 								nextEl: ".snbn1",

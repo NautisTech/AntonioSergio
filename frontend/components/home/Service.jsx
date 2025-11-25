@@ -1,11 +1,16 @@
+"use client";
 import AnimatedText from "@/components/common/AnimatedText";
-import { programHighlights } from "@/data/aesContent";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 import React from "react";
 
 const tabId = index => `services-item-${index + 1}`;
 
 export default function Service() {
+	const { language } = useLanguage();
+	const programHighlights = aesContent[language].programHighlights;
+
 	return (
 		<div className="container position-relative">
 			<div className="row">

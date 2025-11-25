@@ -1,6 +1,7 @@
 "use client";
 import AnimatedText from "@/components/common/AnimatedText";
-import { projects } from "@/data/aesContent";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -14,6 +15,10 @@ const slugify = value =>
 		.replace(/(^-|-$)/g, "");
 
 export default function Portfolio() {
+	const { language } = useLanguage();
+	const content = aesContent[language];
+	const projects = content.projects;
+
 	const [currentCategory, setCurrentCategory] = useState("all");
 	const isotopContainer = useRef();
 	const isotope = useRef();
@@ -56,23 +61,23 @@ export default function Portfolio() {
 			)
 		);
 		return [
-			{ name: "Todos os projetos", category: "all" },
+			{ name: content.homeSections.portfolio.filterAllLabel, category: "all" },
 			...categories.map(category => ({
 				name: category,
 				category: slugify(category),
 			})),
 		];
-	}, []);
+	}, [projects, content.homeSections.portfolio.filterAllLabel]);
 
 	return (
 		<div className="container">
 			<div className="row mb-60 mb-md-40">
 				<div className="col-lg-5">
 					<h2 className="section-caption mb-xs-10">
-						Projetos em destaque
+						{content.homeSections.portfolio.caption}
 					</h2>
 					<h3 className="section-title mb-0">
-						<AnimatedText text="Inovação, ciência e comunidade em ação." />
+						<AnimatedText text={content.homeSections.portfolio.title} />
 					</h3>
 				</div>
 				<div className="col-lg-7">

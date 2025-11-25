@@ -1,30 +1,36 @@
+"use client";
 import React from "react";
 import Image from "next/image";
-import { partners } from "@/data/aesContent";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
+
 export default function Brands() {
+	const { language } = useLanguage();
+	const { theme } = useTheme();
+	const content = aesContent[language];
+	const isDark = theme === "dark";
+
 	return (
 		<div className="container position-relative">
 			<div className="row">
-				<div className="col-md-8 offset-md-2 text-center">
-					<h2 className="section-title-tiny mb-30">
-						Rede de parceiros institucionais
+				<div className="col-md-10 offset-md-1 text-center">
+					<h2
+						className="section-title mb-60 mb-xs-40"
+						style={isDark ? { color: "white" } : {}}
+					>
+						{content.partnersSectionTitle}
 					</h2>
 
 					<div className="logo-grid">
-						{partners.map(partner => (
-							<div
-								key={partner.name}
-								className="logo-grid-img image-filter"
-							>
+						{content.partners.map(partner => (
+							<div key={partner.name} className="logo-grid-img">
 								<Image
 									src={partner.logo}
-									width={120}
-									height={40}
+									width={160}
+									height={60}
 									alt={partner.name}
 								/>
-								<div className="small text-gray mt-10">
-									{partner.category}
-								</div>
 							</div>
 						))}
 					</div>

@@ -1,17 +1,24 @@
 "use client";
 import AnimatedText from "@/components/common/AnimatedText";
 import ModalVideo from "@/components/common/ModalVideo";
-import { heroContent } from "@/data/aesContent";
+import { aesContent } from "@/data/aesContent";
+import { useLanguage } from "@/context/LanguageContext";
 import { parallaxMouseMovement } from "@/utlis/parallax";
 import Image from "next/image";
 
 import { useEffect, useState } from "react";
 
 export default function Hero1() {
+	const [isOpen, setOpen] = useState(false);
+	const { language } = useLanguage();
+
 	useEffect(() => {
 		parallaxMouseMovement();
 	}, []);
-	const [isOpen, setOpen] = useState(false);
+
+	// Use default language if not ready
+	const currentLanguage = language && aesContent[language] ? language : "pt";
+	const heroContent = aesContent[currentLanguage].heroContent;
 
 	return (
 		<>
@@ -49,12 +56,6 @@ export default function Hero1() {
 										<span>
 											{heroContent.primaryCta.label}
 										</span>
-									</a>
-									<a
-										href={heroContent.secondaryCta.href}
-										className="btn btn-mod btn-border btn-round align-middle me-2 me-sm-5 mt-10"
-									>
-										{heroContent.secondaryCta.label}
 									</a>
 									<button
 										type="button"
@@ -134,7 +135,9 @@ export default function Hero1() {
 							<div className="scroll-down-1-icon">
 								<i className="mi-arrow-down" />
 							</div>
-							<div className="scroll-down-1-text">Explorar</div>
+							<div className="scroll-down-1-text">
+								{heroContent.scrollLabel}
+							</div>
 						</a>
 					</div>
 				</div>
