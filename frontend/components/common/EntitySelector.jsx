@@ -1,35 +1,42 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
 import { useEntity } from "@/context/EntityContext";
 import { useLanguage } from "@/context/LanguageContext";
+import { useState, useEffect, useRef } from "react";
 
 export default function EntitySelector() {
 	const { entities, selectedEntity, setSelectedEntity } = useEntity();
 	const { language } = useLanguage();
-	const [isOpen, setIsOpen] = useState(false);
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const dropdownRef = useRef(null);
 
 	const labels = {
 		pt: {
 			all: "Todas as Escolas",
-			select: "Selecionar Escola",
 		},
 		en: {
 			all: "All Schools",
-			select: "Select School",
 		},
 	};
 
 	const t = labels[language];
 
+	const toggleDropdown = () => {
+		setIsDropdownOpen(!isDropdownOpen);
+	};
+
+	const handleEntitySelect = (entity) => {
+		setSelectedEntity(entity);
+		setIsDropdownOpen(false);
+	};
+
 	// Close dropdown when clicking outside
 	useEffect(() => {
-		const handleClickOutside = event => {
+		const handleClickOutside = (event) => {
 			if (
 				dropdownRef.current &&
 				!dropdownRef.current.contains(event.target)
 			) {
-				setIsOpen(false);
+				setIsDropdownOpen(false);
 			}
 		};
 
@@ -37,109 +44,61 @@ export default function EntitySelector() {
 		return () => document.removeEventListener("mousedown", handleClickOutside);
 	}, []);
 
-	const handleEntitySelect = entity => {
-		setSelectedEntity(entity);
-		setIsOpen(false);
-	};
-
-	const allOptions = [null, ...entities];
+	const displayText = selectedEntity
+		? selectedEntity.displayName
+		: t.all;
 
 	return (
-		<div className="position-relative" ref={dropdownRef}>
-			<button
-				className="btn btn-link dropdown-toggle px-2 py-1"
-				onClick={() => setIsOpen(!isOpen)}
-				style={{
-					color: "inherit",
-					textDecoration: "none",
-					fontSize: "14px",
-					fontWeight: "500",
+		<li className="entitySelect" ref={dropdownRef}>
+			<a
+				href="#"
+				className="mn-has-sub opacity-1"
+				onClick={(e) => {
+					e.preventDefault();
+					toggleDropdown();
 				}}
-				aria-expanded={isOpen}
-				aria-haspopup="true"
 			>
-				<i className="mi-building me-1" style={{ fontSize: "16px" }} />
-				<span>
-					{selectedEntity
-						? selectedEntity.displayName
-						: t.all}
-				</span>
-			</button>
+				<i className="mi-building" style={{ fontSize: "16px" }} />{" "}
+				<i className="mi-chevron-down" />
+			</a>
 
-			{isOpen && (
-				<div
-					className="position-absolute bg-white border rounded shadow-sm"
-					style={{
-						top: "100%",
-						right: 0,
-						marginTop: "8px",
-						minWidth: "240px",
-						maxHeight: "400px",
-						overflowY: "auto",
-						zIndex: 1060,
-					}}
-				>
-					{allOptions.map((entity, index) => (
-						<button
-							key={entity?.value || "all"}
-							className="w-100 text-start border-0 bg-transparent px-3 py-2 d-flex align-items-center"
-							onClick={() => handleEntitySelect(entity)}
-							style={{
-								cursor: "pointer",
-								backgroundColor:
-									(entity === null && !selectedEntity) ||
-									entity?.value === selectedEntity?.value
-										? "#f8f9fa"
-										: "transparent",
-								transition: "background-color 0.15s ease",
+			{/* Dropdown menu with sliding effect */}
+			<ul
+				className={`mn-sub to-left ${isDropdownOpen ? "open" : "closed"}`}
+				style={{ minWidth: "280px" }}
+			>
+				{/* "All Schools" option */}
+				<li>
+					<a
+						href="#"
+						onClick={(e) => {
+							e.preventDefault();
+							handleEntitySelect(null);
+						}}
+						className={!selectedEntity ? "active" : ""}
+					>
+						{t.all}
+					</a>
+				</li>
+
+				{/* Individual schools */}
+				{entities.map((entity) => (
+					<li key={entity.value}>
+						<a
+							href="#"
+							onClick={(e) => {
+								e.preventDefault();
+								handleEntitySelect(entity);
 							}}
-							onMouseEnter={e => {
-								e.currentTarget.style.backgroundColor =
-									"#f8f9fa";
-							}}
-							onMouseLeave={e => {
-								e.currentTarget.style.backgroundColor =
-									(entity === null && !selectedEntity) ||
-									entity?.value === selectedEntity?.value
-										? "#f8f9fa"
-										: "transparent";
-							}}
+							className={
+								selectedEntity?.value === entity.value ? "active" : ""
+							}
 						>
-							<div style={{ width: "20px", marginRight: "12px" }}>
-								{((entity === null && !selectedEntity) ||
-									entity?.value === selectedEntity?.value) && (
-									<i
-										className="mi-check"
-										style={{ fontSize: "16px", color: "#28a745" }}
-									/>
-								)}
-							</div>
-							<div className="flex-grow-1">
-								<div
-									style={{
-										fontWeight:
-											(entity === null && !selectedEntity) ||
-											entity?.value === selectedEntity?.value
-												? "600"
-												: "500",
-										fontSize: "14px",
-									}}
-								>
-									{entity === null ? t.all : entity.displayName}
-								</div>
-								{entity === null && (
-									<small
-										className="text-muted"
-										style={{ fontSize: "12px" }}
-									>
-										{t.select}
-									</small>
-								)}
-							</div>
-						</button>
-					))}
-				</div>
-			)}
-		</div>
+							{entity.displayName}
+						</a>
+					</li>
+				))}
+			</ul>
+		</li>
 	);
 }

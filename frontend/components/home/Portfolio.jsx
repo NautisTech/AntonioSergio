@@ -2,6 +2,7 @@
 import AnimatedText from "@/components/common/AnimatedText";
 import { aesContent } from "@/data/aesContent";
 import { useLanguage } from "@/context/LanguageContext";
+import { useEntity, filterByEntity } from "@/context/EntityContext";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -16,8 +17,12 @@ const slugify = value =>
 
 export default function Portfolio() {
 	const { language } = useLanguage();
+	const { selectedEntity } = useEntity();
 	const content = aesContent[language];
-	const projects = content.projects;
+	const allProjects = content.projects;
+
+	// Filter projects by selected entity
+	const projects = filterByEntity(allProjects, selectedEntity);
 
 	const [currentCategory, setCurrentCategory] = useState("all");
 	const isotopContainer = useRef();

@@ -3,12 +3,17 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { useEntity, filterByEntity } from "@/context/EntityContext";
 import { aesContent } from "@/data/aesContent";
 
 export default function Content1() {
 	const { language } = useLanguage();
+	const { selectedEntity } = useEntity();
 	const content = aesContent[language];
-	const blogPosts = content.blogPosts || [];
+	const allBlogPosts = content.blogPosts || [];
+
+	// Filter blog posts by selected entity
+	const blogPosts = filterByEntity(allBlogPosts, selectedEntity);
 
 	const translations = {
 		readMore: {
