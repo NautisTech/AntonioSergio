@@ -7,6 +7,7 @@ import AnimatedText from "@/components/common/AnimatedText";
 import Widget1 from "@/components/blog/widgets/Widget1";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
+import { useEntity, filterByEntity } from "@/context/EntityContext";
 import { aesContent } from "@/data/aesContent";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,12 +17,14 @@ export default function BlogDetailPage({ params }) {
 	const unwrappedParams = use(params);
 	const { language } = useLanguage();
 	const { theme } = useTheme();
+	const { selectedEntity } = useEntity();
 	const content = aesContent[language];
-	const blogPosts = content.blogPosts || [];
+	const allBlogPosts = content.blogPosts || [];
+	const blogPosts = filterByEntity(allBlogPosts, selectedEntity);
 	const isDark = theme === "dark";
 
 	// Find the blog post by slug (unwrappedParams.id is actually the slug)
-	const blog = blogPosts.find(post => post.slug === unwrappedParams.id);
+	const blog = allBlogPosts.find(post => post.slug === unwrappedParams.id);
 
 	if (!blog) {
 		notFound();

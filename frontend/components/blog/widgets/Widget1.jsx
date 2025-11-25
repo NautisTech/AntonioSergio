@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useEntity, filterByEntity } from "@/context/EntityContext";
 import { aesContent } from "@/data/aesContent";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,8 +10,10 @@ export default function Widget1({
 	searchInputClass = "form-control input-md search-field input-circle",
 }) {
 	const { language } = useLanguage();
+	const { selectedEntity } = useEntity();
 	const content = aesContent[language];
-	const blogPosts = content.blogPosts || [];
+	const allBlogPosts = content.blogPosts || [];
+	const blogPosts = filterByEntity(allBlogPosts, selectedEntity);
 	const [searchQuery, setSearchQuery] = useState("");
 
 	const translations = {

@@ -683,7 +683,7 @@ const blogEntries = [
 		slug: "eqavet-reforca-cultura-de-qualidade",
 		cover: "/assets/school/eqavet/eqavet-11.jpg",
 		date: "2025-02-10",
-		entities: ["antoniosergio"], // ES António Sérgio
+		entities: [], // All schools
 		author: {
 			name: "Helena Andrade",
 			role: { pt: "Coordenadora EQAVET", en: "EQAVET Coordinator" },

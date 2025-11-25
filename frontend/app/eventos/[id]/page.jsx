@@ -7,17 +7,20 @@ import Header from "@/components/site/Header";
 import AnimatedText from "@/components/common/AnimatedText";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
-import { events } from "@/data/aesContent";
+import { useEntity, filterByEntity } from "@/context/EntityContext";
+import { events as allEvents } from "@/data/aesContent";
 import { notFound } from "next/navigation";
 
 export default function EventDetailPage({ params }) {
 	const unwrappedParams = use(params);
 	const { language } = useLanguage();
 	const { theme } = useTheme();
+	const { selectedEntity } = useEntity();
+	const events = filterByEntity(allEvents, selectedEntity);
 	const isDark = theme === "dark";
 
 	// Find the event by slug
-	const event = events.find(evt => evt.slug === unwrappedParams.id);
+	const event = allEvents.find(evt => evt.slug === unwrappedParams.id);
 
 	if (!event) {
 		notFound();
