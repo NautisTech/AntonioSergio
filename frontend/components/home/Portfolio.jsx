@@ -20,9 +20,9 @@ export default function Portfolio() {
 	const content = aesContent[language];
 
 	// Fetch projects from API - featured only
+	// Language is automatically injected from context
 	const { data, loading, error } = useProjects({
 		featuredOnly: true,
-		language: language,
 		pageSize: 12,
 	});
 

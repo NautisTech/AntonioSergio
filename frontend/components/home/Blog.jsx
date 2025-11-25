@@ -9,10 +9,10 @@ export default function Blog() {
 	const { language } = useLanguage();
 
 	// Fetch news from API - featured and limited to 6 items
+	// Language is automatically injected from context
 	const { data, loading, error } = useNews({
 		featuredOnly: true,
 		pageSize: 6,
-		language: language,
 	});
 
 	const translations = {

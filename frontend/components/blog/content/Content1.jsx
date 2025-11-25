@@ -9,8 +9,8 @@ export default function Content1() {
 	const { language } = useLanguage();
 
 	// Fetch news from API with pagination
+	// Language is automatically injected from context
 	const { data, loading, error } = useNews({
-		language: language,
 		page: 1,
 		pageSize: 12,
 	});
