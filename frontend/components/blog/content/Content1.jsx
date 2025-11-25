@@ -3,17 +3,19 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
-import { useEntity, filterByEntity } from "@/context/EntityContext";
-import { aesContent } from "@/data/aesContent";
+import { useNews } from "@/lib/api/public-content";
 
 export default function Content1() {
 	const { language } = useLanguage();
-	const { selectedEntity } = useEntity();
-	const content = aesContent[language];
-	const allBlogPosts = content.blogPosts || [];
 
-	// Filter blog posts by selected entity
-	const blogPosts = filterByEntity(allBlogPosts, selectedEntity);
+	// Fetch news from API with pagination
+	const { data, loading, error } = useNews({
+		language: language,
+		page: 1,
+		pageSize: 12,
+	});
+
+	const blogPosts = data?.data || [];
 
 	const translations = {
 		readMore: {
@@ -25,8 +27,16 @@ export default function Content1() {
 			en: "Comments",
 		},
 		noResults: {
-			pt: "Nenhuma notícia disponível para esta escola.",
-			en: "No news available for this school.",
+			pt: "Nenhuma notícia disponível.",
+			en: "No news available.",
+		},
+		loading: {
+			pt: "Carregando notícias...",
+			en: "Loading news...",
+		},
+		error: {
+			pt: "Erro ao carregar notícias.",
+			en: "Error loading news.",
 		},
 	};
 
@@ -46,6 +56,22 @@ export default function Content1() {
 		});
 	};
 
+	if (loading) {
+		return (
+			<div className="text-center py-5">
+				<p className="text-gray">{translations.loading[language]}</p>
+			</div>
+		);
+	}
+
+	if (error) {
+		return (
+			<div className="text-center py-5">
+				<p className="text-gray">{translations.error[language]}</p>
+			</div>
+		);
+	}
+
 	if (blogPosts.length === 0) {
 		return (
 			<div className="text-center py-5">
@@ -58,7 +84,7 @@ export default function Content1() {
 		<>
 			{blogPosts.map((post, index) => (
 				<div
-					key={post.slug || index}
+					key={post.id || index}
 					className="blog-item box-shadow round p-4 p-md-5"
 				>
 					{/* Post Title */}
@@ -68,24 +94,37 @@ export default function Content1() {
 
 					{/* Author, Date, Category */}
 					<div className="blog-item-data">
-						<a href="#">
-							<i className="mi-clock size-16" /> {formatDate(post.date)}
-						</a>
-						<span className="separator">&nbsp;</span>
-						<a href="#">
-							<i className="mi-user size-16" /> {post.author.name}
-						</a>
-						<span className="separator">&nbsp;</span>
-						<i className="mi-folder size-16" />
-						<span>{post.category}</span>
+						{post.published_at && (
+							<>
+								<a href="#">
+									<i className="mi-clock size-16" />{" "}
+									{formatDate(post.published_at)}
+								</a>
+								<span className="separator">&nbsp;</span>
+							</>
+						)}
+						{post.author_name && (
+							<>
+								<a href="#">
+									<i className="mi-user size-16" /> {post.author_name}
+								</a>
+								<span className="separator">&nbsp;</span>
+							</>
+						)}
+						{post.categories && post.categories.length > 0 && (
+							<>
+								<i className="mi-folder size-16" />
+								<span>{post.categories[0].name}</span>
+							</>
+						)}
 					</div>
 
 					{/* Image */}
-					{post.cover && (
+					{post.featured_image && (
 						<div className="blog-media">
 							<Link href={`/blog/${post.slug}`}>
 								<Image
-									src={post.cover}
+									src={post.featured_image}
 									width={1350}
 									height={865}
 									alt={post.title}

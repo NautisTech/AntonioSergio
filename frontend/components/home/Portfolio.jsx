@@ -1,8 +1,8 @@
 "use client";
 import AnimatedText from "@/components/common/AnimatedText";
 import { aesContent } from "@/data/aesContent";
+import { useProjects } from "@/lib/api/public-content";
 import { useLanguage } from "@/context/LanguageContext";
-import { useEntity, filterByEntity } from "@/context/EntityContext";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -17,12 +17,16 @@ const slugify = value =>
 
 export default function Portfolio() {
 	const { language } = useLanguage();
-	const { selectedEntity } = useEntity();
 	const content = aesContent[language];
-	const allProjects = content.projects;
 
-	// Filter projects by selected entity
-	const projects = filterByEntity(allProjects, selectedEntity);
+	// Fetch projects from API - featured only
+	const { data, loading, error } = useProjects({
+		featuredOnly: true,
+		language: language,
+		pageSize: 12,
+	});
+
+	const projects = data?.data || [];
 
 	const [currentCategory, setCurrentCategory] = useState("all");
 	const isotopContainer = useRef();
@@ -67,9 +71,7 @@ export default function Portfolio() {
 		const categories = Array.from(
 			new Set(
 				projects.flatMap(project =>
-					(project.categories || []).map(c =>
-						typeof c === "string" ? c : c.label
-					)
+					(project.categories || []).map(c => c.name || c)
 				)
 			)
 		);
@@ -81,6 +83,47 @@ export default function Portfolio() {
 			})),
 		];
 	}, [projects, content.homeSections.portfolio.filterAllLabel]);
+
+	// Show loading state
+	if (loading) {
+		return (
+			<div className="container">
+				<div className="text-center py-5">
+					<p className="text-gray">
+						{language === "pt" ? "Carregando projetos..." : "Loading projects..."}
+					</p>
+				</div>
+			</div>
+		);
+	}
+
+	// Show error state
+	if (error) {
+		return (
+			<div className="container">
+				<div className="text-center py-5">
+					<p className="text-gray">
+						{language === "pt" ? "Erro ao carregar projetos." : "Error loading projects."}
+					</p>
+				</div>
+			</div>
+		);
+	}
+
+	// Show empty state
+	if (projects.length === 0) {
+		return (
+			<div className="container">
+				<div className="text-center py-5">
+					<p className="text-gray">
+						{language === "pt"
+							? "Nenhum projeto disponível."
+							: "No projects available."}
+					</p>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="container">
@@ -121,17 +164,11 @@ export default function Portfolio() {
 			>
 				{projects.map((project, index) => {
 					const categoryClasses = (project.categories || [])
-						.map(category =>
-							slugify(
-								typeof category === "string"
-									? category
-									: category.slug
-							)
-						)
+						.map(category => slugify(category.name || category.slug || ""))
 						.join(" ");
 					return (
 						<li
-							key={project.slug}
+							key={project.id}
 							className={`work-item ${categoryClasses}`}
 							data-wow-delay={`${0.3 + index * 0.1}s`}
 						>
@@ -141,20 +178,18 @@ export default function Portfolio() {
 							>
 								<div className="work-img">
 									<div className="work-img-bg " />
-									<Image
-										width={650}
-										height={773}
-										src={project.cover}
-										alt={project.title}
-									/>
+									{project.featured_image && (
+										<Image
+											width={650}
+											height={773}
+											src={project.featured_image}
+											alt={project.title}
+										/>
+									)}
 								</div>
 								<div className="work-intro text-start">
-									<h3 className="work-title">
-										{project.title}
-									</h3>
-									<div className="work-descr">
-										{project.summary}
-									</div>
+									<h3 className="work-title">{project.title}</h3>
+									<div className="work-descr">{project.excerpt}</div>
 								</div>
 							</Link>
 						</li>
