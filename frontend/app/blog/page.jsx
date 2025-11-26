@@ -25,10 +25,8 @@ export default function BlogPage() {
 
 	// Client-side filter states
 	const [searchQuery, setSearchQuery] = useState("");
-	const [selectedCategory, setSelectedCategory] = useState<number | null>(
-		null
-	);
-	const [selectedTag, setSelectedTag] = useState<string | null>(null);
+	const [selectedCategory, setSelectedCategory] = useState(null);
+	const [selectedTag, setSelectedTag] = useState(null);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 12;
 

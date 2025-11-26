@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useEntity, filterByEntity } from "@/context/EntityContext";
 import { useProjects } from "@/lib/api/public-content";
@@ -47,15 +47,33 @@ export default function Portfolio3({ gridClass = "" }) {
 		},
 	};
 
-	// Get unique categories from projects
+	// Get unique categories with counts from projects
+	const categoriesWithCounts = useMemo(() => {
+		const categoryMap = new Map();
+
+		projects.forEach(project => {
+			if (project.categories && Array.isArray(project.categories)) {
+				project.categories.forEach(cat => {
+					if (!categoryMap.has(cat.slug)) {
+						categoryMap.set(cat.slug, {
+							...cat,
+							count: 0,
+						});
+					}
+					const existing = categoryMap.get(cat.slug);
+					existing.count += 1;
+				});
+			}
+		});
+
+		return Array.from(categoryMap.values())
+			.filter(cat => cat.count > 0)
+			.sort((a, b) => b.count - a.count);
+	}, [projects]);
+
 	const categories = [
-		{ name: translations.allProjects[language], slug: "all" },
-		...projects
-			.flatMap(p => p.categories || [])
-			.filter(
-				(cat, index, self) =>
-					index === self.findIndex(c => c.slug === cat.slug)
-			),
+		{ name: translations.allProjects[language], slug: "all", count: projects.length },
+		...categoriesWithCounts,
 	];
 
 	const initIsotop = async () => {
@@ -139,7 +157,7 @@ export default function Portfolio3({ gridClass = "" }) {
 							currentCategory == cat.slug ? "active" : ""
 						}`}
 					>
-						{cat.label || cat.name}
+						{cat.label || cat.name} ({cat.count})
 					</a>
 				))}
 			</div>

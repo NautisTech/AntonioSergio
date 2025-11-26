@@ -117,21 +117,39 @@ export default function Portfolio() {
 	}, [currentCategory]);
 
 	const filters = useMemo(() => {
-		const categories = Array.from(
-			new Set(
-				projects.flatMap(project =>
-					(project.categories || []).map(c => c.name || c)
-				)
-			)
-		);
+		// Calculate category counts
+		const categoryMap = new Map();
+
+		projects.forEach(project => {
+			if (project.categories && Array.isArray(project.categories)) {
+				project.categories.forEach(cat => {
+					const categoryName = cat.name || cat;
+					if (!categoryMap.has(categoryName)) {
+						categoryMap.set(categoryName, {
+							name: categoryName,
+							count: 0,
+						});
+					}
+					const existing = categoryMap.get(categoryName);
+					existing.count += 1;
+				});
+			}
+		});
+
+		const categoriesWithCounts = Array.from(categoryMap.values())
+			.filter(cat => cat.count > 0)
+			.sort((a, b) => b.count - a.count);
+
 		return [
 			{
 				name: content.homeSections.portfolio.filterAllLabel,
 				category: "all",
+				count: projects.length,
 			},
-			...categories.map(category => ({
-				name: category,
-				category: slugify(category),
+			...categoriesWithCounts.map(cat => ({
+				name: cat.name,
+				category: slugify(cat.name),
+				count: cat.count,
 			})),
 		];
 	}, [projects, content.homeSections.portfolio.filterAllLabel]);
@@ -207,7 +225,7 @@ export default function Portfolio() {
 										: ""
 								}`}
 							>
-								{elm.name}
+								{elm.name} ({elm.count})
 							</a>
 						))}
 					</div>
