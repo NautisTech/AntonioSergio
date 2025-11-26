@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,12 +8,24 @@ import { useNews, useTags, useCategories } from "@/lib/api/public-content";
 
 export default function Widget1({
 	searchInputClass = "form-control input-md search-field input-circle",
+	filters = {},
 }) {
+	const router = useRouter();
 	const { language } = useLanguage();
-	const [searchQuery, setSearchQuery] = useState("");
+	const [searchQuery, setSearchQuery] = useState(filters.search || "");
 
-	// Fetch data from API
-	const { data: newsData, loading: newsLoading } = useNews({ pageSize: 6 });
+	// Update search query when filters change
+	useEffect(() => {
+		setSearchQuery(filters.search || "");
+	}, [filters.search]);
+
+	// Fetch data from API with current filters for the sidebar
+	const { data: newsData, loading: newsLoading } = useNews({
+		pageSize: 6,
+		categoryId: filters.categoryId,
+		tags: filters.tags,
+		search: filters.search,
+	});
 	const { data: tagsData, loading: tagsLoading } = useTags();
 	const { data: categoriesData, loading: categoriesLoading } =
 		useCategories();
@@ -73,7 +86,10 @@ export default function Widget1({
 
 	const allCategories = new Map(apiCategories?.map(c => [c.id, c]) || []);
 	contentCategories.forEach((cat, id) => allCategories.set(id, cat));
-	const categories = Array.from(allCategories.values());
+	// Filter out categories with 0 content count
+	const categories = Array.from(allCategories.values()).filter(
+		cat => (cat.contentCount || cat.content_count || 0) > 0
+	);
 
 	// Get latest 3 posts
 	const latestPosts = news.slice(0, 3);
@@ -85,7 +101,11 @@ export default function Widget1({
 				<form
 					onSubmit={e => {
 						e.preventDefault();
-						// Handle search functionality
+						if (searchQuery.trim()) {
+							router.push(`/blog?search=${encodeURIComponent(searchQuery.trim())}`);
+						} else {
+							router.push("/blog");
+						}
 					}}
 					className="form"
 				>
@@ -128,15 +148,15 @@ export default function Widget1({
 						<ul className="clearlist widget-menu">
 							{categories.map(category => (
 								<li key={category.id}>
-									<a
+									<Link
 										href={`/blog?categoryId=${category.id}`}
-										title=""
+										title={category.name}
 									>
 										{category.name}
-									</a>
+									</Link>
 									<small>
 										{" "}
-										- {category.contentCount || 0}{" "}
+										- {category.contentCount || category.content_count || 0}{" "}
 									</small>
 								</li>
 							))}
@@ -155,9 +175,9 @@ export default function Widget1({
 					<div className="widget-body">
 						<div className="tags">
 							{tags.map(tag => (
-								<a href={`/blog?tags=${tag.name}`} key={tag.id}>
+								<Link href={`/blog?tags=${tag.name}`} key={tag.id}>
 									{tag.name}
-								</a>
+								</Link>
 							))}
 						</div>
 					</div>

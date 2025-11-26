@@ -1,4 +1,6 @@
 "use client";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Footer1 from "@/components/footers/Footer1";
 import ParallaxContainer from "@/components/common/ParallaxContainer";
 import Header from "@/components/site/Header";
@@ -8,13 +10,47 @@ import Pagination from "@/components/common/Pagination";
 import Content1 from "@/components/blog/content/Content1";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
+import { useNews } from "@/lib/api/public-content";
 import { pageTranslations } from "@/data/aesContent";
 
 export default function BlogPage() {
+	const searchParams = useSearchParams();
 	const { language } = useLanguage();
 	const { theme } = useTheme();
 	const pageContent = pageTranslations.blog;
 	const isDark = theme === "dark";
+
+	// State for filters
+	const [filters, setFilters] = useState({
+		categoryId: undefined,
+		tags: undefined,
+		search: undefined,
+		page: 1,
+	});
+
+	// Update filters when URL params change
+	useEffect(() => {
+		const categoryId = searchParams.get("categoryId");
+		const tags = searchParams.get("tags");
+		const search = searchParams.get("search");
+		const page = searchParams.get("page");
+
+		setFilters({
+			categoryId: categoryId ? parseInt(categoryId) : undefined,
+			tags: tags || undefined,
+			search: search || undefined,
+			page: page ? parseInt(page) : 1,
+		});
+	}, [searchParams]);
+
+	// Fetch news data at page level
+	const { data, loading, error } = useNews({
+		page: filters.page || 1,
+		pageSize: 12,
+		categoryId: filters.categoryId,
+		tags: filters.tags,
+		search: filters.search,
+	});
 
 	return (
 		<>
@@ -70,16 +106,27 @@ export default function BlogPage() {
 										{/* Content */}
 										<div className="col-md-8 mb-sm-80">
 											{/* Post */}
-											<Content1 />
+											<Content1
+												data={data}
+												loading={loading}
+												error={error}
+											/>
 											{/* End Post */}
 											{/* Pagination */}
-											<Pagination className={"pagination"} />
+											<Pagination
+												className={"pagination"}
+												filters={filters}
+												pagination={data?.pagination}
+											/>
 											{/* End Pagination */}
 										</div>
 										{/* End Content */}
 										{/* Sidebar */}
 										<div className="col-md-4 col-lg-3 offset-lg-1">
-											<Widget1 searchInputClass="form-control input-lg search-field round" />
+											<Widget1
+												searchInputClass="form-control input-lg search-field round"
+												filters={filters}
+											/>
 										</div>
 										{/* End Sidebar */}
 									</div>

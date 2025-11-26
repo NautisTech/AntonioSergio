@@ -3,17 +3,9 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
-import { useNews } from "@/lib/api/public-content";
 
-export default function Content1() {
+export default function Content1({ data, loading, error }) {
 	const { language } = useLanguage();
-
-	// Fetch news from API with pagination
-	// Language is automatically injected from context
-	const { data, loading, error } = useNews({
-		page: 1,
-		pageSize: 12,
-	});
 
 	const blogPosts = data?.data || [];
 
