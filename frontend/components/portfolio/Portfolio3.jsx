@@ -5,19 +5,32 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useEntity, filterByEntity } from "@/context/EntityContext";
-import { aesContent } from "@/data/aesContent";
+import { useProjects } from "@/lib/api/public-content";
 
 export default function Portfolio3({ gridClass = "" }) {
 	const { language } = useLanguage();
 	const { selectedEntity } = useEntity();
-	const content = aesContent[language];
-	const allProjects = content.projects || [];
-
-	// Filter projects by selected entity
-	const projects = filterByEntity(allProjects, selectedEntity);
 	const [currentCategory, setCurrentCategory] = useState("all");
 	const isotopContainer = useRef();
 	const isotope = useRef();
+
+	// Fetch projects from API
+	const { data: projectsData, loading } = useProjects({ pageSize: 50 });
+	const apiProjects = projectsData?.data || [];
+
+	// Filter projects by selected entity if needed
+	const projects = selectedEntity
+		? filterByEntity(apiProjects, selectedEntity)
+		: apiProjects;
+
+	useEffect(() => {
+		console.log("Portfolio3 - Projects data:", {
+			apiProjectsCount: apiProjects.length,
+			projects: projects.length,
+			loading,
+			selectedEntity,
+		});
+	}, [apiProjects, projects, loading, selectedEntity]);
 
 	const translations = {
 		allProjects: {
@@ -27,6 +40,10 @@ export default function Portfolio3({ gridClass = "" }) {
 		noResults: {
 			pt: "Nenhum projeto disponível para esta escola.",
 			en: "No projects available for this school.",
+		},
+		loading: {
+			pt: "Carregando...",
+			en: "Loading...",
 		},
 	};
 
@@ -42,6 +59,8 @@ export default function Portfolio3({ gridClass = "" }) {
 	];
 
 	const initIsotop = async () => {
+		if (!isotopContainer.current) return;
+
 		const Isotope = (await import("isotope-layout")).default;
 		const imagesloaded = (await import("imagesloaded")).default;
 
@@ -52,34 +71,57 @@ export default function Portfolio3({ gridClass = "" }) {
 		});
 		imagesloaded(isotopContainer.current).on("progress", function () {
 			// Trigger Isotope layout
-			isotope.current.layout();
+			if (isotope.current) {
+				isotope.current.layout();
+			}
 		});
 	};
 
 	const updateCategory = val => {
 		setCurrentCategory(val);
-		isotope.current.arrange({
-			filter: val == "all" ? "*" : "." + val,
-		});
+		if (isotope.current) {
+			isotope.current.arrange({
+				filter: val == "all" ? "*" : "." + val,
+			});
+		}
 	};
 
 	useEffect(() => {
-		initIsotop();
-	}, []);
+		// Only initialize after data is loaded
+		if (!loading && projects.length > 0) {
+			initIsotop();
+		}
+	}, [loading, projects.length]);
 
 	// Re-layout isotope when filtered projects change
 	useEffect(() => {
 		if (isotope.current) {
 			isotope.current.reloadItems();
-			isotope.current.arrange({ filter: currentCategory === "all" ? "*" : "." + currentCategory });
+			isotope.current.arrange({
+				filter: currentCategory === "all" ? "*" : "." + currentCategory,
+			});
 		}
 	}, [projects, currentCategory]);
+
+	if (loading) {
+		return (
+			<div className="full-wrapper position-relative">
+				<div className="text-center py-5">
+					<p className="text-gray">
+						{translations.loading[language]}
+					</p>
+				</div>
+			</div>
+		);
+	}
 
 	if (projects.length === 0) {
 		return (
 			<div className="full-wrapper position-relative">
 				<div className="text-center py-5">
-					<p className="text-gray">{translations.noResults[language]}</p>
+					<p className="text-gray">
+						{translations.noResults[language]}
+					</p>
 				</div>
 			</div>
 		);
@@ -111,7 +153,8 @@ export default function Portfolio3({ gridClass = "" }) {
 			>
 				{projects.map((project, index) => {
 					const categoryClasses =
-						project.categories?.map(cat => cat.slug).join(" ") || "all";
+						project.categories?.map(cat => cat.slug).join(" ") ||
+						"all";
 					return (
 						<li
 							key={project.slug || index}
@@ -126,7 +169,10 @@ export default function Portfolio3({ gridClass = "" }) {
 									<Image
 										width={650}
 										height={773}
-										src={project.cover}
+										src={
+											project.featured_image ||
+											"/assets/school/campus/campus-2.jpg"
+										}
 										alt={project.title}
 										style={{
 											width: "650px",
@@ -136,8 +182,12 @@ export default function Portfolio3({ gridClass = "" }) {
 									/>
 								</div>
 								<div className="work-intro text-start">
-									<h3 className="work-title">{project.title}</h3>
-									<div className="work-descr">{project.summary}</div>
+									<h3 className="work-title">
+										{project.title}
+									</h3>
+									<div className="work-descr">
+										{project.excerpt}
+									</div>
 								</div>
 							</Link>
 						</li>

@@ -1,5 +1,5 @@
 "use client";
-import { use } from "react";
+import { use, useState, useEffect } from "react";
 import Footer1 from "@/components/footers/Footer1";
 import ParallaxContainer from "@/components/common/ParallaxContainer";
 import Header from "@/components/site/Header";
@@ -7,8 +7,7 @@ import AnimatedText from "@/components/common/AnimatedText";
 import Widget1 from "@/components/blog/widgets/Widget1";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
-import { useEntity, filterByEntity } from "@/context/EntityContext";
-import { aesContent } from "@/data/aesContent";
+import { useContentBySlug, useNews } from "@/lib/api/public-content";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -17,14 +16,52 @@ export default function BlogDetailPage({ params }) {
 	const unwrappedParams = use(params);
 	const { language } = useLanguage();
 	const { theme } = useTheme();
-	const { selectedEntity } = useEntity();
-	const content = aesContent[language];
-	const allBlogPosts = content.blogPosts || [];
-	const blogPosts = filterByEntity(allBlogPosts, selectedEntity);
 	const isDark = theme === "dark";
 
-	// Find the blog post by slug (unwrappedParams.id is actually the slug)
-	const blog = allBlogPosts.find(post => post.slug === unwrappedParams.id);
+	// Fetch blog post by slug
+	const {
+		data: blog,
+		loading: blogLoading,
+		error: blogError,
+	} = useContentBySlug(unwrappedParams.slug);
+
+	// Fetch all news for prev/next navigation
+	const { data: newsData } = useNews({ pageSize: 100 });
+	const allNews = newsData?.data || [];
+
+	if (blogError) {
+		notFound();
+	}
+
+	if (blogLoading) {
+		return (
+			<div className="theme-main">
+				<div className={isDark ? "dark-mode" : ""}>
+					<div
+						className={`page ${isDark ? "bg-dark-1" : ""}`}
+						id="top"
+					>
+						<nav
+							className={`main-nav transparent stick-fixed wow-menubar ${
+								isDark ? "dark dark-mode" : ""
+							}`}
+						>
+							<Header />
+						</nav>
+						<main id="main">
+							<div className="container pt-50 pb-50 text-center">
+								<p>
+									{language === "pt"
+										? "Carregando..."
+										: "Loading..."}
+								</p>
+							</div>
+						</main>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
 	if (!blog) {
 		notFound();
@@ -65,19 +102,22 @@ export default function BlogDetailPage({ params }) {
 		});
 	};
 
-	// Find previous and next posts
-	const currentIndex = blogPosts.findIndex(
-		post => post.slug === unwrappedParams.id
+	// Find previous and next posts from API data
+	const currentIndex = allNews.findIndex(
+		post => post.slug === unwrappedParams.slug
 	);
-	const prevPost = currentIndex > 0 ? blogPosts[currentIndex - 1] : null;
+	const prevPost = currentIndex > 0 ? allNews[currentIndex - 1] : null;
 	const nextPost =
-		currentIndex < blogPosts.length - 1 ? blogPosts[currentIndex + 1] : null;
+		currentIndex < allNews.length - 1 ? allNews[currentIndex + 1] : null;
 
 	return (
 		<>
 			<div className="theme-main">
 				<div className={isDark ? "dark-mode" : ""}>
-					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
+					<div
+						className={`page ${isDark ? "bg-dark-1" : ""}`}
+						id="top"
+					>
 						<nav
 							className={`main-nav transparent stick-fixed wow-menubar ${
 								isDark ? "dark dark-mode" : ""
@@ -85,7 +125,6 @@ export default function BlogDetailPage({ params }) {
 						>
 							<Header />
 						</nav>
-					<main id="main">
 						<section className="page-section pt-0 pb-0" id="home">
 							<ParallaxContainer
 								className="page-section bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
@@ -107,7 +146,12 @@ export default function BlogDetailPage({ params }) {
 														data-btn-animate="y"
 													>
 														<i className="mi-arrow-left align-center size-18" />{" "}
-														{translations.backToBlog[language]}
+														{
+															translations
+																.backToBlog[
+																language
+															]
+														}
 													</Link>
 												</div>
 												<h1 className="hs-title-1 mb-20">
@@ -115,7 +159,9 @@ export default function BlogDetailPage({ params }) {
 														className="wow charsAnimIn"
 														data-splitting="chars"
 													>
-														<AnimatedText text={blog.title} />
+														<AnimatedText
+															text={blog.title}
+														/>
 													</span>
 												</h1>
 
@@ -124,38 +170,76 @@ export default function BlogDetailPage({ params }) {
 													className="blog-item-data mt-30 mt-sm-10 mb-0 wow fadeInUp"
 													data-wow-delay="0.2s"
 												>
-													<div className="d-inline-block me-3">
-														<i className="mi-clock size-16" />
-														<span className="visually-hidden">
-															{language === "pt" ? "Data:" : "Date:"}
-														</span>{" "}
-														{formatDate(blog.date)}
-													</div>
-													<div className="d-inline-block me-3">
-														<i className="mi-user size-16" />
-														<span className="visually-hidden">
-															{language === "pt" ? "Autor:" : "Author:"}
-														</span>{" "}
-														{blog.author.name}
-													</div>
-													<div className="d-inline-block me-3">
-														<i className="mi-folder size-16" />
-														<span className="visually-hidden">
-															{language === "pt"
-																? "Categoria:"
-																: "Category:"}
-														</span>
-														<span> {blog.category}</span>
-													</div>
-													{blog.readingTime && (
+													{blog.published_at && (
 														<div className="d-inline-block me-3">
-															<i className="mi-book size-16" />
+															<i className="mi-clock size-16" />
 															<span className="visually-hidden">
-																{translations.readingTime[language]}:
+																{language ===
+																"pt"
+																	? "Data:"
+																	: "Date:"}
 															</span>{" "}
-															{blog.readingTime}
+															{formatDate(
+																blog.published_at
+															)}
 														</div>
 													)}
+													{blog.author_name && (
+														<div className="d-inline-block me-3">
+															<i className="mi-user size-16" />
+															<span className="visually-hidden">
+																{language ===
+																"pt"
+																	? "Autor:"
+																	: "Author:"}
+															</span>{" "}
+															{blog.author_name}
+														</div>
+													)}
+													{blog.categories &&
+														blog.categories.length >
+															0 && (
+															<div className="d-inline-block me-3">
+																<i className="mi-folder size-16" />
+																<span className="visually-hidden">
+																	{language ===
+																	"pt"
+																		? "Categoria:"
+																		: "Category:"}
+																</span>
+																<span>
+																	{" "}
+																	{blog
+																		.categories[0]
+																		?.name ||
+																		"—"}
+																</span>
+															</div>
+														)}
+													{blog.tags &&
+														blog.tags.length >
+															0 && (
+															<div className="d-inline-block me-3">
+																<i className="mi-tag size-16" />
+																<span className="visually-hidden">
+																	{language ===
+																	"pt"
+																		? "Tags:"
+																		: "Tags:"}
+																</span>
+																<span>
+																	{" "}
+																	{blog.tags
+																		.map(
+																			t =>
+																				t.name
+																		)
+																		.join(
+																			", "
+																		)}
+																</span>
+															</div>
+														)}
 												</div>
 											</div>
 											{/* End Page Title */}
@@ -165,10 +249,12 @@ export default function BlogDetailPage({ params }) {
 								</div>
 							</ParallaxContainer>
 						</section>
-						<>
+						<main id="main">
 							{/* Section */}
 							<section
-								className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+								className={`page-section ${
+									isDark ? "bg-dark-1 light-content" : ""
+								}`}
 							>
 								<div className="container relative">
 									<div className="row">
@@ -178,10 +264,12 @@ export default function BlogDetailPage({ params }) {
 											<div className="blog-item mb-80 mb-xs-40">
 												<div className="blog-item-body">
 													{/* Image */}
-													{blog.cover && (
+													{blog.featured_image && (
 														<div className="blog-media mb-40 mb-xs-30">
 															<Image
-																src={blog.cover}
+																src={
+																	blog.featured_image
+																}
 																width={1350}
 																height={865}
 																alt={blog.title}
@@ -190,10 +278,11 @@ export default function BlogDetailPage({ params }) {
 													)}
 
 													{/* Content */}
-													{blog.content &&
-														blog.content.map((paragraph, index) => (
-															<p key={index}>{paragraph}</p>
-														))}
+													<div
+														dangerouslySetInnerHTML={{
+															__html: blog.content,
+														}}
+													/>
 												</div>
 											</div>
 											{/* End Post */}
@@ -206,7 +295,13 @@ export default function BlogDetailPage({ params }) {
 														className="blog-item-more left"
 													>
 														<i className="mi-chevron-left" />
-														&nbsp;{translations.prevPost[language]}
+														&nbsp;
+														{
+															translations
+																.prevPost[
+																language
+															]
+														}
 													</Link>
 												)}
 												{nextPost && (
@@ -214,7 +309,13 @@ export default function BlogDetailPage({ params }) {
 														href={`/blog/${nextPost.slug}`}
 														className="blog-item-more right"
 													>
-														{translations.nextPost[language]}&nbsp;
+														{
+															translations
+																.nextPost[
+																language
+															]
+														}
+														&nbsp;
 														<i className="mi-chevron-right" />
 													</Link>
 												)}
@@ -231,10 +332,9 @@ export default function BlogDetailPage({ params }) {
 								</div>
 							</section>
 							{/* End Section */}
-						</>
-					</main>
-					<Footer1 dark={isDark} />
-				</div>
+						</main>
+						<Footer1 dark={isDark} />
+					</div>
 				</div>
 			</div>
 		</>

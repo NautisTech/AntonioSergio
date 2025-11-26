@@ -3,213 +3,308 @@
  * API methods for accessing public content endpoints
  */
 
-import { apiClient, type RequestConfig } from '../client'
+import { apiClient, type RequestConfig } from "../client";
 import type {
-    Content,
-    ContentFilters,
-    PaginatedResponse,
-    Category,
-    Tag,
-    Comment,
-    CreateCommentDto,
-    CONTENT_TYPES,
-} from './types'
+	Content,
+	ContentFilters,
+	PaginatedResponse,
+	Category,
+	Tag,
+	Comment,
+	CreateCommentDto,
+	CONTENT_TYPES,
+} from "./types";
+
+// Map content type IDs to content type enum values expected by the API
+// Note: Only types that exist in the ContentType enum can be used for filtering
+// event and project are NOT in the enum, so we filter by category instead
+const CONTENT_TYPE_MAP: Record<number, { type?: string; categoryId?: number }> =
+	{
+		1: { type: "news" },
+		3: { type: "banner" },
+		4: { type: "event" }, // event - filter by category (Events category)
+		5: { type: "project" }, // project - filter by category (Projects category)
+		6: { type: "faq" },
+	};
 
 class PublicContentAPI {
-    private baseUrl = '/public/content'
+	private baseUrl = "/public/content";
 
-    // ==================== CONTENT METHODS ====================
+	// ==================== CONTENT METHODS ====================
 
-    /**
-     * List public content with filters and pagination
-     */
-    async list(filters?: ContentFilters, config?: RequestConfig): Promise<PaginatedResponse<Content>> {
-        const params = new URLSearchParams()
+	/**
+	 * List public content with filters and pagination
+	 */
+	async list(
+		filters?: ContentFilters,
+		config?: RequestConfig
+	): Promise<PaginatedResponse<Content>> {
+		const params = new URLSearchParams();
 
-        if (filters?.type) params.append('type', filters.type)
-        if (filters?.content_type_id) params.append('content_type_id', String(filters.content_type_id))
-        if (filters?.categoryId) params.append('categoryId', String(filters.categoryId))
-        if (filters?.tags) params.append('tags', filters.tags)
-        if (filters?.search) params.append('search', filters.search)
-        if (filters?.featuredOnly !== undefined) params.append('featuredOnly', String(filters.featuredOnly))
-        if (filters?.page) params.append('page', String(filters.page))
-        if (filters?.pageSize) params.append('pageSize', String(filters.pageSize))
-        if (filters?.sortBy) params.append('sortBy', filters.sortBy)
-        if (filters?.sortOrder) params.append('sortOrder', filters.sortOrder)
-        if (filters?.language) params.append('language', filters.language)
+		// Map content_type_id to type or categoryId if provided
+		if (filters?.content_type_id) {
+			const mapping = CONTENT_TYPE_MAP[filters.content_type_id];
+			if (mapping?.type) {
+				params.append("type", mapping.type);
+			}
+			if (mapping?.categoryId && !filters?.categoryId) {
+				params.append("categoryId", String(mapping.categoryId));
+			}
+		} else if (filters?.type) {
+			params.append("type", filters.type);
+		}
 
-        const queryString = params.toString()
-        const url = `${this.baseUrl}${queryString ? `?${queryString}` : ''}`
+		if (filters?.categoryId)
+			params.append("categoryId", String(filters.categoryId));
+		if (filters?.tags) params.append("tags", filters.tags);
+		if (filters?.search) params.append("search", filters.search);
+		if (filters?.featuredOnly !== undefined)
+			params.append("featuredOnly", String(filters.featuredOnly));
+		if (filters?.page) params.append("page", String(filters.page));
+		if (filters?.pageSize)
+			params.append("pageSize", String(filters.pageSize));
+		if (filters?.sortBy) params.append("sortBy", filters.sortBy);
+		if (filters?.sortOrder) params.append("sortOrder", filters.sortOrder);
+		if (filters?.language) params.append("language", filters.language);
 
-        return apiClient.get<PaginatedResponse<Content>>(url, config)
-    }
+		const queryString = params.toString();
+		const url = `${this.baseUrl}${queryString ? `?${queryString}` : ""}`;
 
-    /**
-     * Get content by slug
-     */
-    async getBySlug(slug: string, config?: RequestConfig): Promise<Content> {
-        return apiClient.get<Content>(`${this.baseUrl}/slug/${slug}`, config)
-    }
+		return apiClient.get<PaginatedResponse<Content>>(url, config);
+	}
 
-    /**
-     * Get content by ID
-     */
-    async getById(id: number, config?: RequestConfig): Promise<Content> {
-        return apiClient.get<Content>(`${this.baseUrl}/id/${id}`, config)
-    }
+	/**
+	 * Get content by slug
+	 */
+	async getBySlug(slug: string, config?: RequestConfig): Promise<Content> {
+		return apiClient.get<Content>(`${this.baseUrl}/slug/${slug}`, config);
+	}
 
-    /**
-     * Get featured content
-     */
-    async getFeatured(limit: number = 5, config?: RequestConfig): Promise<Content[]> {
-        const params = new URLSearchParams()
-        if (limit) params.append('limit', String(limit))
+	/**
+	 * Get content by ID
+	 */
+	async getById(id: number, config?: RequestConfig): Promise<Content> {
+		return apiClient.get<Content>(`${this.baseUrl}/id/${id}`, config);
+	}
 
-        const queryString = params.toString()
-        const url = `${this.baseUrl}/featured${queryString ? `?${queryString}` : ''}`
+	/**
+	 * Get featured content
+	 */
+	async getFeatured(
+		limit: number = 5,
+		config?: RequestConfig
+	): Promise<Content[]> {
+		const params = new URLSearchParams();
+		if (limit) params.append("limit", String(limit));
 
-        return apiClient.get<Content[]>(url, config)
-    }
+		const queryString = params.toString();
+		const url = `${this.baseUrl}/featured${
+			queryString ? `?${queryString}` : ""
+		}`;
 
-    /**
-     * Get recent content
-     */
-    async getRecent(limit: number = 10, config?: RequestConfig): Promise<Content[]> {
-        const params = new URLSearchParams()
-        if (limit) params.append('limit', String(limit))
+		return apiClient.get<Content[]>(url, config);
+	}
 
-        const queryString = params.toString()
-        const url = `${this.baseUrl}/recent${queryString ? `?${queryString}` : ''}`
+	/**
+	 * Get recent content
+	 */
+	async getRecent(
+		limit: number = 10,
+		config?: RequestConfig
+	): Promise<Content[]> {
+		const params = new URLSearchParams();
+		if (limit) params.append("limit", String(limit));
 
-        return apiClient.get<Content[]>(url, config)
-    }
+		const queryString = params.toString();
+		const url = `${this.baseUrl}/recent${
+			queryString ? `?${queryString}` : ""
+		}`;
 
-    /**
-     * Get popular content (most viewed)
-     */
-    async getPopular(limit: number = 10, config?: RequestConfig): Promise<Content[]> {
-        const params = new URLSearchParams()
-        if (limit) params.append('limit', String(limit))
+		return apiClient.get<Content[]>(url, config);
+	}
 
-        const queryString = params.toString()
-        const url = `${this.baseUrl}/popular${queryString ? `?${queryString}` : ''}`
+	/**
+	 * Get popular content (most viewed)
+	 */
+	async getPopular(
+		limit: number = 10,
+		config?: RequestConfig
+	): Promise<Content[]> {
+		const params = new URLSearchParams();
+		if (limit) params.append("limit", String(limit));
 
-        return apiClient.get<Content[]>(url, config)
-    }
+		const queryString = params.toString();
+		const url = `${this.baseUrl}/popular${
+			queryString ? `?${queryString}` : ""
+		}`;
 
-    /**
-     * Get content by type with filters
-     */
-    async getByType(contentTypeId: number, filters?: ContentFilters, config?: RequestConfig): Promise<PaginatedResponse<Content>> {
-        return this.list({ ...filters, content_type_id: contentTypeId }, config)
-    }
+		return apiClient.get<Content[]>(url, config);
+	}
 
-    /**
-     * Get content by category
-     */
-    async getByCategory(categoryId: number, filters?: ContentFilters, config?: RequestConfig): Promise<PaginatedResponse<Content>> {
-        return this.list({ ...filters, categoryId }, config)
-    }
+	/**
+	 * Get content by type with filters
+	 */
+	async getByType(
+		contentTypeId: number,
+		filters?: ContentFilters,
+		config?: RequestConfig
+	): Promise<PaginatedResponse<Content>> {
+		return this.list(
+			{ ...filters, content_type_id: contentTypeId },
+			config
+		);
+	}
 
-    /**
-     * Search content
-     */
-    async search(query: string, filters?: ContentFilters, config?: RequestConfig): Promise<PaginatedResponse<Content>> {
-        return this.list({ ...filters, search: query }, config)
-    }
+	/**
+	 * Get content by category
+	 */
+	async getByCategory(
+		categoryId: number,
+		filters?: ContentFilters,
+		config?: RequestConfig
+	): Promise<PaginatedResponse<Content>> {
+		return this.list({ ...filters, categoryId }, config);
+	}
 
-    // ==================== CONVENIENCE METHODS (CONTENT TYPES) ====================
+	/**
+	 * Search content
+	 */
+	async search(
+		query: string,
+		filters?: ContentFilters,
+		config?: RequestConfig
+	): Promise<PaginatedResponse<Content>> {
+		return this.list({ ...filters, search: query }, config);
+	}
 
-    /**
-     * Get news articles (content_type_id = 1)
-     */
-    async getNews(filters?: ContentFilters, config?: RequestConfig): Promise<PaginatedResponse<Content>> {
-        return this.getByType(1, filters, config)
-    }
+	// ==================== CONVENIENCE METHODS (CONTENT TYPES) ====================
 
-    /**
-     * Get banners (content_type_id = 3)
-     */
-    async getBanners(filters?: ContentFilters, config?: RequestConfig): Promise<PaginatedResponse<Content>> {
-        return this.getByType(3, filters, config)
-    }
+	/**
+	 * Get news articles (content_type_id = 1)
+	 */
+	async getNews(
+		filters?: ContentFilters,
+		config?: RequestConfig
+	): Promise<PaginatedResponse<Content>> {
+		return this.getByType(1, filters, config);
+	}
 
-    /**
-     * Get events (content_type_id = 4)
-     */
-    async getEvents(filters?: ContentFilters, config?: RequestConfig): Promise<PaginatedResponse<Content>> {
-        return this.getByType(4, filters, config)
-    }
+	/**
+	 * Get banners (content_type_id = 3)
+	 */
+	async getBanners(
+		filters?: ContentFilters,
+		config?: RequestConfig
+	): Promise<PaginatedResponse<Content>> {
+		return this.getByType(3, filters, config);
+	}
 
-    /**
-     * Get projects (content_type_id = 5)
-     */
-    async getProjects(filters?: ContentFilters, config?: RequestConfig): Promise<PaginatedResponse<Content>> {
-        return this.getByType(5, filters, config)
-    }
+	/**
+	 * Get events (content_type_id = 4)
+	 */
+	async getEvents(
+		filters?: ContentFilters,
+		config?: RequestConfig
+	): Promise<PaginatedResponse<Content>> {
+		return this.getByType(4, filters, config);
+	}
 
-    /**
-     * Get FAQs (content_type_id = 6)
-     */
-    async getFaqs(filters?: ContentFilters, config?: RequestConfig): Promise<PaginatedResponse<Content>> {
-        return this.getByType(6, filters, config)
-    }
+	/**
+	 * Get projects (content_type_id = 5)
+	 */
+	async getProjects(
+		filters?: ContentFilters,
+		config?: RequestConfig
+	): Promise<PaginatedResponse<Content>> {
+		return this.getByType(5, filters, config);
+	}
 
-    // ==================== CATEGORIES ====================
+	/**
+	 * Get FAQs (content_type_id = 6)
+	 */
+	async getFaqs(
+		filters?: ContentFilters,
+		config?: RequestConfig
+	): Promise<PaginatedResponse<Content>> {
+		return this.getByType(6, filters, config);
+	}
 
-    /**
-     * Get all public categories
-     */
-    async getCategories(config?: RequestConfig): Promise<Category[]> {
-        return apiClient.get<Category[]>(`${this.baseUrl}/categories`, config)
-    }
+	// ==================== CATEGORIES ====================
 
-    /**
-     * Get category tree (hierarchical structure)
-     */
-    async getCategoryTree(config?: RequestConfig): Promise<Category[]> {
-        return apiClient.get<Category[]>(`${this.baseUrl}/categories/tree`, config)
-    }
+	/**
+	 * Get all public categories
+	 */
+	async getCategories(config?: RequestConfig): Promise<Category[]> {
+		return apiClient.get<Category[]>(`${this.baseUrl}/categories`, config);
+	}
 
-    // ==================== TAGS ====================
+	/**
+	 * Get category tree (hierarchical structure)
+	 */
+	async getCategoryTree(config?: RequestConfig): Promise<Category[]> {
+		return apiClient.get<Category[]>(
+			`${this.baseUrl}/categories/tree`,
+			config
+		);
+	}
 
-    /**
-     * Get all public tags
-     */
-    async getTags(config?: RequestConfig): Promise<Tag[]> {
-        return apiClient.get<Tag[]>(`${this.baseUrl}/tags`, config)
-    }
+	// ==================== TAGS ====================
 
-    /**
-     * Get popular tags
-     */
-    async getPopularTags(limit: number = 10, config?: RequestConfig): Promise<Tag[]> {
-        const params = new URLSearchParams()
-        if (limit) params.append('limit', String(limit))
+	/**
+	 * Get all public tags
+	 */
+	async getTags(config?: RequestConfig): Promise<Tag[]> {
+		return apiClient.get<Tag[]>(`${this.baseUrl}/tags`, config);
+	}
 
-        const queryString = params.toString()
-        const url = `${this.baseUrl}/tags/popular${queryString ? `?${queryString}` : ''}`
+	/**
+	 * Get popular tags
+	 */
+	async getPopularTags(
+		limit: number = 10,
+		config?: RequestConfig
+	): Promise<Tag[]> {
+		const params = new URLSearchParams();
+		if (limit) params.append("limit", String(limit));
 
-        return apiClient.get<Tag[]>(url, config)
-    }
+		const queryString = params.toString();
+		const url = `${this.baseUrl}/tags/popular${
+			queryString ? `?${queryString}` : ""
+		}`;
 
-    // ==================== COMMENTS ====================
+		return apiClient.get<Tag[]>(url, config);
+	}
 
-    /**
-     * Get comments for content
-     */
-    async getComments(contentId: number, config?: RequestConfig): Promise<Comment[]> {
-        return apiClient.get<Comment[]>(`${this.baseUrl}/${contentId}/comments`, config)
-    }
+	// ==================== COMMENTS ====================
 
-    /**
-     * Post a comment (anonymous)
-     */
-    async postComment(data: CreateCommentDto, config?: RequestConfig): Promise<Comment> {
-        return apiClient.post<Comment>(`${this.baseUrl}/${data.contentId}/comments`, data, config)
-    }
+	/**
+	 * Get comments for content
+	 */
+	async getComments(
+		contentId: number,
+		config?: RequestConfig
+	): Promise<Comment[]> {
+		return apiClient.get<Comment[]>(
+			`${this.baseUrl}/${contentId}/comments`,
+			config
+		);
+	}
+
+	/**
+	 * Post a comment (anonymous)
+	 */
+	async postComment(
+		data: CreateCommentDto,
+		config?: RequestConfig
+	): Promise<Comment> {
+		return apiClient.post<Comment>(
+			`${this.baseUrl}/${data.contentId}/comments`,
+			data,
+			config
+		);
+	}
 }
 
 // Export singleton instance
-export const publicContentAPI = new PublicContentAPI()
-export default publicContentAPI
+export const publicContentAPI = new PublicContentAPI();
+export default publicContentAPI;

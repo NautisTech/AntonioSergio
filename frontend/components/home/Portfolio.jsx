@@ -31,41 +31,90 @@ export default function Portfolio() {
 	const [currentCategory, setCurrentCategory] = useState("all");
 	const isotopContainer = useRef();
 	const isotope = useRef();
+
 	const initIsotop = async () => {
+		// Wait for the ref to be available
+		if (!isotopContainer.current) {
+			return;
+		}
+
 		const Isotope = (await import("isotope-layout")).default;
 		const imagesloaded = (await import("imagesloaded")).default;
 
-		// Initialize Isotope in the mounted hook
-		isotope.current = new Isotope(isotopContainer.current, {
-			itemSelector: ".work-item",
-			layoutMode: "masonry", // or 'fitRows', depending on your layout needs
-		});
-		imagesloaded(isotopContainer.current).on("progress", function () {
-			// Trigger Isotope layout
-			isotope.current.layout();
-		});
+		try {
+			// Initialize Isotope
+			isotope.current = new Isotope(isotopContainer.current, {
+				itemSelector: ".work-item",
+				layoutMode: "masonry",
+			});
+
+			// Initialize images loaded and layout on complete
+			imagesloaded(isotopContainer.current).on("progress", function () {
+				if (isotope.current) {
+					isotope.current.layout();
+				}
+			});
+		} catch (error) {
+			console.error("Error initializing Isotope:", error);
+		}
 	};
+
 	const updateCategory = val => {
 		setCurrentCategory(val);
-		isotope.current.arrange({
-			filter: val == "all" ? "*" : "." + val,
-		});
-		//   isotope.value.layout();
+		if (isotope.current) {
+			isotope.current.arrange({
+				filter: val === "all" ? "*" : "." + val,
+			});
+		}
 	};
-	useEffect(() => {
-		/////////////////////////////////////////////////////
-		// Magnate Animation
 
-		initIsotop();
-	}, []);
+	// Initialize Isotope after component mounts and projects are loaded
+	useEffect(() => {
+		if (projects.length > 0) {
+			// Small delay to ensure DOM is ready
+			const timer = setTimeout(() => {
+				initIsotop();
+				// Also reinitialize WOW animations for the loaded content
+				if (typeof window !== "undefined") {
+					try {
+						// Ensure all wow elements are visible
+						const wowElements = document.querySelectorAll(".wow");
+						wowElements.forEach(el => {
+							el.style.opacity = "1";
+							el.style.visibility = "visible";
+						});
+
+						const { WOW } = require("wowjs");
+						const wow = new WOW({
+							boxClass: "wow",
+							animateClass: "animatedfgfg",
+							offset: 100,
+							live: false,
+							callback: function (box) {
+								box.classList.add("animated");
+								box.style.opacity = "1";
+								box.style.visibility = "visible";
+							},
+						});
+						wow.init();
+					} catch (e) {
+						console.error("Error initializing WOW:", e);
+					}
+				}
+			}, 100);
+			return () => clearTimeout(timer);
+		}
+	}, [projects]);
 
 	// Re-layout isotope when filtered projects change
 	useEffect(() => {
-		if (isotope.current) {
+		if (isotope.current && projects.length > 0) {
 			isotope.current.reloadItems();
-			isotope.current.arrange({ filter: currentCategory === "all" ? "*" : "." + currentCategory });
+			isotope.current.arrange({
+				filter: currentCategory === "all" ? "*" : "." + currentCategory,
+			});
 		}
-	}, [projects, currentCategory]);
+	}, [currentCategory]);
 
 	const filters = useMemo(() => {
 		const categories = Array.from(
@@ -76,7 +125,10 @@ export default function Portfolio() {
 			)
 		);
 		return [
-			{ name: content.homeSections.portfolio.filterAllLabel, category: "all" },
+			{
+				name: content.homeSections.portfolio.filterAllLabel,
+				category: "all",
+			},
 			...categories.map(category => ({
 				name: category,
 				category: slugify(category),
@@ -90,7 +142,9 @@ export default function Portfolio() {
 			<div className="container">
 				<div className="text-center py-5">
 					<p className="text-gray">
-						{language === "pt" ? "Carregando projetos..." : "Loading projects..."}
+						{language === "pt"
+							? "Carregando projetos..."
+							: "Loading projects..."}
 					</p>
 				</div>
 			</div>
@@ -103,7 +157,9 @@ export default function Portfolio() {
 			<div className="container">
 				<div className="text-center py-5">
 					<p className="text-gray">
-						{language === "pt" ? "Erro ao carregar projetos." : "Error loading projects."}
+						{language === "pt"
+							? "Erro ao carregar projetos."
+							: "Error loading projects."}
 					</p>
 				</div>
 			</div>
@@ -133,7 +189,9 @@ export default function Portfolio() {
 						{content.homeSections.portfolio.caption}
 					</h2>
 					<h3 className="section-title mb-0">
-						<AnimatedText text={content.homeSections.portfolio.title} />
+						<AnimatedText
+							text={content.homeSections.portfolio.title}
+						/>
 					</h3>
 				</div>
 				<div className="col-lg-7">
@@ -164,7 +222,9 @@ export default function Portfolio() {
 			>
 				{projects.map((project, index) => {
 					const categoryClasses = (project.categories || [])
-						.map(category => slugify(category.name || category.slug || ""))
+						.map(category =>
+							slugify(category.name || category.slug || "")
+						)
 						.join(" ");
 					return (
 						<li
@@ -188,8 +248,12 @@ export default function Portfolio() {
 									)}
 								</div>
 								<div className="work-intro text-start">
-									<h3 className="work-title">{project.title}</h3>
-									<div className="work-descr">{project.excerpt}</div>
+									<h3 className="work-title">
+										{project.title}
+									</h3>
+									<div className="work-descr">
+										{project.excerpt}
+									</div>
 								</div>
 							</Link>
 						</li>

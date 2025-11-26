@@ -1,20 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { useEntity, filterByEntity } from "@/context/EntityContext";
-import { aesContent } from "@/data/aesContent";
 import Link from "next/link";
 import Image from "next/image";
+import { useNews, useTags, useCategories } from "@/lib/api/public-content";
 
 export default function Widget1({
 	searchInputClass = "form-control input-md search-field input-circle",
 }) {
 	const { language } = useLanguage();
-	const { selectedEntity } = useEntity();
-	const content = aesContent[language];
-	const allBlogPosts = content.blogPosts || [];
-	const blogPosts = filterByEntity(allBlogPosts, selectedEntity);
 	const [searchQuery, setSearchQuery] = useState("");
+
+	// Fetch data from API
+	const { data: newsData, loading: newsLoading } = useNews({ pageSize: 6 });
+	const { data: tagsData, loading: tagsLoading } = useTags();
+	const { data: categoriesData, loading: categoriesLoading } =
+		useCategories();
 
 	const translations = {
 		search: {
@@ -39,20 +40,43 @@ export default function Widget1({
 		},
 	};
 
-	// Extract unique categories from blog posts
-	const categories = [
-		...new Set(blogPosts.map(post => post.category)),
-	].map(category => ({
-		name: category,
-		count: blogPosts.filter(post => post.category === category).length,
-	}));
+	// Get data with fallbacks
+	const news = newsData?.data || [];
+	const apiTags = tagsData || [];
+	const apiCategories = categoriesData || [];
 
-	// Extract unique tags from blog posts
-	const allTags = blogPosts.flatMap(post => post.tags || []);
-	const uniqueTags = [...new Set(allTags)];
+	// Extract unique tags and categories from fetched content
+	const contentTags = new Map();
+	const contentCategories = new Map();
+
+	news.forEach(post => {
+		if (post.tags && Array.isArray(post.tags)) {
+			post.tags.forEach(tag => {
+				if (!contentTags.has(tag.id)) {
+					contentTags.set(tag.id, tag);
+				}
+			});
+		}
+		if (post.categories && Array.isArray(post.categories)) {
+			post.categories.forEach(cat => {
+				if (!contentCategories.has(cat.id)) {
+					contentCategories.set(cat.id, cat);
+				}
+			});
+		}
+	});
+
+	// Merge API data with content-extracted data (prioritize content data)
+	const allTags = new Map(apiTags?.map(t => [t.id, t]) || []);
+	contentTags.forEach((tag, id) => allTags.set(id, tag));
+	const tags = Array.from(allTags.values());
+
+	const allCategories = new Map(apiCategories?.map(c => [c.id, c]) || []);
+	contentCategories.forEach((cat, id) => allCategories.set(id, cat));
+	const categories = Array.from(allCategories.values());
 
 	// Get latest 3 posts
-	const latestPosts = blogPosts.slice(0, 3);
+	const latestPosts = news.slice(0, 3);
 
 	return (
 		<>
@@ -102,12 +126,18 @@ export default function Widget1({
 					</h3>
 					<div className="widget-body">
 						<ul className="clearlist widget-menu">
-							{categories.map((category, index) => (
-								<li key={index}>
-									<a href="#" title="">
+							{categories.map(category => (
+								<li key={category.id}>
+									<a
+										href={`/blog?categoryId=${category.id}`}
+										title=""
+									>
 										{category.name}
 									</a>
-									<small> - {category.count} </small>
+									<small>
+										{" "}
+										- {category.contentCount || 0}{" "}
+									</small>
 								</li>
 							))}
 						</ul>
@@ -117,14 +147,16 @@ export default function Widget1({
 			{/* End Widget */}
 
 			{/* Tags Widget */}
-			{uniqueTags.length > 0 && (
+			{tags.length > 0 && (
 				<div className="widget">
-					<h3 className="widget-title">{translations.tags[language]}</h3>
+					<h3 className="widget-title">
+						{translations.tags[language]}
+					</h3>
 					<div className="widget-body">
 						<div className="tags">
-							{uniqueTags.map((tag, index) => (
-								<a href="#" key={index}>
-									{tag}
+							{tags.map(tag => (
+								<a href={`/blog?tags=${tag.name}`} key={tag.id}>
+									{tag.name}
 								</a>
 							))}
 						</div>
@@ -141,25 +173,32 @@ export default function Widget1({
 					</h3>
 					<div className="widget-body">
 						<ul className="clearlist widget-posts">
-							{latestPosts.map((post, index) => (
-								<li key={index} className="clearfix">
+							{latestPosts.map(post => (
+								<li key={post.id} className="clearfix">
 									<Link href={`/blog/${post.slug}`}>
-										<Image
-											src={post.cover}
-											height={140}
-											width={100}
-											alt={post.title}
-											className="widget-posts-img"
-											style={{ height: "fit-content" }}
-										/>
+										{post.featured_image && (
+											<Image
+												src={post.featured_image}
+												height={140}
+												width={100}
+												alt={post.title}
+												className="widget-posts-img"
+												style={{
+													height: "fit-content",
+												}}
+											/>
+										)}
 									</Link>
 									<div className="widget-posts-descr">
-										<Link href={`/blog/${post.slug}`} title="">
+										<Link
+											href={`/blog/${post.slug}`}
+											title=""
+										>
 											{post.title}
 										</Link>
 										<span>
 											{translations.postedBy[language]}{" "}
-											{post.author.name}
+											{post.author_name || "Anonymous"}
 										</span>
 									</div>
 								</li>

@@ -3,7 +3,7 @@ import { useNews } from "@/lib/api/public-content";
 import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function Blog() {
 	const { language } = useLanguage();
@@ -14,6 +14,41 @@ export default function Blog() {
 		featuredOnly: true,
 		pageSize: 6,
 	});
+
+	const blogPosts = data?.data || [];
+
+	// Reinitialize WOW animations when blog posts load - MUST be before early returns
+	useEffect(() => {
+		if (blogPosts.length > 0 && typeof window !== "undefined") {
+			setTimeout(() => {
+				try {
+					// Ensure all wow elements are visible
+					const wowElements =
+						document.querySelectorAll(".wow.fadeInLeft");
+					wowElements.forEach(el => {
+						el.style.opacity = "1";
+						el.style.visibility = "visible";
+					});
+
+					const { WOW } = require("wowjs");
+					const wow = new WOW({
+						boxClass: "wow",
+						animateClass: "animatedfgfg",
+						offset: 100,
+						live: false,
+						callback: function (box) {
+							box.classList.add("animated");
+							box.style.opacity = "1";
+							box.style.visibility = "visible";
+						},
+					});
+					wow.init();
+				} catch (e) {
+					console.error("Error initializing WOW:", e);
+				}
+			}, 100);
+		}
+	}, [blogPosts.length]);
 
 	const translations = {
 		noResults: {
@@ -34,7 +69,9 @@ export default function Blog() {
 		return (
 			<div className="row mt-n50">
 				<div className="col-12 text-center">
-					<p className="text-gray">{translations.loading[language]}</p>
+					<p className="text-gray">
+						{translations.loading[language]}
+					</p>
 				</div>
 			</div>
 		);
@@ -50,13 +87,13 @@ export default function Blog() {
 		);
 	}
 
-	const blogPosts = data?.data || [];
-
 	if (blogPosts.length === 0) {
 		return (
 			<div className="row mt-n50">
 				<div className="col-12 text-center">
-					<p className="text-gray">{translations.noResults[language]}</p>
+					<p className="text-gray">
+						{translations.noResults[language]}
+					</p>
 				</div>
 			</div>
 		);
@@ -88,20 +125,28 @@ export default function Blog() {
 							</div>
 						)}
 						<h4 className="post-prev-title">
-							<Link href={`/blog/${post.slug}`}>{post.title}</Link>
+							<Link href={`/blog/${post.slug}`}>
+								{post.title}
+							</Link>
 						</h4>
 						<div className="post-prev-text">{post.excerpt}</div>
 						<div className="post-prev-info clearfix">
 							<div className="float-start">
 								<div className="d-inline-flex align-items-center gap-2">
-									{post.author_name && <span>{post.author_name}</span>}
+									{post.author_name && (
+										<span>{post.author_name}</span>
+									)}
 								</div>
 							</div>
 							<div className="float-end">
 								<span>
 									{post.published_at &&
-										new Date(post.published_at).toLocaleDateString(
-											language === "pt" ? "pt-PT" : "en-US"
+										new Date(
+											post.published_at
+										).toLocaleDateString(
+											language === "pt"
+												? "pt-PT"
+												: "en-US"
 										)}
 								</span>
 							</div>
