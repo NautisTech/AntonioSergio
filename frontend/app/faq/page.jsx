@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import Footer1 from "@/components/footers/Footer1";
 import ParallaxContainer from "@/components/common/ParallaxContainer";
 import Header from "@/components/site/Header";
@@ -9,12 +10,26 @@ import Faq from "@/components/common/Faq";
 import { pageTranslations } from "@/data/aesContent";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
+import { useFaqs } from "@/lib/api/public-content";
 
 export default function MainFaqPage1() {
 	const { language } = useLanguage();
 	const { theme } = useTheme();
 	const t = pageTranslations.faq;
 	const isDark = theme === "dark";
+	const [searchQuery, setSearchQuery] = useState("");
+	const [activeSearch, setActiveSearch] = useState("");
+
+	// Fetch FAQs from API with search filter
+	const { data, loading, error } = useFaqs({
+		pageSize: 100,
+		search: activeSearch || undefined,
+	});
+
+	const handleSearch = e => {
+		e.preventDefault();
+		setActiveSearch(searchQuery.trim());
+	};
 
 	return (
 		<>
@@ -76,7 +91,7 @@ export default function MainFaqPage1() {
 								<div className="row">
 									<div className="col-md-8 offset-md-2">
 										<form
-											onSubmit={e => e.preventDefault()}
+											onSubmit={handleSearch}
 											className="form mb-50 mb-sm-30"
 										>
 											<div className="search-wrap">
@@ -102,6 +117,12 @@ export default function MainFaqPage1() {
 															language
 														]
 													}
+													value={searchQuery}
+													onChange={e =>
+														setSearchQuery(
+															e.target.value
+														)
+													}
 												/>
 											</div>
 										</form>
@@ -109,7 +130,11 @@ export default function MainFaqPage1() {
 								</div>
 								<div className="row section-text">
 									<div className="col-md-8 offset-md-2">
-										<Faq />
+										<Faq
+											data={data}
+											loading={loading}
+											error={error}
+										/>
 									</div>
 								</div>
 							</div>
