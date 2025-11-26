@@ -7,11 +7,13 @@ import AnimatedText from "@/components/common/AnimatedText";
 import Widget1 from "@/components/blog/widgets/Widget1";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
-import { useContentBySlug, useNews } from "@/lib/api/public-content";
+import { useContentBySlug, useNews, useComments } from "@/lib/api/public-content";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { useMemo } from "react";
+import Comments from "@/components/blog/Comments";
+import Form1 from "@/components/blog/commentForm/Form1";
 
 export default function BlogDetailPage({ params }) {
 	const unwrappedParams = use(params);
@@ -48,6 +50,13 @@ export default function BlogDetailPage({ params }) {
 	// Fetch all news for prev/next navigation and sidebar
 	const { data: newsData } = useNews({ pageSize: 999 });
 	const allNews = newsData?.data || [];
+
+	// Fetch comments for this blog post
+	const {
+		data: comments,
+		loading: commentsLoading,
+		refetch: refetchComments,
+	} = useComments(blog?.id || null);
 
 	// State for sidebar filters
 	const [searchQuery, setSearchQuery] = useState("");
@@ -144,6 +153,22 @@ export default function BlogDetailPage({ params }) {
 		readingTime: {
 			pt: "Tempo de leitura",
 			en: "Reading time",
+		},
+		comments: {
+			pt: "Comentários",
+			en: "Comments",
+		},
+		comment: {
+			pt: "Comentário",
+			en: "Comment",
+		},
+		leaveComment: {
+			pt: "Deixe um comentário",
+			en: "Leave a comment",
+		},
+		noComments: {
+			pt: "Ainda não há comentários. Seja o primeiro!",
+			en: "No comments yet. Be the first!",
 		},
 	};
 
@@ -342,6 +367,53 @@ export default function BlogDetailPage({ params }) {
 												</div>
 											</div>
 											{/* End Post */}
+
+											{/* Comments Section */}
+											<div className="mb-80 mb-xs-40">
+												<h4
+													className={`blog-page-title ${isDark ? "text-white" : ""}`}
+												>
+													{comments && comments.length > 0
+														? `${comments.length} ${comments.length === 1 ? translations.comment[language] : translations.comments[language]}`
+														: translations.noComments[language]}
+												</h4>
+												{commentsLoading ? (
+													<div className="text-center py-4">
+														<p className={isDark ? "text-gray" : ""}>
+															{language === "pt"
+																? "Carregando comentários..."
+																: "Loading comments..."}
+														</p>
+													</div>
+												) : (
+													<Comments
+														comments={comments || []}
+														language={language}
+														isDark={isDark}
+													/>
+												)}
+											</div>
+											{/* End Comments */}
+
+											{/* Comment Form */}
+											{blog?.allow_comments !== false && (
+												<div className="mb-80 mb-xs-40">
+													<h4
+														className={`blog-page-title ${isDark ? "text-white" : ""}`}
+													>
+														{translations.leaveComment[language]}
+													</h4>
+													<Form1
+														contentId={blog?.id}
+														language={language}
+														isDark={isDark}
+														onSuccess={() => {
+															refetchComments();
+														}}
+													/>
+												</div>
+											)}
+											{/* End Comment Form */}
 
 											{/* Prev/Next Post */}
 											<div className="clearfix mt-40">

@@ -229,6 +229,31 @@ class PublicContentAPI {
 		return this.getByType(6, filters, config);
 	}
 
+	// ==================== COMMENT METHODS ====================
+
+	/**
+	 * Get comments for a content item
+	 */
+	async getComments(
+		contentId: number,
+		config?: RequestConfig
+	): Promise<Comment[]> {
+		const url = `${this.baseUrl}/${contentId}/comments`;
+		return apiClient.get<Comment[]>(url, config);
+	}
+
+	/**
+	 * Post a new comment
+	 */
+	async postComment(
+		contentId: number,
+		comment: CreateCommentDto,
+		config?: RequestConfig
+	): Promise<Comment> {
+		const url = `${this.baseUrl}/${contentId}/comments`;
+		return apiClient.post<Comment>(url, comment, config);
+	}
+
 	// ==================== CATEGORIES ====================
 
 	/**
