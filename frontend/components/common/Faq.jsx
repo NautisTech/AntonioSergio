@@ -5,9 +5,10 @@ import React, { useEffect, useRef, useState } from "react";
 
 export default function Faq({
 	faqData = null,
-	data = null,
+	faqs = null,
 	loading = false,
 	error = null,
+	totalCount = 0,
 }) {
 	const { language } = useLanguage();
 	const questionRefs = useRef([]);
@@ -15,9 +16,9 @@ export default function Faq({
 	const [currentIndex, setCurrentIndex] = useState(-1);
 
 	// Convert API data to FAQ format if using API
-	let faqs = faqData || faqDataMain;
-	if (data?.data) {
-		faqs = data.data.map(item => ({
+	let faqList = faqData || faqDataMain;
+	if (faqs) {
+		faqList = faqs.map(item => ({
 			question: item.title,
 			answer: item.content || item.excerpt,
 		}));
@@ -45,7 +46,7 @@ export default function Faq({
 				element.style.marginBottom = "1.55em";
 			}
 		}
-	}, [currentIndex, faqs]);
+	}, [currentIndex, faqList]);
 
 	const translations = {
 		loading: {
@@ -59,6 +60,10 @@ export default function Faq({
 		noResults: {
 			pt: "Nenhuma pergunta encontrada.",
 			en: "No questions found.",
+		},
+		noFilterResults: {
+			pt: "Nenhuma pergunta encontrada com a pesquisa aplicada.",
+			en: "No questions found with the applied search.",
 		},
 	};
 
@@ -78,17 +83,21 @@ export default function Faq({
 		);
 	}
 
-	if (!faqs || faqs.length === 0) {
+	if (!faqList || faqList.length === 0) {
 		return (
 			<div className="text-center py-5">
-				<p className="text-gray">{translations.noResults[language]}</p>
+				<p className="text-gray">
+					{totalCount === 0
+						? translations.noResults[language]
+						: translations.noFilterResults[language]}
+				</p>
 			</div>
 		);
 	}
 
 	return (
 		<dl className="toggle">
-			{faqs.map((item, index) => (
+			{faqList.map((item, index) => (
 				<React.Fragment key={index}>
 					<dt
 						onClick={() => {

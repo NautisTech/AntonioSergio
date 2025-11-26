@@ -1,34 +1,21 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useMemo } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
 import Image from "next/image";
-import { useNews, useTags, useCategories } from "@/lib/api/public-content";
 
 export default function Widget1({
 	searchInputClass = "form-control input-md search-field input-circle",
-	filters = {},
+	allNews = [],
+	filteredNews = [],
+	searchQuery = "",
+	setSearchQuery = () => {},
+	selectedCategory = null,
+	setSelectedCategory = () => {},
+	selectedTag = null,
+	setSelectedTag = () => {},
 }) {
-	const router = useRouter();
 	const { language } = useLanguage();
-	const [searchQuery, setSearchQuery] = useState(filters.search || "");
-
-	// Update search query when filters change
-	useEffect(() => {
-		setSearchQuery(filters.search || "");
-	}, [filters.search]);
-
-	// Fetch data from API with current filters for the sidebar
-	const { data: newsData, loading: newsLoading } = useNews({
-		pageSize: 6,
-		categoryId: filters.categoryId,
-		tags: filters.tags,
-		search: filters.search,
-	});
-	const { data: tagsData, loading: tagsLoading } = useTags();
-	const { data: categoriesData, loading: categoriesLoading } =
-		useCategories();
 
 	const translations = {
 		search: {
@@ -51,64 +38,73 @@ export default function Widget1({
 			pt: "Por",
 			en: "Posted by",
 		},
+		all: {
+			pt: "Todas",
+			en: "All",
+		},
 	};
 
-	// Get data with fallbacks
-	const news = newsData?.data || [];
-	const apiTags = tagsData || [];
-	const apiCategories = categoriesData || [];
+	// Calculate categories with counts from ALL news (not filtered)
+	const categories = useMemo(() => {
+		const categoryMap = new Map();
 
-	// Extract unique tags and categories from fetched content
-	const contentTags = new Map();
-	const contentCategories = new Map();
+		allNews.forEach(post => {
+			if (post.categories && Array.isArray(post.categories)) {
+				post.categories.forEach(cat => {
+					if (!categoryMap.has(cat.id)) {
+						categoryMap.set(cat.id, {
+							...cat,
+							count: 0,
+						});
+					}
+					const existing = categoryMap.get(cat.id);
+					existing.count += 1;
+				});
+			}
+		});
 
-	news.forEach(post => {
-		if (post.tags && Array.isArray(post.tags)) {
-			post.tags.forEach(tag => {
-				if (!contentTags.has(tag.id)) {
-					contentTags.set(tag.id, tag);
-				}
-			});
-		}
-		if (post.categories && Array.isArray(post.categories)) {
-			post.categories.forEach(cat => {
-				if (!contentCategories.has(cat.id)) {
-					contentCategories.set(cat.id, cat);
-				}
-			});
-		}
-	});
+		return Array.from(categoryMap.values())
+			.filter(cat => cat.count > 0)
+			.sort((a, b) => b.count - a.count);
+	}, [allNews]);
 
-	// Merge API data with content-extracted data (prioritize content data)
-	const allTags = new Map(apiTags?.map(t => [t.id, t]) || []);
-	contentTags.forEach((tag, id) => allTags.set(id, tag));
-	const tags = Array.from(allTags.values());
+	// Calculate tags with counts from ALL news (not filtered)
+	const tags = useMemo(() => {
+		const tagMap = new Map();
 
-	const allCategories = new Map(apiCategories?.map(c => [c.id, c]) || []);
-	contentCategories.forEach((cat, id) => allCategories.set(id, cat));
-	// Filter out categories with 0 content count
-	const categories = Array.from(allCategories.values()).filter(
-		cat => (cat.contentCount || cat.content_count || 0) > 0
-	);
+		allNews.forEach(post => {
+			if (post.tags && Array.isArray(post.tags)) {
+				post.tags.forEach(tag => {
+					if (!tagMap.has(tag.name)) {
+						tagMap.set(tag.name, {
+							...tag,
+							count: 0,
+						});
+					}
+					const existing = tagMap.get(tag.name);
+					existing.count += 1;
+				});
+			}
+		});
 
-	// Get latest 3 posts
-	const latestPosts = news.slice(0, 3);
+		return Array.from(tagMap.values())
+			.filter(tag => tag.count > 0)
+			.sort((a, b) => b.count - a.count);
+	}, [allNews]);
+
+	// Get latest 3 posts from FILTERED results
+	const latestPosts = filteredNews.slice(0, 3);
+
+	const handleSubmit = e => {
+		e.preventDefault();
+		// Search is handled by state change
+	};
 
 	return (
 		<>
 			{/* Search Widget */}
 			<div className="widget">
-				<form
-					onSubmit={e => {
-						e.preventDefault();
-						if (searchQuery.trim()) {
-							router.push(`/blog?search=${encodeURIComponent(searchQuery.trim())}`);
-						} else {
-							router.push("/blog");
-						}
-					}}
-					className="form"
-				>
+				<form onSubmit={handleSubmit} className="form">
 					<div className="search-wrap">
 						<button
 							className="search-button animate"
@@ -146,18 +142,41 @@ export default function Widget1({
 					</h3>
 					<div className="widget-body">
 						<ul className="clearlist widget-menu">
+							<li>
+								<a
+									href="#"
+									onClick={e => {
+										e.preventDefault();
+										setSelectedCategory(null);
+									}}
+									style={{
+										fontWeight:
+											selectedCategory === null
+												? "bold"
+												: "normal",
+									}}
+								>
+									{translations.all[language]}
+								</a>
+							</li>
 							{categories.map(category => (
 								<li key={category.id}>
-									<Link
-										href={`/blog?categoryId=${category.id}`}
-										title={category.name}
+									<a
+										href="#"
+										onClick={e => {
+											e.preventDefault();
+											setSelectedCategory(category.id);
+										}}
+										style={{
+											fontWeight:
+												selectedCategory === category.id
+													? "bold"
+													: "normal",
+										}}
 									>
 										{category.name}
-									</Link>
-									<small>
-										{" "}
-										- {category.contentCount || category.content_count || 0}{" "}
-									</small>
+									</a>
+									<small> - {category.count} </small>
 								</li>
 							))}
 						</ul>
@@ -174,10 +193,36 @@ export default function Widget1({
 					</h3>
 					<div className="widget-body">
 						<div className="tags">
+							<a
+								href="#"
+								onClick={e => {
+									e.preventDefault();
+									setSelectedTag(null);
+								}}
+								style={{
+									fontWeight:
+										selectedTag === null ? "bold" : "normal",
+								}}
+							>
+								{translations.all[language]}
+							</a>
 							{tags.map(tag => (
-								<Link href={`/blog?tags=${tag.name}`} key={tag.id}>
-									{tag.name}
-								</Link>
+								<a
+									href="#"
+									onClick={e => {
+										e.preventDefault();
+										setSelectedTag(tag.name);
+									}}
+									key={tag.id}
+									style={{
+										fontWeight:
+											selectedTag === tag.name
+												? "bold"
+												: "normal",
+									}}
+								>
+									{tag.name} ({tag.count})
+								</a>
 							))}
 						</div>
 					</div>

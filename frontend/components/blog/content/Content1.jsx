@@ -4,10 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 
-export default function Content1({ data, loading, error }) {
+export default function Content1({
+	posts = [],
+	loading = false,
+	error = null,
+	filteredCount = 0,
+	totalCount = 0,
+}) {
 	const { language } = useLanguage();
-
-	const blogPosts = data?.data || [];
 
 	const translations = {
 		readMore: {
@@ -21,6 +25,10 @@ export default function Content1({ data, loading, error }) {
 		noResults: {
 			pt: "Nenhuma notícia disponível.",
 			en: "No news available.",
+		},
+		noFilterResults: {
+			pt: "Nenhuma notícia encontrada com os filtros aplicados.",
+			en: "No news found with the applied filters.",
 		},
 		loading: {
 			pt: "Carregando notícias...",
@@ -64,17 +72,21 @@ export default function Content1({ data, loading, error }) {
 		);
 	}
 
-	if (blogPosts.length === 0) {
+	if (posts.length === 0) {
 		return (
 			<div className="text-center py-5">
-				<p className="text-gray">{translations.noResults[language]}</p>
+				<p className="text-gray">
+					{totalCount === 0
+						? translations.noResults[language]
+						: translations.noFilterResults[language]}
+				</p>
 			</div>
 		);
 	}
 
 	return (
 		<>
-			{blogPosts.map((post, index) => (
+			{posts.map((post, index) => (
 				<div
 					key={post.id || index}
 					className="blog-item box-shadow round p-4 p-md-5"

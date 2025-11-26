@@ -105,16 +105,7 @@ export class CategoryService {
         c.created_at AS created_at,
         c.updated_at AS updated_at,
         (SELECT COUNT(*) FROM content_categories WHERE parent_id = c.id) AS children_count,
-        (
-          SELECT COUNT(*)
-          FROM content_categories_junction ccj
-          INNER JOIN content co ON ccj.content_id = co.id
-          WHERE ccj.category_id = c.id
-            AND co.deleted_at IS NULL
-            AND co.status = 'published'
-            AND co.visibility = 'public'
-            AND (co.published_at IS NULL OR co.published_at <= GETDATE())
-        ) AS content_count
+        (SELECT COUNT(*) FROM content_categories_junction WHERE category_id = c.id) AS content_count
       FROM content_categories c
       LEFT JOIN content_categories p ON c.parent_id = p.id
       ${whereClause}

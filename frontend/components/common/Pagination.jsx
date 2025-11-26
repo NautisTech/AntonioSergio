@@ -1,35 +1,22 @@
 "use client";
 import React from "react";
-import { useRouter } from "next/navigation";
 
-export default function Pagination({ className, filters = {}, pagination }) {
-	const router = useRouter();
-
+export default function Pagination({
+	className,
+	pagination,
+	currentPage = 1,
+	onPageChange,
+}) {
 	// Don't render if no pagination data or only 1 page
 	if (!pagination || pagination.totalPages <= 1) {
 		return null;
 	}
 
-	const { page = 1, totalPages } = pagination;
-	const currentPage = filters.page || page;
-
-	// Build URL with current filters
-	const buildUrl = newPage => {
-		const params = new URLSearchParams();
-
-		if (newPage > 1) params.set("page", newPage.toString());
-		if (filters.categoryId)
-			params.set("categoryId", filters.categoryId.toString());
-		if (filters.tags) params.set("tags", filters.tags);
-		if (filters.search) params.set("search", filters.search);
-
-		const query = params.toString();
-		return query ? `/blog?${query}` : "/blog";
-	};
+	const { totalPages } = pagination;
 
 	const handlePageChange = newPage => {
-		if (newPage >= 1 && newPage <= totalPages) {
-			router.push(buildUrl(newPage));
+		if (newPage >= 1 && newPage <= totalPages && onPageChange) {
+			onPageChange(newPage);
 		}
 	};
 
