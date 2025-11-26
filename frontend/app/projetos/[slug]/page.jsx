@@ -241,190 +241,142 @@ export default function ProjectDetailPage({ params }) {
 										<div className="col-md-4 mb-sm-40 wow fadeInUp">
 											<div className="block-sticky">
 												{/* Project Details */}
-												{project.categories &&
-													project.categories.length >
-														0 && (
-														<div className="mb-60">
-															<h2 className="h3 mb-20">
-																{
-																	translations
-																		.projectDetails[
-																		language
-																	]
-																}
-															</h2>
-															<hr
-																className={`mb-20 ${
-																	isDark
-																		? "white"
-																		: ""
-																}`}
-															/>
-															<div className="row text-gray small">
-																<div className="col-sm-5">
-																	<b>
-																		{
-																			translations
-																				.description[
-																				language
-																			]
-																		}
-																		:
-																	</b>
-																</div>
-																<div className="col-sm-7">
-																	{project.categories
-																		.map(
-																			cat =>
-																				cat.name
-																		)
-																		.join(
-																			", "
-																		)}
-																</div>
-															</div>
-															<hr
-																className={`mb-20 ${
-																	isDark
-																		? "white"
-																		: ""
-																}`}
-															/>
-															{project.tags &&
-																project.tags
-																	.length >
-																	0 && (
-																	<>
-																		<div className="row text-gray small">
-																			<div className="col-sm-5">
-																				<b>
-																					{language ===
-																					"pt"
-																						? "Tags:"
-																						: "Tags:"}
-																				</b>
-																			</div>
-																			<div className="col-sm-7">
-																				{project.tags
-																					.map(
-																						t =>
-																							t.name
-																					)
-																					.join(
-																						", "
-																					)}
-																			</div>
+												{(project.categories && project.categories.length > 0) || (project.tags && project.tags.length > 0) && (
+													<div className="mb-60">
+														<h2 className="h3 mb-20">
+															{
+																translations
+																	.projectDetails[
+																	language
+																]
+															}
+														</h2>
+														<hr
+															className={`mb-20 ${
+																isDark
+																	? "white"
+																	: ""
+															}`}
+														/>
+														{project.tags &&
+															project.tags
+																.length >
+																0 && (
+																<>
+																	<div className="row text-gray small">
+																		<div className="col-sm-5">
+																			<b>
+																				{language ===
+																				"pt"
+																					? "Tags:"
+																					: "Tags:"}
+																			</b>
 																		</div>
-																		<hr
-																			className={`mb-20 ${
-																				isDark
-																					? "white"
-																					: ""
-																			}`}
-																		/>
-																	</>
-																)}
-														</div>
-													)}
+																		<div className="col-sm-7">
+																			{project.tags
+																				.map(
+																					t =>
+																						t.name
+																				)
+																				.join(
+																					", "
+																				)}
+																		</div>
+																	</div>
+																	<hr
+																		className={`mb-20 ${
+																			isDark
+																				? "white"
+																				: ""
+																		}`}
+																	/>
+																</>
+															)}
+													</div>
+												)}
 
 												{/* Custom Fields */}
 												{project.custom_fields &&
 													Object.keys(project.custom_fields)
 														.length > 0 && (
 														<div className="mb-60">
-															{Object.entries(
-																project.custom_fields
-															).map(([key, field]) => {
-																if (!field?.value)
-																	return null;
+															{(() => {
+																// Separate objectives from other fields
+																const objectives = [];
+																const otherFields = [];
 
-																let displayValue =
-																	field.value;
-
-																// Format dates
-																if (
-																	field.type ===
-																		"date" &&
-																	field.value
-																) {
-																	const date =
-																		new Date(
-																			field.value
-																		);
-																	displayValue =
-																		date.toLocaleDateString(
-																			language ===
-																				"pt"
-																				? "pt-PT"
-																				: "en-US",
-																			{
-																				year: "numeric",
-																				month: "long",
-																				day: "numeric",
-																			}
-																		);
-																}
-
-																// Format multiselect as comma-separated list
-																if (
-																	field.type ===
-																		"multiselect" &&
-																	Array.isArray(
-																		field.value
-																	)
-																) {
-																	displayValue =
-																		field.value.join(
-																			", "
-																		);
-																}
+																Object.entries(
+																	project.custom_fields
+																).forEach(([key, field]) => {
+																	if (field?.value) {
+																		if (key.startsWith('objetivos_')) {
+																			objectives.push(field.value);
+																		} else {
+																			otherFields.push([key, field]);
+																		}
+																	}
+																});
 
 																return (
-																	<div
-																		key={key}
-																	>
-																		<div className="row text-gray small">
-																			<div className="col-sm-5">
-																				<b>
+																	<>
+																		{/* Regular custom fields */}
+																		{otherFields.map(([key, field]) => {
+																			let displayValue = field.value;
+
+																			// Format dates
+																			if (field.type === "date" && field.value) {
+																				const date = new Date(field.value);
+																				displayValue = date.toLocaleDateString(
+																					language === "pt" ? "pt-PT" : "en-US",
 																					{
-																						field.label
+																						year: "numeric",
+																						month: "long",
+																						day: "numeric",
 																					}
-																					:
-																				</b>
+																				);
+																			}
+
+																			// Format multiselect as comma-separated list
+																			if (field.type === "multiselect" && Array.isArray(field.value)) {
+																				displayValue = field.value.join(", ");
+																			}
+
+																			return (
+																				<div key={key} className="mb-30">
+																					<h3 className="h5 mb-15">
+																						{field.label}
+																					</h3>
+																					<div className="text-gray">
+																						{displayValue}
+																					</div>
+																				</div>
+																			);
+																		})}
+
+																		{/* Objectives as bullet points */}
+																		{objectives.length > 0 && (
+																			<div className="mb-30">
+																				<h3 className="h5 mb-15">
+																					{language === "pt" ? "Objetivos" : "Objectives"}
+																				</h3>
+																				<ul className="text-gray">
+																					{objectives.map((objective, index) => (
+																						<li key={index} className="mb-10">
+																							{objective}
+																						</li>
+																					))}
+																				</ul>
 																			</div>
-																			<div className="col-sm-7">
-																				{
-																					displayValue
-																				}
-																			</div>
-																		</div>
-																		<hr
-																			className={`mb-20 ${
-																				isDark
-																					? "white"
-																					: ""
-																			}`}
-																		/>
-																	</div>
+																		)}
+																	</>
 																);
-															})}
+															})()}
 														</div>
 													)}
 
 												{/* Content/Description */}
 												{project.content && (
-													<div className="text-gray small">
-														<div>
-															<b>
-																{
-																	translations
-																		.description[
-																		language
-																	]
-																}
-																:
-															</b>
-														</div>
+													<div className="text-gray">
 														<div
 															dangerouslySetInnerHTML={{
 																__html: project.content,
