@@ -277,6 +277,37 @@ export default function EventDetailPage({ params }) {
 											/>
 										</>
 									)}
+									{/* Categories */}
+									{event.categories &&
+										event.categories.length > 0 && (
+											<div className="mb-30">
+												<h3 className="h5 mb-15">
+													{language === "pt"
+														? "Categorias"
+														: "Categories"}
+												</h3>
+												<div className="text-gray">
+													{event.categories
+														.map(c => c.name)
+														.join(", ")}
+												</div>
+											</div>
+										)}
+									{/* Tags */}
+									{event.tags && event.tags.length > 0 && (
+										<div className="mb-30">
+											<h3 className="h5 mb-15">
+												{language === "pt"
+													? "Tags"
+													: "Tags"}
+											</h3>
+											<div className="text-gray">
+												{event.tags
+													.map(t => t.name)
+													.join(", ")}
+											</div>
+										</div>
+									)}
 									{/* Custom Fields - Event Information */}
 									{event.custom_fields && Object.keys(event.custom_fields).filter(k => k !== 'entidades').length > 0 && (
 										<>
@@ -329,64 +360,6 @@ export default function EventDetailPage({ params }) {
 											})()}
 										</>
 									)}
-									{event.categories &&
-											event.categories.length > 0 && (
-												<>
-													<div className="row text-gray small">
-														<div className="col-sm-4">
-															<b>
-																{language ===
-																"pt"
-																	? "Categorias:"
-																	: "Categories:"}
-															</b>
-														</div>
-														<div className="col-sm-8">
-															{event.categories
-																.map(
-																	c => c.name
-																)
-																.join(", ")}
-														</div>
-													</div>
-													<hr
-														className={`mb-20 ${
-															isDark
-																? "white"
-																: ""
-														}`}
-													/>
-												</>
-											)}
-										{event.tags &&
-											event.tags.length > 0 && (
-												<>
-													<div className="row text-gray small">
-														<div className="col-sm-4">
-															<b>
-																{language ===
-																"pt"
-																	? "Tags:"
-																	: "Tags:"}
-															</b>
-														</div>
-														<div className="col-sm-8">
-															{event.tags
-																.map(
-																	t => t.name
-																)
-																.join(", ")}
-														</div>
-													</div>
-													<hr
-														className={`mb-20 ${
-															isDark
-																? "white"
-																: ""
-														}`}
-													/>
-												</>
-											)}
 									</div>
 									{/* End Event Details */}
 

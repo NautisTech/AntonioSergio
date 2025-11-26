@@ -261,35 +261,24 @@ export default function ProjectDetailPage({ params }) {
 														project.tags
 															.length >
 															0 && (
-															<>
-																<div className="row text-gray small">
-																	<div className="col-sm-5">
-																		<b>
-																			{language ===
-																			"pt"
-																				? "Tags:"
-																				: "Tags:"}
-																		</b>
-																	</div>
-																	<div className="col-sm-7">
-																		{project.tags
-																			.map(
-																				t =>
-																					t.name
-																			)
-																			.join(
-																				", "
-																			)}
-																	</div>
+															<div className="mb-30">
+																<h3 className="h5 mb-15">
+																	{language ===
+																	"pt"
+																		? "Tags"
+																		: "Tags"}
+																</h3>
+																<div className="text-gray">
+																	{project.tags
+																		.map(
+																			t =>
+																				t.name
+																		)
+																		.join(
+																			", "
+																		)}
 																</div>
-																<hr
-																	className={`mb-20 ${
-																		isDark
-																			? "white"
-																			: ""
-																	}`}
-																/>
-															</>
+															</div>
 														)}
 												</div>
 
