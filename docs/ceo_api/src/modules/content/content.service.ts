@@ -463,20 +463,22 @@ export class ContentService {
           const customFieldsResult = await pool
             .request()
             .input('contentId', sql.Int, content.id)
-            .input('entityType', sql.NVarChar, content.type).query(`
-              SELECT 
+            .input('contentTypeId', sql.Int, content.content_type_id).query(`
+              SELECT
                 cfc.id,
                 cfc.field_name,
                 cfc.field_label,
                 cfc.field_type,
+                cfc.field_options,
                 cfv.value_text,
                 cfv.value_number,
                 cfv.value_date,
                 cfv.value_boolean
               FROM custom_field_config cfc
-              LEFT JOIN custom_field_value cfv ON cfc.id = cfv.custom_field_config_id 
+              INNER JOIN custom_field_config_scope cfcs ON cfc.id = cfcs.custom_field_config_id
+              LEFT JOIN custom_field_value cfv ON cfc.id = cfv.custom_field_config_id
                 AND cfv.entity_id = @contentId
-              WHERE cfc.entity_type = @entityType 
+              WHERE cfcs.content_type_id = @contentTypeId
                 AND cfc.deleted_at IS NULL
               ORDER BY cfc.display_order
             `);
@@ -484,19 +486,37 @@ export class ContentService {
           // Transform into a key-value object
           const customFields = {};
           customFieldsResult.recordset.forEach((field) => {
-            const value =
+            let value =
               field.value_text ||
               field.value_number ||
               field.value_date ||
               field.value_boolean;
+
+            // Handle multiselect fields (stored as comma-separated)
+            if (field.field_type === 'multiselect' && field.value_text) {
+              value = field.value_text.split(',').map(v => v.trim());
+            }
+
+            // Parse options if available
+            let options = null;
+            if (field.field_options) {
+              try {
+                options = JSON.parse(field.field_options);
+              } catch (e) {
+                options = null;
+              }
+            }
+
             customFields[field.field_name] = {
               label: field.field_label,
               value: value,
               type: field.field_type,
+              ...(options && { options }),
             };
           });
           contentObj.custom_fields = customFields;
         } catch (error) {
+          this.logger.error(`Failed to load custom fields for content ${content.id}:`, error);
           contentObj.custom_fields = {};
         }
 
@@ -584,20 +604,22 @@ export class ContentService {
       const customFieldsResult = await pool
         .request()
         .input('contentId', sql.Int, id)
-        .input('entityType', sql.NVarChar, content.type).query(`
-          SELECT 
+        .input('contentTypeId', sql.Int, content.content_type_id).query(`
+          SELECT
             cfc.id,
             cfc.field_name,
             cfc.field_label,
             cfc.field_type,
+            cfc.field_options,
             cfv.value_text,
             cfv.value_number,
             cfv.value_date,
             cfv.value_boolean
           FROM custom_field_config cfc
-          LEFT JOIN custom_field_value cfv ON cfc.id = cfv.custom_field_config_id 
+          INNER JOIN custom_field_config_scope cfcs ON cfc.id = cfcs.custom_field_config_id
+          LEFT JOIN custom_field_value cfv ON cfc.id = cfv.custom_field_config_id
             AND cfv.entity_id = @contentId
-          WHERE cfc.entity_type = @entityType 
+          WHERE cfcs.content_type_id = @contentTypeId
             AND cfc.deleted_at IS NULL
           ORDER BY cfc.display_order
         `);
@@ -605,19 +627,37 @@ export class ContentService {
       // Transform into a key-value object
       const customFields = {};
       customFieldsResult.recordset.forEach((field) => {
-        const value =
+        let value =
           field.value_text ||
           field.value_number ||
           field.value_date ||
           field.value_boolean;
+
+        // Handle multiselect fields (stored as comma-separated)
+        if (field.field_type === 'multiselect' && field.value_text) {
+          value = field.value_text.split(',').map(v => v.trim());
+        }
+
+        // Parse options if available
+        let options = null;
+        if (field.field_options) {
+          try {
+            options = JSON.parse(field.field_options);
+          } catch (e) {
+            options = null;
+          }
+        }
+
         customFields[field.field_name] = {
           label: field.field_label,
           value: value,
           type: field.field_type,
+          ...(options && { options }),
         };
       });
       content.custom_fields = customFields;
     } catch (error) {
+      this.logger.error(`Failed to load custom fields for content ${id}:`, error);
       content.custom_fields = {};
     }
 
