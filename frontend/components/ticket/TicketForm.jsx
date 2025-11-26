@@ -13,7 +13,7 @@ export default function TicketForm() {
 
 	// Fetch ticket types from API
 	const { data: ticketTypes, loading: typesLoading } = useTicketTypes();
-	const { submitTicket, loading: submitting, error: submitError, response } = useSubmitTicket();
+	const { submitTicket, loading: submitting } = useSubmitTicket();
 
 	// Form state
 	const [formData, setFormData] = useState({
@@ -37,8 +37,8 @@ export default function TicketForm() {
 	// Validation errors
 	const [errors, setErrors] = useState({});
 
-	// Success state
-	const [showSuccess, setShowSuccess] = useState(false);
+	// Success/Error state
+	const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -53,9 +53,9 @@ export default function TicketForm() {
 				[name]: "",
 			}));
 		}
-		// Clear success message when user starts editing
-		if (showSuccess) {
-			setShowSuccess(false);
+		// Clear status message when user starts editing
+		if (submitStatus) {
+			setSubmitStatus(null);
 		}
 	};
 
@@ -104,6 +104,7 @@ export default function TicketForm() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setSubmitStatus(null);
 
 		if (!validateForm()) {
 			return;
@@ -140,23 +141,30 @@ export default function TicketForm() {
 			equipmentDescription: equipmentDescriptions || undefined,
 		};
 
-		// Submit with client_id as null
-		const result = await submitTicket(ticketData, null);
+		try {
+			// Submit with client_id as null
+			const result = await submitTicket(ticketData, null);
 
-		if (result) {
-			setShowSuccess(true);
-			// Reset form
-			setFormData({
-				fullName: "",
-				email: "",
-				phone: "",
-				title: "",
-				description: "",
-				ticketTypeId: "",
-				priority: "low",
-				location: "",
-			});
-			setEquipments([]);
+			if (result) {
+				setSubmitStatus('success');
+				// Reset form
+				setFormData({
+					fullName: "",
+					email: "",
+					phone: "",
+					title: "",
+					description: "",
+					ticketTypeId: "",
+					priority: "low",
+					location: "",
+				});
+				setEquipments([]);
+				setErrors({});
+			} else {
+				setSubmitStatus('error');
+			}
+		} catch (error) {
+			setSubmitStatus('error');
 		}
 	};
 
@@ -165,10 +173,10 @@ export default function TicketForm() {
 			<div className="row justify-content-center">
 				<div className="col-lg-8">
 					{/* Success Message */}
-					{showSuccess && response && (
-						<div className={`alert alert-success mb-40 wow fadeInUp`}>
-							<div className="d-flex align-items-center">
-								<i className="mi-check-circle size-24 me-15" />
+					{submitStatus === 'success' && (
+						<div className="alert alert-success mb-40">
+							<div className="d-flex align-items-start">
+								<i className="mi-check-circle size-24 me-15" aria-hidden="true" />
 								<div>
 									<strong>{t.success.message[language]}</strong>
 								</div>
@@ -177,10 +185,10 @@ export default function TicketForm() {
 					)}
 
 					{/* Error Message */}
-					{submitError && (
-						<div className={`alert alert-danger mb-40 wow fadeInUp`}>
-							<div className="d-flex align-items-center">
-								<i className="mi-close-circle size-24 me-15" />
+					{submitStatus === 'error' && (
+						<div className="alert alert-danger mb-40">
+							<div className="d-flex align-items-start">
+								<i className="mi-close size-24 me-15" aria-hidden="true" />
 								<div>
 									<strong>{t.error.title[language]}</strong>
 									<p className="mb-0 mt-5">{t.error.message[language]}</p>
@@ -397,49 +405,33 @@ export default function TicketForm() {
 
 							{/* Equipment List */}
 							{equipments.length > 0 && (
-								<div className="count-wrapper mt-30">
-									<div className="row">
+								<div className="mt-20">
+									<ul className="clearlist">
 										{equipments.map((eq, index) => (
-											<div key={index} className="col-md-6 mb-20">
-												<div className={`count-item ${isDark ? "bg-dark-2" : "bg-gray-light-1"} p-20 round position-relative`}>
+											<li key={index} className="mb-10">
+												<div className={`${isDark ? "bg-dark-2" : "bg-gray-light-1"} p-20 round d-flex justify-content-between align-items-center`}>
+													<div>
+														<div className="mb-5">
+															<strong className="me-10">{t.equipment.serialNumber.label[language]}:</strong>
+															<span>{eq.serialNumber}</span>
+														</div>
+														<div>
+															<strong className="me-10">{t.equipment.description.label[language]}:</strong>
+															<span>{eq.description}</span>
+														</div>
+													</div>
 													<button
 														type="button"
 														onClick={() => removeEquipment(index)}
-														className="btn btn-sm position-absolute top-0 end-0 m-10"
-														style={{
-															padding: '5px 10px',
-															minWidth: 'auto',
-															opacity: 0.7,
-														}}
+														className="btn btn-mod btn-circle btn-small"
 														title={t.equipment.removeButton[language]}
 													>
 														<i className="mi-close" />
 													</button>
-													<div className="count-number">
-														<i className="mi-settings size-24 mb-10" />
-													</div>
-													<div className="count-descr">
-														<div className="mb-5">
-															<strong className="text-uppercase" style={{ fontSize: '11px', opacity: 0.7 }}>
-																{t.equipment.serialNumber.label[language]}
-															</strong>
-														</div>
-														<div className="mb-15" style={{ fontSize: '15px' }}>
-															{eq.serialNumber}
-														</div>
-														<div className="mb-5">
-															<strong className="text-uppercase" style={{ fontSize: '11px', opacity: 0.7 }}>
-																{t.equipment.description.label[language]}
-															</strong>
-														</div>
-														<div style={{ fontSize: '15px' }}>
-															{eq.description}
-														</div>
-													</div>
 												</div>
-											</div>
+											</li>
 										))}
-									</div>
+									</ul>
 								</div>
 							)}
 						</div>

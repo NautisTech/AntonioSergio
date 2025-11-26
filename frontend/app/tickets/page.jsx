@@ -110,7 +110,7 @@ export default function TicketPage() {
 									<div className="col-lg-4 mb-md-40 mb-xs-30">
 										<div className="alt-features-item text-center">
 											<div className="alt-features-icon mb-20">
-												<i className="mi-timer" style={{ fontSize: '48px' }} />
+												<i className="mi-time" aria-hidden="true" />
 											</div>
 											<h4 className="alt-features-title">
 												{language === "pt" ? "Resposta Rápida" : "Quick Response"}
@@ -126,7 +126,7 @@ export default function TicketPage() {
 									<div className="col-lg-4 mb-md-40 mb-xs-30">
 										<div className="alt-features-item text-center">
 											<div className="alt-features-icon mb-20">
-												<i className="mi-support" style={{ fontSize: '48px' }} />
+												<i className="mi-setting" aria-hidden="true" />
 											</div>
 											<h4 className="alt-features-title">
 												{language === "pt" ? "Suporte Técnico" : "Technical Support"}
@@ -142,15 +142,15 @@ export default function TicketPage() {
 									<div className="col-lg-4">
 										<div className="alt-features-item text-center">
 											<div className="alt-features-icon mb-20">
-												<i className="mi-search" style={{ fontSize: '48px' }} />
+												<i className="mi-search" aria-hidden="true" />
 											</div>
 											<h4 className="alt-features-title">
 												{language === "pt" ? "Acompanhamento" : "Follow-up"}
 											</h4>
 											<div className="alt-features-descr">
 												{language === "pt"
-													? "Utilize o código de acesso fornecido para consultar o estado do seu ticket a qualquer momento."
-													: "Use the provided access code to check your ticket status at any time."}
+													? "Acompanhe o progresso do seu ticket e receba atualizações sobre a resolução do problema."
+													: "Track your ticket progress and receive updates on issue resolution."}
 											</div>
 										</div>
 									</div>
