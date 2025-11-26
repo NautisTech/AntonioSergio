@@ -241,59 +241,57 @@ export default function ProjectDetailPage({ params }) {
 										<div className="col-md-4 mb-sm-40 wow fadeInUp">
 											<div className="block-sticky">
 												{/* Project Details */}
-												{(project.categories && project.categories.length > 0) || (project.tags && project.tags.length > 0) && (
-													<div className="mb-60">
-														<h2 className="h3 mb-20">
-															{
-																translations
-																	.projectDetails[
-																	language
-																]
-															}
-														</h2>
-														<hr
-															className={`mb-20 ${
-																isDark
-																	? "white"
-																	: ""
-															}`}
-														/>
-														{project.tags &&
-															project.tags
-																.length >
-																0 && (
-																<>
-																	<div className="row text-gray small">
-																		<div className="col-sm-5">
-																			<b>
-																				{language ===
-																				"pt"
-																					? "Tags:"
-																					: "Tags:"}
-																			</b>
-																		</div>
-																		<div className="col-sm-7">
-																			{project.tags
-																				.map(
-																					t =>
-																						t.name
-																				)
-																				.join(
-																					", "
-																				)}
-																		</div>
+												<div className="mb-60">
+													<h2 className="h3 mb-20">
+														{
+															translations
+																.projectDetails[
+																language
+															]
+														}
+													</h2>
+													<hr
+														className={`mb-20 ${
+															isDark
+																? "white"
+																: ""
+														}`}
+													/>
+													{project.tags &&
+														project.tags
+															.length >
+															0 && (
+															<>
+																<div className="row text-gray small">
+																	<div className="col-sm-5">
+																		<b>
+																			{language ===
+																			"pt"
+																				? "Tags:"
+																				: "Tags:"}
+																		</b>
 																	</div>
-																	<hr
-																		className={`mb-20 ${
-																			isDark
-																				? "white"
-																				: ""
-																		}`}
-																	/>
-																</>
-															)}
-													</div>
-												)}
+																	<div className="col-sm-7">
+																		{project.tags
+																			.map(
+																				t =>
+																					t.name
+																			)
+																			.join(
+																				", "
+																			)}
+																	</div>
+																</div>
+																<hr
+																	className={`mb-20 ${
+																		isDark
+																			? "white"
+																			: ""
+																	}`}
+																/>
+															</>
+														)}
+												</div>
 
 												{/* Custom Fields */}
 												{project.custom_fields &&
@@ -301,8 +299,9 @@ export default function ProjectDetailPage({ params }) {
 														.length > 0 && (
 														<div className="mb-60">
 															{(() => {
-																// Separate objectives from other fields
+																// Separate objectives, results, and other fields
 																const objectives = [];
+																const results = [];
 																const otherFields = [];
 
 																Object.entries(
@@ -311,6 +310,8 @@ export default function ProjectDetailPage({ params }) {
 																	if (field?.value && key !== 'entidades') {
 																		if (key.startsWith('objetivos_')) {
 																			objectives.push(field.value);
+																		} else if (key === 'resultados') {
+																			results.push([key, field]);
 																		} else {
 																			otherFields.push([key, field]);
 																		}
@@ -368,6 +369,27 @@ export default function ProjectDetailPage({ params }) {
 																				</ul>
 																			</div>
 																		)}
+
+																		{/* Results after objectives */}
+																		{results.map(([key, field]) => {
+																			let displayValue = field.value;
+
+																			// Format multiselect as comma-separated list
+																			if (field.type === "multiselect" && Array.isArray(field.value)) {
+																				displayValue = field.value.join(", ");
+																			}
+
+																			return (
+																				<div key={key} className="mb-30">
+																					<h3 className="h5 mb-15">
+																						{field.label}
+																					</h3>
+																					<div className="text-gray">
+																						{displayValue}
+																					</div>
+																				</div>
+																			);
+																		})}
 																	</>
 																);
 															})()}
