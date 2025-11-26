@@ -255,27 +255,16 @@ export default function EventDetailPage({ params }) {
 											}
 										</h2>
 									{event.published_at && (
-										<>
-											<div className="row text-gray">
-												<div className="col-sm-4">
-													<b>
-														{language === "pt"
-															? "Publicado em:"
-															: "Published on:"}
-													</b>
-												</div>
-												<div className="col-sm-8">
-													{formatDate(
-														event.published_at
-													)}
-												</div>
+										<div className="mb-30">
+											<h3 className="h5 mb-15">
+												{language === "pt"
+													? "Publicado em"
+													: "Published on"}
+											</h3>
+											<div className="text-gray">
+												{formatDate(event.published_at)}
 											</div>
-											<hr
-												className={`mb-20 ${
-													isDark ? "white" : ""
-												}`}
-											/>
-										</>
+										</div>
 									)}
 									{/* Categories */}
 									{event.categories &&
@@ -365,11 +354,21 @@ export default function EventDetailPage({ params }) {
 
 									{/* Event Description */}
 									<div className="col-md-6">
-										<h2 className="h3 mb-20">
-											{translations.description[language]}
-										</h2>
+										<style jsx>{`
+											.event-description {
+												color: ${isDark ? '#999' : '#666'};
+											}
+											.event-description h1,
+											.event-description h2,
+											.event-description h3,
+											.event-description h4,
+											.event-description h5,
+											.event-description h6 {
+												color: ${isDark ? '#fff' : '#000'};
+											}
+										`}</style>
 										<div
-											className="text-gray mb-0"
+											className="event-description mb-0"
 											dangerouslySetInnerHTML={{
 												__html: event.content,
 											}}

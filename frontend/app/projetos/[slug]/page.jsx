@@ -280,110 +280,110 @@ export default function ProjectDetailPage({ params }) {
 																</div>
 															</div>
 														)}
-												</div>
 
-												{/* Custom Fields */}
-												{project.custom_fields &&
-													Object.keys(project.custom_fields)
-														.length > 0 && (
-														<div className="mb-60">
-															{(() => {
-																// Separate objectives, results, and other fields
-																const objectives = [];
-																const results = [];
-																const otherFields = [];
+													{/* Custom Fields */}
+													{project.custom_fields &&
+														Object.keys(project.custom_fields)
+															.length > 0 && (
+															<>
+																{(() => {
+																	// Separate objectives, results, and other fields
+																	const objectives = [];
+																	const results = [];
+																	const otherFields = [];
 
-																Object.entries(
-																	project.custom_fields
-																).forEach(([key, field]) => {
-																	if (field?.value && key !== 'entidades') {
-																		if (key.startsWith('objetivos_')) {
-																			objectives.push(field.value);
-																		} else if (key === 'resultados') {
-																			results.push([key, field]);
-																		} else {
-																			otherFields.push([key, field]);
+																	Object.entries(
+																		project.custom_fields
+																	).forEach(([key, field]) => {
+																		if (field?.value && key !== 'entidades') {
+																			if (key.startsWith('objetivos_')) {
+																				objectives.push(field.value);
+																			} else if (key === 'resultados') {
+																				results.push([key, field]);
+																			} else {
+																				otherFields.push([key, field]);
+																			}
 																		}
-																	}
-																});
+																	});
 
-																return (
-																	<>
-																		{/* Regular custom fields */}
-																		{otherFields.map(([key, field]) => {
-																			let displayValue = field.value;
+																	return (
+																		<>
+																			{/* Regular custom fields */}
+																			{otherFields.map(([key, field]) => {
+																				let displayValue = field.value;
 
-																			// Format dates
-																			if (field.type === "date" && field.value) {
-																				const date = new Date(field.value);
-																				displayValue = date.toLocaleDateString(
-																					language === "pt" ? "pt-PT" : "en-US",
-																					{
-																						year: "numeric",
-																						month: "long",
-																						day: "numeric",
-																					}
+																				// Format dates
+																				if (field.type === "date" && field.value) {
+																					const date = new Date(field.value);
+																					displayValue = date.toLocaleDateString(
+																						language === "pt" ? "pt-PT" : "en-US",
+																						{
+																							year: "numeric",
+																							month: "long",
+																							day: "numeric",
+																						}
+																					);
+																				}
+
+																				// Format multiselect as comma-separated list
+																				if (field.type === "multiselect" && Array.isArray(field.value)) {
+																					displayValue = field.value.join(", ");
+																				}
+
+																				return (
+																					<div key={key} className="mb-30">
+																						<h3 className="h5 mb-15">
+																							{field.label}
+																						</h3>
+																						<div className="text-gray">
+																							{displayValue}
+																						</div>
+																					</div>
 																				);
-																			}
+																			})}
 
-																			// Format multiselect as comma-separated list
-																			if (field.type === "multiselect" && Array.isArray(field.value)) {
-																				displayValue = field.value.join(", ");
-																			}
-
-																			return (
-																				<div key={key} className="mb-30">
+																			{/* Objectives as bullet points */}
+																			{objectives.length > 0 && (
+																				<div className="mb-30">
 																					<h3 className="h5 mb-15">
-																						{field.label}
+																						{language === "pt" ? "Objetivos" : "Objectives"}
 																					</h3>
-																					<div className="text-gray">
-																						{displayValue}
-																					</div>
+																					<ul className="text-gray">
+																						{objectives.map((objective, index) => (
+																							<li key={index} className="mb-10">
+																								{objective}
+																							</li>
+																						))}
+																					</ul>
 																				</div>
-																			);
-																		})}
+																			)}
 
-																		{/* Objectives as bullet points */}
-																		{objectives.length > 0 && (
-																			<div className="mb-30">
-																				<h3 className="h5 mb-15">
-																					{language === "pt" ? "Objetivos" : "Objectives"}
-																				</h3>
-																				<ul className="text-gray">
-																					{objectives.map((objective, index) => (
-																						<li key={index} className="mb-10">
-																							{objective}
-																						</li>
-																					))}
-																				</ul>
-																			</div>
-																		)}
+																			{/* Results after objectives */}
+																			{results.map(([key, field]) => {
+																				let displayValue = field.value;
 
-																		{/* Results after objectives */}
-																		{results.map(([key, field]) => {
-																			let displayValue = field.value;
+																				// Format multiselect as comma-separated list
+																				if (field.type === "multiselect" && Array.isArray(field.value)) {
+																					displayValue = field.value.join(", ");
+																				}
 
-																			// Format multiselect as comma-separated list
-																			if (field.type === "multiselect" && Array.isArray(field.value)) {
-																				displayValue = field.value.join(", ");
-																			}
-
-																			return (
-																				<div key={key} className="mb-30">
-																					<h3 className="h5 mb-15">
-																						{field.label}
-																					</h3>
-																					<div className="text-gray">
-																						{displayValue}
+																				return (
+																					<div key={key} className="mb-30">
+																						<h3 className="h5 mb-15">
+																							{field.label}
+																						</h3>
+																						<div className="text-gray">
+																							{displayValue}
+																						</div>
 																					</div>
-																				</div>
-																			);
-																		})}
-																	</>
-																);
-															})()}
-														</div>
-													)}
+																				);
+																			})}
+																		</>
+																	);
+																})()}
+															</>
+														)}
+												</div>
 
 												{/* Content/Description */}
 												{project.content && (
