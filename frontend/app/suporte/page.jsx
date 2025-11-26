@@ -72,8 +72,15 @@ export default function TicketPage() {
 																}
 															</span>
 														</h1>
-														<p className="section-descr mb-0 wow fadeInUp" data-wow-delay="0.2s">
-															{t.hero.subtitle[language]}
+														<p
+															className="section-descr mb-0 wow fadeInUp"
+															data-wow-delay="0.2s"
+														>
+															{
+																t.hero.subtitle[
+																	language
+																]
+															}
 														</p>
 													</div>
 													{/* End Page Title */}
@@ -110,10 +117,15 @@ export default function TicketPage() {
 									<div className="col-lg-4 mb-md-40 mb-xs-30">
 										<div className="alt-features-item text-center">
 											<div className="alt-features-icon mb-20">
-												<i className="mi-time" aria-hidden="true" />
+												<i
+													className="mi-clock"
+													aria-hidden="true"
+												/>
 											</div>
 											<h4 className="alt-features-title">
-												{language === "pt" ? "Resposta Rápida" : "Quick Response"}
+												{language === "pt"
+													? "Resposta Rápida"
+													: "Quick Response"}
 											</h4>
 											<div className="alt-features-descr">
 												{language === "pt"
@@ -126,10 +138,15 @@ export default function TicketPage() {
 									<div className="col-lg-4 mb-md-40 mb-xs-30">
 										<div className="alt-features-item text-center">
 											<div className="alt-features-icon mb-20">
-												<i className="mi-setting" aria-hidden="true" />
+												<i
+													className="mi-settings"
+													aria-hidden="true"
+												/>
 											</div>
 											<h4 className="alt-features-title">
-												{language === "pt" ? "Suporte Técnico" : "Technical Support"}
+												{language === "pt"
+													? "Suporte Técnico"
+													: "Technical Support"}
 											</h4>
 											<div className="alt-features-descr">
 												{language === "pt"
@@ -142,10 +159,15 @@ export default function TicketPage() {
 									<div className="col-lg-4">
 										<div className="alt-features-item text-center">
 											<div className="alt-features-icon mb-20">
-												<i className="mi-search" aria-hidden="true" />
+												<i
+													className="mi-search"
+													aria-hidden="true"
+												/>
 											</div>
 											<h4 className="alt-features-title">
-												{language === "pt" ? "Acompanhamento" : "Follow-up"}
+												{language === "pt"
+													? "Acompanhamento"
+													: "Follow-up"}
 											</h4>
 											<div className="alt-features-descr">
 												{language === "pt"

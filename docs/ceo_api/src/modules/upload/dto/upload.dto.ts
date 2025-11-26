@@ -46,7 +46,10 @@ export enum ImageSize {
 // ========================
 
 export class S3ConfigDto {
-  @ApiProperty({ description: 'AWS Access Key ID', example: 'AKIAIOSFODNN7EXAMPLE' })
+  @ApiProperty({
+    description: 'AWS Access Key ID',
+    example: 'AKIAIOSFODNN7EXAMPLE',
+  })
   @IsString()
   @IsNotEmpty()
   accessKeyId: string;
@@ -76,7 +79,10 @@ export class S3ConfigDto {
   @IsUrl()
   cloudFrontUrl?: string;
 
-  @ApiPropertyOptional({ description: 'ACL for uploaded files', example: 'private' })
+  @ApiPropertyOptional({
+    description: 'ACL for uploaded files',
+    example: 'private',
+  })
   @IsOptional()
   @IsString()
   acl?: string;
@@ -124,13 +130,18 @@ export class UpdateS3ConfigDto {
 // ========================
 
 export class UploadFileDto {
-  @ApiPropertyOptional({ description: 'Entity type for polymorphic relationship', example: 'product' })
+  @ApiPropertyOptional({
+    description: 'Entity type for polymorphic relationship',
+    example: 'product',
+  })
   @IsOptional()
   @IsString()
   @MaxLength(50)
   entityType?: string;
 
-  @ApiPropertyOptional({ description: 'Entity ID for polymorphic relationship' })
+  @ApiPropertyOptional({
+    description: 'Entity ID for polymorphic relationship',
+  })
   @IsOptional()
   @IsInt()
   entityId?: number;
@@ -140,7 +151,10 @@ export class UploadFileDto {
   @IsEnum(FileCategory)
   category?: FileCategory;
 
-  @ApiPropertyOptional({ description: 'Custom folder/prefix', example: 'products/logos' })
+  @ApiPropertyOptional({
+    description: 'Custom folder/prefix',
+    example: 'products/logos',
+  })
   @IsOptional()
   @IsString()
   @MaxLength(255)
@@ -151,12 +165,18 @@ export class UploadFileDto {
   @IsBoolean()
   isPublic?: boolean;
 
-  @ApiPropertyOptional({ description: 'Generate image variants', default: true })
+  @ApiPropertyOptional({
+    description: 'Generate image variants',
+    default: true,
+  })
   @IsOptional()
   @IsBoolean()
   generateVariants?: boolean;
 
-  @ApiPropertyOptional({ description: 'Tags for file organization', type: [String] })
+  @ApiPropertyOptional({
+    description: 'Tags for file organization',
+    type: [String],
+  })
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
@@ -184,13 +204,18 @@ export class RegisterExternalFileDto {
   @IsEnum(FileCategory)
   category: FileCategory;
 
-  @ApiPropertyOptional({ description: 'Entity type for polymorphic relationship', example: 'product' })
+  @ApiPropertyOptional({
+    description: 'Entity type for polymorphic relationship',
+    example: 'product',
+  })
   @IsOptional()
   @IsString()
   @MaxLength(50)
   entityType?: string;
 
-  @ApiPropertyOptional({ description: 'Entity ID for polymorphic relationship' })
+  @ApiPropertyOptional({
+    description: 'Entity ID for polymorphic relationship',
+  })
   @IsOptional()
   @IsInt()
   entityId?: number;
@@ -207,7 +232,10 @@ export class RegisterExternalFileDto {
   @MaxLength(500)
   description?: string;
 
-  @ApiPropertyOptional({ description: 'Tags for file organization', type: [String] })
+  @ApiPropertyOptional({
+    description: 'Tags for file organization',
+    type: [String],
+  })
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
@@ -225,14 +253,20 @@ export class GeneratePresignedUrlDto {
   @IsNotEmpty()
   fileKey: string;
 
-  @ApiPropertyOptional({ description: 'Expiration time in seconds', default: 3600 })
+  @ApiPropertyOptional({
+    description: 'Expiration time in seconds',
+    default: 3600,
+  })
   @IsOptional()
   @IsInt()
   @Min(60)
   @Max(604800) // Max 7 days
   expiresIn?: number;
 
-  @ApiPropertyOptional({ description: 'Content disposition', example: 'inline' })
+  @ApiPropertyOptional({
+    description: 'Content disposition',
+    example: 'inline',
+  })
   @IsOptional()
   @IsString()
   contentDisposition?: string;
@@ -263,10 +297,14 @@ export class UploadedFileDto {
   @ApiProperty({ description: 'File ID in database' })
   id: number;
 
-  @ApiPropertyOptional({ description: 'Entity type for polymorphic relationship' })
+  @ApiPropertyOptional({
+    description: 'Entity type for polymorphic relationship',
+  })
   entityType?: string;
 
-  @ApiPropertyOptional({ description: 'Entity ID for polymorphic relationship' })
+  @ApiPropertyOptional({
+    description: 'Entity ID for polymorphic relationship',
+  })
   entityId?: number;
 
   @ApiProperty({ description: 'File name' })
@@ -286,6 +324,11 @@ export class UploadedFileDto {
 
   @ApiProperty({ description: 'MIME type' })
   mimeType: string;
+
+  @ApiPropertyOptional({
+    description: 'File type (image, document, video, audio, other)',
+  })
+  fileType?: string;
 
   @ApiProperty({ description: 'File extension' })
   extension: string;
@@ -367,7 +410,10 @@ export class StorageStatsDto {
 // ========================
 
 export class ListFilesDto {
-  @ApiPropertyOptional({ description: 'Filter by entity type', example: 'product' })
+  @ApiPropertyOptional({
+    description: 'Filter by entity type',
+    example: 'product',
+  })
   @IsOptional()
   @IsString()
   entityType?: string;
@@ -377,17 +423,25 @@ export class ListFilesDto {
   @IsInt()
   entityId?: number;
 
-  @ApiPropertyOptional({ description: 'Filter by category', enum: FileCategory })
+  @ApiPropertyOptional({
+    description: 'Filter by category',
+    enum: FileCategory,
+  })
   @IsOptional()
   @IsEnum(FileCategory)
   category?: FileCategory;
 
-  @ApiPropertyOptional({ description: 'Filter by file type (image, document, video, audio, other)' })
+  @ApiPropertyOptional({
+    description: 'Filter by file type (image, document, video, audio, other)',
+  })
   @IsOptional()
   @IsString()
   fileType?: string;
 
-  @ApiPropertyOptional({ description: 'Filter by storage provider', enum: StorageProvider })
+  @ApiPropertyOptional({
+    description: 'Filter by storage provider',
+    enum: StorageProvider,
+  })
   @IsOptional()
   @IsEnum(StorageProvider)
   storageProvider?: StorageProvider;

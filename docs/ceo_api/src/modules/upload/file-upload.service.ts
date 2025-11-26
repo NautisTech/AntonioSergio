@@ -1,4 +1,9 @@
-import { Injectable, Logger, BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as sql from 'mssql';
 import * as fs from 'fs';
@@ -65,7 +70,12 @@ export class FileUploadService {
     const category = options.category || this.determineCategory(file.mimetype);
 
     // Generate file key/path
-    const fileKey = this.generateFileKey(tenantId, category, file.originalname, options.customFolder);
+    const fileKey = this.generateFileKey(
+      tenantId,
+      category,
+      file.originalname,
+      options.customFolder,
+    );
     const fileExt = path.extname(file.originalname);
 
     let fileUrl: string;
@@ -73,7 +83,10 @@ export class FileUploadService {
     let finalSize = file.size;
 
     // Process images
-    if (this.imageProcessor.isImage(file.mimetype) && options.generateVariants !== false) {
+    if (
+      this.imageProcessor.isImage(file.mimetype) &&
+      options.generateVariants !== false
+    ) {
       const imageResult = await this.processAndUploadImage(
         tenantId,
         file,
@@ -131,7 +144,9 @@ export class FileUploadService {
       userId,
     );
 
-    this.logger.log(`File uploaded: tenant=${tenantId}, provider=${storageProvider}, file=${fileKey}`);
+    this.logger.log(
+      `File uploaded: tenant=${tenantId}, provider=${storageProvider}, file=${fileKey}`,
+    );
 
     return uploadedFile;
   }
@@ -161,9 +176,7 @@ export class FileUploadService {
   async getFile(tenantId: number, fileId: number): Promise<UploadedFileDto> {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
-    const result = await pool.request()
-      .input('id', sql.Int, fileId)
-      .query(`
+    const result = await pool.request().input('id', sql.Int, fileId).query(`
         SELECT
           id,
           entity_type,
@@ -207,10 +220,10 @@ export class FileUploadService {
   ): Promise<UploadedFileDto[]> {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
-    const result = await pool.request()
+    const result = await pool
+      .request()
       .input('entityType', sql.NVarChar, entityType)
-      .input('entityId', sql.Int, entityId)
-      .query(`
+      .input('entityId', sql.Int, entityId).query(`
         SELECT
           id, entity_type, entity_id, file_name, title, file_path, file_size,
           mime_type, file_type, file_extension, description, display_order,
@@ -223,7 +236,7 @@ export class FileUploadService {
         ORDER BY display_order ASC, created_at DESC
       `);
 
-    return result.recordset.map(r => this.mapToDto(r));
+    return result.recordset.map((r) => this.mapToDto(r));
   }
 
   /**
@@ -261,7 +274,9 @@ export class FileUploadService {
     }
 
     if (filters.search) {
-      conditions.push('(file_name LIKE @search OR title LIKE @search OR description LIKE @search)');
+      conditions.push(
+        '(file_name LIKE @search OR title LIKE @search OR description LIKE @search)',
+      );
       request.input('search', sql.NVarChar, `%${filters.search}%`);
     }
 
@@ -283,14 +298,26 @@ export class FileUploadService {
     const offset = (page - 1) * pageSize;
 
     const countRequest = pool.request();
-    if (filters.category) countRequest.input('category', sql.NVarChar, filters.category);
-    if (filters.storageProvider) countRequest.input('storageProvider', sql.NVarChar, filters.storageProvider);
-    if (filters.entityType) countRequest.input('entityType', sql.NVarChar, filters.entityType);
-    if (filters.entityId) countRequest.input('entityId', sql.Int, filters.entityId);
-    if (filters.fileType) countRequest.input('fileType', sql.NVarChar, filters.fileType);
-    if (filters.search) countRequest.input('search', sql.NVarChar, `%${filters.search}%`);
-    if (filters.startDate) countRequest.input('startDate', sql.DateTime2, filters.startDate);
-    if (filters.endDate) countRequest.input('endDate', sql.DateTime2, filters.endDate);
+    if (filters.category)
+      countRequest.input('category', sql.NVarChar, filters.category);
+    if (filters.storageProvider)
+      countRequest.input(
+        'storageProvider',
+        sql.NVarChar,
+        filters.storageProvider,
+      );
+    if (filters.entityType)
+      countRequest.input('entityType', sql.NVarChar, filters.entityType);
+    if (filters.entityId)
+      countRequest.input('entityId', sql.Int, filters.entityId);
+    if (filters.fileType)
+      countRequest.input('fileType', sql.NVarChar, filters.fileType);
+    if (filters.search)
+      countRequest.input('search', sql.NVarChar, `%${filters.search}%`);
+    if (filters.startDate)
+      countRequest.input('startDate', sql.DateTime2, filters.startDate);
+    if (filters.endDate)
+      countRequest.input('endDate', sql.DateTime2, filters.endDate);
 
     const countResult = await countRequest.query(`
       SELECT COUNT(*) as total FROM attachment WHERE ${whereClause}
@@ -313,7 +340,7 @@ export class FileUploadService {
     `);
 
     return {
-      data: dataResult.recordset.map(r => this.mapToDto(r)),
+      data: dataResult.recordset.map((r) => this.mapToDto(r)),
       total: countResult.recordset[0].total,
       page,
       pageSize,
@@ -328,9 +355,7 @@ export class FileUploadService {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
     // Get file info
-    const result = await pool.request()
-      .input('id', sql.Int, fileId)
-      .query(`
+    const result = await pool.request().input('id', sql.Int, fileId).query(`
         SELECT storage_provider, s3_key, file_path, variants, file_name
         FROM attachment
         WHERE id = @id AND deleted_at IS NULL
@@ -366,9 +391,7 @@ export class FileUploadService {
     }
 
     // Soft delete from database
-    await pool.request()
-      .input('id', sql.Int, fileId)
-      .query(`
+    await pool.request().input('id', sql.Int, fileId).query(`
         UPDATE attachment
         SET deleted_at = GETDATE()
         WHERE id = @id
@@ -380,12 +403,13 @@ export class FileUploadService {
   /**
    * Increment download count
    */
-  async incrementDownloadCount(tenantId: number, fileId: number): Promise<void> {
+  async incrementDownloadCount(
+    tenantId: number,
+    fileId: number,
+  ): Promise<void> {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
-    await pool.request()
-      .input('id', sql.Int, fileId)
-      .query(`
+    await pool.request().input('id', sql.Int, fileId).query(`
         UPDATE attachment
         SET download_count = download_count + 1
         WHERE id = @id AND deleted_at IS NULL
@@ -402,10 +426,10 @@ export class FileUploadService {
   ): Promise<void> {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
-    await pool.request()
+    await pool
+      .request()
       .input('id', sql.Int, fileId)
-      .input('displayOrder', sql.Int, displayOrder)
-      .query(`
+      .input('displayOrder', sql.Int, displayOrder).query(`
         UPDATE attachment
         SET display_order = @displayOrder
         WHERE id = @id AND deleted_at IS NULL
@@ -477,12 +501,15 @@ export class FileUploadService {
     const file = await this.getFile(tenantId, fileId);
 
     if (file.storageProvider !== StorageProvider.S3) {
-      throw new BadRequestException('Presigned URLs are only available for S3 files');
+      throw new BadRequestException(
+        'Presigned URLs are only available for S3 files',
+      );
     }
 
     // Extract S3 key from database
     const pool = await this.databaseService.getTenantConnection(tenantId);
-    const result = await pool.request()
+    const result = await pool
+      .request()
       .input('id', sql.Int, fileId)
       .query(`SELECT s3_key FROM attachment WHERE id = @id`);
 
@@ -610,18 +637,27 @@ export class FileUploadService {
     }
 
     // Save temp file
-    const tempPath = path.join(tempDir, `${baseName}_temp${path.extname(file.originalname)}`);
+    const tempPath = path.join(
+      tempDir,
+      `${baseName}_temp${path.extname(file.originalname)}`,
+    );
     fs.writeFileSync(tempPath, file.buffer);
 
     try {
       // Process image
-      const processed = await this.imageProcessor.processImage(tempPath, tempDir, baseName);
+      const processed = await this.imageProcessor.processImage(
+        tempPath,
+        tempDir,
+        baseName,
+      );
 
       const variants: any = {};
       let totalSize = 0;
 
       // Upload all variants
-      for (const [variantName, variantPath] of Object.entries(processed.variants)) {
+      for (const [variantName, variantPath] of Object.entries(
+        processed.variants,
+      )) {
         const variantBuffer = fs.readFileSync(variantPath);
         const variantKey = baseKey.replace(
           path.extname(baseKey),
@@ -639,7 +675,11 @@ export class FileUploadService {
           );
           variants[variantName] = s3Result.key;
         } else {
-          variants[variantName] = await this.uploadToLocal(tenantId, variantKey, variantBuffer);
+          variants[variantName] = await this.uploadToLocal(
+            tenantId,
+            variantKey,
+            variantBuffer,
+          );
         }
 
         totalSize += variantBuffer.length;
@@ -670,7 +710,11 @@ export class FileUploadService {
   /**
    * Upload to local storage
    */
-  private async uploadToLocal(tenantId: number, fileKey: string, buffer: Buffer): Promise<string> {
+  private async uploadToLocal(
+    tenantId: number,
+    fileKey: string,
+    buffer: Buffer,
+  ): Promise<string> {
     const tenantFolder = path.join(this.uploadPath, `tenant_${tenantId}`);
 
     if (!fs.existsSync(tenantFolder)) {
@@ -680,14 +724,19 @@ export class FileUploadService {
     const filePath = path.join(tenantFolder, path.basename(fileKey));
     fs.writeFileSync(filePath, buffer);
 
-    const apiUrl = this.configService.get('app.apiUrl') || 'http://localhost:9832';
+    const apiUrl =
+      this.configService.get('app.apiUrl') || 'http://localhost:9832';
     return `${apiUrl}/uploads/tenant_${tenantId}/${path.basename(fileKey)}`;
   }
 
   /**
    * Delete from local storage
    */
-  private deleteFromLocal(tenantId: number, fileName: string, variants?: string): void {
+  private deleteFromLocal(
+    tenantId: number,
+    fileName: string,
+    variants?: string,
+  ): void {
     const tenantFolder = path.join(this.uploadPath, `tenant_${tenantId}`);
     const filePath = path.join(tenantFolder, fileName);
 
@@ -742,7 +791,8 @@ export class FileUploadService {
     if (mimeType.startsWith('image/')) return FileCategory.IMAGE;
     if (mimeType.startsWith('video/')) return FileCategory.VIDEO;
     if (mimeType.startsWith('audio/')) return FileCategory.AUDIO;
-    if (mimeType.includes('pdf') || mimeType.includes('document')) return FileCategory.DOCUMENT;
+    if (mimeType.includes('pdf') || mimeType.includes('document'))
+      return FileCategory.DOCUMENT;
     return FileCategory.ATTACHMENT;
   }
 
@@ -775,10 +825,16 @@ export class FileUploadService {
     }
 
     const allowedMimes = [
-      'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp',
+      'image/jpeg',
+      'image/jpg',
+      'image/png',
+      'image/gif',
+      'image/webp',
       'application/pdf',
-      'video/mp4', 'video/mpeg',
-      'audio/mpeg', 'audio/wav',
+      'video/mp4',
+      'video/mpeg',
+      'audio/mpeg',
+      'audio/wav',
       'application/msword',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       'application/vnd.ms-excel',
@@ -799,17 +855,23 @@ export class FileUploadService {
       const allowedProtocols = ['http:', 'https:'];
 
       if (!allowedProtocols.includes(parsedUrl.protocol)) {
-        throw new BadRequestException('Protocol not allowed. Use http or https');
+        throw new BadRequestException(
+          'Protocol not allowed. Use http or https',
+        );
       }
 
       const allowedDomains = [
-        'youtube.com', 'www.youtube.com', 'youtu.be', 'm.youtube.com',
-        'vimeo.com', 'player.vimeo.com',
+        'youtube.com',
+        'www.youtube.com',
+        'youtu.be',
+        'm.youtube.com',
+        'vimeo.com',
+        'player.vimeo.com',
       ];
 
       const hostname = parsedUrl.hostname.toLowerCase();
-      const isAllowed = allowedDomains.some(domain =>
-        hostname === domain || hostname.endsWith(`.${domain}`),
+      const isAllowed = allowedDomains.some(
+        (domain) => hostname === domain || hostname.endsWith(`.${domain}`),
       );
 
       if (!isAllowed) {
@@ -904,7 +966,8 @@ export class FileUploadService {
   ): Promise<UploadedFileDto> {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
-    const result = await pool.request()
+    const result = await pool
+      .request()
       .input('entityType', sql.NVarChar, data.entityType)
       .input('entityId', sql.Int, data.entityId)
       .input('fileName', sql.NVarChar, data.fileName)
@@ -920,10 +983,13 @@ export class FileUploadService {
       .input('uploadedBy', sql.Int, userId)
       .input('storageProvider', sql.NVarChar, data.storageProvider)
       .input('s3Key', sql.NVarChar, data.s3Key)
-      .input('variants', sql.NVarChar, data.variants ? JSON.stringify(data.variants) : null)
+      .input(
+        'variants',
+        sql.NVarChar,
+        data.variants ? JSON.stringify(data.variants) : null,
+      )
       .input('tags', sql.NVarChar, data.tags ? JSON.stringify(data.tags) : null)
-      .input('category', sql.NVarChar, data.category)
-      .query(`
+      .input('category', sql.NVarChar, data.category).query(`
         INSERT INTO attachment (
           entity_type, entity_id, file_name, title, file_path, file_size,
           mime_type, file_type, file_extension, description, display_order,
@@ -965,6 +1031,7 @@ export class FileUploadService {
       category: record.category,
       storageProvider: record.storage_provider,
       mimeType: record.mime_type,
+      fileType: record.file_type,
       extension: record.file_extension,
       sizeBytes: record.file_size,
       variants: record.variants ? JSON.parse(record.variants) : null,

@@ -1,6 +1,7 @@
 "use client";
 import { use, useEffect } from "react";
 import Footer1 from "@/components/footers/Footer1";
+import Image from "next/image";
 import Link from "next/link";
 import ParallaxContainer from "@/components/common/ParallaxContainer";
 import Header from "@/components/site/Header";
@@ -8,6 +9,7 @@ import AnimatedText from "@/components/common/AnimatedText";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import { useContentBySlug, useEvents } from "@/lib/api/public-content";
+import { useAttachments } from "@/lib/api/public-uploads";
 import { notFound } from "next/navigation";
 
 export default function EventDetailPage({ params }) {
@@ -22,6 +24,9 @@ export default function EventDetailPage({ params }) {
 		loading: eventLoading,
 		error: eventError,
 	} = useContentBySlug(unwrappedParams.slug);
+
+	// Fetch attachments for this event
+	const { data: attachments } = useAttachments("content", event?.id || null);
 
 	// Re-initialize WOW animations when event loads
 	useEffect(() => {
@@ -369,65 +374,234 @@ export default function EventDetailPage({ params }) {
 									</div>
 									{/* End Event Description */}
 								</div>
-							</div>
-							{/* Divider */}
-							<hr
-								className={`mt-0 mb-0 ${isDark ? "white" : ""}`}
-							/>
-							{/* End Divider */}
 
-							{/* Work Navigation */}
-							<div
-								className={`work-navigation clearfix ${
-									isDark ? "light-content" : ""
-								}`}
-							>
-								<Link
-									href={
-										prevEvent
-											? `/eventos/${prevEvent.slug}`
-											: "#"
-									}
-									className="work-prev"
-									style={{
-										visibility: prevEvent
-											? "visible"
-											: "hidden",
-									}}
-								>
-									<span>
-										<i className="mi-arrow-left size-24 align-middle" />{" "}
-										{translations.previous[language]}
-									</span>
-								</Link>
-								<Link href="/eventos" className="work-all">
-									<span>
-										<i className="mi-close size-24 align-middle" />{" "}
-										{translations.allEvents[language]}
-									</span>
-								</Link>
-								<Link
-									href={
-										nextEvent
-											? `/eventos/${nextEvent.slug}`
-											: "#"
-									}
-									className="work-next"
-									style={{
-										visibility: nextEvent
-											? "visible"
-											: "hidden",
-									}}
-								>
-									<span>
-										{translations.next[language]}{" "}
-										<i className="mi-arrow-right size-24 align-middle" />
-									</span>
-								</Link>
+								{/* Attachments - Stacked Images */}
+								{(attachments?.filter(
+									att => att.fileType === "image"
+								).length > 0 ||
+									attachments?.filter(
+										att => att.fileType === "document"
+									).length > 0) && (
+									<div className="mt-n30">
+										{attachments
+											.filter(
+												att => att.fileType === "image"
+											)
+											.sort(
+												(a, b) =>
+													(a.displayOrder || 0) -
+													(b.displayOrder || 0)
+											)
+											.map((attachment, index) => (
+												<div
+													key={index}
+													className="mt-30 wow fadeInUp"
+												>
+													<Image
+														src={attachment.url}
+														alt={
+															attachment.originalName
+														}
+														width={1350}
+														height={865}
+													/>
+												</div>
+											))}
+										{attachments?.filter(
+											att => att.fileType === "document"
+										).length > 0 && (
+											<div className="mt-30">
+												<h3 className="h4 mb-20">
+													{language === "pt"
+														? "Documentos"
+														: "Documents"}
+												</h3>
+												<ul className="list-unstyled">
+													{attachments
+														.filter(
+															att =>
+																att.fileType ===
+																"document"
+														)
+														.sort(
+															(a, b) =>
+																(a.displayOrder ||
+																	0) -
+																(b.displayOrder ||
+																	0)
+														)
+														.map(
+															(
+																attachment,
+																index
+															) => (
+																<li
+																	key={index}
+																	className="mb-10"
+																>
+																	<a
+																		href={
+																			attachment.url
+																		}
+																		target="_blank"
+																		rel="noopener noreferrer"
+																		className={
+																			isDark
+																				? "text-white"
+																				: ""
+																		}
+																	>
+																		<i className="mi-file" />{" "}
+																		{
+																			attachment.originalName
+																		}
+																		{attachment.sizeBytes &&
+																			` (${Math.round(
+																				attachment.sizeBytes /
+																					1024
+																			)} KB)`}
+																	</a>
+																</li>
+															)
+														)}
+												</ul>
+											</div>
+										)}
+									</div>
+								)}
+								{/* End Attachments */}
 							</div>
-							{/* End Work Navigation */}
 						</section>
 						{/* End Section */}
+
+						{/* Divider */}
+						<hr className={`mt-0 mb-0 ${isDark ? "white" : ""}`} />
+						{/* End Divider */}
+
+						{/* Related Events Section */}
+						{allEvents && allEvents.length > 1 && (
+							<section
+								className={`page-section ${
+									isDark ? "bg-dark-1 light-content" : ""
+								}`}
+							>
+								<div className="container relative">
+									<div className="text-center mb-60 mb-sm-40">
+										<h2 className="section-title-small">
+											{language === "pt"
+												? "Eventos Relacionados"
+												: "Related Events"}
+										</h2>
+									</div>
+									<div className="row">
+										{allEvents
+											.filter(e => e.id !== event?.id)
+											.slice(0, 4)
+											.map((relatedEvent, index) => (
+												<div
+													key={index}
+													className="col-md-6 col-lg-3 mb-30"
+												>
+													<Link
+														href={`/eventos/${relatedEvent.slug}`}
+														className="work-item"
+														style={{
+															textDecoration:
+																"none",
+														}}
+													>
+														<div className="work-img">
+															{relatedEvent.featured_image && (
+																<Image
+																	src={
+																		relatedEvent.featured_image
+																	}
+																	alt={
+																		relatedEvent.title
+																	}
+																	width={650}
+																	height={773}
+																	className="img-fluid"
+																/>
+															)}
+														</div>
+														<div className="work-intro text-start">
+															<h3 className="work-title">
+																{
+																	relatedEvent.title
+																}
+															</h3>
+															{relatedEvent.excerpt && (
+																<div className="work-descr">
+																	{
+																		relatedEvent.excerpt
+																	}
+																</div>
+															)}
+														</div>
+													</Link>
+												</div>
+											))}
+									</div>
+								</div>
+							</section>
+						)}
+						{/* End Related Events Section */}
+
+						{/* Divider */}
+						<hr className={`mt-0 mb-0 ${isDark ? "white" : ""}`} />
+						{/* End Divider */}
+
+						{/* Work Navigation */}
+						<div
+							className={`work-navigation clearfix ${
+								isDark ? "light-content" : ""
+							}`}
+						>
+							<Link
+								href={
+									prevEvent
+										? `/eventos/${prevEvent.slug}`
+										: "#"
+								}
+								className="work-prev"
+								style={{
+									visibility: prevEvent
+										? "visible"
+										: "hidden",
+								}}
+							>
+								<span>
+									<i className="mi-arrow-left size-24 align-middle" />{" "}
+									{translations.previous[language]}
+								</span>
+							</Link>
+							<Link href="/eventos" className="work-all">
+								<span>
+									<i className="mi-close size-24 align-middle" />{" "}
+									{translations.allEvents[language]}
+								</span>
+							</Link>
+							<Link
+								href={
+									nextEvent
+										? `/eventos/${nextEvent.slug}`
+										: "#"
+								}
+								className="work-next"
+								style={{
+									visibility: nextEvent
+										? "visible"
+										: "hidden",
+								}}
+							>
+								<span>
+									{translations.next[language]}{" "}
+									<i className="mi-arrow-right size-24 align-middle" />
+								</span>
+							</Link>
+						</div>
+						{/* End Work Navigation */}
 					</main>
 					<Footer1 />
 				</div>

@@ -46,11 +46,14 @@ export default function TicketForm() {
 	// Scroll to message when status changes
 	useEffect(() => {
 		if (submitStatus && messageRef.current) {
-			messageRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			messageRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "center",
+			});
 		}
 	}, [submitStatus]);
 
-	const handleInputChange = (e) => {
+	const handleInputChange = e => {
 		const { name, value } = e.target;
 		setFormData(prev => ({
 			...prev,
@@ -69,7 +72,7 @@ export default function TicketForm() {
 		}
 	};
 
-	const handleEquipmentChange = (e) => {
+	const handleEquipmentChange = e => {
 		const { name, value } = e.target;
 		setCurrentEquipment(prev => ({
 			...prev,
@@ -85,7 +88,7 @@ export default function TicketForm() {
 		}
 	};
 
-	const removeEquipment = (index) => {
+	const removeEquipment = index => {
 		setEquipments(prev => prev.filter((_, i) => i !== index));
 	};
 
@@ -100,7 +103,10 @@ export default function TicketForm() {
 			newErrors.title = t.validation.required[language];
 		}
 
-		if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+		if (
+			formData.email &&
+			!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+		) {
 			newErrors.email = t.validation.emailInvalid[language];
 		}
 
@@ -112,7 +118,7 @@ export default function TicketForm() {
 		return Object.keys(newErrors).length === 0;
 	};
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async e => {
 		e.preventDefault();
 		setSubmitStatus(null);
 
@@ -124,10 +130,12 @@ export default function TicketForm() {
 		let fullDescription = formData.description || "";
 
 		if (formData.fullName || formData.email || formData.phone) {
-			fullDescription += "\n\n--- Contact Information ---\n";
-			if (formData.fullName) fullDescription += `Name: ${formData.fullName}\n`;
+			fullDescription += "\n\n=== Informação de Contacto ===\n";
+			if (formData.fullName)
+				fullDescription += `Nome: ${formData.fullName}\n`;
 			if (formData.email) fullDescription += `Email: ${formData.email}\n`;
-			if (formData.phone) fullDescription += `Phone: ${formData.phone}\n`;
+			if (formData.phone)
+				fullDescription += `Telefone: ${formData.phone}\n`;
 		}
 
 		// Build equipment strings (comma-separated)
@@ -156,7 +164,7 @@ export default function TicketForm() {
 			const result = await submitTicket(ticketData, null);
 
 			if (result) {
-				setSubmitStatus('success');
+				setSubmitStatus("success");
 				// Reset form
 				setFormData({
 					fullName: "",
@@ -171,10 +179,10 @@ export default function TicketForm() {
 				setEquipments([]);
 				setErrors({});
 			} else {
-				setSubmitStatus('error');
+				setSubmitStatus("error");
 			}
 		} catch (error) {
-			setSubmitStatus('error');
+			setSubmitStatus("error");
 		}
 	};
 
@@ -194,14 +202,20 @@ export default function TicketForm() {
 										type="text"
 										name="fullName"
 										id="fullName"
-										className={`input-lg round form-control ${errors.fullName ? "is-invalid" : ""}`}
-										placeholder={t.fullName.placeholder[language]}
+										className={`input-lg round form-control ${
+											errors.fullName ? "is-invalid" : ""
+										}`}
+										placeholder={
+											t.fullName.placeholder[language]
+										}
 										value={formData.fullName}
 										onChange={handleInputChange}
 										required
 									/>
 									{errors.fullName && (
-										<div className="text-danger mt-10">{errors.fullName}</div>
+										<div className="text-danger mt-10">
+											{errors.fullName}
+										</div>
 									)}
 								</div>
 							</div>
@@ -214,13 +228,19 @@ export default function TicketForm() {
 										type="email"
 										name="email"
 										id="email"
-										className={`input-lg round form-control ${errors.email ? "is-invalid" : ""}`}
-										placeholder={t.email.placeholder[language]}
+										className={`input-lg round form-control ${
+											errors.email ? "is-invalid" : ""
+										}`}
+										placeholder={
+											t.email.placeholder[language]
+										}
 										value={formData.email}
 										onChange={handleInputChange}
 									/>
 									{errors.email && (
-										<div className="text-danger mt-10">{errors.email}</div>
+										<div className="text-danger mt-10">
+											{errors.email}
+										</div>
 									)}
 								</div>
 							</div>
@@ -250,7 +270,9 @@ export default function TicketForm() {
 								type="text"
 								name="title"
 								id="title"
-								className={`input-lg round form-control ${errors.title ? "is-invalid" : ""}`}
+								className={`input-lg round form-control ${
+									errors.title ? "is-invalid" : ""
+								}`}
 								placeholder={t.title.placeholder[language]}
 								value={formData.title}
 								onChange={handleInputChange}
@@ -258,7 +280,9 @@ export default function TicketForm() {
 								required
 							/>
 							{errors.title && (
-								<div className="text-danger mt-10">{errors.title}</div>
+								<div className="text-danger mt-10">
+									{errors.title}
+								</div>
 							)}
 						</div>
 
@@ -271,7 +295,9 @@ export default function TicketForm() {
 								id="description"
 								className="input-lg round form-control"
 								style={{ height: 150 }}
-								placeholder={t.description.placeholder[language]}
+								placeholder={
+									t.description.placeholder[language]
+								}
 								value={formData.description}
 								onChange={handleInputChange}
 							/>
@@ -286,7 +312,11 @@ export default function TicketForm() {
 									<select
 										name="ticketTypeId"
 										id="ticketTypeId"
-										className={`input-lg round form-control ${errors.ticketTypeId ? "is-invalid" : ""}`}
+										className={`input-lg round form-control ${
+											errors.ticketTypeId
+												? "is-invalid"
+												: ""
+										}`}
 										value={formData.ticketTypeId}
 										onChange={handleInputChange}
 										required
@@ -296,17 +326,25 @@ export default function TicketForm() {
 										</option>
 										{typesLoading && (
 											<option disabled>
-												{language === "pt" ? "A carregar..." : "Loading..."}
+												{language === "pt"
+													? "A carregar..."
+													: "Loading..."}
 											</option>
 										)}
-										{ticketTypes && ticketTypes.map((type) => (
-											<option key={type.id} value={type.id}>
-												{type.name}
-											</option>
-										))}
+										{ticketTypes &&
+											ticketTypes.map(type => (
+												<option
+													key={type.id}
+													value={type.id}
+												>
+													{type.name}
+												</option>
+											))}
 									</select>
 									{errors.ticketTypeId && (
-										<div className="text-danger mt-10">{errors.ticketTypeId}</div>
+										<div className="text-danger mt-10">
+											{errors.ticketTypeId}
+										</div>
 									)}
 								</div>
 							</div>
@@ -322,10 +360,26 @@ export default function TicketForm() {
 										value={formData.priority}
 										onChange={handleInputChange}
 									>
-										<option value="low">{t.priority.options.low[language]}</option>
-										<option value="medium">{t.priority.options.medium[language]}</option>
-										<option value="high">{t.priority.options.high[language]}</option>
-										<option value="urgent">{t.priority.options.urgent[language]}</option>
+										<option value="low">
+											{t.priority.options.low[language]}
+										</option>
+										<option value="medium">
+											{
+												t.priority.options.medium[
+													language
+												]
+											}
+										</option>
+										<option value="high">
+											{t.priority.options.high[language]}
+										</option>
+										<option value="urgent">
+											{
+												t.priority.options.urgent[
+													language
+												]
+											}
+										</option>
 									</select>
 								</div>
 							</div>
@@ -360,7 +414,10 @@ export default function TicketForm() {
 										type="text"
 										name="serialNumber"
 										className="input-lg round form-control"
-										placeholder={t.equipment.serialNumber.placeholder[language]}
+										placeholder={
+											t.equipment.serialNumber
+												.placeholder[language]
+										}
 										value={currentEquipment.serialNumber}
 										onChange={handleEquipmentChange}
 									/>
@@ -370,7 +427,11 @@ export default function TicketForm() {
 										type="text"
 										name="description"
 										className="input-lg round form-control"
-										placeholder={t.equipment.description.placeholder[language]}
+										placeholder={
+											t.equipment.description.placeholder[
+												language
+											]
+										}
 										value={currentEquipment.description}
 										onChange={handleEquipmentChange}
 									/>
@@ -380,8 +441,15 @@ export default function TicketForm() {
 										type="button"
 										onClick={addEquipment}
 										className="btn btn-mod btn-medium btn-round w-100"
-										disabled={!currentEquipment.serialNumber || !currentEquipment.description}
-										title={language === "pt" ? "Preencha ambos os campos" : "Fill both fields"}
+										disabled={
+											!currentEquipment.serialNumber ||
+											!currentEquipment.description
+										}
+										title={
+											language === "pt"
+												? "Preencha ambos os campos"
+												: "Fill both fields"
+										}
 									>
 										<i className="mi-add" />
 									</button>
@@ -393,26 +461,63 @@ export default function TicketForm() {
 								<div className="mt-20">
 									<ul className="clearlist">
 										{equipments.map((eq, index) => (
-											<li key={index} className="mb-10">
-												<div className={`${isDark ? "bg-dark-2" : "bg-gray-light-1"} p-20 round d-flex justify-content-between align-items-center`}>
-													<div>
-														<div className="mb-5">
-															<strong className="me-10">{t.equipment.serialNumber.label[language]}:</strong>
-															<span>{eq.serialNumber}</span>
-														</div>
+											<li key={index} className="mb-15">
+												<div className="row align-items-center">
+													<div className="col-lg-5">
 														<div>
-															<strong className="me-10">{t.equipment.description.label[language]}:</strong>
-															<span>{eq.description}</span>
+															<strong className="me-2">
+																{
+																	t.equipment
+																		.serialNumber
+																		.label[
+																		language
+																	]
+																}
+																:
+															</strong>
+															<span>
+																{
+																	eq.serialNumber
+																}
+															</span>
 														</div>
 													</div>
-													<button
-														type="button"
-														onClick={() => removeEquipment(index)}
-														className="btn btn-mod btn-circle btn-small"
-														title={t.equipment.removeButton[language]}
-													>
-														<i className="mi-close" />
-													</button>
+													<div className="col-lg-5">
+														<div>
+															<strong className="me-2">
+																{
+																	t.equipment
+																		.description
+																		.label[
+																		language
+																	]
+																}
+																:
+															</strong>
+															<span>
+																{eq.description}
+															</span>
+														</div>
+													</div>
+													<div className="col-lg-2">
+														<button
+															type="button"
+															onClick={() =>
+																removeEquipment(
+																	index
+																)
+															}
+															className="btn btn-mod btn-medium btn-round w-100"
+															title={
+																t.equipment
+																	.removeButton[
+																	language
+																]
+															}
+														>
+															<i className="mi-close" />
+														</button>
+													</div>
 												</div>
 											</li>
 										))}
@@ -429,31 +534,45 @@ export default function TicketForm() {
 								disabled={submitting}
 							>
 								<span>
-									{submitting ? t.submitting[language] : t.submit[language]}
+									{submitting
+										? t.submitting[language]
+										: t.submit[language]}
 								</span>
 							</button>
 						</div>
 
 						{/* Success/Error Messages - Below Submit Button */}
 						<div ref={messageRef}>
-							{submitStatus === 'success' && (
+							{submitStatus === "success" && (
 								<div className="alert alert-success mt-40">
 									<div className="d-flex align-items-start">
-										<i className="mi-check-circle size-24 me-15" aria-hidden="true" />
+										<i
+											className="mi-check-circle size-24 me-15"
+											aria-hidden="true"
+										/>
 										<div>
-											<strong>{t.success.message[language]}</strong>
+											<strong>
+												{t.success.message[language]}
+											</strong>
 										</div>
 									</div>
 								</div>
 							)}
 
-							{submitStatus === 'error' && (
+							{submitStatus === "error" && (
 								<div className="alert alert-danger mt-40">
 									<div className="d-flex align-items-start">
-										<i className="mi-close size-24 me-15" aria-hidden="true" />
+										<i
+											className="mi-close size-24 me-15"
+											aria-hidden="true"
+										/>
 										<div>
-											<strong>{t.error.title[language]}</strong>
-											<p className="mb-0 mt-5">{t.error.message[language]}</p>
+											<strong>
+												{t.error.title[language]}
+											</strong>
+											<p className="mb-0 mt-5">
+												{t.error.message[language]}
+											</p>
 										</div>
 									</div>
 								</div>
