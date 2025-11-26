@@ -66,7 +66,7 @@ export class PublicContentController {
       ...filters,
       status: ContentStatus.PUBLISHED,
       visibility: ContentVisibility.PUBLIC,
-      includeScheduled: true, // Allow future events/scheduled content to show
+      includeScheduled: false,
     };
 
     const result = await this.contentService.list(4, publicFilters); // Use default tenant
@@ -150,7 +150,6 @@ export class PublicContentController {
       status: ContentStatus.PUBLISHED,
       visibility: ContentVisibility.PUBLIC,
       featuredOnly: true,
-      includeScheduled: true,
       pageSize: limit || 5,
     };
 
@@ -168,7 +167,6 @@ export class PublicContentController {
     const filters: ContentFilterDto = {
       status: ContentStatus.PUBLISHED,
       visibility: ContentVisibility.PUBLIC,
-      includeScheduled: true,
       sortBy: 'published_at',
       sortOrder: 'desc',
       pageSize: limit || 10,
@@ -188,7 +186,6 @@ export class PublicContentController {
     const filters: ContentFilterDto = {
       status: ContentStatus.PUBLISHED,
       visibility: ContentVisibility.PUBLIC,
-      includeScheduled: true,
       sortBy: 'view_count',
       sortOrder: 'desc',
       pageSize: limit || 10,
