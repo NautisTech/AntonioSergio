@@ -477,8 +477,11 @@ export class ContentService {
               FROM custom_field_config cfc
               INNER JOIN custom_field_config_scope cfcs ON cfc.id = cfcs.custom_field_config_id
               LEFT JOIN custom_field_value cfv ON cfc.id = cfv.custom_field_config_id
+                AND cfv.entity_type = 'content'
                 AND cfv.entity_id = @contentId
-              WHERE cfcs.content_type_id = @contentTypeId
+              WHERE cfcs.entity_type = 'content'
+                AND cfcs.type_entity = 'content_type'
+                AND cfcs.type_id = @contentTypeId
                 AND cfc.deleted_at IS NULL
               ORDER BY cfc.display_order
             `);
@@ -507,12 +510,17 @@ export class ContentService {
               }
             }
 
-            customFields[field.field_name] = {
+            const fieldData: any = {
               label: field.field_label,
               value: value,
               type: field.field_type,
-              ...(options && { options }),
             };
+
+            if (options) {
+              fieldData.options = options;
+            }
+
+            customFields[field.field_name] = fieldData;
           });
           contentObj.custom_fields = customFields;
         } catch (error) {
@@ -618,8 +626,11 @@ export class ContentService {
           FROM custom_field_config cfc
           INNER JOIN custom_field_config_scope cfcs ON cfc.id = cfcs.custom_field_config_id
           LEFT JOIN custom_field_value cfv ON cfc.id = cfv.custom_field_config_id
+            AND cfv.entity_type = 'content'
             AND cfv.entity_id = @contentId
-          WHERE cfcs.content_type_id = @contentTypeId
+          WHERE cfcs.entity_type = 'content'
+            AND cfcs.type_entity = 'content_type'
+            AND cfcs.type_id = @contentTypeId
             AND cfc.deleted_at IS NULL
           ORDER BY cfc.display_order
         `);
@@ -648,12 +659,17 @@ export class ContentService {
           }
         }
 
-        customFields[field.field_name] = {
+        const fieldData: any = {
           label: field.field_label,
           value: value,
           type: field.field_type,
-          ...(options && { options }),
         };
+
+        if (options) {
+          fieldData.options = options;
+        }
+
+        customFields[field.field_name] = fieldData;
       });
       content.custom_fields = customFields;
     } catch (error) {
