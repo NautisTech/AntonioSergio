@@ -308,7 +308,7 @@ export default function ProjectDetailPage({ params }) {
 																Object.entries(
 																	project.custom_fields
 																).forEach(([key, field]) => {
-																	if (field?.value) {
+																	if (field?.value && key !== 'entidades') {
 																		if (key.startsWith('objetivos_')) {
 																			objectives.push(field.value);
 																		} else {

@@ -385,12 +385,12 @@ export default function BlogDetailPage({ params }) {
 
 												{/* Custom Fields */}
 												{blog.custom_fields &&
-													Object.keys(blog.custom_fields)
+													Object.keys(blog.custom_fields).filter(k => k !== 'entidades')
 														.length > 0 && (
 														<div className="mt-40">
 															{Object.entries(
 																blog.custom_fields
-															).map(([key, field]) => {
+															).filter(([key]) => key !== 'entidades').map(([key, field]) => {
 																if (!field?.value)
 																	return null;
 

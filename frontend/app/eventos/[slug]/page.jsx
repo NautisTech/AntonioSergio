@@ -254,70 +254,82 @@ export default function EventDetailPage({ params }) {
 												]
 											}
 										</h2>
-										{event.published_at && (
-											<>
-												<div className="row text-gray">
-													<div className="col-sm-4">
-														<b>
-															{
-																translations
-																	.date[
-																	language
-																]
-															}
-															:
-														</b>
-													</div>
-													<div className="col-sm-8">
-														{formatDate(
-															event.published_at
-														)}
-													</div>
+									{event.published_at && (
+										<>
+											<div className="row text-gray">
+												<div className="col-sm-4">
+													<b>
+														{language === "pt"
+															? "Publicado em:"
+															: "Published on:"}
+													</b>
 												</div>
-												<hr
-													className={`mb-20 ${
-														isDark ? "white" : ""
-													}`}
-												/>
-											</>
-										)}
-										{/* Custom Fields */}
-										{event.custom_fields && Object.keys(event.custom_fields).length > 0 && (
-											<>
-												{Object.entries(event.custom_fields).map(([key, field]) => {
-													if (!field?.value) return null;
+												<div className="col-sm-8">
+													{formatDate(
+														event.published_at
+													)}
+												</div>
+											</div>
+											<hr
+												className={`mb-20 ${
+													isDark ? "white" : ""
+												}`}
+											/>
+										</>
+									)}
+									{/* Custom Fields - Event Information */}
+									{event.custom_fields && Object.keys(event.custom_fields).filter(k => k !== 'entidades').length > 0 && (
+										<>
+											{(() => {
+												// Group event-specific fields
+												const eventFields = ['data_inicio', 'data_fim', 'horario', 'local'];
+												const hasEventFields = eventFields.some(key => event.custom_fields[key]?.value);
 
-													let displayValue = field.value;
-
-													// Format dates
-													if (field.type === 'date' && field.value) {
-														const date = new Date(field.value);
-														displayValue = date.toLocaleDateString(
-															language === 'pt' ? 'pt-PT' : 'en-US',
-															{ year: 'numeric', month: 'long', day: 'numeric' }
-														);
-													}
-
-													// Format multiselect as comma-separated list
-													if (field.type === 'multiselect' && Array.isArray(field.value)) {
-														displayValue = field.value.join(', ');
-													}
-
+												if (hasEventFields) {
 													return (
-														<div key={key}>
-															<div className="row text-gray">
-																<div className="col-sm-4">
-																	<b>{field.label}:</b>
-																</div>
-																<div className="col-sm-8">
-																	{displayValue}
-																</div>
+														<>
+															<div className="mb-20">
+																<h3 className="h5 mb-15">
+																	{language === "pt" ? "Informação do Evento" : "Event Information"}
+																</h3>
 															</div>
-															<hr className={`mb-20 ${isDark ? 'white' : ''}`} />
-														</div>
+															{eventFields.map(key => {
+																const field = event.custom_fields[key];
+																if (!field?.value) return null;
+
+																let displayValue = field.value;
+
+																// Format dates
+																if (field.type === 'date' && field.value) {
+																	const date = new Date(field.value);
+																	displayValue = date.toLocaleDateString(
+																		language === 'pt' ? 'pt-PT' : 'en-US',
+																		{ year: 'numeric', month: 'long', day: 'numeric' }
+																	);
+																}
+
+																return (
+																	<div key={key}>
+																		<div className="row text-gray small">
+																			<div className="col-sm-4">
+																				<b>{field.label}:</b>
+																			</div>
+																			<div className="col-sm-8">
+																				{displayValue}
+																			</div>
+																		</div>
+																		<hr className={`mb-20 ${isDark ? 'white' : ''}`} />
+																	</div>
+																);
+															})}
+														</>
 													);
-												})}
-											</>
+												}
+												return null;
+											})()}
+										</>
+									)}
+
 										)}
 										{event.categories &&
 											event.categories.length > 0 && (
