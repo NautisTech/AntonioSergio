@@ -144,7 +144,6 @@ export default function Portfolio() {
 			{
 				name: content.homeSections.portfolio.filterAllLabel,
 				category: "all",
-				count: projects.length,
 			},
 			...categoriesWithCounts.map(cat => ({
 				name: cat.name,
@@ -225,7 +224,8 @@ export default function Portfolio() {
 										: ""
 								}`}
 							>
-								{elm.name} ({elm.count})
+								{elm.name}
+								{elm.count !== undefined && ` (${elm.count})`}
 							</a>
 						))}
 					</div>

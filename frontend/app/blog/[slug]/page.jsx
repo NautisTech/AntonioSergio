@@ -155,14 +155,7 @@ export default function BlogDetailPage({ params }) {
 													</Link>
 												</div>
 												<h1 className="hs-title-1 mb-20">
-													<span
-														className="wow charsAnimIn"
-														data-splitting="chars"
-													>
-														<AnimatedText
-															text={blog.title}
-														/>
-													</span>
+													<AnimatedText text={blog.title} />
 												</h1>
 
 												{/* Author, Date, Category */}

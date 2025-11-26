@@ -154,14 +154,9 @@ export default function ProjectDetailPage({ params }) {
 													</Link>
 												</div>
 												<h1 className="hs-title-1 mb-20">
-													<span
-														className="wow charsAnimIn"
-														data-splitting="chars"
-													>
-														<AnimatedText
-															text={project.title}
-														/>
-													</span>
+													<AnimatedText
+														text={project.title}
+													/>
 												</h1>
 												<div className="row">
 													<div className="col-md-10 offset-md-1 col-lg-8 offset-lg-2">

@@ -51,6 +51,11 @@ export default function Portfolio3({ gridClass = "" }) {
 	const categoriesWithCounts = useMemo(() => {
 		const categoryMap = new Map();
 
+		console.log("Portfolio3 - Calculating categories from projects:", {
+			projectsCount: projects.length,
+			sampleProject: projects[0],
+		});
+
 		projects.forEach(project => {
 			if (project.categories && Array.isArray(project.categories)) {
 				project.categories.forEach(cat => {
@@ -66,13 +71,17 @@ export default function Portfolio3({ gridClass = "" }) {
 			}
 		});
 
-		return Array.from(categoryMap.values())
+		const result = Array.from(categoryMap.values())
 			.filter(cat => cat.count > 0)
 			.sort((a, b) => b.count - a.count);
+
+		console.log("Portfolio3 - Categories calculated:", result);
+
+		return result;
 	}, [projects]);
 
 	const categories = [
-		{ name: translations.allProjects[language], slug: "all", count: projects.length },
+		{ name: translations.allProjects[language], slug: "all" },
 		...categoriesWithCounts,
 	];
 
@@ -157,7 +166,8 @@ export default function Portfolio3({ gridClass = "" }) {
 							currentCategory == cat.slug ? "active" : ""
 						}`}
 					>
-						{cat.label || cat.name} ({cat.count})
+						{cat.label || cat.name}
+						{cat.count !== undefined && ` (${cat.count})`}
 					</a>
 				))}
 			</div>
