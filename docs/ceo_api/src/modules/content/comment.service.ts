@@ -27,7 +27,7 @@ export class CommentService {
           user_id INT NULL,
           author_name NVARCHAR(100) NULL,
           author_email NVARCHAR(200) NULL,
-          text NVARCHAR(2000) NOT NULL,
+          comment_text NVARCHAR(2000) NOT NULL,
           status NVARCHAR(50) NOT NULL DEFAULT 'pending',
           moderated_by INT NULL,
           moderation_reason NVARCHAR(500) NULL,
@@ -88,17 +88,17 @@ export class CommentService {
       .input('userId', sql.Int, userId)
       .input('authorName', sql.NVarChar, dto.authorName || null)
       .input('authorEmail', sql.NVarChar, dto.authorEmail || null)
-      .input('text', sql.NVarChar, dto.text)
+      .input('commentText', sql.NVarChar, dto.text)
       .input('ipAddress', sql.NVarChar, ipAddress)
       .input('userAgent', sql.NVarChar, userAgent).query(`
         INSERT INTO content_comments (
           content_id, parent_id, user_id, author_name, author_email,
-          text, status, ip_address, user_agent
+          comment_text, status, ip_address, user_agent
         )
         OUTPUT INSERTED.id
         VALUES (
           @contentId, @parentId, @userId, @authorName, @authorEmail,
-          @text, 'pending', @ipAddress, @userAgent
+          @commentText, 'pending', @ipAddress, @userAgent
         )
       `);
 
@@ -134,7 +134,7 @@ export class CommentService {
         u.avatar_url AS user_photo,
         c.author_name,
         c.author_email,
-        c.text,
+        c.comment_text,
         c.status,
         c.created_at AS created_at,
         c.updated_at AS updated_at,
@@ -182,7 +182,7 @@ export class CommentService {
         u.full_name AS user_name,
         c.author_name,
         c.author_email,
-        c.text,
+        c.comment_text,
         c.status,
         c.moderated_by,
         m.full_name AS moderated_by_name,
@@ -219,9 +219,9 @@ export class CommentService {
     await pool
       .request()
       .input('id', sql.Int, id)
-      .input('text', sql.NVarChar, dto.text).query(`
+      .input('commentText', sql.NVarChar, dto.text).query(`
         UPDATE content_comments
-        SET text = @text, updated_at = GETDATE()
+        SET comment_text = @commentText, updated_at = GETDATE()
         WHERE id = @id
       `);
 
@@ -318,7 +318,7 @@ export class CommentService {
         u.full_name AS user_name,
         c.author_name,
         c.author_email,
-        c.text,
+        c.comment_text,
         c.status,
         c.created_at AS created_at
       FROM content_comments c

@@ -103,7 +103,7 @@ export default function Comments({
 							&nbsp;{translations.reply[language]}
 						</a>
 					</div>
-					<p className={isDark ? "text-gray-light" : ""}>{comment.text}</p>
+					<p className={isDark ? "text-gray-light" : ""}>{comment.comment_text || comment.text}</p>
 
 					{/* Render replies recursively */}
 					{replies.length > 0 && (
