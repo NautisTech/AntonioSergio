@@ -1,20 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { useEntity, filterByEntity } from "@/context/EntityContext";
-import { aesContent } from "@/data/aesContent";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Widget1({
 	searchInputClass = "form-control input-md search-field input-circle",
+	allNews = [],
+	filteredNews = [],
+	searchQuery = "",
+	setSearchQuery = () => {},
+	selectedCategory = null,
+	setSelectedCategory = () => {},
+	selectedTag = null,
+	setSelectedTag = () => {},
 }) {
 	const { language } = useLanguage();
-	const { selectedEntity } = useEntity();
-	const content = aesContent[language];
-	const allBlogPosts = content.blogPosts || [];
-	const blogPosts = filterByEntity(allBlogPosts, selectedEntity);
-	const [searchQuery, setSearchQuery] = useState("");
 
 	const translations = {
 		search: {
@@ -37,34 +38,73 @@ export default function Widget1({
 			pt: "Por",
 			en: "Posted by",
 		},
+		all: {
+			pt: "Todas",
+			en: "All",
+		},
 	};
 
-	// Extract unique categories from blog posts
-	const categories = [
-		...new Set(blogPosts.map(post => post.category)),
-	].map(category => ({
-		name: category,
-		count: blogPosts.filter(post => post.category === category).length,
-	}));
+	// Calculate categories with counts from ALL news (not filtered)
+	const categories = useMemo(() => {
+		const categoryMap = new Map();
 
-	// Extract unique tags from blog posts
-	const allTags = blogPosts.flatMap(post => post.tags || []);
-	const uniqueTags = [...new Set(allTags)];
+		allNews.forEach(post => {
+			if (post.categories && Array.isArray(post.categories)) {
+				post.categories.forEach(cat => {
+					if (!categoryMap.has(cat.id)) {
+						categoryMap.set(cat.id, {
+							...cat,
+							count: 0,
+						});
+					}
+					const existing = categoryMap.get(cat.id);
+					existing.count += 1;
+				});
+			}
+		});
 
-	// Get latest 3 posts
-	const latestPosts = blogPosts.slice(0, 3);
+		return Array.from(categoryMap.values())
+			.filter(cat => cat.count > 0)
+			.sort((a, b) => b.count - a.count);
+	}, [allNews]);
+
+	// Calculate tags with counts from ALL news (not filtered)
+	const tags = useMemo(() => {
+		const tagMap = new Map();
+
+		allNews.forEach(post => {
+			if (post.tags && Array.isArray(post.tags)) {
+				post.tags.forEach(tag => {
+					if (!tagMap.has(tag.name)) {
+						tagMap.set(tag.name, {
+							...tag,
+							count: 0,
+						});
+					}
+					const existing = tagMap.get(tag.name);
+					existing.count += 1;
+				});
+			}
+		});
+
+		return Array.from(tagMap.values())
+			.filter(tag => tag.count > 0)
+			.sort((a, b) => b.count - a.count);
+	}, [allNews]);
+
+	// Get latest 3 posts from FILTERED results
+	const latestPosts = filteredNews.slice(0, 3);
+
+	const handleSubmit = e => {
+		e.preventDefault();
+		// Search is handled by state change
+	};
 
 	return (
 		<>
 			{/* Search Widget */}
 			<div className="widget">
-				<form
-					onSubmit={e => {
-						e.preventDefault();
-						// Handle search functionality
-					}}
-					className="form"
-				>
+				<form onSubmit={handleSubmit} className="form">
 					<div className="search-wrap">
 						<button
 							className="search-button animate"
@@ -102,9 +142,38 @@ export default function Widget1({
 					</h3>
 					<div className="widget-body">
 						<ul className="clearlist widget-menu">
-							{categories.map((category, index) => (
-								<li key={index}>
-									<a href="#" title="">
+							<li>
+								<a
+									href="#"
+									onClick={e => {
+										e.preventDefault();
+										setSelectedCategory(null);
+									}}
+									style={{
+										fontWeight:
+											selectedCategory === null
+												? "bold"
+												: "normal",
+									}}
+								>
+									{translations.all[language]}
+								</a>
+							</li>
+							{categories.map(category => (
+								<li key={category.id}>
+									<a
+										href="#"
+										onClick={e => {
+											e.preventDefault();
+											setSelectedCategory(category.id);
+										}}
+										style={{
+											fontWeight:
+												selectedCategory === category.id
+													? "bold"
+													: "normal",
+										}}
+									>
 										{category.name}
 									</a>
 									<small> - {category.count} </small>
@@ -117,14 +186,44 @@ export default function Widget1({
 			{/* End Widget */}
 
 			{/* Tags Widget */}
-			{uniqueTags.length > 0 && (
+			{tags.length > 0 && (
 				<div className="widget">
-					<h3 className="widget-title">{translations.tags[language]}</h3>
+					<h3 className="widget-title">
+						{translations.tags[language]}
+					</h3>
 					<div className="widget-body">
 						<div className="tags">
-							{uniqueTags.map((tag, index) => (
-								<a href="#" key={index}>
-									{tag}
+							<a
+								href="#"
+								onClick={e => {
+									e.preventDefault();
+									setSelectedTag(null);
+								}}
+								style={{
+									fontWeight:
+										selectedTag === null
+											? "bold"
+											: "normal",
+								}}
+							>
+								{translations.all[language]}
+							</a>
+							{tags.map(tag => (
+								<a
+									href="#"
+									onClick={e => {
+										e.preventDefault();
+										setSelectedTag(tag.name);
+									}}
+									key={tag.id}
+									style={{
+										fontWeight:
+											selectedTag === tag.name
+												? "bold"
+												: "normal",
+									}}
+								>
+									{tag.name} ({tag.count})
 								</a>
 							))}
 						</div>
@@ -141,25 +240,32 @@ export default function Widget1({
 					</h3>
 					<div className="widget-body">
 						<ul className="clearlist widget-posts">
-							{latestPosts.map((post, index) => (
-								<li key={index} className="clearfix">
+							{latestPosts.map(post => (
+								<li key={post.id} className="clearfix">
 									<Link href={`/blog/${post.slug}`}>
-										<Image
-											src={post.cover}
-											height={140}
-											width={100}
-											alt={post.title}
-											className="widget-posts-img"
-											style={{ height: "fit-content" }}
-										/>
+										{post.featured_image && (
+											<Image
+												src={post.featured_image}
+												height={140}
+												width={100}
+												alt={post.title}
+												className="widget-posts-img"
+												style={{
+													height: "fit-content",
+												}}
+											/>
+										)}
 									</Link>
 									<div className="widget-posts-descr">
-										<Link href={`/blog/${post.slug}`} title="">
+										<Link
+											href={`/blog/${post.slug}`}
+											title=""
+										>
 											{post.title}
 										</Link>
 										<span>
 											{translations.postedBy[language]}{" "}
-											{post.author.name}
+											{post.author_name || "Anonymous"}
 										</span>
 									</div>
 								</li>

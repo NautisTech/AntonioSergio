@@ -4,6 +4,7 @@ import ParallaxContainer from "@/components/common/ParallaxContainer";
 import Hero1 from "@/components/home/heros/Hero1";
 import Header from "@/components/site/Header";
 import HomeSchool from "@/components/site/HomeSchool";
+import BannerSlider from "@/components/home/BannerSlider";
 import { schoolIdentity } from "@/data/aesContent";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -15,15 +16,15 @@ export default function Home1MainDemoMultiPage() {
 		<>
 			<div className="theme-main">
 				<div className={isDark ? "dark-mode" : ""}>
-					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
-						<nav
-							className={`main-nav transparent stick-fixed wow-menubar ${
-								isDark ? "" : "dark"
-							}`}
-						>
+					<div
+						className={`page ${isDark ? "bg-dark-1" : ""}`}
+						id="top"
+					>
+						<nav className="main-nav transparent stick-fixed wow-menubar">
 							<Header />
 						</nav>
 						<main id="main">
+							<BannerSlider />
 							<ParallaxContainer
 								className={`home-section ${
 									isDark

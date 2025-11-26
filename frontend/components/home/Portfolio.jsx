@@ -1,8 +1,8 @@
 "use client";
 import AnimatedText from "@/components/common/AnimatedText";
 import { aesContent } from "@/data/aesContent";
+import { useProjects } from "@/lib/api/public-content";
 import { useLanguage } from "@/context/LanguageContext";
-import { useEntity, filterByEntity } from "@/context/EntityContext";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -17,70 +17,186 @@ const slugify = value =>
 
 export default function Portfolio() {
 	const { language } = useLanguage();
-	const { selectedEntity } = useEntity();
 	const content = aesContent[language];
-	const allProjects = content.projects;
 
-	// Filter projects by selected entity
-	const projects = filterByEntity(allProjects, selectedEntity);
+	// Fetch projects from API - featured only
+	// Language is automatically injected from context
+	const { data, loading, error } = useProjects({
+		featuredOnly: true,
+		pageSize: 12,
+	});
+
+	const projects = data?.data || [];
 
 	const [currentCategory, setCurrentCategory] = useState("all");
 	const isotopContainer = useRef();
 	const isotope = useRef();
+
 	const initIsotop = async () => {
+		// Wait for the ref to be available
+		if (!isotopContainer.current) {
+			return;
+		}
+
 		const Isotope = (await import("isotope-layout")).default;
 		const imagesloaded = (await import("imagesloaded")).default;
 
-		// Initialize Isotope in the mounted hook
-		isotope.current = new Isotope(isotopContainer.current, {
-			itemSelector: ".work-item",
-			layoutMode: "masonry", // or 'fitRows', depending on your layout needs
-		});
-		imagesloaded(isotopContainer.current).on("progress", function () {
-			// Trigger Isotope layout
-			isotope.current.layout();
-		});
+		try {
+			// Initialize Isotope
+			isotope.current = new Isotope(isotopContainer.current, {
+				itemSelector: ".work-item",
+				layoutMode: "masonry",
+			});
+
+			// Initialize images loaded and layout on complete
+			imagesloaded(isotopContainer.current).on("progress", function () {
+				if (isotope.current) {
+					isotope.current.layout();
+				}
+			});
+		} catch (error) {
+			console.error("Error initializing Isotope:", error);
+		}
 	};
+
 	const updateCategory = val => {
 		setCurrentCategory(val);
-		isotope.current.arrange({
-			filter: val == "all" ? "*" : "." + val,
-		});
-		//   isotope.value.layout();
+		if (isotope.current) {
+			isotope.current.arrange({
+				filter: val === "all" ? "*" : "." + val,
+			});
+		}
 	};
-	useEffect(() => {
-		/////////////////////////////////////////////////////
-		// Magnate Animation
 
-		initIsotop();
-	}, []);
+	// Initialize Isotope after component mounts and projects are loaded
+	useEffect(() => {
+		if (projects.length > 0) {
+			// Small delay to ensure DOM is ready
+			const timer = setTimeout(() => {
+				initIsotop();
+				// Also reinitialize WOW animations for the loaded content
+				if (typeof window !== "undefined") {
+					try {
+						// Ensure all wow elements are visible
+						const wowElements = document.querySelectorAll(".wow");
+						wowElements.forEach(el => {
+							el.style.opacity = "1";
+							el.style.visibility = "visible";
+						});
+
+						const { WOW } = require("wowjs");
+						const wow = new WOW({
+							boxClass: "wow",
+							animateClass: "animatedfgfg",
+							offset: 100,
+							live: false,
+							callback: function (box) {
+								box.classList.add("animated");
+								box.style.opacity = "1";
+								box.style.visibility = "visible";
+							},
+						});
+						wow.init();
+					} catch (e) {
+						console.error("Error initializing WOW:", e);
+					}
+				}
+			}, 100);
+			return () => clearTimeout(timer);
+		}
+	}, [projects]);
 
 	// Re-layout isotope when filtered projects change
 	useEffect(() => {
-		if (isotope.current) {
+		if (isotope.current && projects.length > 0) {
 			isotope.current.reloadItems();
-			isotope.current.arrange({ filter: currentCategory === "all" ? "*" : "." + currentCategory });
+			isotope.current.arrange({
+				filter: currentCategory === "all" ? "*" : "." + currentCategory,
+			});
 		}
-	}, [projects, currentCategory]);
+	}, [currentCategory]);
 
 	const filters = useMemo(() => {
-		const categories = Array.from(
-			new Set(
-				projects.flatMap(project =>
-					(project.categories || []).map(c =>
-						typeof c === "string" ? c : c.label
-					)
-				)
-			)
-		);
+		// Calculate category counts
+		const categoryMap = new Map();
+
+		projects.forEach(project => {
+			if (project.categories && Array.isArray(project.categories)) {
+				project.categories.forEach(cat => {
+					const categoryName = cat.name || cat;
+					if (!categoryMap.has(categoryName)) {
+						categoryMap.set(categoryName, {
+							name: categoryName,
+							count: 0,
+						});
+					}
+					const existing = categoryMap.get(categoryName);
+					existing.count += 1;
+				});
+			}
+		});
+
+		const categoriesWithCounts = Array.from(categoryMap.values())
+			.filter(cat => cat.count > 0)
+			.sort((a, b) => b.count - a.count);
+
 		return [
-			{ name: content.homeSections.portfolio.filterAllLabel, category: "all" },
-			...categories.map(category => ({
-				name: category,
-				category: slugify(category),
+			{
+				name: content.homeSections.portfolio.filterAllLabel,
+				category: "all",
+			},
+			...categoriesWithCounts.map(cat => ({
+				name: cat.name,
+				category: slugify(cat.name),
+				count: cat.count,
 			})),
 		];
 	}, [projects, content.homeSections.portfolio.filterAllLabel]);
+
+	// Show loading state
+	if (loading) {
+		return (
+			<div className="container">
+				<div className="text-center py-5">
+					<p className="text-gray">
+						{language === "pt"
+							? "Carregando projetos..."
+							: "Loading projects..."}
+					</p>
+				</div>
+			</div>
+		);
+	}
+
+	// Show error state
+	if (error) {
+		return (
+			<div className="container">
+				<div className="text-center py-5">
+					<p className="text-gray">
+						{language === "pt"
+							? "Erro ao carregar projetos."
+							: "Error loading projects."}
+					</p>
+				</div>
+			</div>
+		);
+	}
+
+	// Show empty state
+	if (projects.length === 0) {
+		return (
+			<div className="container">
+				<div className="text-center py-5">
+					<p className="text-gray">
+						{language === "pt"
+							? "Nenhum projeto disponível."
+							: "No projects available."}
+					</p>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="container">
@@ -90,7 +206,9 @@ export default function Portfolio() {
 						{content.homeSections.portfolio.caption}
 					</h2>
 					<h3 className="section-title mb-0">
-						<AnimatedText text={content.homeSections.portfolio.title} />
+						<AnimatedText
+							text={content.homeSections.portfolio.title}
+						/>
 					</h3>
 				</div>
 				<div className="col-lg-7">
@@ -107,6 +225,7 @@ export default function Portfolio() {
 								}`}
 							>
 								{elm.name}
+								{elm.count !== undefined && ` (${elm.count})`}
 							</a>
 						))}
 					</div>
@@ -122,16 +241,12 @@ export default function Portfolio() {
 				{projects.map((project, index) => {
 					const categoryClasses = (project.categories || [])
 						.map(category =>
-							slugify(
-								typeof category === "string"
-									? category
-									: category.slug
-							)
+							slugify(category.name || category.slug || "")
 						)
 						.join(" ");
 					return (
 						<li
-							key={project.slug}
+							key={project.id}
 							className={`work-item ${categoryClasses}`}
 							data-wow-delay={`${0.3 + index * 0.1}s`}
 						>
@@ -141,19 +256,21 @@ export default function Portfolio() {
 							>
 								<div className="work-img">
 									<div className="work-img-bg " />
-									<Image
-										width={650}
-										height={773}
-										src={project.cover}
-										alt={project.title}
-									/>
+									{project.featured_image && (
+										<Image
+											width={650}
+											height={773}
+											src={project.featured_image}
+											alt={project.title}
+										/>
+									)}
 								</div>
 								<div className="work-intro text-start">
 									<h3 className="work-title">
 										{project.title}
 									</h3>
 									<div className="work-descr">
-										{project.summary}
+										{project.excerpt}
 									</div>
 								</div>
 							</Link>

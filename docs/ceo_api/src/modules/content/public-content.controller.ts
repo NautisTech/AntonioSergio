@@ -12,13 +12,24 @@ import {
   Headers,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiParam, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { ContentService } from './content.service';
 import { CategoryService } from './category.service';
 import { TagService } from './tag.service';
 import { CommentService } from './comment.service';
-import { ContentFilterDto, CreateCommentDto, ContentVisibility, ContentStatus } from './dto/content.dto';
+import {
+  ContentFilterDto,
+  CreateCommentDto,
+  ContentVisibility,
+  ContentStatus,
+} from './dto/content.dto';
 import { Public } from '../../common/decorators/public.decorator';
 
 /**
@@ -33,7 +44,7 @@ export class PublicContentController {
     private readonly categoryService: CategoryService,
     private readonly tagService: TagService,
     private readonly commentService: CommentService,
-  ) { }
+  ) {}
 
   // =====================
   // Public Content Access
@@ -70,16 +81,30 @@ export class PublicContentController {
   @Get('slug/:slug')
   @ApiOperation({ summary: 'Get public content by slug' })
   @ApiParam({ name: 'slug', description: 'Content slug' })
-  async getPublicContentBySlug(@Param('slug') slug: string, @Ip() ip: string, @Headers('user-agent') userAgent: string, @Headers('referer') referer?: string) {
+  async getPublicContentBySlug(
+    @Param('slug') slug: string,
+    @Ip() ip: string,
+    @Headers('user-agent') userAgent: string,
+    @Headers('referer') referer?: string,
+  ) {
     const content = await this.contentService.getBySlug(slug, 4, true); // Increment view
 
     // Check visibility
     if (content.visibility !== ContentVisibility.PUBLIC) {
-      throw new UnauthorizedException('This content is not publicly accessible');
+      throw new UnauthorizedException(
+        'This content is not publicly accessible',
+      );
     }
 
     // Track view
-    await this.contentService.trackView(content.id, null, ip, userAgent, referer || null, 4);
+    await this.contentService.trackView(
+      content.id,
+      null,
+      ip,
+      userAgent,
+      referer || null,
+      4,
+    );
 
     return this.sanitizeContent(content);
   }
@@ -88,16 +113,30 @@ export class PublicContentController {
   @Get('id/:id')
   @ApiOperation({ summary: 'Get public content by ID' })
   @ApiParam({ name: 'id', description: 'Content ID' })
-  async getPublicContentById(@Param('id', ParseIntPipe) id: number, @Ip() ip: string, @Headers('user-agent') userAgent: string, @Headers('referer') referer?: string) {
+  async getPublicContentById(
+    @Param('id', ParseIntPipe) id: number,
+    @Ip() ip: string,
+    @Headers('user-agent') userAgent: string,
+    @Headers('referer') referer?: string,
+  ) {
     const content = await this.contentService.getById(id, 4, true); // Increment view
 
     // Check visibility
     if (content.visibility !== ContentVisibility.PUBLIC) {
-      throw new UnauthorizedException('This content is not publicly accessible');
+      throw new UnauthorizedException(
+        'This content is not publicly accessible',
+      );
     }
 
     // Track view
-    await this.contentService.trackView(id, null, ip, userAgent, referer || null, 1);
+    await this.contentService.trackView(
+      id,
+      null,
+      ip,
+      userAgent,
+      referer || null,
+      1,
+    );
 
     return this.sanitizeContent(content);
   }
@@ -200,7 +239,7 @@ export class PublicContentController {
   @ApiOperation({ summary: 'Get public comments for content' })
   @ApiParam({ name: 'contentId', description: 'Content ID' })
   async getPublicComments(@Param('contentId', ParseIntPipe) contentId: number) {
-    return this.commentService.getThreaded(contentId, 4, true); // Only approved comments
+    return this.commentService.listByContent(contentId, 4, true); // Only approved comments, flat array
   }
 
   @Public()
@@ -235,7 +274,10 @@ export class PublicContentController {
       status: ContentStatus.PUBLISHED,
     };
 
-    const result = await this.contentService.list(req.user.tenantId, clientFilters);
+    const result = await this.contentService.list(
+      req.user.tenantId,
+      clientFilters,
+    );
 
     // Filter by visibility: public OR clients
     result.data = result.data.filter(
@@ -252,19 +294,38 @@ export class PublicContentController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get client content by ID' })
   @ApiParam({ name: 'id', description: 'Content ID' })
-  async getClientContent(@Request() req, @Param('id', ParseIntPipe) id: number, @Ip() ip: string, @Headers('user-agent') userAgent: string, @Headers('referer') referer?: string) {
-    const content = await this.contentService.getById(id, req.user.tenantId, true);
+  async getClientContent(
+    @Request() req,
+    @Param('id', ParseIntPipe) id: number,
+    @Ip() ip: string,
+    @Headers('user-agent') userAgent: string,
+    @Headers('referer') referer?: string,
+  ) {
+    const content = await this.contentService.getById(
+      id,
+      req.user.tenantId,
+      true,
+    );
 
     // Check visibility
     if (
       content.visibility !== ContentVisibility.PUBLIC &&
       content.visibility !== ContentVisibility.CLIENTS
     ) {
-      throw new UnauthorizedException('You do not have permission to view this content');
+      throw new UnauthorizedException(
+        'You do not have permission to view this content',
+      );
     }
 
     // Track view
-    await this.contentService.trackView(id, req.user.id, ip, userAgent, referer || null, req.user.tenantId);
+    await this.contentService.trackView(
+      id,
+      req.user.id,
+      ip,
+      userAgent,
+      referer || null,
+      req.user.tenantId,
+    );
 
     return content;
   }
@@ -282,7 +343,13 @@ export class PublicContentController {
     @Headers('user-agent') userAgent: string,
   ) {
     dto.contentId = contentId;
-    return this.commentService.create(dto, req.user.tenantId, req.user.id, ip, userAgent);
+    return this.commentService.create(
+      dto,
+      req.user.tenantId,
+      req.user.id,
+      ip,
+      userAgent,
+    );
   }
 
   // =====================
@@ -293,8 +360,9 @@ export class PublicContentController {
    * Remove sensitive fields from public content
    */
   private sanitizeContent(content: any) {
-    // Remove internal fields that shouldn't be public
-    const { permissions, custom_fields, ...sanitized } = content;
+    // Remove only internal fields that shouldn't be public
+    // Keep custom_fields as they contain public data like event location
+    const { permissions, ...sanitized } = content;
 
     return sanitized;
   }

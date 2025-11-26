@@ -47,11 +47,17 @@ const navLinkEntries = [
 						href: "/sobre#welcome",
 					},
 					{
-						labels: { pt: "Missão e Valores", en: "Mission & Values" },
+						labels: {
+							pt: "Missão e Valores",
+							en: "Mission & Values",
+						},
 						href: "/sobre#mission-values",
 					},
 					{
-						labels: { pt: "Projeto Educativo", en: "Educational Project" },
+						labels: {
+							pt: "Projeto Educativo",
+							en: "Educational Project",
+						},
 						href: "/sobre#educational-project",
 					},
 				],
@@ -65,11 +71,17 @@ const navLinkEntries = [
 						href: "/instalacoes",
 					},
 					{
-						labels: { pt: "Regulamento Interno", en: "Internal Regulations" },
+						labels: {
+							pt: "Regulamento Interno",
+							en: "Internal Regulations",
+						},
 						href: "/regulamento",
 					},
 					{
-						labels: { pt: "Organograma", en: "Organizational Chart" },
+						labels: {
+							pt: "Organograma",
+							en: "Organizational Chart",
+						},
 						href: "/organograma",
 					},
 				],
@@ -80,7 +92,10 @@ const navLinkEntries = [
 				href: "/educacao",
 				subItems: [
 					{
-						labels: { pt: "Jardim de Infância", en: "Kindergarten" },
+						labels: {
+							pt: "Jardim de Infância",
+							en: "Kindergarten",
+						},
 						href: "/educacao#jardim-infancia",
 					},
 					{
@@ -113,15 +128,24 @@ const navLinkEntries = [
 		labels: { pt: "Secretaria", en: "Secretary" },
 		dropdown: [
 			{
-				labels: { pt: "Informação Académica", en: "Academic Information" },
+				labels: {
+					pt: "Informação Académica",
+					en: "Academic Information",
+				},
 				isLink: false,
 				subItems: [
 					{
-						labels: { pt: "Exames Nacionais", en: "National Exams" },
+						labels: {
+							pt: "Exames Nacionais",
+							en: "National Exams",
+						},
 						href: "/exames-nacionais",
 					},
 					{
-						labels: { pt: "Manuais Escolares", en: "School Textbooks" },
+						labels: {
+							pt: "Manuais Escolares",
+							en: "School Textbooks",
+						},
 						href: "/manuais-escolares",
 					},
 					{
@@ -133,13 +157,19 @@ const navLinkEntries = [
 						href: "/ementa",
 					},
 					{
-						labels: { pt: "Regulamento de Cursos", en: "Course Regulations" },
+						labels: {
+							pt: "Regulamento de Cursos",
+							en: "Course Regulations",
+						},
 						href: "/regulamento-cursos",
 					},
 				],
 			},
 			{
-				labels: { pt: "Processos e Serviços", en: "Processes & Services" },
+				labels: {
+					pt: "Processos e Serviços",
+					en: "Processes & Services",
+				},
 				isLink: false,
 				subItems: [
 					{
@@ -235,7 +265,10 @@ const navLinkEntries = [
 						href: "https://true.publico.pt/antoniosergio",
 					},
 					{
-						labels: { pt: "Centro Qualifica", en: "Qualifica Center" },
+						labels: {
+							pt: "Centro Qualifica",
+							en: "Qualifica Center",
+						},
 						href: "https://centroqualificaaeasergio.weebly.com/",
 					},
 				],
@@ -256,10 +289,6 @@ const navLinkEntries = [
 				href: "https://lab.antoniosergio.pt/",
 			},
 		],
-	},
-	{
-		href: "/contactos",
-		labels: { pt: "Contactos", en: "Contact" },
 	},
 ];
 
@@ -1283,6 +1312,22 @@ const buildContactInfo = lang => ({
 	officeHours: contactInfoCopy.officeHours[lang],
 });
 
+const notFoundCopy = {
+	description: {
+		pt: "A página que procura não existe ou foi movida.",
+		en: "The page you were looking for does not exist or has been moved.",
+	},
+	button: {
+		pt: "Voltar à Página Inicial",
+		en: "Back To Home Page",
+	},
+};
+
+const buildNotFound = lang => ({
+	description: notFoundCopy.description[lang],
+	button: notFoundCopy.button[lang],
+});
+
 const buildLocaleContent = lang => ({
 	schoolIdentity: {
 		...baseIdentity,
@@ -1309,6 +1354,7 @@ const buildLocaleContent = lang => ({
 	contactInfo: buildContactInfo(lang),
 	contactCopy: contactCopyLocales[lang],
 	footerCopy: footerCopyLocales[lang],
+	notFound: buildNotFound(lang),
 });
 
 const localizedContentByLanguage = AES_LANGUAGES.reduce((acc, { code }) => {

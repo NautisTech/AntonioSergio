@@ -24,14 +24,14 @@ export default function EntitySelector() {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
 
-	const handleEntitySelect = (entity) => {
+	const handleEntitySelect = entity => {
 		setSelectedEntity(entity);
 		setIsDropdownOpen(false);
 	};
 
 	// Close dropdown when clicking outside
 	useEffect(() => {
-		const handleClickOutside = (event) => {
+		const handleClickOutside = event => {
 			if (
 				dropdownRef.current &&
 				!dropdownRef.current.contains(event.target)
@@ -41,36 +41,36 @@ export default function EntitySelector() {
 		};
 
 		document.addEventListener("mousedown", handleClickOutside);
-		return () => document.removeEventListener("mousedown", handleClickOutside);
+		return () =>
+			document.removeEventListener("mousedown", handleClickOutside);
 	}, []);
-
-	const displayText = selectedEntity
-		? selectedEntity.displayName
-		: t.all;
 
 	return (
 		<li className="entitySelect" ref={dropdownRef}>
 			<a
 				href="#"
 				className="mn-has-sub opacity-1"
-				onClick={(e) => {
+				onClick={e => {
 					e.preventDefault();
 					toggleDropdown();
 				}}
+				title={selectedEntity ? selectedEntity.displayName : t.all}
 			>
-				{displayText} <i className="mi-chevron-down" />
+				<i className="mi-home" /> <i className="mi-chevron-down" />
 			</a>
 
 			{/* Dropdown menu with sliding effect */}
 			<ul
-				className={`mn-sub to-left ${isDropdownOpen ? "open" : "closed"}`}
+				className={`mn-sub to-left ${
+					isDropdownOpen ? "open" : "closed"
+				}`}
 				style={{ minWidth: "280px" }}
 			>
 				{/* "All Schools" option */}
 				<li>
 					<a
 						href="#"
-						onClick={(e) => {
+						onClick={e => {
 							e.preventDefault();
 							handleEntitySelect(null);
 						}}
@@ -81,16 +81,18 @@ export default function EntitySelector() {
 				</li>
 
 				{/* Individual schools */}
-				{entities.map((entity) => (
+				{entities.map(entity => (
 					<li key={entity.value}>
 						<a
 							href="#"
-							onClick={(e) => {
+							onClick={e => {
 								e.preventDefault();
 								handleEntitySelect(entity);
 							}}
 							className={
-								selectedEntity?.value === entity.value ? "active" : ""
+								selectedEntity?.value === entity.value
+									? "active"
+									: ""
 							}
 						>
 							{entity.displayName}

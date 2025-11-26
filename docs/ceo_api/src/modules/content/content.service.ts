@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  Logger,
+} from '@nestjs/common';
 import { DatabaseService } from '../../database/database.service';
 import {
   CreateContentDto,
@@ -156,12 +161,15 @@ export class ContentService {
     const slug = dto.slug || this.generateSlug(dto.title);
 
     // Check slug uniqueness
-    const existingSlug = await pool.request().input('slug', sql.NVarChar, slug).query(`
+    const existingSlug = await pool.request().input('slug', sql.NVarChar, slug)
+      .query(`
       SELECT id FROM content WHERE slug = @slug AND deleted_at IS NULL
     `);
 
     if (existingSlug.recordset.length > 0) {
-      throw new BadRequestException(`Content with slug '${slug}' already exists`);
+      throw new BadRequestException(
+        `Content with slug '${slug}' already exists`,
+      );
     }
 
     // Insert content
@@ -177,22 +185,38 @@ export class ContentService {
       .input('visibility', sql.NVarChar, dto.visibility)
       .input('featured_image', sql.NVarChar, dto.featuredImage || null)
       .input('author_id', sql.Int, dto.authorId || userId)
-      .input('published_at', sql.DateTime, dto.publishedAt ? new Date(dto.publishedAt) : null)
+      .input(
+        'published_at',
+        sql.DateTime,
+        dto.publishedAt ? new Date(dto.publishedAt) : null,
+      )
       .input('allow_comments', sql.Bit, dto.allowComments !== false ? 1 : 0)
       .input('is_featured', sql.Bit, dto.isFeatured ? 1 : 0)
       .input('language', sql.NVarChar, dto.language || 'pt')
       .input('parent_id', sql.Int, dto.parentId || null)
       .input('meta_title', sql.NVarChar, dto.seo?.metaTitle || null)
       .input('meta_description', sql.NVarChar, dto.seo?.metaDescription || null)
-      .input('meta_keywords', sql.NVarChar, dto.seo?.metaKeywords ? JSON.stringify(dto.seo.metaKeywords) : null)
+      .input(
+        'meta_keywords',
+        sql.NVarChar,
+        dto.seo?.metaKeywords ? JSON.stringify(dto.seo.metaKeywords) : null,
+      )
       .input('canonical_url', sql.NVarChar, dto.seo?.canonicalUrl || null)
       .input('og_title', sql.NVarChar, dto.seo?.ogTitle || null)
       .input('og_description', sql.NVarChar, dto.seo?.ogDescription || null)
       .input('og_image', sql.NVarChar, dto.seo?.ogImage || null)
       .input('twitter_card', sql.NVarChar, dto.seo?.twitterCard || null)
       .input('robots', sql.NVarChar, dto.seo?.robots || null)
-      .input('custom_fields', sql.NVarChar, dto.customFields ? JSON.stringify(dto.customFields) : null)
-      .input('permissions', sql.NVarChar, dto.permissions ? JSON.stringify(dto.permissions) : null).query(`
+      .input(
+        'custom_fields',
+        sql.NVarChar,
+        dto.customFields ? JSON.stringify(dto.customFields) : null,
+      )
+      .input(
+        'permissions',
+        sql.NVarChar,
+        dto.permissions ? JSON.stringify(dto.permissions) : null,
+      ).query(`
         INSERT INTO content (
           title, slug, excerpt, content, type, content_type_id, status, visibility,
           featured_image, author_id, published_at, allow_comments, is_featured,
@@ -213,7 +237,14 @@ export class ContentService {
     const contentId = result.recordset[0].id;
 
     // Create initial version
-    await this.createVersion(contentId, dto.title, dto.content, 'Initial version', userId, tenantId);
+    await this.createVersion(
+      contentId,
+      dto.title,
+      dto.content,
+      'Initial version',
+      userId,
+      tenantId,
+    );
 
     // Associate categories
     if (dto.categoryIds && dto.categoryIds.length > 0) {
@@ -227,7 +258,11 @@ export class ContentService {
 
     // Associate related content
     if (dto.relatedContentIds && dto.relatedContentIds.length > 0) {
-      await this.associateRelatedContent(contentId, dto.relatedContentIds, tenantId);
+      await this.associateRelatedContent(
+        contentId,
+        dto.relatedContentIds,
+        tenantId,
+      );
     }
 
     this.logger.log(`Content created: ${dto.title} (ID: ${contentId})`);
@@ -280,7 +315,9 @@ export class ContentService {
     }
 
     if (categoryId) {
-      conditions.push('EXISTS (SELECT 1 FROM content_categories_junction WHERE content_id = c.id AND category_id = @categoryId)');
+      conditions.push(
+        'EXISTS (SELECT 1 FROM content_categories_junction WHERE content_id = c.id AND category_id = @categoryId)',
+      );
       request.input('categoryId', sql.Int, categoryId);
     }
 
@@ -290,7 +327,9 @@ export class ContentService {
     }
 
     if (search) {
-      conditions.push('(c.title LIKE @search OR c.excerpt LIKE @search OR c.content LIKE @search)');
+      conditions.push(
+        '(c.title LIKE @search OR c.excerpt LIKE @search OR c.content LIKE @search)',
+      );
       request.input('search', sql.NVarChar, `%${search}%`);
     }
 
@@ -314,7 +353,9 @@ export class ContentService {
     }
 
     if (!includeScheduled) {
-      conditions.push('(c.published_at IS NULL OR c.published_at <= GETDATE())');
+      conditions.push(
+        '(c.published_at IS NULL OR c.published_at <= GETDATE())',
+      );
     }
 
     if (startDate) {
@@ -337,11 +378,22 @@ export class ContentService {
     const total = countResult.recordset[0].total;
 
     // Get data
-    const validSortColumns = ['published_at', 'created_at', 'updated_at', 'title', 'view_count', 'like_count'];
-    const sortColumn = validSortColumns.includes(sortBy) ? sortBy : 'published_at';
+    const validSortColumns = [
+      'published_at',
+      'created_at',
+      'updated_at',
+      'title',
+      'view_count',
+      'like_count',
+    ];
+    const sortColumn = validSortColumns.includes(sortBy)
+      ? sortBy
+      : 'published_at';
     const sortDirection = sortOrder === 'asc' ? 'ASC' : 'DESC';
 
-    request.input('offset', sql.Int, offset).input('pageSize', sql.Int, pageSize);
+    request
+      .input('offset', sql.Int, offset)
+      .input('pageSize', sql.Int, pageSize);
 
     const result = await request.query(`
       SELECT
@@ -372,8 +424,88 @@ export class ContentService {
       OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY
     `);
 
+    // Enrich each content item with categories, tags, and custom fields
+    const enrichedData = await Promise.all(
+      result.recordset.map(async (content) => {
+        const contentObj = this.parseContent(content);
+
+        try {
+          const categories = await pool
+            .request()
+            .input('id', sql.Int, content.id).query(`
+            SELECT cat.id, cat.name, cat.slug, cat.display_order, cat.visible
+            FROM content_categories cat
+            INNER JOIN content_categories_junction ccj ON cat.id = ccj.category_id
+            WHERE ccj.content_id = @id
+            ORDER BY cat.display_order ASC
+          `);
+          contentObj.categories = categories.recordset;
+        } catch (error) {
+          this.logger.error(`Failed to load categories for content ${content.id}:`, error);
+          contentObj.categories = [];
+        }
+
+        try {
+          const tags = await pool.request().input('id', sql.Int, content.id)
+            .query(`
+            SELECT t.id, t.name, t.slug, t.color, t.usage_count
+            FROM tag t
+            INNER JOIN content_tags_junction ctj ON t.id = ctj.tag_id
+            WHERE ctj.content_id = @id
+          `);
+          contentObj.tags = tags.recordset;
+        } catch (error) {
+          contentObj.tags = [];
+        }
+
+        // Get custom fields based on content type
+        try {
+          const customFieldsResult = await pool
+            .request()
+            .input('contentId', sql.Int, content.id)
+            .input('entityType', sql.NVarChar, content.type).query(`
+              SELECT 
+                cfc.id,
+                cfc.field_name,
+                cfc.field_label,
+                cfc.field_type,
+                cfv.value_text,
+                cfv.value_number,
+                cfv.value_date,
+                cfv.value_boolean
+              FROM custom_field_config cfc
+              LEFT JOIN custom_field_value cfv ON cfc.id = cfv.custom_field_config_id 
+                AND cfv.entity_id = @contentId
+              WHERE cfc.entity_type = @entityType 
+                AND cfc.deleted_at IS NULL
+              ORDER BY cfc.display_order
+            `);
+
+          // Transform into a key-value object
+          const customFields = {};
+          customFieldsResult.recordset.forEach((field) => {
+            const value =
+              field.value_text ||
+              field.value_number ||
+              field.value_date ||
+              field.value_boolean;
+            customFields[field.field_name] = {
+              label: field.field_label,
+              value: value,
+              type: field.field_type,
+            };
+          });
+          contentObj.custom_fields = customFields;
+        } catch (error) {
+          contentObj.custom_fields = {};
+        }
+
+        return contentObj;
+      }),
+    );
+
     return {
-      data: result.recordset.map(this.parseContent),
+      data: enrichedData,
       pagination: {
         page,
         pageSize,
@@ -409,21 +541,23 @@ export class ContentService {
     // Get categories (optional)
     try {
       const categories = await pool.request().input('id', sql.Int, id).query(`
-        SELECT cat.id, cat.name, cat.slug
+        SELECT cat.id, cat.name, cat.slug, cat.display_order
         FROM content_categories cat
         INNER JOIN content_categories_junction ccj ON cat.id = ccj.category_id
         WHERE ccj.content_id = @id
+        ORDER BY cat.display_order ASC
       `);
       content.categories = categories.recordset;
     } catch (error) {
+      this.logger.error(`Failed to load categories for content ${id}:`, error);
       content.categories = [];
     }
 
     // Get tags (optional)
     try {
       const tags = await pool.request().input('id', sql.Int, id).query(`
-        SELECT t.id, t.name, t.slug, t.color
-        FROM content_tags t
+        SELECT t.id, t.name, t.slug, t.color, t.usage_count
+        FROM tag t
         INNER JOIN content_tags_junction ctj ON t.id = ctj.tag_id
         WHERE ctj.content_id = @id
       `);
@@ -445,6 +579,48 @@ export class ContentService {
       content.related = [];
     }
 
+    // Get custom fields based on content type
+    try {
+      const customFieldsResult = await pool
+        .request()
+        .input('contentId', sql.Int, id)
+        .input('entityType', sql.NVarChar, content.type).query(`
+          SELECT 
+            cfc.id,
+            cfc.field_name,
+            cfc.field_label,
+            cfc.field_type,
+            cfv.value_text,
+            cfv.value_number,
+            cfv.value_date,
+            cfv.value_boolean
+          FROM custom_field_config cfc
+          LEFT JOIN custom_field_value cfv ON cfc.id = cfv.custom_field_config_id 
+            AND cfv.entity_id = @contentId
+          WHERE cfc.entity_type = @entityType 
+            AND cfc.deleted_at IS NULL
+          ORDER BY cfc.display_order
+        `);
+
+      // Transform into a key-value object
+      const customFields = {};
+      customFieldsResult.recordset.forEach((field) => {
+        const value =
+          field.value_text ||
+          field.value_number ||
+          field.value_date ||
+          field.value_boolean;
+        customFields[field.field_name] = {
+          label: field.field_label,
+          value: value,
+          type: field.field_type,
+        };
+      });
+      content.custom_fields = customFields;
+    } catch (error) {
+      content.custom_fields = {};
+    }
+
     // Increment view count
     if (incrementView) {
       await pool.request().input('id', sql.Int, id).query(`
@@ -458,11 +634,16 @@ export class ContentService {
   /**
    * Get content by slug
    */
-  async getBySlug(slug: string, tenantId: number, incrementView: boolean = false) {
+  async getBySlug(
+    slug: string,
+    tenantId: number,
+    incrementView: boolean = false,
+  ) {
     const pool = await this.databaseService.getTenantConnection(tenantId);
     await this.ensureContentTables(pool);
 
-    const result = await pool.request().input('slug', sql.NVarChar, slug).query(`
+    const result = await pool.request().input('slug', sql.NVarChar, slug)
+      .query(`
       SELECT id FROM content WHERE slug = @slug AND deleted_at IS NULL
     `);
 
@@ -476,7 +657,12 @@ export class ContentService {
   /**
    * Update content
    */
-  async update(id: number, dto: UpdateContentDto, tenantId: number, userId: number) {
+  async update(
+    id: number,
+    dto: UpdateContentDto,
+    tenantId: number,
+    userId: number,
+  ) {
     const pool = await this.databaseService.getTenantConnection(tenantId);
     await this.ensureContentTables(pool);
 
@@ -486,12 +672,17 @@ export class ContentService {
     // Check slug uniqueness if changed
     const slug = dto.slug || existing.slug;
     if (slug !== existing.slug) {
-      const existingSlug = await pool.request().input('slug', sql.NVarChar, slug).input('id', sql.Int, id).query(`
+      const existingSlug = await pool
+        .request()
+        .input('slug', sql.NVarChar, slug)
+        .input('id', sql.Int, id).query(`
         SELECT id FROM content WHERE slug = @slug AND id != @id AND deleted_at IS NULL
       `);
 
       if (existingSlug.recordset.length > 0) {
-        throw new BadRequestException(`Content with slug '${slug}' already exists`);
+        throw new BadRequestException(
+          `Content with slug '${slug}' already exists`,
+        );
       }
     }
 
@@ -512,22 +703,38 @@ export class ContentService {
       .input('visibility', sql.NVarChar, dto.visibility)
       .input('featured_image', sql.NVarChar, dto.featuredImage || null)
       .input('author_id', sql.Int, dto.authorId || existing.author_id)
-      .input('published_at', sql.DateTime, dto.publishedAt ? new Date(dto.publishedAt) : null)
+      .input(
+        'published_at',
+        sql.DateTime,
+        dto.publishedAt ? new Date(dto.publishedAt) : null,
+      )
       .input('allow_comments', sql.Bit, dto.allowComments !== false ? 1 : 0)
       .input('is_featured', sql.Bit, dto.isFeatured ? 1 : 0)
       .input('language', sql.NVarChar, dto.language || 'pt')
       .input('parent_id', sql.Int, dto.parentId || null)
       .input('meta_title', sql.NVarChar, dto.seo?.metaTitle || null)
       .input('meta_description', sql.NVarChar, dto.seo?.metaDescription || null)
-      .input('meta_keywords', sql.NVarChar, dto.seo?.metaKeywords ? JSON.stringify(dto.seo.metaKeywords) : null)
+      .input(
+        'meta_keywords',
+        sql.NVarChar,
+        dto.seo?.metaKeywords ? JSON.stringify(dto.seo.metaKeywords) : null,
+      )
       .input('canonical_url', sql.NVarChar, dto.seo?.canonicalUrl || null)
       .input('og_title', sql.NVarChar, dto.seo?.ogTitle || null)
       .input('og_description', sql.NVarChar, dto.seo?.ogDescription || null)
       .input('og_image', sql.NVarChar, dto.seo?.ogImage || null)
       .input('twitter_card', sql.NVarChar, dto.seo?.twitterCard || null)
       .input('robots', sql.NVarChar, dto.seo?.robots || null)
-      .input('custom_fields', sql.NVarChar, dto.customFields ? JSON.stringify(dto.customFields) : null)
-      .input('permissions', sql.NVarChar, dto.permissions ? JSON.stringify(dto.permissions) : null).query(`
+      .input(
+        'custom_fields',
+        sql.NVarChar,
+        dto.customFields ? JSON.stringify(dto.customFields) : null,
+      )
+      .input(
+        'permissions',
+        sql.NVarChar,
+        dto.permissions ? JSON.stringify(dto.permissions) : null,
+      ).query(`
         UPDATE content
         SET
           title = @title,
@@ -563,7 +770,14 @@ export class ContentService {
 
     // Create version if content changed
     if (contentChanged) {
-      await this.createVersion(id, dto.title, dto.content, 'Content updated', userId, tenantId);
+      await this.createVersion(
+        id,
+        dto.title,
+        dto.content,
+        'Content updated',
+        userId,
+        tenantId,
+      );
     }
 
     // Update categories
@@ -655,7 +869,14 @@ export class ContentService {
   /**
    * Track content view
    */
-  async trackView(contentId: number, userId: number | null, ipAddress: string, userAgent: string, referer: string | null, tenantId: number) {
+  async trackView(
+    contentId: number,
+    userId: number | null,
+    ipAddress: string,
+    userAgent: string,
+    referer: string | null,
+    tenantId: number,
+  ) {
     const pool = await this.databaseService.getTenantConnection(tenantId);
     await this.ensureContentTables(pool);
 
@@ -678,7 +899,8 @@ export class ContentService {
     const pool = await this.databaseService.getTenantConnection(tenantId);
     await this.ensureContentTables(pool);
 
-    const result = await pool.request().input('contentId', sql.Int, contentId).query(`
+    const result = await pool.request().input('contentId', sql.Int, contentId)
+      .query(`
       SELECT
         v.id,
         v.version,
@@ -710,7 +932,9 @@ export class ContentService {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
     // Get current version
-    const versionResult = await pool.request().input('contentId', sql.Int, contentId).query(`
+    const versionResult = await pool
+      .request()
+      .input('contentId', sql.Int, contentId).query(`
       SELECT ISNULL(MAX(version), 0) + 1 AS next_version FROM content_versions WHERE content_id = @contentId
     `);
 
@@ -732,7 +956,11 @@ export class ContentService {
   /**
    * Associate categories
    */
-  private async associateCategories(contentId: number, categoryIds: number[], tenantId: number) {
+  private async associateCategories(
+    contentId: number,
+    categoryIds: number[],
+    tenantId: number,
+  ) {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
     for (const categoryId of categoryIds) {
@@ -749,14 +977,19 @@ export class ContentService {
   /**
    * Associate tags (create if not exist)
    */
-  private async associateTags(contentId: number, tags: string[], tenantId: number) {
+  private async associateTags(
+    contentId: number,
+    tags: string[],
+    tenantId: number,
+  ) {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
     for (const tagName of tags) {
       // Get or create tag
       let tagId: number;
 
-      const existing = await pool.request().input('name', sql.NVarChar, tagName).query(`
+      const existing = await pool.request().input('name', sql.NVarChar, tagName)
+        .query(`
         SELECT id FROM content_tags WHERE name = @name
       `);
 
@@ -789,7 +1022,11 @@ export class ContentService {
   /**
    * Associate related content
    */
-  private async associateRelatedContent(contentId: number, relatedIds: number[], tenantId: number) {
+  private async associateRelatedContent(
+    contentId: number,
+    relatedIds: number[],
+    tenantId: number,
+  ) {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
     for (const relatedId of relatedIds) {
@@ -823,13 +1060,19 @@ export class ContentService {
       ...record,
       allow_comments: Boolean(record.allow_comments),
       is_featured: Boolean(record.is_featured),
-      meta_keywords: record.meta_keywords ? JSON.parse(record.meta_keywords) : null,
-      custom_fields: record.custom_fields ? JSON.parse(record.custom_fields) : null,
+      meta_keywords: record.meta_keywords
+        ? JSON.parse(record.meta_keywords)
+        : null,
+      custom_fields: record.custom_fields
+        ? JSON.parse(record.custom_fields)
+        : null,
       permissions: record.permissions ? JSON.parse(record.permissions) : null,
       seo: {
         metaTitle: record.meta_title,
         metaDescription: record.meta_description,
-        metaKeywords: record.meta_keywords ? JSON.parse(record.meta_keywords) : null,
+        metaKeywords: record.meta_keywords
+          ? JSON.parse(record.meta_keywords)
+          : null,
         canonicalUrl: record.canonical_url,
         ogTitle: record.og_title,
         ogDescription: record.og_description,

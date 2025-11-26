@@ -156,7 +156,11 @@ export default function EqavetPage() {
 		return (
 			<section
 				className={`page-section ${
-					isDark ? "bg-dark-1 light-content" : isEven ? "" : "bg-gray-light-1"
+					isDark
+						? "bg-dark-1 light-content"
+						: isEven
+						? ""
+						: "bg-gray-light-1"
 				}`}
 			>
 				<div className="container position-relative">
@@ -188,7 +192,9 @@ export default function EqavetPage() {
 										<span className="eqavet-letter">
 											{String.fromCharCode(97 + i)})
 										</span>
-										<span className="eqavet-text">{item}</span>
+										<span className="eqavet-text">
+											{item}
+										</span>
 									</li>
 								))}
 							</ul>
@@ -262,11 +268,7 @@ export default function EqavetPage() {
 
 			<div className="theme-main">
 				<div className="page" id="top">
-					<nav
-						className={`main-nav transparent stick-fixed wow-menubar ${
-							isDark ? "" : "dark"
-						}`}
-					>
+					<nav className="main-nav transparent stick-fixed wow-menubar">
 						<Header />
 					</nav>
 					<main id="main">
@@ -291,7 +293,9 @@ export default function EqavetPage() {
 														className="wow charsAnimIn"
 														data-splitting="chars"
 													>
-														<AnimatedText text={t.title} />
+														<AnimatedText
+															text={t.title}
+														/>
 													</span>
 												</h1>
 												<div className="row">
@@ -352,7 +356,10 @@ export default function EqavetPage() {
 
 								<div className="row g-4 justify-content-center">
 									{partnerImages.map((partner, i) => (
-										<div key={i} className="col-md-4 col-lg-3">
+										<div
+											key={i}
+											className="col-md-4 col-lg-3"
+										>
 											<div
 												className={`partner-card wow fadeInUp ${
 													isDark ? "dark" : ""

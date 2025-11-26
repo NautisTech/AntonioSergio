@@ -47,6 +47,8 @@ export enum ContentType {
   GUIDE = 'guide',
   CHANGELOG = 'changelog',
   CUSTOM = 'custom',
+  EVENT = 'event',
+  PROJECT = 'project',
 }
 
 export enum MediaType {

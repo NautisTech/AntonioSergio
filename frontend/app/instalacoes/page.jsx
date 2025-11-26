@@ -138,9 +138,18 @@ export default function InstalacoesPage() {
 
 	const facilityImages = {
 		classrooms: [
-			{ src: "/assets/school/campus/campus-1.jpg", title: titles.classroom1 },
-			{ src: "/assets/school/campus/campus-2.jpg", title: titles.classroom2 },
-			{ src: "/assets/school/campus/campus-3.jpg", title: titles.classroom3 },
+			{
+				src: "/assets/school/campus/campus-1.jpg",
+				title: titles.classroom1,
+			},
+			{
+				src: "/assets/school/campus/campus-2.jpg",
+				title: titles.classroom2,
+			},
+			{
+				src: "/assets/school/campus/campus-3.jpg",
+				title: titles.classroom3,
+			},
 		],
 		labs: [
 			{ src: "/assets/school/campus/campus-4.jpg", title: titles.lab1 },
@@ -148,13 +157,28 @@ export default function InstalacoesPage() {
 			{ src: "/assets/school/courses/course-2.jpg", title: titles.lab3 },
 		],
 		workshops: [
-			{ src: "/assets/school/courses/course-3.jpg", title: titles.workshop1 },
-			{ src: "/assets/school/courses/course-4.jpg", title: titles.workshop2 },
-			{ src: "/assets/school/courses/course-5.jpg", title: titles.workshop3 },
+			{
+				src: "/assets/school/courses/course-3.jpg",
+				title: titles.workshop1,
+			},
+			{
+				src: "/assets/school/courses/course-4.jpg",
+				title: titles.workshop2,
+			},
+			{
+				src: "/assets/school/courses/course-5.jpg",
+				title: titles.workshop3,
+			},
 		],
 		playground: [
-			{ src: "/assets/school/campus/campus-5.jpg", title: titles.playground1 },
-			{ src: "/assets/school/campus/campus-6.jpg", title: titles.playground2 },
+			{
+				src: "/assets/school/campus/campus-5.jpg",
+				title: titles.playground1,
+			},
+			{
+				src: "/assets/school/campus/campus-6.jpg",
+				title: titles.playground2,
+			},
 			{
 				src: "/assets/school/breadcrumb/breadcrumb-1.jpg",
 				title: titles.playground3,
@@ -187,17 +211,27 @@ export default function InstalacoesPage() {
 		return (
 			<section
 				className={`page-section ${
-					isDark ? "bg-dark-1 light-content" : isEven ? "" : "bg-gray-light-1"
+					isDark
+						? "bg-dark-1 light-content"
+						: isEven
+						? ""
+						: "bg-gray-light-1"
 				}`}
 			>
 				<div className="container position-relative">
 					<div className="text-center mb-60 mb-sm-40">
 						<h2
-							className={`section-title ${isDark ? "light-content" : ""}`}
+							className={`section-title ${
+								isDark ? "light-content" : ""
+							}`}
 						>
 							{t.categories[category].title}
 						</h2>
-						<p className={`section-descr mb-0 ${isDark ? "text-gray" : ""}`}>
+						<p
+							className={`section-descr mb-0 ${
+								isDark ? "text-gray" : ""
+							}`}
+						>
 							{t.categories[category].description}
 						</p>
 					</div>
@@ -234,7 +268,9 @@ export default function InstalacoesPage() {
 												<div className="mt-2">
 													<p
 														className={`text-center mb-0 ${
-															isDark ? "text-gray" : ""
+															isDark
+																? "text-gray"
+																: ""
 														}`}
 													>
 														{image.title}
@@ -256,11 +292,7 @@ export default function InstalacoesPage() {
 		<>
 			<div className="theme-main">
 				<div className="page" id="top">
-					<nav
-						className={`main-nav transparent stick-fixed wow-menubar ${
-							isDark ? "" : "dark"
-						}`}
-					>
+					<nav className="main-nav transparent stick-fixed wow-menubar">
 						<Header />
 					</nav>
 					<main id="main">
@@ -285,7 +317,9 @@ export default function InstalacoesPage() {
 														className="wow charsAnimIn"
 														data-splitting="chars"
 													>
-														<AnimatedText text={t.title} />
+														<AnimatedText
+															text={t.title}
+														/>
 													</span>
 												</h1>
 												<div className="row">

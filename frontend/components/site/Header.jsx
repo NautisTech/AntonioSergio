@@ -20,13 +20,46 @@ export default function Header({ variant = "light" }) {
 	const content = aesContent[language];
 	const [menuOpen, setMenuOpen] = useState(-1);
 
-	const toggleDropdown = (i) => {
+	const toggleDropdown = i => {
 		if (menuOpen === i) {
 			setMenuOpen(-1);
 		} else {
 			setMenuOpen(i);
 		}
 	};
+
+	// Handle mobile dropdown toggles by delegating click events
+	useEffect(() => {
+		const handleMobileDropdownClick = e => {
+			// Check if we're in mobile mode
+			if (!window.matchMedia("(max-width: 1024px)").matches) return;
+
+			// Find if click was on a dropdown trigger
+			const target = e.target.closest("a.mn-has-sub");
+			if (!target) return;
+
+			// Check if this is a language or entity selector
+			const parentLi = target.closest("li");
+			const isLanguageSelect =
+				parentLi?.classList.contains("languageSelect");
+			const isEntitySelect = parentLi?.classList.contains("entitySelect");
+
+			// For language/entity selectors, let their own handlers manage state
+			if (isLanguageSelect || isEntitySelect) {
+				return;
+			}
+
+			// For nav links, prevent default and toggle the dropdown
+			e.preventDefault();
+			if (parentLi) {
+				parentLi.classList.toggle("js-opened");
+			}
+		};
+
+		document.addEventListener("click", handleMobileDropdownClick);
+		return () =>
+			document.removeEventListener("click", handleMobileDropdownClick);
+	}, []);
 
 	useEffect(() => {
 		init_classic_menu_resize();
@@ -68,84 +101,143 @@ export default function Header({ variant = "light" }) {
 						if (link.dropdown) {
 							// Check if all items are simple links (no subItems)
 							const hasOnlySimpleLinks = link.dropdown.every(
-								item => !item.subItems || item.subItems.length === 0
+								item =>
+									!item.subItems || item.subItems.length === 0
 							);
 
 							// Separate items with subItems from items without
 							const itemsWithSubItems = link.dropdown.filter(
-								item => item.subItems && item.subItems.length > 0
+								item =>
+									item.subItems && item.subItems.length > 0
 							);
 							const itemsWithoutSubItems = link.dropdown.filter(
-								item => !item.subItems || item.subItems.length === 0
+								item =>
+									!item.subItems || item.subItems.length === 0
 							);
 
 							// Nav item with dropdown
 							return (
 								<li
 									key={index}
-									className={menuOpen === index ? "js-opened" : ""}
+									className={
+										menuOpen === index ? "js-opened" : ""
+									}
 								>
 									<a
 										href="#"
 										onClick={() => toggleDropdown(index)}
 										className="mn-has-sub"
 									>
-										{link.label} <i className="mi-chevron-down" />
+										{link.label}{" "}
+										<i className="mi-chevron-down" />
 									</a>
 									<ul
-										className={`${hasOnlySimpleLinks ? "mn-sub" : "mn-sub mn-has-multi"} ${menuOpen === index ? "mobile-sub-active" : ""}`}
+										className={
+											hasOnlySimpleLinks
+												? "mn-sub"
+												: "mn-sub mn-has-multi"
+										}
 									>
 										{hasOnlySimpleLinks ? (
 											// Simple vertical list
-											link.dropdown.map((item, itemIndex) => (
-												<li key={itemIndex}>
-													<Link href={item.href}>
-														{item.labels[language]}
-													</Link>
-												</li>
-											))
+											link.dropdown.map(
+												(item, itemIndex) => (
+													<li key={itemIndex}>
+														<Link href={item.href}>
+															{
+																item.labels[
+																	language
+																]
+															}
+														</Link>
+													</li>
+												)
+											)
 										) : (
 											<>
 												{/* Render items with subItems as columns */}
-												{itemsWithSubItems.map((column, columnIndex) => (
-													<li key={`with-sub-${columnIndex}`} className="mn-sub-multi">
-														{/* Column Header */}
-														{column.isLink && column.href ? (
-															<Link href={column.href} className="mn-group-title">
-																{column.labels[language]}
+												{itemsWithSubItems.map(
+													(column, columnIndex) => (
+														<li
+															key={`with-sub-${columnIndex}`}
+															className="mn-sub-multi"
+														>
+															{/* Column Header */}
+															{column.isLink &&
+															column.href ? (
+																<Link
+																	href={
+																		column.href
+																	}
+																	className="mn-group-title"
+																>
+																	{
+																		column
+																			.labels[
+																			language
+																		]
+																	}
+																</Link>
+															) : (
+																<span className="mn-group-title">
+																	{
+																		column
+																			.labels[
+																			language
+																		]
+																	}
+																</span>
+															)}
+
+															{/* Column Items */}
+															<ul>
+																{column.subItems.map(
+																	(
+																		subItem,
+																		subIndex
+																	) => (
+																		<li
+																			key={
+																				subIndex
+																			}
+																		>
+																			<Link
+																				href={
+																					subItem.href
+																				}
+																			>
+																				{
+																					subItem
+																						.labels[
+																						language
+																					]
+																				}
+																			</Link>
+																		</li>
+																	)
+																)}
+															</ul>
+														</li>
+													)
+												)}
+
+												{/* Render items without subItems directly (no extra nesting) */}
+												{itemsWithoutSubItems.map(
+													(item, itemIndex) => (
+														<li
+															key={`without-sub-${itemIndex}`}
+														>
+															<Link
+																href={item.href}
+															>
+																{
+																	item.labels[
+																		language
+																	]
+																}
 															</Link>
-														) : (
-															<span className="mn-group-title">
-																{column.labels[language]}
-															</span>
-														)}
-
-														{/* Column Items */}
-														<ul>
-															{column.subItems.map((subItem, subIndex) => (
-																<li key={subIndex}>
-																	<Link href={subItem.href}>
-																		{subItem.labels[language]}
-																	</Link>
-																</li>
-															))}
-														</ul>
-													</li>
-												))}
-
-												{/* Render items without subItems in a single column */}
-												{itemsWithoutSubItems.length > 0 && (
-													<li className="mn-sub-multi">
-														<ul>
-															{itemsWithoutSubItems.map((item, itemIndex) => (
-																<li key={`without-sub-${itemIndex}`}>
-																	<Link href={item.href}>
-																		{item.labels[language]}
-																	</Link>
-																</li>
-															))}
-														</ul>
-													</li>
+														</li>
+													)
 												)}
 											</>
 										)}
