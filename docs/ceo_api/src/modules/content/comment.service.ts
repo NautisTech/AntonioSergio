@@ -29,8 +29,8 @@ export class CommentService {
           author_email NVARCHAR(200) NULL,
           comment_text NVARCHAR(2000) NOT NULL,
           status NVARCHAR(50) NOT NULL DEFAULT 'pending',
-          moderated_by INT NULL,
-          moderation_reason NVARCHAR(500) NULL,
+          approved_by INT NULL,
+          approved_at DATETIME NULL,
           ip_address NVARCHAR(50) NULL,
           user_agent NVARCHAR(500) NULL,
           created_at DATETIME DEFAULT GETDATE(),
@@ -39,7 +39,7 @@ export class CommentService {
           FOREIGN KEY (content_id) REFERENCES content(id) ON DELETE CASCADE,
           FOREIGN KEY (parent_id) REFERENCES content_comments(id),
           FOREIGN KEY (user_id) REFERENCES [user](id),
-          FOREIGN KEY (moderated_by) REFERENCES [user](id)
+          FOREIGN KEY (approved_by) REFERENCES [user](id)
         )
 
         CREATE INDEX idx_content_comments_content ON content_comments(content_id)
@@ -184,14 +184,14 @@ export class CommentService {
         c.author_email,
         c.comment_text,
         c.status,
-        c.moderated_by,
-        m.full_name AS moderated_by_name,
-        c.moderation_reason,
+        c.approved_by,
+        c.approved_at,
+        m.full_name AS approved_by_name,
         c.created_at AS created_at,
         c.updated_at AS updated_at
       FROM content_comments c
       LEFT JOIN [user] u ON c.user_id = u.id
-      LEFT JOIN [user] m ON c.moderated_by = m.id
+      LEFT JOIN [user] m ON c.approved_by = m.id
       WHERE c.id = @id AND c.deleted_at IS NULL
     `);
 
@@ -243,13 +243,12 @@ export class CommentService {
       .request()
       .input('id', sql.Int, id)
       .input('status', sql.NVarChar, dto.status)
-      .input('moderatedBy', sql.Int, moderatorId)
-      .input('reason', sql.NVarChar, dto.reason || null).query(`
+      .input('approvedBy', sql.Int, moderatorId).query(`
         UPDATE content_comments
         SET
           status = @status,
-          moderated_by = @moderatedBy,
-          moderation_reason = @reason,
+          approved_by = @approvedBy,
+          approved_at = CASE WHEN @status = 'approved' THEN GETDATE() ELSE NULL END,
           updated_at = GETDATE()
         WHERE id = @id
       `);
