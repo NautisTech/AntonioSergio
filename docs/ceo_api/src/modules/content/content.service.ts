@@ -434,7 +434,7 @@ export class ContentService {
             .request()
             .input('id', sql.Int, content.id).query(`
             SELECT cat.id, cat.name, cat.slug, cat.display_order, cat.visible
-            FROM content_category cat
+            FROM content_categories cat
             INNER JOIN content_categories_junction ccj ON cat.id = ccj.category_id
             WHERE ccj.content_id = @id
             ORDER BY cat.display_order ASC
@@ -542,7 +542,7 @@ export class ContentService {
     try {
       const categories = await pool.request().input('id', sql.Int, id).query(`
         SELECT cat.id, cat.name, cat.slug, cat.display_order
-        FROM content_category cat
+        FROM content_categories cat
         INNER JOIN content_categories_junction ccj ON cat.id = ccj.category_id
         WHERE ccj.content_id = @id
         ORDER BY cat.display_order ASC
