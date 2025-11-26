@@ -316,6 +316,91 @@ export default function ProjectDetailPage({ params }) {
 																)}
 														</div>
 													)}
+
+												{/* Custom Fields */}
+												{project.custom_fields &&
+													Object.keys(project.custom_fields)
+														.length > 0 && (
+														<div className="mb-60">
+															{Object.entries(
+																project.custom_fields
+															).map(([key, field]) => {
+																if (!field?.value)
+																	return null;
+
+																let displayValue =
+																	field.value;
+
+																// Format dates
+																if (
+																	field.type ===
+																		"date" &&
+																	field.value
+																) {
+																	const date =
+																		new Date(
+																			field.value
+																		);
+																	displayValue =
+																		date.toLocaleDateString(
+																			language ===
+																				"pt"
+																				? "pt-PT"
+																				: "en-US",
+																			{
+																				year: "numeric",
+																				month: "long",
+																				day: "numeric",
+																			}
+																		);
+																}
+
+																// Format multiselect as comma-separated list
+																if (
+																	field.type ===
+																		"multiselect" &&
+																	Array.isArray(
+																		field.value
+																	)
+																) {
+																	displayValue =
+																		field.value.join(
+																			", "
+																		);
+																}
+
+																return (
+																	<div
+																		key={key}
+																	>
+																		<div className="row text-gray small">
+																			<div className="col-sm-5">
+																				<b>
+																					{
+																						field.label
+																					}
+																					:
+																				</b>
+																			</div>
+																			<div className="col-sm-7">
+																				{
+																					displayValue
+																				}
+																			</div>
+																		</div>
+																		<hr
+																			className={`mb-20 ${
+																				isDark
+																					? "white"
+																					: ""
+																			}`}
+																		/>
+																	</div>
+																);
+															})}
+														</div>
+													)}
+
 												{/* Content/Description */}
 												{project.content && (
 													<div className="text-gray small">

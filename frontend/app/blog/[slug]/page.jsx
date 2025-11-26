@@ -373,6 +373,86 @@ export default function BlogDetailPage({ params }) {
 														}}
 													/>
 
+												{/* Custom Fields */}
+												{blog.custom_fields &&
+													Object.keys(blog.custom_fields)
+														.length > 0 && (
+														<div className="mt-40">
+															{Object.entries(
+																blog.custom_fields
+															).map(([key, field]) => {
+																if (!field?.value)
+																	return null;
+
+																let displayValue =
+																	field.value;
+
+																// Format dates
+																if (
+																	field.type ===
+																		"date" &&
+																	field.value
+																) {
+																	const date =
+																		new Date(
+																			field.value
+																		);
+																	displayValue =
+																		date.toLocaleDateString(
+																			language ===
+																				"pt"
+																				? "pt-PT"
+																				: "en-US",
+																			{
+																				year: "numeric",
+																				month: "long",
+																				day: "numeric",
+																			}
+																		);
+																}
+
+																// Format multiselect as comma-separated list
+																if (
+																	field.type ===
+																		"multiselect" &&
+																	Array.isArray(
+																		field.value
+																	)
+																) {
+																	displayValue =
+																		field.value.join(
+																			", "
+																		);
+																}
+
+																return (
+																	<div
+																		key={key}
+																		className="mb-20"
+																	>
+																		<p
+																			className={
+																				isDark
+																					? "text-gray"
+																					: ""
+																			}
+																		>
+																			<strong>
+																				{
+																					field.label
+																				}
+																				:
+																			</strong>{" "}
+																			{
+																				displayValue
+																			}
+																		</p>
+																	</div>
+																);
+															})}
+														</div>
+													)}
+
 													{/* Attachments Gallery */}
 													{attachments?.filter(
 														att =>
