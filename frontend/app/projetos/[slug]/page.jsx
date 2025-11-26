@@ -25,6 +25,16 @@ export default function ProjectDetailPage({ params }) {
 		error: projectError,
 	} = useContentBySlug(unwrappedParams.slug);
 
+	// Log project data to verify custom fields
+	useEffect(() => {
+		if (project) {
+			console.log("=== PROJECT DATA ===");
+			console.log("Full project object:", project);
+			console.log("Custom fields:", project.custom_fields);
+			console.log("Custom fields keys:", project.custom_fields ? Object.keys(project.custom_fields) : "No custom_fields");
+		}
+	}, [project]);
+
 	// Re-initialize WOW animations when project loads
 	useEffect(() => {
 		if (project && typeof window !== "undefined") {

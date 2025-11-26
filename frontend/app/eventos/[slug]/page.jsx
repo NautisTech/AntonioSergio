@@ -28,6 +28,16 @@ export default function EventDetailPage({ params }) {
 	// Fetch attachments for this event
 	const { data: attachments } = useAttachments("content", event?.id || null);
 
+	// Log event data to verify custom fields
+	useEffect(() => {
+		if (event) {
+			console.log("=== EVENT DATA ===");
+			console.log("Full event object:", event);
+			console.log("Custom fields:", event.custom_fields);
+			console.log("Custom fields keys:", event.custom_fields ? Object.keys(event.custom_fields) : "No custom_fields");
+		}
+	}, [event]);
+
 	// Re-initialize WOW animations when event loads
 	useEffect(() => {
 		if (event && typeof window !== "undefined") {

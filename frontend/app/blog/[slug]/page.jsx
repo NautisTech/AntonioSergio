@@ -36,6 +36,16 @@ export default function BlogDetailPage({ params }) {
 	// Fetch attachments for this blog post
 	const { data: attachments } = useAttachments("content", blog?.id || null);
 
+	// Log blog data to verify custom fields
+	useEffect(() => {
+		if (blog) {
+			console.log("=== BLOG/NEWS DATA ===");
+			console.log("Full blog object:", blog);
+			console.log("Custom fields:", blog.custom_fields);
+			console.log("Custom fields keys:", blog.custom_fields ? Object.keys(blog.custom_fields) : "No custom_fields");
+		}
+	}, [blog]);
+
 	// Re-initialize WOW animations when blog loads
 	useEffect(() => {
 		if (blog && typeof window !== "undefined") {
