@@ -49,11 +49,11 @@ export default function Comments({
 	};
 
 	// Get only top-level comments (without parentId)
-	const topLevelComments = comments.filter(c => !c.parentId);
+	const topLevelComments = comments.filter(c => !c.parent_id && !c.parentId);
 
 	// Function to get replies for a comment
 	const getReplies = commentId => {
-		return comments.filter(c => c.parentId === commentId);
+		return comments.filter(c => c.parent_id === commentId || c.parentId === commentId);
 	};
 
 	const renderComment = (comment, isReply = false) => {

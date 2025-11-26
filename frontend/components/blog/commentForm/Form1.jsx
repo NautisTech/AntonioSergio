@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { publicContentAPI } from "@/lib/api/public-content";
 
 export default function Form1({
 	contentId,
@@ -42,34 +43,21 @@ export default function Form1({
 		setMessage(null);
 
 		try {
-			const response = await fetch(
-				`/api/v1/public/content/${contentId}/comments`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						contentId: contentId,
-						text: formData.comment,
-						authorName: formData.name,
-						authorEmail: formData.email,
-						parentId: parentId,
-					}),
-				}
-			);
+			await publicContentAPI.postComment({
+				contentId: contentId,
+				text: formData.comment,
+				authorName: formData.name,
+				authorEmail: formData.email,
+				parentId: parentId,
+			});
 
-			if (response.ok) {
-				setMessage({
-					type: "success",
-					text: translations.success[language],
-				});
-				setFormData({ name: "", email: "", comment: "" });
-				if (onSuccess) {
-					setTimeout(() => onSuccess(), 1500);
-				}
-			} else {
-				setMessage({ type: "error", text: translations.error[language] });
+			setMessage({
+				type: "success",
+				text: translations.success[language],
+			});
+			setFormData({ name: "", email: "", comment: "" });
+			if (onSuccess) {
+				setTimeout(() => onSuccess(), 1500);
 			}
 		} catch (error) {
 			setMessage({ type: "error", text: translations.error[language] });

@@ -239,7 +239,7 @@ export class PublicContentController {
   @ApiOperation({ summary: 'Get public comments for content' })
   @ApiParam({ name: 'contentId', description: 'Content ID' })
   async getPublicComments(@Param('contentId', ParseIntPipe) contentId: number) {
-    return this.commentService.getThreaded(contentId, 4, true); // Only approved comments
+    return this.commentService.listByContent(contentId, 4, true); // Only approved comments, flat array
   }
 
   @Public()
