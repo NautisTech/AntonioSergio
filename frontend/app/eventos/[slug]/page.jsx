@@ -329,9 +329,7 @@ export default function EventDetailPage({ params }) {
 											})()}
 										</>
 									)}
-
-										)}
-										{event.categories &&
+									{event.categories &&
 											event.categories.length > 0 && (
 												<>
 													<div className="row text-gray small">
