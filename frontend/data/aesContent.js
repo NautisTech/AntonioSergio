@@ -1726,10 +1726,6 @@ export const pageTranslations = {
 						pt: "Urgente",
 						en: "Urgent",
 					},
-					critical: {
-						pt: "Crítica",
-						en: "Critical",
-					},
 				},
 			},
 			location: {
@@ -1789,25 +1785,9 @@ export const pageTranslations = {
 				en: "Submitting...",
 			},
 			success: {
-				title: {
-					pt: "Ticket Criado com Sucesso!",
-					en: "Ticket Created Successfully!",
-				},
 				message: {
-					pt: "O seu ticket foi registado. Receberá uma resposta em breve.",
-					en: "Your ticket has been registered. You will receive a response soon.",
-				},
-				ticketNumber: {
-					pt: "Número do Ticket",
-					en: "Ticket Number",
-				},
-				accessCode: {
-					pt: "Código de Acesso",
-					en: "Access Code",
-				},
-				instruction: {
-					pt: "Guarde este código para consultar o estado do seu ticket.",
-					en: "Save this code to check your ticket status.",
+					pt: "Ticket criado com sucesso! A nossa equipa entrará em contacto consigo em breve.",
+					en: "Ticket created successfully! Our team will contact you soon.",
 				},
 			},
 			error: {

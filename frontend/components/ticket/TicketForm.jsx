@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import { pageTranslations } from "@/data/aesContent";
-import { useTicketTypes, useSubmitTicket, TicketPriority } from "@/lib/api/public-support";
+import { useTicketTypes, useSubmitTicket } from "@/lib/api/public-support";
 
 export default function TicketForm() {
 	const { language } = useLanguage();
@@ -12,7 +12,7 @@ export default function TicketForm() {
 	const isDark = theme === "dark";
 
 	// Fetch ticket types from API
-	const { data: ticketTypes, loading: typesLoading, error: typesError } = useTicketTypes();
+	const { data: ticketTypes, loading: typesLoading } = useTicketTypes();
 	const { submitTicket, loading: submitting, error: submitError, response } = useSubmitTicket();
 
 	// Form state
@@ -53,6 +53,10 @@ export default function TicketForm() {
 				[name]: "",
 			}));
 		}
+		// Clear success message when user starts editing
+		if (showSuccess) {
+			setShowSuccess(false);
+		}
 	};
 
 	const handleEquipmentChange = (e) => {
@@ -64,7 +68,8 @@ export default function TicketForm() {
 	};
 
 	const addEquipment = () => {
-		if (currentEquipment.serialNumber || currentEquipment.description) {
+		// Both fields are required to add equipment
+		if (currentEquipment.serialNumber && currentEquipment.description) {
 			setEquipments(prev => [...prev, currentEquipment]);
 			setCurrentEquipment({ serialNumber: "", description: "" });
 		}
@@ -135,7 +140,8 @@ export default function TicketForm() {
 			equipmentDescription: equipmentDescriptions || undefined,
 		};
 
-		const result = await submitTicket(ticketData);
+		// Submit with client_id as null
+		const result = await submitTicket(ticketData, null);
 
 		if (result) {
 			setShowSuccess(true);
@@ -154,53 +160,32 @@ export default function TicketForm() {
 		}
 	};
 
-	if (showSuccess && response) {
-		return (
-			<div className="container position-relative">
-				<div className="row justify-content-center">
-					<div className="col-lg-8">
-						<div className={`alert ${isDark ? "alert-success-dark" : "alert-success"} text-center`}>
-							<i className="mi-check-circle size-48 mb-20" />
-							<h3 className="mb-20">{t.success.title[language]}</h3>
-							<p className="mb-30">{t.success.message[language]}</p>
-							<div className="row mb-30">
-								<div className="col-md-6 mb-20">
-									<strong>{t.success.ticketNumber[language]}:</strong>
-									<div className="mt-10">
-										<code className="fs-5">{response.ticketNumber}</code>
-									</div>
-								</div>
-								<div className="col-md-6 mb-20">
-									<strong>{t.success.accessCode[language]}:</strong>
-									<div className="mt-10">
-										<code className="fs-5">{response.uniqueCode}</code>
-									</div>
-								</div>
-							</div>
-							<p className="text-muted mb-30">
-								{t.success.instruction[language]}
-							</p>
-							<button
-								onClick={() => setShowSuccess(false)}
-								className="btn btn-mod btn-large btn-round btn-hover-anim"
-							>
-								<span>{language === "pt" ? "Criar Outro Ticket" : "Create Another Ticket"}</span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		);
-	}
-
 	return (
 		<div className="container position-relative">
 			<div className="row justify-content-center">
 				<div className="col-lg-8">
+					{/* Success Message */}
+					{showSuccess && response && (
+						<div className={`alert alert-success mb-40 wow fadeInUp`}>
+							<div className="d-flex align-items-center">
+								<i className="mi-check-circle size-24 me-15" />
+								<div>
+									<strong>{t.success.message[language]}</strong>
+								</div>
+							</div>
+						</div>
+					)}
+
+					{/* Error Message */}
 					{submitError && (
-						<div className={`alert ${isDark ? "alert-danger-dark" : "alert-danger"} mb-40`}>
-							<strong>{t.error.title[language]}</strong>
-							<p className="mb-0">{t.error.message[language]}</p>
+						<div className={`alert alert-danger mb-40 wow fadeInUp`}>
+							<div className="d-flex align-items-center">
+								<i className="mi-close-circle size-24 me-15" />
+								<div>
+									<strong>{t.error.title[language]}</strong>
+									<p className="mb-0 mt-5">{t.error.message[language]}</p>
+								</div>
+							</div>
 						</div>
 					)}
 
@@ -323,7 +308,7 @@ export default function TicketForm() {
 										)}
 										{ticketTypes && ticketTypes.map((type) => (
 											<option key={type.id} value={type.id}>
-												{type.icon && `${type.icon} `}{type.name}
+												{type.name}
 											</option>
 										))}
 									</select>
@@ -348,7 +333,6 @@ export default function TicketForm() {
 										<option value="medium">{t.priority.options.medium[language]}</option>
 										<option value="high">{t.priority.options.high[language]}</option>
 										<option value="urgent">{t.priority.options.urgent[language]}</option>
-										<option value="critical">{t.priority.options.critical[language]}</option>
 									</select>
 								</div>
 							</div>
@@ -403,7 +387,8 @@ export default function TicketForm() {
 										type="button"
 										onClick={addEquipment}
 										className="btn btn-mod btn-medium btn-round w-100"
-										disabled={!currentEquipment.serialNumber && !currentEquipment.description}
+										disabled={!currentEquipment.serialNumber || !currentEquipment.description}
+										title={language === "pt" ? "Preencha ambos os campos" : "Fill both fields"}
 									>
 										<i className="mi-add" />
 									</button>
@@ -412,30 +397,49 @@ export default function TicketForm() {
 
 							{/* Equipment List */}
 							{equipments.length > 0 && (
-								<div className="equipment-list">
-									{equipments.map((eq, index) => (
-										<div key={index} className="equipment-item d-flex justify-content-between align-items-center mb-10 p-15 border rounded">
-											<div>
-												{eq.serialNumber && (
-													<div>
-														<strong>{t.equipment.serialNumber.label[language]}:</strong> {eq.serialNumber}
+								<div className="count-wrapper mt-30">
+									<div className="row">
+										{equipments.map((eq, index) => (
+											<div key={index} className="col-md-6 mb-20">
+												<div className={`count-item ${isDark ? "bg-dark-2" : "bg-gray-light-1"} p-20 round position-relative`}>
+													<button
+														type="button"
+														onClick={() => removeEquipment(index)}
+														className="btn btn-sm position-absolute top-0 end-0 m-10"
+														style={{
+															padding: '5px 10px',
+															minWidth: 'auto',
+															opacity: 0.7,
+														}}
+														title={t.equipment.removeButton[language]}
+													>
+														<i className="mi-close" />
+													</button>
+													<div className="count-number">
+														<i className="mi-settings size-24 mb-10" />
 													</div>
-												)}
-												{eq.description && (
-													<div>
-														<strong>{t.equipment.description.label[language]}:</strong> {eq.description}
+													<div className="count-descr">
+														<div className="mb-5">
+															<strong className="text-uppercase" style={{ fontSize: '11px', opacity: 0.7 }}>
+																{t.equipment.serialNumber.label[language]}
+															</strong>
+														</div>
+														<div className="mb-15" style={{ fontSize: '15px' }}>
+															{eq.serialNumber}
+														</div>
+														<div className="mb-5">
+															<strong className="text-uppercase" style={{ fontSize: '11px', opacity: 0.7 }}>
+																{t.equipment.description.label[language]}
+															</strong>
+														</div>
+														<div style={{ fontSize: '15px' }}>
+															{eq.description}
+														</div>
 													</div>
-												)}
+												</div>
 											</div>
-											<button
-												type="button"
-												onClick={() => removeEquipment(index)}
-												className="btn btn-sm btn-danger"
-											>
-												<i className="mi-close" />
-											</button>
-										</div>
-									))}
+										))}
+									</div>
 								</div>
 							)}
 						</div>
