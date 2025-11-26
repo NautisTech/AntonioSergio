@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import { pageTranslations } from "@/data/aesContent";
@@ -10,6 +10,9 @@ export default function TicketForm() {
 	const { theme } = useTheme();
 	const t = pageTranslations.ticket.form;
 	const isDark = theme === "dark";
+
+	// Ref for scrolling to message
+	const messageRef = useRef(null);
 
 	// Fetch ticket types from API
 	const { data: ticketTypes, loading: typesLoading } = useTicketTypes();
@@ -39,6 +42,13 @@ export default function TicketForm() {
 
 	// Success/Error state
 	const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+
+	// Scroll to message when status changes
+	useEffect(() => {
+		if (submitStatus && messageRef.current) {
+			messageRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		}
+	}, [submitStatus]);
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -172,31 +182,6 @@ export default function TicketForm() {
 		<div className="container position-relative">
 			<div className="row justify-content-center">
 				<div className="col-lg-8">
-					{/* Success Message */}
-					{submitStatus === 'success' && (
-						<div className="alert alert-success mb-40">
-							<div className="d-flex align-items-start">
-								<i className="mi-check-circle size-24 me-15" aria-hidden="true" />
-								<div>
-									<strong>{t.success.message[language]}</strong>
-								</div>
-							</div>
-						</div>
-					)}
-
-					{/* Error Message */}
-					{submitStatus === 'error' && (
-						<div className="alert alert-danger mb-40">
-							<div className="d-flex align-items-start">
-								<i className="mi-close size-24 me-15" aria-hidden="true" />
-								<div>
-									<strong>{t.error.title[language]}</strong>
-									<p className="mb-0 mt-5">{t.error.message[language]}</p>
-								</div>
-							</div>
-						</div>
-					)}
-
 					<form onSubmit={handleSubmit} className="form contact-form">
 						{/* Contact Information */}
 						<div className="row">
@@ -447,6 +432,32 @@ export default function TicketForm() {
 									{submitting ? t.submitting[language] : t.submit[language]}
 								</span>
 							</button>
+						</div>
+
+						{/* Success/Error Messages - Below Submit Button */}
+						<div ref={messageRef}>
+							{submitStatus === 'success' && (
+								<div className="alert alert-success mt-40">
+									<div className="d-flex align-items-start">
+										<i className="mi-check-circle size-24 me-15" aria-hidden="true" />
+										<div>
+											<strong>{t.success.message[language]}</strong>
+										</div>
+									</div>
+								</div>
+							)}
+
+							{submitStatus === 'error' && (
+								<div className="alert alert-danger mt-40">
+									<div className="d-flex align-items-start">
+										<i className="mi-close size-24 me-15" aria-hidden="true" />
+										<div>
+											<strong>{t.error.title[language]}</strong>
+											<p className="mb-0 mt-5">{t.error.message[language]}</p>
+										</div>
+									</div>
+								</div>
+							)}
 						</div>
 					</form>
 				</div>

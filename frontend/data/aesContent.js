@@ -198,6 +198,10 @@ const navLinkEntries = [
 						labels: { pt: "FAQ", en: "FAQ" },
 						href: "/faq",
 					},
+					{
+						labels: { pt: "Suporte", en: "Support" },
+						href: "/suporte",
+					},
 				],
 			},
 		],
