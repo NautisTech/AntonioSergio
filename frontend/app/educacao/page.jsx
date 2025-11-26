@@ -105,8 +105,8 @@ export default function EducacaoPage() {
 					isDark
 						? "bg-dark-1 light-content"
 						: index % 2 === 0
-							? ""
-							: "bg-gray-light-1"
+						? ""
+						: "bg-gray-light-1"
 				}`}
 			>
 				<div className="container position-relative">
@@ -141,7 +141,9 @@ export default function EducacaoPage() {
 							</div>
 						</div>
 						<div
-							className={`col-lg-6 ${isReverse ? "order-lg-1" : ""}`}
+							className={`col-lg-6 ${
+								isReverse ? "order-lg-1" : ""
+							}`}
 						>
 							<div className={isReverse ? "pe-lg-5" : "ps-lg-5"}>
 								<Image
@@ -168,11 +170,7 @@ export default function EducacaoPage() {
 		<>
 			<div className="theme-main">
 				<div className="page" id="top">
-					<nav
-						className={`main-nav transparent stick-fixed wow-menubar ${
-							isDark ? "" : "dark"
-						}`}
-					>
+					<nav className="main-nav transparent stick-fixed wow-menubar">
 						<Header />
 					</nav>
 					<main id="main">
@@ -197,7 +195,9 @@ export default function EducacaoPage() {
 														className="wow charsAnimIn"
 														data-splitting="chars"
 													>
-														<AnimatedText text={t.title} />
+														<AnimatedText
+															text={t.title}
+														/>
 													</span>
 												</h1>
 												<div className="row">

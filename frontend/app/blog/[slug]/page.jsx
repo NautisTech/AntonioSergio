@@ -11,6 +11,7 @@ import { useContentBySlug, useNews } from "@/lib/api/public-content";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { useMemo } from "react";
 
 export default function BlogDetailPage({ params }) {
 	const unwrappedParams = use(params);
@@ -44,9 +45,50 @@ export default function BlogDetailPage({ params }) {
 		}
 	}, [blog]);
 
-	// Fetch all news for prev/next navigation
-	const { data: newsData } = useNews({ pageSize: 100 });
+	// Fetch all news for prev/next navigation and sidebar
+	const { data: newsData } = useNews({ pageSize: 999 });
 	const allNews = newsData?.data || [];
+
+	// State for sidebar filters
+	const [searchQuery, setSearchQuery] = useState("");
+	const [selectedCategory, setSelectedCategory] = useState(null);
+	const [selectedTag, setSelectedTag] = useState(null);
+
+	// Client-side filtering for sidebar
+	const filteredNews = useMemo(() => {
+		let filtered = [...allNews];
+
+		// Filter by category
+		if (selectedCategory) {
+			filtered = filtered.filter(post =>
+				post.categories?.some(cat => cat.id === selectedCategory)
+			);
+		}
+
+		// Filter by tag
+		if (selectedTag) {
+			filtered = filtered.filter(post =>
+				post.tags?.some(tag => tag.name === selectedTag)
+			);
+		}
+
+		// Filter by search
+		if (searchQuery.trim()) {
+			const query = searchQuery.toLowerCase();
+			filtered = filtered.filter(post => {
+				const title = (post.title || "").toLowerCase();
+				const excerpt = (post.excerpt || "").toLowerCase();
+				const content = (post.content || "").toLowerCase();
+				return (
+					title.includes(query) ||
+					excerpt.includes(query) ||
+					content.includes(query)
+				);
+			});
+		}
+
+		return filtered;
+	}, [allNews, selectedCategory, selectedTag, searchQuery]);
 
 	if (blogError) {
 		notFound();
@@ -174,7 +216,9 @@ export default function BlogDetailPage({ params }) {
 													</Link>
 												</div>
 												<h1 className="hs-title-1 mb-20">
-													<AnimatedText text={blog.title} />
+													<AnimatedText
+														text={blog.title}
+													/>
 												</h1>
 
 												{/* Author, Date, Category */}
@@ -337,7 +381,21 @@ export default function BlogDetailPage({ params }) {
 
 										{/* Sidebar */}
 										<div className="col-md-4 col-lg-3 offset-lg-1">
-											<Widget1 searchInputClass="form-control input-lg search-field round" />
+											<Widget1
+												searchInputClass="form-control input-lg search-field round"
+												allNews={allNews}
+												filteredNews={filteredNews}
+												searchQuery={searchQuery}
+												setSearchQuery={setSearchQuery}
+												selectedCategory={
+													selectedCategory
+												}
+												setSelectedCategory={
+													setSelectedCategory
+												}
+												selectedTag={selectedTag}
+												setSelectedTag={setSelectedTag}
+											/>
 										</div>
 										{/* End Sidebar */}
 									</div>

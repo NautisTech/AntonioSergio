@@ -192,11 +192,7 @@ a {
 		display: none;
 	}
 }
-@media (max-width: 1024px) {
-	.mobile-on .js-opened .mn-sub.mobile-sub-active {
-		max-height: 1000px;
-	}
-}
+
 .dark-mode .form .form-tip-2 {
 	color: var(--color-dark-mode-gray-1);
 	background-color: var(--color-dark-2) !important;
@@ -263,18 +259,20 @@ html {
 	color: #f4edca !important; /* Creme on hover */
 }
 
-/* Dropdown menu styling */
-.main-nav .mn-sub {
-	background-color: #8e1829 !important; /* Darker crimson for dropdown */
-}
+/* Dropdown menu styling - DESKTOP ONLY */
+@media (min-width: 1025px) {
+	.main-nav .mn-sub {
+		background-color: #8e1829 !important; /* Darker crimson for dropdown */
+	}
 
-.main-nav .mn-sub li a {
-	color: white !important;
-}
+	.main-nav .mn-sub li a {
+		color: white !important;
+	}
 
-.main-nav .mn-sub li a:hover {
-	background-color: #a51c30 !important;
-	color: #f4edca !important;
+	.main-nav .mn-sub li a:hover {
+		background-color: #a51c30 !important;
+		color: #f4edca !important;
+	}
 }
 
 /* ==============================
@@ -355,16 +353,7 @@ html {
 	text-align: center !important;
 }
 
-/* Benefits section - Parchment */
-.page-section:has(.alt-features-item) {
-	background-color: #f3f3f1 !important;
-}
-
-/* Remove background in dark mode */
-.dark-mode .page-section:has(.alt-features-item),
-.light-content .page-section:has(.alt-features-item) {
-	background-color: transparent !important;
-}
+/* Benefits section backgrounds removed - handled by component theme classes */
 
 /* Testimonials section background - Light blue tint */
 .bg-gray-light-1 .pt-80.pb-80 {
@@ -680,4 +669,392 @@ a:not(.btn):not(.link-to-top):hover {
 
 .work-navigation.light-content span:hover {
 	background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ==============================
+   Mobile/Tablet Menu Fixes
+   ============================== */
+
+/* Remove button styling from mobile nav */
+.mobile-nav {
+	background: none !important;
+	border: none !important;
+	box-shadow: none !important;
+	padding: 15px !important;
+}
+
+.mobile-nav:hover,
+.mobile-nav:focus,
+.mobile-nav:active {
+	background: none !important;
+	border: none !important;
+	box-shadow: none !important;
+}
+
+/* Contact page - fix overlap on all screen sizes */
+#contact.page-section.pt-0 {
+	padding-top: 40px !important;
+}
+
+/* ==============================
+   Mobile Menu Fixes (Proper Implementation)
+   ============================== */
+
+@media (max-width: 1024px) {
+	/* Make mobile menu full width without gaps */
+	.mobile-on .inner-nav.desktop-nav {
+		left: 0 !important;
+		right: 0 !important;
+		width: 100% !important;
+		max-width: 100% !important;
+		margin: 0 !important;
+		box-sizing: border-box !important;
+	}
+
+	/* Fix navigation link colors on mobile based on theme */
+	.mobile-on .main-nav:not(.dark) .inner-nav li a {
+		color: #1f1f1f !important;
+	}
+
+	.mobile-on .main-nav.dark .inner-nav li a {
+		color: #ffffff !important;
+	}
+
+	/* Mobile dropdown colors */
+	.mobile-on .main-nav:not(.dark) .mn-sub {
+		background-color: #ffffff !important;
+	}
+
+	.mobile-on .main-nav.dark .mn-sub {
+		background-color: #1f1f1f !important;
+	}
+
+	/* Disable desktop hover backgrounds on mobile - both white and crimson */
+	.mobile-on .mn-sub li a:hover,
+	.mobile-on .inner-nav ul li .mn-sub li a:hover,
+	.mobile-on .main-nav .mn-sub li a:hover {
+		background-color: transparent !important;
+		background: transparent !important;
+		color: inherit !important;
+	}
+
+	/* Override desktop crimson red specifically */
+	.mobile-on .main-nav .mn-sub li a:hover {
+		background-color: transparent !important;
+	}
+
+	/* Fix text color for mobile dropdowns */
+	.mobile-on .main-nav:not(.dark) .mn-sub li a {
+		color: #1f1f1f !important;
+	}
+
+	.mobile-on .main-nav.dark .mn-sub li a {
+		color: #ffffff !important;
+	}
+
+	/* Fix dropdown positioning and visibility in mobile */
+	.mobile-on .mn-sub {
+		position: relative !important;
+		left: 0 !important;
+		right: 0 !important;
+		top: 0 !important;
+		transform: none !important;
+		width: 100% !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		box-shadow: none !important;
+		max-height: 0px !important;
+		opacity: 0 !important;
+		overflow: hidden !important;
+	}
+
+	/* Remove default left padding from li elements */
+	.mobile-on .mn-sub li {
+		padding-left: 0 !important;
+	}
+
+	/* Add progressive indentation for nested items */
+	.mobile-on .mn-sub ul {
+		padding-left: 20px !important;
+	}
+
+	.mobile-on .mn-sub ul ul {
+		padding-left: 40px !important;
+	}
+
+	/* Ensure dropdowns show properly */
+	.mobile-on .mn-sub li a {
+		display: block !important;
+		padding: 12px 20px !important;
+		opacity: 1 !important;
+		visibility: visible !important;
+	}
+
+	/* Group titles in dropdowns */
+	.mobile-on .mn-group-title {
+		display: block !important;
+		font-weight: 600 !important;
+		padding: 15px 20px 10px !important;
+		opacity: 1 !important;
+		visibility: visible !important;
+	}
+
+	/* Dropdown toggle animation */
+	.mobile-on .mn-has-sub > a .mi-chevron-down {
+		transition: transform 0.3s ease !important;
+	}
+
+	.mobile-on li.js-opened > a .mi-chevron-down {
+		transform: rotate(180deg) !important;
+	}
+
+	/* Show dropdowns when opened */
+	.mobile-on li.js-opened > .mn-sub {
+		display: block !important;
+		max-height: 2000px !important;
+		opacity: 1 !important;
+		height: auto !important;
+	}
+
+	/* Handle Entity and Language selector dropdowns */
+	.mobile-on .mn-sub.closed {
+		display: none !important;
+		max-height: 0 !important;
+		opacity: 0 !important;
+	}
+
+	.mobile-on .mn-sub.open {
+		display: block !important;
+		max-height: 2000px !important;
+		opacity: 1 !important;
+		visibility: visible !important;
+		overflow: visible !important;
+	}
+}
+
+/* ==============================
+   Fix Menu Disappearing on Theme Toggle
+   ============================== */
+
+/* Always keep mobile nav and header visible - override WOW animations */
+nav.main-nav,
+nav.main-nav-sub,
+.nav-logo-wrap,
+.logo {
+	opacity: 1 !important;
+	visibility: visible !important;
+	animation: none !important;
+}
+
+/* Ensure mobile menu button is always visible */
+.mobile-nav,
+.mobile-nav-icon,
+.mobile-nav-icon::before,
+.mobile-nav-icon::after {
+	opacity: 1 !important;
+	visibility: visible !important;
+	display: block !important;
+}
+
+/* Ensure inner nav stays visible on theme changes ONLY when mobile menu is open */
+.mobile-on .inner-nav,
+.mobile-on .desktop-nav {
+	opacity: 1 !important;
+	visibility: visible !important;
+}
+
+/* Specifically fix wow-menubar class interference */
+.wow-menubar,
+.wow-menubar .mobile-nav,
+.wow-menubar .inner-nav,
+.wow-menubar .desktop-nav,
+.wow-menubar .nav-logo-wrap {
+	opacity: 1 !important;
+	visibility: visible !important;
+	animation: none !important;
+}
+
+/* ==============================
+   Fix Desktop Header Showing in Mobile on Theme Toggle
+   ============================== */
+
+/* Force mobile view on all nav elements when in mobile mode, regardless of dark class */
+@media (max-width: 1024px) {
+	/* Ensure inner-nav and desktop-nav are properly controlled */
+	.inner-nav,
+	.desktop-nav {
+		opacity: 1 !important;
+		visibility: visible !important;
+		animation: none !important;
+	}
+
+	/* Hide desktop nav when not in mobile-on state */
+	nav.main-nav:not(.mobile-on) .inner-nav.desktop-nav {
+		display: none !important;
+		opacity: 0 !important;
+		visibility: hidden !important;
+	}
+
+	/* Show mobile menu only when mobile-on is active */
+	nav.main-nav.mobile-on .inner-nav.desktop-nav {
+		display: block !important;
+		opacity: 1 !important;
+		visibility: visible !important;
+	}
+
+	/* Override any dark class behavior that might interfere */
+	nav.main-nav.dark:not(.mobile-on) .inner-nav.desktop-nav,
+	nav.main-nav:not(.dark):not(.mobile-on) .inner-nav.desktop-nav {
+		display: none !important;
+		opacity: 0 !important;
+		visibility: hidden !important;
+	}
+}
+
+/* ==============================
+   Project/Event Navigation Fixes
+   ============================== */
+
+/* Mobile - wrap buttons to one per row */
+@media (max-width: 767px) {
+	.work-navigation {
+		display: flex !important;
+		flex-direction: column !important;
+		align-items: stretch !important;
+	}
+
+	.work-navigation a {
+		width: 100% !important;
+		text-align: center !important;
+		margin: 0 !important;
+		padding: 20px !important;
+		border-bottom: 1px solid rgba(128, 128, 128, 0.2) !important;
+	}
+
+	.work-navigation a:last-child {
+		border-bottom: none !important;
+	}
+
+	.work-navigation a span {
+		display: inline-block !important;
+		width: auto !important;
+	}
+
+	/* Hide invisible buttons completely on mobile */
+	.work-navigation a[style*="visibility: hidden"] {
+		display: none !important;
+	}
+}
+
+/* ==============================
+   Blog List Metadata Wrapping Fix
+   ============================== */
+
+/* On mobile, keep icon and text together when wrapping */
+@media (max-width: 767px) {
+	.blog-item-data {
+		display: flex !important;
+		flex-wrap: wrap !important;
+		gap: 8px !important;
+		align-items: center !important;
+	}
+
+	.blog-item-data > a,
+	.blog-item-data > span:not(.separator) {
+		display: inline-flex !important;
+		align-items: center !important;
+		white-space: nowrap !important;
+		gap: 4px !important;
+	}
+
+	.blog-item-data > i {
+		display: inline-flex !important;
+		margin-right: 4px !important;
+	}
+
+	.blog-item-data .separator {
+		display: none !important;
+	}
+}
+
+/* ==============================
+   Stats/Facts Component Width Fix
+   ============================== */
+
+/* Fix stats component overflow at 1000-1300px breakpoint */
+@media (min-width: 1000px) and (max-width: 1300px) {
+	/* Constrain the Facts/Stats container */
+	.col-lg-7.offset-lg-1 {
+		max-width: calc(100% - 20px) !important;
+		flex: 0 0 auto !important;
+	}
+
+	/* Ensure inner row doesn't overflow */
+	.col-lg-7.offset-lg-1 > .row {
+		max-width: 100% !important;
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+	}
+
+	/* Reduce spacing on number items to prevent overflow */
+	.col-lg-7.offset-lg-1 .col-lg-5 {
+		flex: 0 0 48% !important;
+		max-width: 48% !important;
+	}
+
+	.col-lg-7.offset-lg-1 .col-lg-5.offset-lg-2 {
+		margin-left: 4% !important;
+	}
+
+	/* Reduce font sizes to prevent text overlap */
+	.number-title {
+		font-size: 60px !important;
+	}
+
+	.number-descr {
+		font-size: 14px !important;
+	}
+}
+
+/* ==============================
+   Project/Event Detail Layout Fix
+   ============================== */
+
+/* On tablet (768px-1024px), move image column below content - ONLY for project/event detail pages */
+@media (min-width: 768px) and (max-width: 1024px) {
+	/* Target only project/event detail pages specifically */
+	main#main
+		> section.page-section:not(.pt-0):not(#home)
+		.row:has(.col-md-8):has(.col-md-4) {
+		display: flex !important;
+		flex-direction: column !important;
+	}
+
+	main#main
+		> section.page-section:not(.pt-0):not(#home)
+		.row:has(.col-md-8):has(.col-md-4)
+		> .col-md-8,
+	main#main
+		> section.page-section:not(.pt-0):not(#home)
+		.row:has(.col-md-8):has(.col-md-4)
+		> .col-md-4 {
+		max-width: 100% !important;
+		flex: 0 0 100% !important;
+		width: 100% !important;
+	}
+
+	main#main
+		> section.page-section:not(.pt-0):not(#home)
+		.row:has(.col-md-8):has(.col-md-4)
+		> .col-md-4 {
+		order: 2 !important;
+	}
+
+	main#main
+		> section.page-section:not(.pt-0):not(#home)
+		.row:has(.col-md-8):has(.col-md-4)
+		> .col-md-8 {
+		order: 1 !important;
+		margin-bottom: 40px !important;
+	}
 }

@@ -201,7 +201,9 @@ export default function Widget1({
 								}}
 								style={{
 									fontWeight:
-										selectedTag === null ? "bold" : "normal",
+										selectedTag === null
+											? "bold"
+											: "normal",
 								}}
 							>
 								{translations.all[language]}

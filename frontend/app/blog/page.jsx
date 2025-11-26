@@ -90,12 +90,18 @@ export default function BlogPage() {
 		<>
 			<div className="theme-main">
 				<div className={isDark ? "dark-mode" : ""}>
-					<div className={`page ${isDark ? "bg-dark-1" : ""}`} id="top">
+					<div
+						className={`page ${isDark ? "bg-dark-1" : ""}`}
+						id="top"
+					>
 						<nav className="main-nav transparent stick-fixed wow-menubar">
 							<Header />
 						</nav>
 						<main id="main">
-							<section className="page-section pt-0 pb-0" id="home">
+							<section
+								className="page-section pt-0 pb-0"
+								id="home"
+							>
 								<ParallaxContainer
 									className="page-section bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
 									style={{
@@ -110,7 +116,12 @@ export default function BlogPage() {
 												{/* Page Title */}
 												<div className="col-md-8 offset-md-2">
 													<h2 className="section-caption mb-xs-10">
-														{pageContent.hero.eyebrow[language]}
+														{
+															pageContent.hero
+																.eyebrow[
+																language
+															]
+														}
 													</h2>
 													<h1 className="hs-title-1 mb-20">
 														<span
@@ -118,7 +129,13 @@ export default function BlogPage() {
 															data-splitting="chars"
 														>
 															<AnimatedText
-																text={pageContent.hero.title[language]}
+																text={
+																	pageContent
+																		.hero
+																		.title[
+																		language
+																	]
+																}
 															/>
 														</span>
 													</h1>
@@ -133,7 +150,9 @@ export default function BlogPage() {
 							<>
 								{/* Section */}
 								<section
-									className={`page-section ${isDark ? "bg-dark-1 light-content" : ""}`}
+									className={`page-section ${
+										isDark ? "bg-dark-1 light-content" : ""
+									}`}
 								>
 									<div className="container relative">
 										<div className="row">
@@ -144,7 +163,9 @@ export default function BlogPage() {
 													posts={currentPosts}
 													loading={loading}
 													error={error}
-													filteredCount={filteredNews.length}
+													filteredCount={
+														filteredNews.length
+													}
 													totalCount={allNews.length}
 												/>
 												{/* End Post */}
@@ -153,7 +174,9 @@ export default function BlogPage() {
 													className={"pagination"}
 													pagination={paginationData}
 													currentPage={currentPage}
-													onPageChange={setCurrentPage}
+													onPageChange={
+														setCurrentPage
+													}
 												/>
 												{/* End Pagination */}
 											</div>
@@ -165,11 +188,19 @@ export default function BlogPage() {
 													allNews={allNews}
 													filteredNews={filteredNews}
 													searchQuery={searchQuery}
-													setSearchQuery={setSearchQuery}
-													selectedCategory={selectedCategory}
-													setSelectedCategory={setSelectedCategory}
+													setSearchQuery={
+														setSearchQuery
+													}
+													selectedCategory={
+														selectedCategory
+													}
+													setSelectedCategory={
+														setSelectedCategory
+													}
 													selectedTag={selectedTag}
-													setSelectedTag={setSelectedTag}
+													setSelectedTag={
+														setSelectedTag
+													}
 												/>
 											</div>
 											{/* End Sidebar */}

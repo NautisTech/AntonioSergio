@@ -15,13 +15,13 @@ export default function EmentaPage() {
 		pt: {
 			title: "Ementa",
 			subtitle: "Ementa Escolar",
-			description: "Conteúdo em desenvolvimento."
+			description: "Conteúdo em desenvolvimento.",
 		},
 		en: {
 			title: "Menu",
 			subtitle: "School Menu",
-			description: "Content under development."
-		}
+			description: "Content under development.",
+		},
 	};
 
 	const t = content[language];
@@ -30,11 +30,7 @@ export default function EmentaPage() {
 		<>
 			<div className="theme-main">
 				<div className="page" id="top">
-					<nav
-						className={`main-nav transparent stick-fixed wow-menubar ${
-							isDark ? "" : "dark"
-						}`}
-					>
+					<nav className="main-nav transparent stick-fixed wow-menubar">
 						<Header />
 					</nav>
 					<main id="main">
@@ -59,7 +55,9 @@ export default function EmentaPage() {
 														className="wow charsAnimIn"
 														data-splitting="chars"
 													>
-														<AnimatedText text={t.title} />
+														<AnimatedText
+															text={t.title}
+														/>
 													</span>
 												</h1>
 												<div className="row">
@@ -87,7 +85,9 @@ export default function EmentaPage() {
 							<div className="container position-relative">
 								<div className="row">
 									<div className="col-lg-8 offset-lg-2">
-										<p className="text-gray mb-0">{t.description}</p>
+										<p className="text-gray mb-0">
+											{t.description}
+										</p>
 									</div>
 								</div>
 							</div>

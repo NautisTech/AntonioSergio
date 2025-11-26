@@ -9,6 +9,7 @@ import Map from "@/components/common/Map";
 import { pageTranslations } from "@/data/aesContent";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
+import { useFaqs } from "@/lib/api/public-content";
 
 export default function MainContactPage() {
 	const { language } = useLanguage();
@@ -16,15 +17,21 @@ export default function MainContactPage() {
 	const t = pageTranslations.contact;
 	const isDark = theme === "dark";
 
+	// Fetch FAQs from API
+	const {
+		data: faqsData,
+		loading: faqsLoading,
+		error: faqsError,
+	} = useFaqs({
+		pageSize: 10,
+	});
+	const faqs = faqsData?.data || [];
+
 	return (
 		<>
 			<div className="theme-main">
 				<div className="page" id="top">
-					<nav
-						className={`main-nav transparent stick-fixed wow-menubar ${
-							isDark ? "" : "dark"
-						}`}
-					>
+					<nav className="main-nav transparent stick-fixed wow-menubar">
 						<Header />
 					</nav>
 					<main id="main">
@@ -91,22 +98,32 @@ export default function MainContactPage() {
 						<>
 							{/* Contact Section */}
 							<section
-								className={`page-section pt-0 ${isDark ? "bg-dark-1 light-content" : ""}`}
+								className={`page-section pt-0 ${
+									isDark ? "bg-dark-1 light-content" : ""
+								}`}
 								id="contact"
 							>
 								<Contact />
 							</section>
-							<div className={`google-map ${isDark ? "light-content" : ""}`}>
+							<div
+								className={`google-map ${
+									isDark ? "light-content" : ""
+								}`}
+							>
 								<Map />
 							</div>
 							{/* End Contact Section */}
 							{/* Divider */}
-							<hr className={`mt-0 mb-0 ${isDark ? "white" : ""}`} />
+							<hr
+								className={`mt-0 mb-0 ${isDark ? "white" : ""}`}
+							/>
 							{/* End Divider */}
 							{/* FAQ Section */}
 							<section
 								className={`page-section ${
-									isDark ? "bg-dark-1 light-content" : "bg-gray-light-1"
+									isDark
+										? "bg-dark-1 light-content"
+										: "bg-gray-light-1"
 								} z-index-1`}
 							>
 								<div className="container position-relative">
@@ -124,7 +141,15 @@ export default function MainContactPage() {
 										</div>
 										<div className="col-md-6 offset-lg-1 pt-10 pt-sm-0">
 											{/* Accordion */}
-											<Faq />
+											<Faq
+												faqs={faqs}
+												loading={faqsLoading}
+												error={faqsError}
+												totalCount={
+													faqsData?.pagination
+														?.total || 0
+												}
+											/>
 											{/* End Accordion */}
 										</div>
 									</div>

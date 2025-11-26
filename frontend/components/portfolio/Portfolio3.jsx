@@ -23,15 +23,6 @@ export default function Portfolio3({ gridClass = "" }) {
 		? filterByEntity(apiProjects, selectedEntity)
 		: apiProjects;
 
-	useEffect(() => {
-		console.log("Portfolio3 - Projects data:", {
-			apiProjectsCount: apiProjects.length,
-			projects: projects.length,
-			loading,
-			selectedEntity,
-		});
-	}, [apiProjects, projects, loading, selectedEntity]);
-
 	const translations = {
 		allProjects: {
 			pt: "Todos os projetos",

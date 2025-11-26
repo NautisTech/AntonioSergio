@@ -13,12 +13,23 @@ import Brands from "@/components/home/Brands";
 import { schoolIdentity, pageTranslations } from "@/data/aesContent";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
+import { useFaqs } from "@/lib/api/public-content";
 
 export default function MainAboutPage2() {
 	const { language } = useLanguage();
 	const { theme } = useTheme();
 	const t = pageTranslations.about;
 	const isDark = theme === "dark";
+
+	// Fetch FAQs from API
+	const {
+		data: faqsData,
+		loading: faqsLoading,
+		error: faqsError,
+	} = useFaqs({
+		pageSize: 10,
+	});
+	const faqs = faqsData?.data || [];
 
 	return (
 		<>
@@ -215,8 +226,8 @@ export default function MainAboutPage2() {
 						<ParallaxContainer
 							className={`page-section ${
 								isDark
-									? "bg-light-1 bg-light-alpha-90 parallax-5"
-									: "bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+									? "bg-dark-1 bg-dark-alpha-90 parallax-5 light-content"
+									: "bg-light-1 bg-light-alpha-90 parallax-5"
 							}`}
 							style={{
 								backgroundImage:
@@ -255,7 +266,9 @@ export default function MainAboutPage2() {
 						</ParallaxContainer>
 						<section
 							className={`page-section overflow-hidden ${
-								isDark ? "bg-dark-1 light-content" : "bg-gray-light-2"
+								isDark
+									? "bg-dark-1 light-content"
+									: "bg-gray-light-2"
 							}`}
 						>
 							<Testimonials3 />
@@ -343,7 +356,15 @@ export default function MainAboutPage2() {
 												{t.facilities.title[language]}
 											</h2>
 											<div className="mb-50 mb-sm-40">
-												<Faq />
+												<Faq
+													faqs={faqs}
+													loading={faqsLoading}
+													error={faqsError}
+													totalCount={
+														faqsData?.pagination
+															?.total || 0
+													}
+												/>
 											</div>
 											<div className="local-scroll">
 												<Link

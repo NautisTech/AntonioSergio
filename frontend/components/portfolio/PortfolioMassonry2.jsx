@@ -23,15 +23,6 @@ export default function PortfolioMassonry2() {
 		? filterByEntity(apiEvents, selectedEntity)
 		: apiEvents;
 
-	useEffect(() => {
-		console.log("PortfolioMassonry2 - Events data:", {
-			apiEventsCount: apiEvents.length,
-			events: events.length,
-			loading,
-			selectedEntity,
-		});
-	}, [apiEvents, events, loading, selectedEntity]);
-
 	const translations = {
 		allEvents: {
 			pt: "Todos os eventos",
