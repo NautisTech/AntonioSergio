@@ -23,16 +23,22 @@ export default function EventDetailPage({ params }) {
 		error: eventError,
 	} = useContentBySlug(unwrappedParams.slug);
 
-	// Log event data to verify categories and tags
+	// Re-initialize WOW animations when event loads
 	useEffect(() => {
-		if (event) {
-			console.log("Event data:", {
-				id: event.id,
-				title: event.title,
-				categories: event.categories,
-				tags: event.tags,
-				custom_fields: event.custom_fields,
-			});
+		if (event && typeof window !== "undefined") {
+			try {
+				const { WOW } = require("wowjs");
+				const wow = new WOW({
+					boxClass: "wow",
+					animateClass: "animated",
+					offset: 0,
+					mobile: true,
+					live: false,
+				});
+				wow.init();
+			} catch (e) {
+				console.error("Error initializing WOW:", e);
+			}
 		}
 	}, [event]);
 

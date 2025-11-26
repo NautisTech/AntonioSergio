@@ -433,13 +433,15 @@ export class ContentService {
           const categories = await pool
             .request()
             .input('id', sql.Int, content.id).query(`
-            SELECT cat.id, cat.name, cat.slug, cat.order, cat.visible, cat.contentCount
-            FROM content_categories cat
+            SELECT cat.id, cat.name, cat.slug, cat.display_order, cat.visible
+            FROM content_category cat
             INNER JOIN content_categories_junction ccj ON cat.id = ccj.category_id
             WHERE ccj.content_id = @id
+            ORDER BY cat.display_order ASC
           `);
           contentObj.categories = categories.recordset;
         } catch (error) {
+          this.logger.error(`Failed to load categories for content ${content.id}:`, error);
           contentObj.categories = [];
         }
 
@@ -539,13 +541,15 @@ export class ContentService {
     // Get categories (optional)
     try {
       const categories = await pool.request().input('id', sql.Int, id).query(`
-        SELECT cat.id, cat.name, cat.slug
-        FROM content_categories cat
+        SELECT cat.id, cat.name, cat.slug, cat.display_order
+        FROM content_category cat
         INNER JOIN content_categories_junction ccj ON cat.id = ccj.category_id
         WHERE ccj.content_id = @id
+        ORDER BY cat.display_order ASC
       `);
       content.categories = categories.recordset;
     } catch (error) {
+      this.logger.error(`Failed to load categories for content ${id}:`, error);
       content.categories = [];
     }
 

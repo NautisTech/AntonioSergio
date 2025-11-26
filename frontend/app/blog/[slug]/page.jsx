@@ -25,6 +25,25 @@ export default function BlogDetailPage({ params }) {
 		error: blogError,
 	} = useContentBySlug(unwrappedParams.slug);
 
+	// Re-initialize WOW animations when blog loads
+	useEffect(() => {
+		if (blog && typeof window !== "undefined") {
+			try {
+				const { WOW } = require("wowjs");
+				const wow = new WOW({
+					boxClass: "wow",
+					animateClass: "animated",
+					offset: 0,
+					mobile: true,
+					live: false,
+				});
+				wow.init();
+			} catch (e) {
+				console.error("Error initializing WOW:", e);
+			}
+		}
+	}, [blog]);
+
 	// Fetch all news for prev/next navigation
 	const { data: newsData } = useNews({ pageSize: 100 });
 	const allNews = newsData?.data || [];

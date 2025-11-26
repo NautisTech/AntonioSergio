@@ -24,6 +24,25 @@ export default function ProjectDetailPage({ params }) {
 		error: projectError,
 	} = useContentBySlug(unwrappedParams.slug);
 
+	// Re-initialize WOW animations when project loads
+	useEffect(() => {
+		if (project && typeof window !== "undefined") {
+			try {
+				const { WOW } = require("wowjs");
+				const wow = new WOW({
+					boxClass: "wow",
+					animateClass: "animated",
+					offset: 0,
+					mobile: true,
+					live: false,
+				});
+				wow.init();
+			} catch (e) {
+				console.error("Error initializing WOW:", e);
+			}
+		}
+	}, [project]);
+
 	// Fetch all projects for prev/next navigation
 	const { data: projectsData } = useProjects({ pageSize: 100 });
 	const allProjects = projectsData?.data || [];
