@@ -7,7 +7,12 @@ import AnimatedText from "@/components/common/AnimatedText";
 import Widget1 from "@/components/blog/widgets/Widget1";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
-import { useContentBySlug, useNews, useComments } from "@/lib/api/public-content";
+import {
+	useContentBySlug,
+	useNews,
+	useComments,
+} from "@/lib/api/public-content";
+import { useAttachments } from "@/lib/api/public-uploads";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -27,6 +32,24 @@ export default function BlogDetailPage({ params }) {
 		loading: blogLoading,
 		error: blogError,
 	} = useContentBySlug(unwrappedParams.slug);
+
+	// Fetch attachments for this blog post
+	const { data: attachments } = useAttachments("content", blog?.id || null);
+
+	// Log blog data to verify custom fields
+	useEffect(() => {
+		if (blog) {
+			console.log("=== BLOG/NEWS DATA ===");
+			console.log("Full blog object:", blog);
+			console.log("Custom fields:", blog.custom_fields);
+			console.log(
+				"Custom fields keys:",
+				blog.custom_fields
+					? Object.keys(blog.custom_fields)
+					: "No custom_fields"
+			);
+		}
+	}, [blog]);
 
 	// Re-initialize WOW animations when blog loads
 	useEffect(() => {
@@ -57,6 +80,9 @@ export default function BlogDetailPage({ params }) {
 		loading: commentsLoading,
 		refetch: refetchComments,
 	} = useComments(blog?.id || null);
+
+	// State for reply-to-comment
+	const [replyingTo, setReplyingTo] = useState(null);
 
 	// State for sidebar filters
 	const [searchQuery, setSearchQuery] = useState("");
@@ -364,6 +390,238 @@ export default function BlogDetailPage({ params }) {
 															__html: blog.content,
 														}}
 													/>
+
+													{/* Custom Fields */}
+													{blog.custom_fields &&
+														Object.keys(
+															blog.custom_fields
+														).filter(
+															k =>
+																k !==
+																"entidades"
+														).length > 0 && (
+															<div className="mt-40">
+																{Object.entries(
+																	blog.custom_fields
+																)
+																	.filter(
+																		([
+																			key,
+																		]) =>
+																			key !==
+																			"entidades"
+																	)
+																	.map(
+																		([
+																			key,
+																			field,
+																		]) => {
+																			if (
+																				!field?.value
+																			)
+																				return null;
+
+																			let displayValue =
+																				field.value;
+
+																			// Format dates
+																			if (
+																				field.type ===
+																					"date" &&
+																				field.value
+																			) {
+																				const date =
+																					new Date(
+																						field.value
+																					);
+																				displayValue =
+																					date.toLocaleDateString(
+																						language ===
+																							"pt"
+																							? "pt-PT"
+																							: "en-US",
+																						{
+																							year: "numeric",
+																							month: "long",
+																							day: "numeric",
+																						}
+																					);
+																			}
+
+																			// Format multiselect as comma-separated list
+																			if (
+																				field.type ===
+																					"multiselect" &&
+																				Array.isArray(
+																					field.value
+																				)
+																			) {
+																				displayValue =
+																					field.value.join(
+																						", "
+																					);
+																			}
+
+																			return (
+																				<div
+																					key={
+																						key
+																					}
+																					className="mb-20"
+																				>
+																					<p
+																						className={
+																							isDark
+																								? "text-gray"
+																								: ""
+																						}
+																					>
+																						<strong>
+																							{
+																								field.label
+																							}
+
+																							:
+																						</strong>{" "}
+																						{
+																							displayValue
+																						}
+																					</p>
+																				</div>
+																			);
+																		}
+																	)}
+															</div>
+														)}
+
+													{/* Attachments Gallery */}
+													{attachments?.filter(
+														att =>
+															att.fileType ===
+															"image"
+													).length > 0 && (
+														<div className="mt-40">
+															{attachments
+																.filter(
+																	att =>
+																		att.fileType ===
+																		"image"
+																)
+																.sort(
+																	(a, b) =>
+																		(a.displayOrder ||
+																			0) -
+																		(b.displayOrder ||
+																			0)
+																)
+																.map(
+																	(
+																		attachment,
+																		index
+																	) => (
+																		<div
+																			key={
+																				index
+																			}
+																			className="mt-30 wow fadeInUp"
+																		>
+																			<Image
+																				src={
+																					attachment.url
+																				}
+																				alt={
+																					attachment.originalName
+																				}
+																				width={
+																					1350
+																				}
+																				height={
+																					865
+																				}
+																			/>
+																		</div>
+																	)
+																)}
+														</div>
+													)}
+													{/* End Attachments Gallery */}
+
+													{/* Documents */}
+													{attachments?.filter(
+														att =>
+															att.fileType ===
+															"document"
+													).length > 0 && (
+														<div className="mt-40">
+															<h4
+																className={`blog-page-title ${
+																	isDark
+																		? "text-white"
+																		: ""
+																}`}
+															>
+																{language ===
+																"pt"
+																	? "Documentos"
+																	: "Documents"}
+															</h4>
+															<ul className="list-unstyled">
+																{attachments
+																	.filter(
+																		att =>
+																			att.fileType ===
+																			"document"
+																	)
+																	.sort(
+																		(
+																			a,
+																			b
+																		) =>
+																			(a.displayOrder ||
+																				0) -
+																			(b.displayOrder ||
+																				0)
+																	)
+																	.map(
+																		(
+																			attachment,
+																			index
+																		) => (
+																			<li
+																				key={
+																					index
+																				}
+																				className="mb-10"
+																			>
+																				<a
+																					href={
+																						attachment.url
+																					}
+																					target="_blank"
+																					rel="noopener noreferrer"
+																					className={
+																						isDark
+																							? "text-white"
+																							: ""
+																					}
+																				>
+																					<i className="mi-file" />{" "}
+																					{
+																						attachment.originalName
+																					}
+																					{attachment.sizeBytes &&
+																						` (${Math.round(
+																							attachment.sizeBytes /
+																								1024
+																						)} KB)`}
+																				</a>
+																			</li>
+																		)
+																	)}
+															</ul>
+														</div>
+													)}
+													{/* End Documents */}
 												</div>
 											</div>
 											{/* End Post */}
@@ -371,15 +629,40 @@ export default function BlogDetailPage({ params }) {
 											{/* Comments Section */}
 											<div className="mb-80 mb-xs-40">
 												<h4
-													className={`blog-page-title ${isDark ? "text-white" : ""}`}
+													className={`blog-page-title ${
+														isDark
+															? "text-white"
+															: ""
+													}`}
 												>
-													{comments && comments.length > 0
-														? `${comments.length} ${comments.length === 1 ? translations.comment[language] : translations.comments[language]}`
-														: translations.noComments[language]}
+													{comments &&
+													comments.length > 0
+														? `${comments.length} ${
+																comments.length ===
+																1
+																	? translations
+																			.comment[
+																			language
+																	  ]
+																	: translations
+																			.comments[
+																			language
+																	  ]
+														  }`
+														: translations
+																.noComments[
+																language
+														  ]}
 												</h4>
 												{commentsLoading ? (
 													<div className="text-center py-4">
-														<p className={isDark ? "text-gray" : ""}>
+														<p
+															className={
+																isDark
+																	? "text-gray"
+																	: ""
+															}
+														>
 															{language === "pt"
 																? "Carregando comentários..."
 																: "Loading comments..."}
@@ -387,9 +670,22 @@ export default function BlogDetailPage({ params }) {
 													</div>
 												) : (
 													<Comments
-														comments={comments || []}
+														comments={
+															comments || []
+														}
 														language={language}
 														isDark={isDark}
+														onReply={commentId =>
+															setReplyingTo(
+																commentId
+															)
+														}
+														replyingTo={replyingTo}
+														contentId={blog?.id}
+														onReplySuccess={() => {
+															setReplyingTo(null);
+															refetchComments();
+														}}
 													/>
 												)}
 											</div>
@@ -399,9 +695,18 @@ export default function BlogDetailPage({ params }) {
 											{blog?.allow_comments !== false && (
 												<div className="mb-80 mb-xs-40">
 													<h4
-														className={`blog-page-title ${isDark ? "text-white" : ""}`}
+														className={`blog-page-title ${
+															isDark
+																? "text-white"
+																: ""
+														}`}
 													>
-														{translations.leaveComment[language]}
+														{
+															translations
+																.leaveComment[
+																language
+															]
+														}
 													</h4>
 													<Form1
 														contentId={blog?.id}

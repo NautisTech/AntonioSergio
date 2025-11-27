@@ -1,6 +1,7 @@
 "use client";
 import { use, useEffect } from "react";
 import Footer1 from "@/components/footers/Footer1";
+import Image from "next/image";
 import Link from "next/link";
 import ParallaxContainer from "@/components/common/ParallaxContainer";
 import Header from "@/components/site/Header";
@@ -8,6 +9,7 @@ import AnimatedText from "@/components/common/AnimatedText";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import { useContentBySlug, useEvents } from "@/lib/api/public-content";
+import { useAttachments } from "@/lib/api/public-uploads";
 import { notFound } from "next/navigation";
 
 export default function EventDetailPage({ params }) {
@@ -22,6 +24,19 @@ export default function EventDetailPage({ params }) {
 		loading: eventLoading,
 		error: eventError,
 	} = useContentBySlug(unwrappedParams.slug);
+
+	// Fetch attachments for this event
+	const { data: attachments } = useAttachments("content", event?.id || null);
+
+	// Log event data to verify custom fields
+	useEffect(() => {
+		if (event) {
+			console.log("=== EVENT DATA ===");
+			console.log("Full event object:", event);
+			console.log("Custom fields:", event.custom_fields);
+			console.log("Custom fields keys:", event.custom_fields ? Object.keys(event.custom_fields) : "No custom_fields");
+		}
+	}, [event]);
 
 	// Re-initialize WOW animations when event loads
 	useEffect(() => {
@@ -239,129 +254,121 @@ export default function EventDetailPage({ params }) {
 												]
 											}
 										</h2>
-										{event.published_at && (
-											<>
-												<div className="row text-gray">
-													<div className="col-sm-4">
-														<b>
-															{
-																translations
-																	.date[
-																	language
-																]
-															}
-															:
-														</b>
-													</div>
-													<div className="col-sm-8">
-														{formatDate(
-															event.published_at
-														)}
-													</div>
+									{event.published_at && (
+										<div className="mb-30">
+											<h3 className="h5 mb-15">
+												{language === "pt"
+													? "Publicado em"
+													: "Published on"}
+											</h3>
+											<div className="text-gray">
+												{formatDate(event.published_at)}
+											</div>
+										</div>
+									)}
+									{/* Categories */}
+									{event.categories &&
+										event.categories.length > 0 && (
+											<div className="mb-30">
+												<h3 className="h5 mb-15">
+													{language === "pt"
+														? "Categorias"
+														: "Categories"}
+												</h3>
+												<div className="text-gray">
+													{event.categories
+														.map(c => c.name)
+														.join(", ")}
 												</div>
-												<hr
-													className={`mb-20 ${
-														isDark ? "white" : ""
-													}`}
-												/>
-											</>
+											</div>
 										)}
-										{event.custom_fields?.location && (
-											<>
-												<div className="row text-gray">
-													<div className="col-sm-4">
-														<b>
-															{
-																translations
-																	.location[
-																	language
-																]
-															}
-															:
-														</b>
-													</div>
-													<div className="col-sm-8">
-														{
-															event.custom_fields
-																.location
-														}
-													</div>
-												</div>
-												<hr
-													className={`mb-20 ${
-														isDark ? "white" : ""
-													}`}
-												/>
-											</>
-										)}
-										{event.categories &&
-											event.categories.length > 0 && (
-												<>
-													<div className="row text-gray small">
-														<div className="col-sm-4">
-															<b>
-																{language ===
-																"pt"
-																	? "Categorias:"
-																	: "Categories:"}
-															</b>
-														</div>
-														<div className="col-sm-8">
-															{event.categories
-																.map(
-																	c => c.name
-																)
-																.join(", ")}
-														</div>
-													</div>
-													<hr
-														className={`mb-20 ${
-															isDark
-																? "white"
-																: ""
-														}`}
-													/>
-												</>
-											)}
-										{event.tags &&
-											event.tags.length > 0 && (
-												<>
-													<div className="row text-gray small">
-														<div className="col-sm-4">
-															<b>
-																{language ===
-																"pt"
-																	? "Tags:"
-																	: "Tags:"}
-															</b>
-														</div>
-														<div className="col-sm-8">
-															{event.tags
-																.map(
-																	t => t.name
-																)
-																.join(", ")}
-														</div>
-													</div>
-													<hr
-														className={`mb-20 ${
-															isDark
-																? "white"
-																: ""
-														}`}
-													/>
-												</>
-											)}
+									{/* Tags */}
+									{event.tags && event.tags.length > 0 && (
+										<div className="mb-30">
+											<h3 className="h5 mb-15">
+												{language === "pt"
+													? "Tags"
+													: "Tags"}
+											</h3>
+											<div className="text-gray">
+												{event.tags
+													.map(t => t.name)
+													.join(", ")}
+											</div>
+										</div>
+									)}
+									{/* Custom Fields - Event Information */}
+									{event.custom_fields && Object.keys(event.custom_fields).filter(k => k !== 'entidades').length > 0 && (
+										<>
+											{(() => {
+												// Group event-specific fields
+												const eventFields = ['data_inicio', 'data_fim', 'horario', 'local'];
+												const hasEventFields = eventFields.some(key => event.custom_fields[key]?.value);
+
+												if (hasEventFields) {
+													return (
+														<>
+															<div className="mb-20">
+																<h3 className="h5 mb-15">
+																	{language === "pt" ? "Informação do Evento" : "Event Information"}
+																</h3>
+															</div>
+															{eventFields.map(key => {
+																const field = event.custom_fields[key];
+																if (!field?.value) return null;
+
+																let displayValue = field.value;
+
+																// Format dates
+																if (field.type === 'date' && field.value) {
+																	const date = new Date(field.value);
+																	displayValue = date.toLocaleDateString(
+																		language === 'pt' ? 'pt-PT' : 'en-US',
+																		{ year: 'numeric', month: 'long', day: 'numeric' }
+																	);
+																}
+
+																return (
+																	<div key={key}>
+																		<div className="row text-gray small">
+																			<div className="col-sm-4">
+																				<b>{field.label}:</b>
+																			</div>
+																			<div className="col-sm-8">
+																				{displayValue}
+																			</div>
+																		</div>
+																		<hr className={`mb-20 ${isDark ? 'white' : ''}`} />
+																	</div>
+																);
+															})}
+														</>
+													);
+												}
+												return null;
+											})()}
+										</>
+									)}
 									</div>
 									{/* End Event Details */}
 
 									{/* Event Description */}
 									<div className="col-md-6">
-										<h2 className="h3 mb-20">
-											{translations.description[language]}
-										</h2>
+										<style jsx>{`
+											.event-description {
+												color: ${isDark ? '#999' : '#666'};
+											}
+											.event-description h1,
+											.event-description h2,
+											.event-description h3,
+											.event-description h4,
+											.event-description h5,
+											.event-description h6 {
+												color: ${isDark ? '#fff' : '#000'};
+											}
+										`}</style>
 										<div
-											className="text-gray mb-0"
+											className="event-description mb-0"
 											dangerouslySetInnerHTML={{
 												__html: event.content,
 											}}
@@ -369,65 +376,234 @@ export default function EventDetailPage({ params }) {
 									</div>
 									{/* End Event Description */}
 								</div>
-							</div>
-							{/* Divider */}
-							<hr
-								className={`mt-0 mb-0 ${isDark ? "white" : ""}`}
-							/>
-							{/* End Divider */}
 
-							{/* Work Navigation */}
-							<div
-								className={`work-navigation clearfix ${
-									isDark ? "light-content" : ""
-								}`}
-							>
-								<Link
-									href={
-										prevEvent
-											? `/eventos/${prevEvent.slug}`
-											: "#"
-									}
-									className="work-prev"
-									style={{
-										visibility: prevEvent
-											? "visible"
-											: "hidden",
-									}}
-								>
-									<span>
-										<i className="mi-arrow-left size-24 align-middle" />{" "}
-										{translations.previous[language]}
-									</span>
-								</Link>
-								<Link href="/eventos" className="work-all">
-									<span>
-										<i className="mi-close size-24 align-middle" />{" "}
-										{translations.allEvents[language]}
-									</span>
-								</Link>
-								<Link
-									href={
-										nextEvent
-											? `/eventos/${nextEvent.slug}`
-											: "#"
-									}
-									className="work-next"
-									style={{
-										visibility: nextEvent
-											? "visible"
-											: "hidden",
-									}}
-								>
-									<span>
-										{translations.next[language]}{" "}
-										<i className="mi-arrow-right size-24 align-middle" />
-									</span>
-								</Link>
+								{/* Attachments - Stacked Images */}
+								{(attachments?.filter(
+									att => att.fileType === "image"
+								).length > 0 ||
+									attachments?.filter(
+										att => att.fileType === "document"
+									).length > 0) && (
+									<div className="mt-n30">
+										{attachments
+											.filter(
+												att => att.fileType === "image"
+											)
+											.sort(
+												(a, b) =>
+													(a.displayOrder || 0) -
+													(b.displayOrder || 0)
+											)
+											.map((attachment, index) => (
+												<div
+													key={index}
+													className="mt-30 wow fadeInUp"
+												>
+													<Image
+														src={attachment.url}
+														alt={
+															attachment.originalName
+														}
+														width={1350}
+														height={865}
+													/>
+												</div>
+											))}
+										{attachments?.filter(
+											att => att.fileType === "document"
+										).length > 0 && (
+											<div className="mt-30">
+												<h3 className="h4 mb-20">
+													{language === "pt"
+														? "Documentos"
+														: "Documents"}
+												</h3>
+												<ul className="list-unstyled">
+													{attachments
+														.filter(
+															att =>
+																att.fileType ===
+																"document"
+														)
+														.sort(
+															(a, b) =>
+																(a.displayOrder ||
+																	0) -
+																(b.displayOrder ||
+																	0)
+														)
+														.map(
+															(
+																attachment,
+																index
+															) => (
+																<li
+																	key={index}
+																	className="mb-10"
+																>
+																	<a
+																		href={
+																			attachment.url
+																		}
+																		target="_blank"
+																		rel="noopener noreferrer"
+																		className={
+																			isDark
+																				? "text-white"
+																				: ""
+																		}
+																	>
+																		<i className="mi-file" />{" "}
+																		{
+																			attachment.originalName
+																		}
+																		{attachment.sizeBytes &&
+																			` (${Math.round(
+																				attachment.sizeBytes /
+																					1024
+																			)} KB)`}
+																	</a>
+																</li>
+															)
+														)}
+												</ul>
+											</div>
+										)}
+									</div>
+								)}
+								{/* End Attachments */}
 							</div>
-							{/* End Work Navigation */}
 						</section>
 						{/* End Section */}
+
+						{/* Divider */}
+						<hr className={`mt-0 mb-0 ${isDark ? "white" : ""}`} />
+						{/* End Divider */}
+
+						{/* Related Events Section */}
+						{allEvents && allEvents.length > 1 && (
+							<section
+								className={`page-section ${
+									isDark ? "bg-dark-1 light-content" : ""
+								}`}
+							>
+								<div className="container relative">
+									<div className="text-center mb-60 mb-sm-40">
+										<h2 className="section-title-small">
+											{language === "pt"
+												? "Eventos Relacionados"
+												: "Related Events"}
+										</h2>
+									</div>
+									<div className="row">
+										{allEvents
+											.filter(e => e.id !== event?.id)
+											.slice(0, 4)
+											.map((relatedEvent, index) => (
+												<div
+													key={index}
+													className="col-md-6 col-lg-3 mb-30"
+												>
+													<Link
+														href={`/eventos/${relatedEvent.slug}`}
+														className="work-item"
+														style={{
+															textDecoration:
+																"none",
+														}}
+													>
+														<div className="work-img">
+															{relatedEvent.featured_image && (
+																<Image
+																	src={
+																		relatedEvent.featured_image
+																	}
+																	alt={
+																		relatedEvent.title
+																	}
+																	width={650}
+																	height={773}
+																	className="img-fluid"
+																/>
+															)}
+														</div>
+														<div className="work-intro text-start">
+															<h3 className="work-title">
+																{
+																	relatedEvent.title
+																}
+															</h3>
+															{relatedEvent.excerpt && (
+																<div className="work-descr">
+																	{
+																		relatedEvent.excerpt
+																	}
+																</div>
+															)}
+														</div>
+													</Link>
+												</div>
+											))}
+									</div>
+								</div>
+							</section>
+						)}
+						{/* End Related Events Section */}
+
+						{/* Divider */}
+						<hr className={`mt-0 mb-0 ${isDark ? "white" : ""}`} />
+						{/* End Divider */}
+
+						{/* Work Navigation */}
+						<div
+							className={`work-navigation clearfix ${
+								isDark ? "light-content" : ""
+							}`}
+						>
+							<Link
+								href={
+									prevEvent
+										? `/eventos/${prevEvent.slug}`
+										: "#"
+								}
+								className="work-prev"
+								style={{
+									visibility: prevEvent
+										? "visible"
+										: "hidden",
+								}}
+							>
+								<span>
+									<i className="mi-arrow-left size-24 align-middle" />{" "}
+									{translations.previous[language]}
+								</span>
+							</Link>
+							<Link href="/eventos" className="work-all">
+								<span>
+									<i className="mi-close size-24 align-middle" />{" "}
+									{translations.allEvents[language]}
+								</span>
+							</Link>
+							<Link
+								href={
+									nextEvent
+										? `/eventos/${nextEvent.slug}`
+										: "#"
+								}
+								className="work-next"
+								style={{
+									visibility: nextEvent
+										? "visible"
+										: "hidden",
+								}}
+							>
+								<span>
+									{translations.next[language]}{" "}
+									<i className="mi-arrow-right size-24 align-middle" />
+								</span>
+							</Link>
+						</div>
+						{/* End Work Navigation */}
 					</main>
 					<Footer1 />
 				</div>

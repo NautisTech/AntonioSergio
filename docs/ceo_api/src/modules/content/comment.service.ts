@@ -1,6 +1,16 @@
-import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  Logger,
+} from '@nestjs/common';
 import { DatabaseService } from '../../database/database.service';
-import { CreateCommentDto, UpdateCommentDto, ModerateCommentDto, CommentStatus } from './dto/content.dto';
+import {
+  CreateCommentDto,
+  UpdateCommentDto,
+  ModerateCommentDto,
+  CommentStatus,
+} from './dto/content.dto';
 import * as sql from 'mssql';
 
 /**
@@ -53,12 +63,20 @@ export class CommentService {
   /**
    * Create comment
    */
-  async create(dto: CreateCommentDto, tenantId: number, userId: number | null, ipAddress: string, userAgent: string) {
+  async create(
+    dto: CreateCommentDto,
+    tenantId: number,
+    userId: number | null,
+    ipAddress: string,
+    userAgent: string,
+  ) {
     const pool = await this.databaseService.getTenantConnection(tenantId);
     await this.ensureCommentTable(pool);
 
     // Verify content exists
-    const content = await pool.request().input('contentId', sql.Int, dto.contentId).query(`
+    const content = await pool
+      .request()
+      .input('contentId', sql.Int, dto.contentId).query(`
       SELECT id, allow_comments FROM content WHERE id = @contentId AND deleted_at IS NULL
     `);
 
@@ -67,17 +85,24 @@ export class CommentService {
     }
 
     if (!content.recordset[0].allow_comments) {
-      throw new BadRequestException('Comments are not allowed for this content');
+      throw new BadRequestException(
+        'Comments are not allowed for this content',
+      );
     }
 
     // Verify parent comment if specified
     if (dto.parentId) {
-      const parent = await pool.request().input('parentId', sql.Int, dto.parentId).query(`
-        SELECT id FROM content_comments WHERE id = @parentId AND content_id = @contentId AND deleted_at IS NULL
-      `);
+      const parent = await pool
+        .request()
+        .input('parentId', sql.Int, dto.parentId)
+        .input('contentId', sql.Int, dto.contentId).query(`
+          SELECT id FROM content_comments WHERE id = @parentId AND content_id = @contentId AND deleted_at IS NULL
+        `);
 
       if (parent.recordset.length === 0) {
-        throw new NotFoundException(`Parent comment with ID ${dto.parentId} not found`);
+        throw new NotFoundException(
+          `Parent comment with ID ${dto.parentId} not found`,
+        );
       }
     }
 
@@ -111,20 +136,27 @@ export class CommentService {
       WHERE id = @contentId
     `);
 
-    this.logger.log(`Comment created on content ${dto.contentId} (ID: ${commentId})`);
+    this.logger.log(
+      `Comment created on content ${dto.contentId} (ID: ${commentId})`,
+    );
     return this.getById(commentId, tenantId);
   }
 
   /**
    * List comments for content
    */
-  async listByContent(contentId: number, tenantId: number, approvedOnly: boolean = true) {
+  async listByContent(
+    contentId: number,
+    tenantId: number,
+    approvedOnly: boolean = true,
+  ) {
     const pool = await this.databaseService.getTenantConnection(tenantId);
     await this.ensureCommentTable(pool);
 
     const statusFilter = approvedOnly ? "AND c.status = 'approved'" : '';
 
-    const result = await pool.request().input('contentId', sql.Int, contentId).query(`
+    const result = await pool.request().input('contentId', sql.Int, contentId)
+      .query(`
       SELECT
         c.id,
         c.content_id,
@@ -151,8 +183,16 @@ export class CommentService {
   /**
    * Get comment with replies (threaded)
    */
-  async getThreaded(contentId: number, tenantId: number, approvedOnly: boolean = true) {
-    const comments = await this.listByContent(contentId, tenantId, approvedOnly);
+  async getThreaded(
+    contentId: number,
+    tenantId: number,
+    approvedOnly: boolean = true,
+  ) {
+    const comments = await this.listByContent(
+      contentId,
+      tenantId,
+      approvedOnly,
+    );
 
     const buildThread = (parentId: number | null = null): any[] => {
       return comments
@@ -205,7 +245,12 @@ export class CommentService {
   /**
    * Update comment
    */
-  async update(id: number, dto: UpdateCommentDto, tenantId: number, userId: number) {
+  async update(
+    id: number,
+    dto: UpdateCommentDto,
+    tenantId: number,
+    userId: number,
+  ) {
     const pool = await this.databaseService.getTenantConnection(tenantId);
     await this.ensureCommentTable(pool);
 
@@ -232,7 +277,12 @@ export class CommentService {
   /**
    * Moderate comment
    */
-  async moderate(id: number, dto: ModerateCommentDto, tenantId: number, moderatorId: number) {
+  async moderate(
+    id: number,
+    dto: ModerateCommentDto,
+    tenantId: number,
+    moderatorId: number,
+  ) {
     const pool = await this.databaseService.getTenantConnection(tenantId);
     await this.ensureCommentTable(pool);
 
@@ -254,7 +304,8 @@ export class CommentService {
       `);
 
     // Update content comment count
-    await pool.request().input('contentId', sql.Int, existing.content_id).query(`
+    await pool.request().input('contentId', sql.Int, existing.content_id)
+      .query(`
       UPDATE content
       SET comment_count = (SELECT COUNT(*) FROM content_comments WHERE content_id = @contentId AND status = 'approved' AND deleted_at IS NULL)
       WHERE id = @contentId
@@ -267,7 +318,12 @@ export class CommentService {
   /**
    * Delete comment
    */
-  async delete(id: number, tenantId: number, userId: number, isAdmin: boolean = false) {
+  async delete(
+    id: number,
+    tenantId: number,
+    userId: number,
+    isAdmin: boolean = false,
+  ) {
     const pool = await this.databaseService.getTenantConnection(tenantId);
     await this.ensureCommentTable(pool);
 
@@ -283,7 +339,8 @@ export class CommentService {
     `);
 
     // Update content comment count
-    await pool.request().input('contentId', sql.Int, existing.content_id).query(`
+    await pool.request().input('contentId', sql.Int, existing.content_id)
+      .query(`
       UPDATE content
       SET comment_count = (SELECT COUNT(*) FROM content_comments WHERE content_id = @contentId AND status = 'approved' AND deleted_at IS NULL)
       WHERE id = @contentId
@@ -296,7 +353,11 @@ export class CommentService {
   /**
    * Get pending comments for moderation
    */
-  async getPendingComments(tenantId: number, page: number = 1, pageSize: number = 20) {
+  async getPendingComments(
+    tenantId: number,
+    page: number = 1,
+    pageSize: number = 20,
+  ) {
     const pool = await this.databaseService.getTenantConnection(tenantId);
     await this.ensureCommentTable(pool);
 
@@ -308,7 +369,10 @@ export class CommentService {
 
     const total = countResult.recordset[0].total;
 
-    const result = await pool.request().input('offset', sql.Int, offset).input('pageSize', sql.Int, pageSize).query(`
+    const result = await pool
+      .request()
+      .input('offset', sql.Int, offset)
+      .input('pageSize', sql.Int, pageSize).query(`
       SELECT
         c.id,
         c.content_id,

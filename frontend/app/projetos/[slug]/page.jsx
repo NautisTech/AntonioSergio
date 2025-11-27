@@ -9,6 +9,7 @@ import AnimatedText from "@/components/common/AnimatedText";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import { useContentBySlug, useProjects } from "@/lib/api/public-content";
+import { useAttachments } from "@/lib/api/public-uploads";
 import { notFound } from "next/navigation";
 
 export default function ProjectDetailPage({ params }) {
@@ -23,6 +24,16 @@ export default function ProjectDetailPage({ params }) {
 		loading: projectLoading,
 		error: projectError,
 	} = useContentBySlug(unwrappedParams.slug);
+
+	// Log project data to verify custom fields
+	useEffect(() => {
+		if (project) {
+			console.log("=== PROJECT DATA ===");
+			console.log("Full project object:", project);
+			console.log("Custom fields:", project.custom_fields);
+			console.log("Custom fields keys:", project.custom_fields ? Object.keys(project.custom_fields) : "No custom_fields");
+		}
+	}, [project]);
 
 	// Re-initialize WOW animations when project loads
 	useEffect(() => {
@@ -46,6 +57,12 @@ export default function ProjectDetailPage({ params }) {
 	// Fetch all projects for prev/next navigation
 	const { data: projectsData } = useProjects({ pageSize: 100 });
 	const allProjects = projectsData?.data || [];
+
+	// Fetch attachments for this project
+	const { data: attachments } = useAttachments(
+		"content",
+		project?.id || null
+	);
 
 	if (projectError) {
 		notFound();
@@ -121,6 +138,20 @@ export default function ProjectDetailPage({ params }) {
 			pt: "Todos os projetos",
 			en: "All projects",
 		},
+		otherProjects: {
+			pt: "Outros Projetos",
+			en: "Other Projects",
+		},
+		documents: {
+			pt: "Documentos",
+			en: "Documents",
+		},
+	};
+
+	// Helper to get localized values
+	const getLocalizedValue = (item, field, lang) => {
+		const localizedField = `${field}_${lang}`;
+		return item?.[localizedField] || item?.[field] || "";
 	};
 
 	// Find previous and next projects
@@ -206,124 +237,368 @@ export default function ProjectDetailPage({ params }) {
 							>
 								<div className="container position-relative">
 									<div className="row">
-										{/* Left Column - Project Details & Content */}
-										<div className="col-md-8 mb-sm-40 wow fadeInUp">
-											{/* Project Details */}
-											{project.categories &&
-												project.categories.length >
-													0 && (
-													<div className="mb-60">
-														<h2 className="h3 mb-20">
+										{/* Project Details Sidebar */}
+										<div className="col-md-4 mb-sm-40 wow fadeInUp">
+											<div className="block-sticky">
+												{/* Project Details */}
+												<div className="mb-60">
+													<h2 className="h3 mb-20">
+														{
+															translations
+																.projectDetails[
+																language
+															]
+														}
+													</h2>
+													<hr
+														className={`mb-20 ${
+															isDark
+																? "white"
+																: ""
+														}`}
+													/>
+													{project.tags &&
+														project.tags
+															.length >
+															0 && (
+															<div className="mb-30">
+																<h3 className="h5 mb-15">
+																	{language ===
+																	"pt"
+																		? "Tags"
+																		: "Tags"}
+																</h3>
+																<div className="text-gray">
+																	{project.tags
+																		.map(
+																			t =>
+																				t.name
+																		)
+																		.join(
+																			", "
+																		)}
+																</div>
+															</div>
+														)}
+
+													{/* Custom Fields */}
+													{project.custom_fields &&
+														Object.keys(project.custom_fields)
+															.length > 0 && (
+															<>
+																{(() => {
+																	// Separate objectives, results, and other fields
+																	const objectives = [];
+																	const results = [];
+																	const otherFields = [];
+
+																	Object.entries(
+																		project.custom_fields
+																	).forEach(([key, field]) => {
+																		if (field?.value && key !== 'entidades') {
+																			if (key.startsWith('objetivos_')) {
+																				objectives.push(field.value);
+																			} else if (key === 'resultados') {
+																				results.push([key, field]);
+																			} else {
+																				otherFields.push([key, field]);
+																			}
+																		}
+																	});
+
+																	return (
+																		<>
+																			{/* Regular custom fields */}
+																			{otherFields.map(([key, field]) => {
+																				let displayValue = field.value;
+
+																				// Format dates
+																				if (field.type === "date" && field.value) {
+																					const date = new Date(field.value);
+																					displayValue = date.toLocaleDateString(
+																						language === "pt" ? "pt-PT" : "en-US",
+																						{
+																							year: "numeric",
+																							month: "long",
+																							day: "numeric",
+																						}
+																					);
+																				}
+
+																				// Format multiselect as comma-separated list
+																				if (field.type === "multiselect" && Array.isArray(field.value)) {
+																					displayValue = field.value.join(", ");
+																				}
+
+																				return (
+																					<div key={key} className="mb-30">
+																						<h3 className="h5 mb-15">
+																							{field.label}
+																						</h3>
+																						<div className="text-gray">
+																							{displayValue}
+																						</div>
+																					</div>
+																				);
+																			})}
+
+																			{/* Objectives as bullet points */}
+																			{objectives.length > 0 && (
+																				<div className="mb-30">
+																					<h3 className="h5 mb-15">
+																						{language === "pt" ? "Objetivos" : "Objectives"}
+																					</h3>
+																					<ul className="text-gray">
+																						{objectives.map((objective, index) => (
+																							<li key={index} className="mb-10">
+																								{objective}
+																							</li>
+																						))}
+																					</ul>
+																				</div>
+																			)}
+
+																			{/* Results after objectives */}
+																			{results.map(([key, field]) => {
+																				let displayValue = field.value;
+
+																				// Format multiselect as comma-separated list
+																				if (field.type === "multiselect" && Array.isArray(field.value)) {
+																					displayValue = field.value.join(", ");
+																				}
+
+																				return (
+																					<div key={key} className="mb-30">
+																						<h3 className="h5 mb-15">
+																							{field.label}
+																						</h3>
+																						<div className="text-gray">
+																							{displayValue}
+																						</div>
+																					</div>
+																				);
+																			})}
+																		</>
+																	);
+																})()}
+															</>
+														)}
+												</div>
+
+												{/* Content/Description */}
+												{project.content && (
+													<div className="text-gray">
+														<div
+															dangerouslySetInnerHTML={{
+																__html: project.content,
+															}}
+														/>
+													</div>
+												)}
+											</div>
+										</div>
+										{/* End Project Details Sidebar */}
+
+										{/* Images Column */}
+										<div className="col-md-8">
+											<div className="mb-n30">
+												{/* Featured Image */}
+												{project.featured_image && (
+													<div className="mb-30 wow fadeInUp">
+														<Image
+															src={
+																project.featured_image
+															}
+															alt={project.title}
+															width={1350}
+															height={865}
+														/>
+													</div>
+												)}
+
+												{/* Attachment Images */}
+												{attachments
+													?.filter(
+														att =>
+															att.fileType ===
+															"image"
+													)
+													.sort(
+														(a, b) =>
+															a.displayOrder -
+															b.displayOrder
+													)
+													.map((att, index) => (
+														<div
+															key={att.url}
+															className="mb-30 wow fadeInUp"
+														>
+															<Image
+																src={att.url}
+																width={1350}
+																height={865}
+																alt={
+																	att.originalName
+																}
+															/>
+														</div>
+													))}
+
+												{/* Documents Section */}
+												{attachments?.filter(
+													att =>
+														att.fileType ===
+														"document"
+												).length > 0 && (
+													<div className="mb-30 wow fadeInUp">
+														<h3 className="h4 mb-20">
 															{
 																translations
-																	.projectDetails[
+																	.documents[
 																	language
 																]
 															}
-														</h2>
-														<hr
-															className={`mb-20 ${
-																isDark
-																	? "white"
-																	: ""
-															}`}
-														/>
-														<div className="row text-gray small">
-															<div className="col-sm-5">
-																<b>
-																	{
-																		translations
-																			.description[
-																			language
-																		]
-																	}
-																	:
-																</b>
-															</div>
-															<div className="col-sm-7">
-																{project.categories
-																	.map(
-																		cat =>
-																			cat.name
-																	)
-																	.join(", ")}
-															</div>
-														</div>
-														<hr
-															className={`mb-20 ${
-																isDark
-																	? "white"
-																	: ""
-															}`}
-														/>
-														{project.tags &&
-															project.tags
-																.length > 0 && (
-																<>
-																	<div className="row text-gray small">
-																		<div className="col-sm-5">
-																			<b>
-																				{language ===
-																				"pt"
-																					? "Tags:"
-																					: "Tags:"}
-																			</b>
-																		</div>
-																		<div className="col-sm-7">
-																			{project.tags
-																				.map(
-																					t =>
-																						t.name
-																				)
-																				.join(
-																					", "
-																				)}
-																		</div>
+														</h3>
+														<div className="text-gray">
+															{attachments
+																.filter(
+																	att =>
+																		att.fileType ===
+																		"document"
+																)
+																.sort(
+																	(a, b) =>
+																		a.displayOrder -
+																		b.displayOrder
+																)
+																.map(doc => (
+																	<div
+																		key={
+																			doc.url
+																		}
+																		className="mb-10"
+																	>
+																		<a
+																			href={
+																				doc.url
+																			}
+																			target="_blank"
+																			rel="noopener noreferrer"
+																			className="link-hover-anim"
+																		>
+																			📄{" "}
+																			{
+																				doc.originalName
+																			}
+																		</a>
 																	</div>
-																	<hr
-																		className={`mb-20 ${
-																			isDark
-																				? "white"
-																				: ""
-																		}`}
-																	/>
-																</>
-															)}
+																))}
+														</div>
 													</div>
-												)}{" "}
-											{/* Content */}
-											<div className="mb-60">
-												<div
-													className="text-gray"
-													dangerouslySetInnerHTML={{
-														__html: project.content,
-													}}
-												/>
+												)}
 											</div>
 										</div>
-										{/* End Left Column */}
-
-										{/* Right Column - Featured Image */}
-										<div className="col-md-4">
-											{/* Featured Image */}
-											{project.featured_image && (
-												<div className="mb-30 wow fadeInUp">
-													<Image
-														src={
-															project.featured_image
-														}
-														alt={project.title}
-														width={1350}
-														height={865}
-													/>
-												</div>
-											)}
-										</div>
-										{/* End Right Column */}
+										{/* End Images Column */}
 									</div>
 								</div>
 							</section>
 							{/* End Section */}
+
+							{/* Related Projects */}
+							{allProjects && allProjects.length > 1 && (
+								<>
+									{/* Divider */}
+									<hr
+										className={`mt-0 mb-0 ${
+											isDark ? "white" : ""
+										}`}
+									/>
+									{/* End Divider */}
+
+									<section
+										className={`page-section  ${
+											isDark
+												? "bg-dark-1 light-content"
+												: ""
+										} `}
+									>
+										<div className="container relative">
+											<h2 className="section-title mb-40 mb-xs-30">
+												{
+													translations.otherProjects[
+														language
+													]
+												}
+											</h2>
+
+											<div className="row multi-columns-row">
+												{allProjects
+													.filter(
+														p => p.id !== project.id
+													)
+													.slice(0, 4)
+													.map(
+														(relProject, index) => (
+															<div
+																key={
+																	relProject.id
+																}
+																className="col-md-6 col-lg-3 mb-30"
+															>
+																<Link
+																	href={`/projetos/${relProject.slug}`}
+																	className="work-item"
+																	style={{
+																		textDecoration:
+																			"none",
+																	}}
+																>
+																	<div className="work-img">
+																		<div className="work-img-bg wow-p scalexIn" />
+																		<Image
+																			src={
+																				relProject.featured_image ||
+																				"/assets/images/placeholder.jpg"
+																			}
+																			width={
+																				650
+																			}
+																			height={
+																				773
+																			}
+																			alt={getLocalizedValue(
+																				relProject,
+																				"title",
+																				language
+																			)}
+																		/>
+																	</div>
+																	<div className="work-intro">
+																		<h3 className="work-title">
+																			{getLocalizedValue(
+																				relProject,
+																				"title",
+																				language
+																			)}
+																		</h3>
+																		<div className="work-descr">
+																			{getLocalizedValue(
+																				relProject,
+																				"excerpt",
+																				language
+																			)}
+																		</div>
+																	</div>
+																</Link>
+															</div>
+														)
+													)}
+											</div>
+										</div>
+									</section>
+								</>
+							)}
+							{/* End Related Projects */}
 
 							{/* Divider */}
 							<hr

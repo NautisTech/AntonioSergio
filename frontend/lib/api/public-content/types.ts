@@ -52,6 +52,13 @@ export interface Author {
     avatar?: string
 }
 
+export interface CustomFieldValue {
+    label: string
+    value: string | number | boolean | null
+    type: 'text' | 'textarea' | 'number' | 'date' | 'multiselect' | 'select'
+    options?: Array<{ value: string; label: string }>
+}
+
 export interface CustomField {
     code: string
     value_text?: string
@@ -88,7 +95,7 @@ export interface Content {
     share_count?: number
     created_at: string
     updated_at?: string
-    custom_fields?: Record<string, any>
+    custom_fields?: Record<string, CustomFieldValue>
 }
 
 // ==================== FILTER TYPES ====================

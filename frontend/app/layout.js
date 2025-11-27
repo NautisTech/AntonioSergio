@@ -15,6 +15,7 @@ import { headerChangeOnScroll } from "@/utlis/changeHeaderOnScroll";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { EntityProvider } from "@/context/EntityContext";
+import { ToastProvider } from "@/context/ToastContext";
 
 export default function RootLayout({ children }) {
 	const path = usePathname();
@@ -75,8 +76,11 @@ export default function RootLayout({ children }) {
 			<body className="appear-animate body">
 				<ThemeProvider>
 					<LanguageProvider>
-					<EntityProvider>{children}</EntityProvider>
-				</LanguageProvider>
+						<EntityProvider>
+							{children}
+							<ToastProvider />
+						</EntityProvider>
+					</LanguageProvider>
 				</ThemeProvider>
 			</body>
 		</html>

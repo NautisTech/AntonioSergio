@@ -198,6 +198,10 @@ const navLinkEntries = [
 						labels: { pt: "FAQ", en: "FAQ" },
 						href: "/faq",
 					},
+					{
+						labels: { pt: "Suporte", en: "Support" },
+						href: "/suporte",
+					},
 				],
 			},
 		],
@@ -1614,6 +1618,201 @@ export const pageTranslations = {
 			content: {
 				pt: "Tem dúvidas sobre matrículas, horários ou programas educativos? Consulte as nossas perguntas mais frequentes ou entre em contacto connosco diretamente.",
 				en: "Have questions about enrollment, schedules or educational programs? Check our frequently asked questions or contact us directly.",
+			},
+		},
+	},
+	// Ticket Page
+	ticket: {
+		meta: {
+			title: {
+				pt: `Reportar Problema | ${baseIdentity.name}`,
+				en: `Report Issue | ${baseIdentity.name}`,
+			},
+			description: {
+				pt: "Reporte problemas técnicos ou outras questões através do nosso sistema de tickets. Estamos aqui para ajudar.",
+				en: "Report technical issues or other problems through our ticket system. We're here to help.",
+			},
+		},
+		hero: {
+			eyebrow: {
+				pt: "Suporte",
+				en: "Support",
+			},
+			title: {
+				pt: "Como podemos ajudar?",
+				en: "How can we help?",
+			},
+			subtitle: {
+				pt: "Preencha o formulário abaixo para reportar um problema. A nossa equipa entrará em contacto consigo o mais brevemente possível.",
+				en: "Fill out the form below to report an issue. Our team will contact you as soon as possible.",
+			},
+		},
+		form: {
+			fullName: {
+				label: {
+					pt: "Nome Completo",
+					en: "Full Name",
+				},
+				placeholder: {
+					pt: "Insira o seu nome completo",
+					en: "Enter your full name",
+				},
+			},
+			email: {
+				label: {
+					pt: "Email",
+					en: "Email",
+				},
+				placeholder: {
+					pt: "seuemail@exemplo.com",
+					en: "youremail@example.com",
+				},
+			},
+			phone: {
+				label: {
+					pt: "Telefone",
+					en: "Phone Number",
+				},
+				placeholder: {
+					pt: "+351 912 345 678",
+					en: "+351 912 345 678",
+				},
+			},
+			title: {
+				label: {
+					pt: "Título",
+					en: "Title",
+				},
+				placeholder: {
+					pt: "Resumo do problema",
+					en: "Issue summary",
+				},
+			},
+			description: {
+				label: {
+					pt: "Descrição",
+					en: "Description",
+				},
+				placeholder: {
+					pt: "Descreva o problema em detalhe...",
+					en: "Describe the issue in detail...",
+				},
+			},
+			ticketType: {
+				label: {
+					pt: "Tipo de Problema",
+					en: "Issue Type",
+				},
+				placeholder: {
+					pt: "Selecione o tipo",
+					en: "Select type",
+				},
+			},
+			priority: {
+				label: {
+					pt: "Prioridade",
+					en: "Priority",
+				},
+				options: {
+					low: {
+						pt: "Baixa",
+						en: "Low",
+					},
+					medium: {
+						pt: "Média",
+						en: "Medium",
+					},
+					high: {
+						pt: "Alta",
+						en: "High",
+					},
+					urgent: {
+						pt: "Urgente",
+						en: "Urgent",
+					},
+				},
+			},
+			location: {
+				label: {
+					pt: "Localização",
+					en: "Location",
+				},
+				placeholder: {
+					pt: "Ex: Sala 101, Pavilhão A",
+					en: "E.g: Room 101, Building A",
+				},
+			},
+			equipment: {
+				label: {
+					pt: "Equipamentos",
+					en: "Equipment",
+				},
+				serialNumber: {
+					label: {
+						pt: "Número de Série",
+						en: "Serial Number",
+					},
+					placeholder: {
+						pt: "SN123456",
+						en: "SN123456",
+					},
+				},
+				description: {
+					label: {
+						pt: "Descrição",
+						en: "Description",
+					},
+					placeholder: {
+						pt: "Ex: Computador Dell, Monitor",
+						en: "E.g: Dell Computer, Monitor",
+					},
+				},
+				addButton: {
+					pt: "Adicionar Equipamento",
+					en: "Add Equipment",
+				},
+				removeButton: {
+					pt: "Remover",
+					en: "Remove",
+				},
+				noEquipment: {
+					pt: "Nenhum equipamento adicionado",
+					en: "No equipment added",
+				},
+			},
+			submit: {
+				pt: "Enviar Ticket",
+				en: "Submit Ticket",
+			},
+			submitting: {
+				pt: "A enviar...",
+				en: "Submitting...",
+			},
+			success: {
+				message: {
+					pt: "Ticket criado com sucesso! A nossa equipa entrará em contacto consigo em breve.",
+					en: "Ticket created successfully! Our team will contact you soon.",
+				},
+			},
+			error: {
+				title: {
+					pt: "Erro ao Criar Ticket",
+					en: "Error Creating Ticket",
+				},
+				message: {
+					pt: "Ocorreu um erro ao criar o ticket. Por favor, tente novamente.",
+					en: "An error occurred while creating the ticket. Please try again.",
+				},
+			},
+			validation: {
+				required: {
+					pt: "Este campo é obrigatório",
+					en: "This field is required",
+				},
+				emailInvalid: {
+					pt: "Email inválido",
+					en: "Invalid email",
+				},
 			},
 		},
 	},

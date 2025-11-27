@@ -25,7 +25,7 @@ import {
  * Newsletter Service
  *
  * Manages newsletter subscriptions and email campaigns.
- * - Uses newsletter_inscritos table for subscribers
+ * - Uses newsletter_subscription table for subscribers
  * - Stores email templates in setting table
  * - Uses EmailService for sending emails
  * - Supports multi-language templates
@@ -42,7 +42,9 @@ export class NewsletterService {
   /**
    * Subscribe email to newsletter
    */
-  async subscribe(dto: SubscribeNewsletterDto): Promise<{ success: boolean; message: string }> {
+  async subscribe(
+    dto: SubscribeNewsletterDto,
+  ): Promise<{ success: boolean; message: string }> {
     const pool = await this.databaseService.getTenantConnection(dto.tenantId);
 
     // Validate language against configured languages
@@ -59,29 +61,38 @@ export class NewsletterService {
     await this.ensureNewsletterTable(pool);
 
     // Check if email already exists
-    const checkResult = await pool.request()
-      .input('email', sql.NVarChar, dto.email)
-      .query(`
-        SELECT id, ativo, idioma
-        FROM newsletter_inscritos
+    const checkResult = await pool
+      .request()
+      .input('email', sql.NVarChar, dto.email).query(`
+        SELECT id, status, metadata
+        FROM newsletter_subscription
         WHERE email = @email
       `);
+
+    const metadata = JSON.stringify({ language: normalizedLang });
 
     if (checkResult.recordset.length > 0) {
       const existing = checkResult.recordset[0];
 
-      // If already active, return conflict
-      if (existing.ativo) {
-        throw new ConflictException('This email is already subscribed to the newsletter.');
+      // If already subscribed, return conflict
+      if (existing.status === 'subscribed') {
+        throw new ConflictException(
+          'This email is already subscribed to the newsletter.',
+        );
       }
 
-      // If inactive, reactivate subscription
-      await pool.request()
+      // If unsubscribed, reactivate subscription
+      await pool
+        .request()
         .input('email', sql.NVarChar, dto.email)
-        .input('idioma', sql.NVarChar, normalizedLang)
-        .query(`
-          UPDATE newsletter_inscritos
-          SET ativo = 1, idioma = @idioma, updated_at = GETDATE()
+        .input('metadata', sql.NVarChar(sql.MAX), metadata).query(`
+          UPDATE newsletter_subscription
+          SET status = 'subscribed', 
+              metadata = @metadata, 
+              subscription_date = GETDATE(),
+              unsubscribed_at = NULL,
+              unsubscribe_reason = NULL,
+              updated_at = GETDATE()
           WHERE email = @email
         `);
 
@@ -94,15 +105,25 @@ export class NewsletterService {
     }
 
     // Insert new subscriber
-    await pool.request()
-      .input('email', sql.NVarChar, dto.email)
-      .input('idioma', sql.NVarChar, normalizedLang)
-      .query(`
-        INSERT INTO newsletter_inscritos (email, idioma, ativo, created_at)
-        VALUES (@email, @idioma, 1, GETDATE())
-      `);
+    try {
+      const insertResult = await pool
+        .request()
+        .input('email', sql.NVarChar, dto.email)
+        .input('metadata', sql.NVarChar(sql.MAX), metadata).query(`
+          INSERT INTO newsletter_subscription (email, status, subscription_date, metadata, created_at)
+          VALUES (@email, 'subscribed', GETDATE(), @metadata, GETDATE())
+        `);
 
-    this.logger.log(`New newsletter subscription: ${dto.email}, language: ${normalizedLang}`);
+      this.logger.log(
+        `New newsletter subscription: ${dto.email}, language: ${normalizedLang}, rowsAffected: ${insertResult.rowsAffected[0]}`,
+      );
+    } catch (error) {
+      this.logger.error(
+        `Failed to insert newsletter subscription: ${error.message}`,
+        error.stack,
+      );
+      throw error;
+    }
 
     return {
       success: true,
@@ -113,15 +134,18 @@ export class NewsletterService {
   /**
    * Unsubscribe email from newsletter
    */
-  async unsubscribe(dto: UnsubscribeNewsletterDto): Promise<{ success: boolean; message: string }> {
+  async unsubscribe(
+    dto: UnsubscribeNewsletterDto,
+  ): Promise<{ success: boolean; message: string }> {
     const pool = await this.databaseService.getTenantConnection(dto.tenantId);
 
-    const result = await pool.request()
-      .input('email', sql.NVarChar, dto.email)
+    const result = await pool.request().input('email', sql.NVarChar, dto.email)
       .query(`
-        UPDATE newsletter_inscritos
-        SET ativo = 0, updated_at = GETDATE()
-        WHERE email = @email AND ativo = 1
+        UPDATE newsletter_subscription
+        SET status = 'unsubscribed', 
+            unsubscribed_at = GETDATE(),
+            updated_at = GETDATE()
+        WHERE email = @email AND status = 'subscribed'
       `);
 
     if (result.rowsAffected[0] === 0) {
@@ -149,21 +173,26 @@ export class NewsletterService {
     const request = pool.request();
 
     if (filters.language) {
-      conditions.push('idioma = @language');
+      conditions.push("JSON_VALUE(metadata, '$.language') = @language");
       request.input('language', sql.NVarChar, filters.language);
     }
 
     if (filters.active !== undefined) {
-      conditions.push('ativo = @active');
-      request.input('active', sql.Bit, filters.active ? 1 : 0);
+      conditions.push('status = @status');
+      request.input(
+        'status',
+        sql.NVarChar,
+        filters.active ? 'subscribed' : 'unsubscribed',
+      );
     }
 
     if (filters.search) {
-      conditions.push('email LIKE @search');
+      conditions.push('(email LIKE @search OR full_name LIKE @search)');
       request.input('search', sql.NVarChar, `%${filters.search}%`);
     }
 
-    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+    const whereClause =
+      conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
     // Pagination
     const page = filters.page || 1;
@@ -171,20 +200,27 @@ export class NewsletterService {
     const offset = (page - 1) * pageSize;
 
     const countRequest = pool.request();
-    if (filters.language) countRequest.input('language', sql.NVarChar, filters.language);
-    if (filters.active !== undefined) countRequest.input('active', sql.Bit, filters.active ? 1 : 0);
-    if (filters.search) countRequest.input('search', sql.NVarChar, `%${filters.search}%`);
+    if (filters.language)
+      countRequest.input('language', sql.NVarChar, filters.language);
+    if (filters.active !== undefined)
+      countRequest.input(
+        'status',
+        sql.NVarChar,
+        filters.active ? 'subscribed' : 'unsubscribed',
+      );
+    if (filters.search)
+      countRequest.input('search', sql.NVarChar, `%${filters.search}%`);
 
     const countResult = await countRequest.query(`
-      SELECT COUNT(*) as total FROM newsletter_inscritos ${whereClause}
+      SELECT COUNT(*) as total FROM newsletter_subscription ${whereClause}
     `);
 
     request.input('offset', sql.Int, offset);
     request.input('pageSize', sql.Int, pageSize);
 
     const dataResult = await request.query(`
-      SELECT id, email, idioma, ativo, created_at
-      FROM newsletter_inscritos
+      SELECT id, email, full_name, status, subscription_date, metadata, created_at
+      FROM newsletter_subscription
       ${whereClause}
       ORDER BY created_at DESC
       OFFSET @offset ROWS
@@ -192,7 +228,7 @@ export class NewsletterService {
     `);
 
     return {
-      data: dataResult.recordset.map(r => this.mapToDto(r)),
+      data: dataResult.recordset.map((r) => this.mapToDto(r)),
       total: countResult.recordset[0].total,
       page,
       pageSize,
@@ -210,23 +246,23 @@ export class NewsletterService {
     const totalResult = await pool.request().query(`
       SELECT
         COUNT(*) as total,
-        SUM(CASE WHEN ativo = 1 THEN 1 ELSE 0 END) as active,
-        SUM(CASE WHEN ativo = 0 THEN 1 ELSE 0 END) as inactive
-      FROM newsletter_inscritos
+        SUM(CASE WHEN status = 'subscribed' THEN 1 ELSE 0 END) as active,
+        SUM(CASE WHEN status = 'unsubscribed' THEN 1 ELSE 0 END) as inactive
+      FROM newsletter_subscription
     `);
 
     // By language
     const languageResult = await pool.request().query(`
-      SELECT idioma, COUNT(*) as count
-      FROM newsletter_inscritos
-      WHERE ativo = 1
-      GROUP BY idioma
+      SELECT JSON_VALUE(metadata, '$.language') as idioma, COUNT(*) as count
+      FROM newsletter_subscription
+      WHERE status = 'subscribed'
+      GROUP BY JSON_VALUE(metadata, '$.language')
     `);
 
     // New subscribers this month
     const monthResult = await pool.request().query(`
       SELECT COUNT(*) as count
-      FROM newsletter_inscritos
+      FROM newsletter_subscription
       WHERE created_at >= DATEADD(month, -1, GETDATE())
     `);
 
@@ -253,19 +289,19 @@ export class NewsletterService {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
     // Get active subscribers
-    const conditions: string[] = ['ativo = 1'];
+    const conditions: string[] = ["status = 'subscribed'"];
     const request = pool.request();
 
     if (dto.language) {
-      conditions.push('idioma = @language');
+      conditions.push("JSON_VALUE(metadata, '$.language') = @language");
       request.input('language', sql.NVarChar, dto.language);
     }
 
     const whereClause = conditions.join(' AND ');
 
     const result = await request.query(`
-      SELECT email, idioma
-      FROM newsletter_inscritos
+      SELECT email, JSON_VALUE(metadata, '$.language') as idioma
+      FROM newsletter_subscription
       WHERE ${whereClause}
     `);
 
@@ -287,14 +323,19 @@ export class NewsletterService {
     // Send email to each subscriber
     for (const subscriber of subscribers) {
       try {
-        const htmlContent = dto.customHtml || this.buildNewsletterHtml(
-          dto.title,
-          dto.url,
-          subscriber.idioma,
-          templates,
-        );
+        const htmlContent =
+          dto.customHtml ||
+          this.buildNewsletterHtml(
+            dto.title,
+            dto.url,
+            subscriber.idioma,
+            templates,
+          );
 
-        const template = templates[subscriber.idioma] || templates['pt-PT'] || this.getDefaultTemplate();
+        const template =
+          templates[subscriber.idioma] ||
+          templates['pt-PT'] ||
+          this.getDefaultTemplate();
 
         await this.emailService.sendEmail(
           tenantId,
@@ -310,7 +351,9 @@ export class NewsletterService {
 
         sent++;
       } catch (error) {
-        this.logger.error(`Failed to send newsletter to ${subscriber.email}: ${error.message}`);
+        this.logger.error(
+          `Failed to send newsletter to ${subscriber.email}: ${error.message}`,
+        );
         failed++;
         failedEmails.push(subscriber.email);
       }
@@ -335,9 +378,17 @@ export class NewsletterService {
     userId: number,
   ): Promise<{ success: boolean }> {
     const templates = await this.getNewsletterTemplates(tenantId);
-    const htmlContent = this.buildNewsletterHtml(dto.title, dto.url, dto.language, templates);
+    const htmlContent = this.buildNewsletterHtml(
+      dto.title,
+      dto.url,
+      dto.language,
+      templates,
+    );
 
-    const template = templates[dto.language] || templates['pt-PT'] || this.getDefaultTemplate();
+    const template =
+      templates[dto.language] ||
+      templates['pt-PT'] ||
+      this.getDefaultTemplate();
 
     await this.emailService.sendEmail(
       tenantId,
@@ -362,9 +413,9 @@ export class NewsletterService {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
     // Check if setting exists
-    const existingResult = await pool.request()
-      .input('settingKey', sql.NVarChar, 'newsletter_email_templates')
-      .query(`
+    const existingResult = await pool
+      .request()
+      .input('settingKey', sql.NVarChar, 'newsletter_email_templates').query(`
         SELECT id
         FROM setting
         WHERE [key] = @settingKey AND deleted_at IS NULL
@@ -374,23 +425,27 @@ export class NewsletterService {
 
     if (existingResult.recordset.length > 0) {
       // Update existing
-      await pool.request()
+      await pool
+        .request()
         .input('settingKey', sql.NVarChar, 'newsletter_email_templates')
-        .input('value', sql.NVarChar, templatesJson)
-        .query(`
+        .input('value', sql.NVarChar, templatesJson).query(`
           UPDATE setting
           SET value = @value, updated_at = GETDATE()
           WHERE [key] = @settingKey
         `);
     } else {
       // Insert new
-      await pool.request()
+      await pool
+        .request()
         .input('settingKey', sql.NVarChar, 'newsletter_email_templates')
         .input('value', sql.NVarChar, templatesJson)
         .input('valueType', sql.NVarChar, 'json')
         .input('category', sql.NVarChar, 'newsletter')
-        .input('description', sql.NVarChar, 'Newsletter email templates by language')
-        .query(`
+        .input(
+          'description',
+          sql.NVarChar,
+          'Newsletter email templates by language',
+        ).query(`
           INSERT INTO setting ([key], value, value_type, category, description, is_public, created_at)
           VALUES (@settingKey, @value, @valueType, @category, @description, 0, GETDATE())
         `);
@@ -404,12 +459,14 @@ export class NewsletterService {
   /**
    * Get newsletter templates
    */
-  async getNewsletterTemplates(tenantId: number): Promise<Record<string, NewsletterTemplateDto>> {
+  async getNewsletterTemplates(
+    tenantId: number,
+  ): Promise<Record<string, NewsletterTemplateDto>> {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
-    const result = await pool.request()
-      .input('settingKey', sql.NVarChar, 'newsletter_email_templates')
-      .query(`
+    const result = await pool
+      .request()
+      .input('settingKey', sql.NVarChar, 'newsletter_email_templates').query(`
         SELECT value
         FROM setting
         WHERE [key] = @settingKey AND deleted_at IS NULL
@@ -445,7 +502,8 @@ export class NewsletterService {
     language: string,
     templates: Record<string, NewsletterTemplateDto>,
   ): string {
-    const template = templates[language] || templates['pt-PT'] || this.getDefaultTemplate();
+    const template =
+      templates[language] || templates['pt-PT'] || this.getDefaultTemplate();
 
     return `
       <!DOCTYPE html>
@@ -533,9 +591,9 @@ export class NewsletterService {
   private async getAllowedLanguages(tenantId: number): Promise<string[]> {
     const pool = await this.databaseService.getTenantConnection(tenantId);
 
-    const result = await pool.request()
-      .input('settingKey', sql.NVarChar, 'site_public_languages')
-      .query(`
+    const result = await pool
+      .request()
+      .input('settingKey', sql.NVarChar, 'site_public_languages').query(`
         SELECT value
         FROM setting
         WHERE [key] = @settingKey AND deleted_at IS NULL
@@ -573,28 +631,37 @@ export class NewsletterService {
   }
 
   /**
-   * Ensure newsletter_inscritos table exists
+   * Ensure newsletter_subscription table exists
    */
   private async ensureNewsletterTable(pool: sql.ConnectionPool): Promise<void> {
     try {
       await pool.request().query(`
-        IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'newsletter_inscritos')
+        IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'newsletter_subscription')
         BEGIN
-          CREATE TABLE newsletter_inscritos (
+          CREATE TABLE newsletter_subscription (
             id INT IDENTITY(1,1) PRIMARY KEY,
             email NVARCHAR(255) NOT NULL UNIQUE,
-            idioma NVARCHAR(10) NOT NULL,
-            ativo BIT NOT NULL DEFAULT 1,
-            created_at DATETIME2 DEFAULT GETDATE(),
-            updated_at DATETIME2
+            full_name NVARCHAR(255) NULL,
+            status NVARCHAR(50) NOT NULL DEFAULT 'subscribed',
+            subscription_date DATETIME2 NOT NULL DEFAULT GETDATE(),
+            unsubscribed_at DATETIME2 NULL,
+            unsubscribe_reason NVARCHAR(500) NULL,
+            metadata NVARCHAR(MAX) NULL,
+            created_at DATETIME2 NOT NULL DEFAULT GETDATE(),
+            updated_at DATETIME2 NULL
           );
 
-          CREATE INDEX IX_newsletter_inscritos_active ON newsletter_inscritos(ativo);
-          CREATE INDEX IX_newsletter_inscritos_language ON newsletter_inscritos(idioma) WHERE ativo = 1;
+          CREATE INDEX IX_newsletter_subscription_status ON newsletter_subscription(status);
+          CREATE INDEX IX_newsletter_subscription_email ON newsletter_subscription(email);
         END
       `);
+      this.logger.log('Newsletter subscription table check completed');
     } catch (error) {
-      this.logger.error(`Error ensuring newsletter table: ${error.message}`);
+      this.logger.error(
+        `Error ensuring newsletter subscription table: ${error.message}`,
+        error.stack,
+      );
+      throw error;
     }
   }
 
@@ -602,11 +669,12 @@ export class NewsletterService {
    * Map database record to DTO
    */
   private mapToDto(record: any): NewsletterSubscriberDto {
+    const metadata = record.metadata ? JSON.parse(record.metadata) : {};
     return {
       id: record.id,
       email: record.email,
-      language: record.idioma,
-      active: record.ativo === 1,
+      language: metadata.language || 'pt-PT',
+      active: record.status === 'subscribed',
       createdAt: record.created_at,
     };
   }

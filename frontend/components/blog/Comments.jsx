@@ -2,14 +2,17 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
+import Form1 from "./commentForm/Form1";
+
 export default function Comments({
 	comments = [],
 	onReply,
+	replyingTo = null,
+	contentId,
+	onReplySuccess,
 	language = "pt",
 	isDark = false,
 }) {
-	const [replyingTo, setReplyingTo] = useState(null);
-
 	const translations = {
 		reply: {
 			pt: "Responder",
@@ -42,9 +45,8 @@ export default function Comments({
 	};
 
 	const handleReplyClick = commentId => {
-		setReplyingTo(replyingTo === commentId ? null : commentId);
 		if (onReply) {
-			onReply(commentId);
+			onReply(replyingTo === commentId ? null : commentId);
 		}
 	};
 
@@ -53,7 +55,9 @@ export default function Comments({
 
 	// Function to get replies for a comment
 	const getReplies = commentId => {
-		return comments.filter(c => c.parent_id === commentId || c.parentId === commentId);
+		return comments.filter(
+			c => c.parent_id === commentId || c.parentId === commentId
+		);
 	};
 
 	const renderComment = (comment, isReply = false) => {
@@ -81,7 +85,9 @@ export default function Comments({
 				<div className="media-body">
 					<div className="comment-item-data">
 						<div
-							className={`comment-author ${isDark ? "text-white" : ""}`}
+							className={`comment-author ${
+								isDark ? "text-white" : ""
+							}`}
 						>
 							<a href="#" className={isDark ? "text-white" : ""}>
 								{authorName}
@@ -103,7 +109,22 @@ export default function Comments({
 							&nbsp;{translations.reply[language]}
 						</a>
 					</div>
-					<p className={isDark ? "text-gray-light" : ""}>{comment.comment_text || comment.text}</p>
+					<p className={isDark ? "text-gray-light" : ""}>
+						{comment.comment_text || comment.text}
+					</p>
+
+					{/* Inline reply form */}
+					{replyingTo === comment.id && contentId && (
+						<div className="mt-20 mb-20">
+							<Form1
+								contentId={contentId}
+								parentId={comment.id}
+								onSuccess={onReplySuccess}
+								language={language}
+								isDark={isDark}
+							/>
+						</div>
+					)}
 
 					{/* Render replies recursively */}
 					{replies.length > 0 && (

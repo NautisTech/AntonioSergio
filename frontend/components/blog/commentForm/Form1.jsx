@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { publicContentAPI } from "@/lib/api/public-content";
 
 export default function Form1({
@@ -34,7 +35,10 @@ export default function Form1({
 			pt: "Comentário enviado! Aguardando aprovação.",
 			en: "Comment sent! Waiting for approval.",
 		},
-		error: { pt: "Erro ao enviar comentário.", en: "Error sending comment." },
+		error: {
+			pt: "Erro ao enviar comentário.",
+			en: "Error sending comment.",
+		},
 	};
 
 	const handleSubmit = async e => {
@@ -51,16 +55,13 @@ export default function Form1({
 				parentId: parentId,
 			});
 
-			setMessage({
-				type: "success",
-				text: translations.success[language],
-			});
+			toast.success(translations.success[language]);
 			setFormData({ name: "", email: "", comment: "" });
 			if (onSuccess) {
-				setTimeout(() => onSuccess(), 1500);
+				setTimeout(() => onSuccess(), 1000);
 			}
 		} catch (error) {
-			setMessage({ type: "error", text: translations.error[language] });
+			toast.error(translations.error[language]);
 		} finally {
 			setSubmitting(false);
 		}
@@ -91,7 +92,10 @@ export default function Form1({
 							maxLength={100}
 							value={formData.name}
 							onChange={e =>
-								setFormData({ ...formData, name: e.target.value })
+								setFormData({
+									...formData,
+									name: e.target.value,
+								})
 							}
 							required
 							aria-required="true"
@@ -110,7 +114,9 @@ export default function Form1({
 							name="email"
 							id="email"
 							className={inputClass}
-							placeholder={translations.emailPlaceholder[language]}
+							placeholder={
+								translations.emailPlaceholder[language]
+							}
 							maxLength={100}
 							value={formData.email}
 							onChange={e =>
@@ -141,20 +147,14 @@ export default function Form1({
 						maxLength={2000}
 						value={formData.comment}
 						onChange={e =>
-							setFormData({ ...formData, comment: e.target.value })
+							setFormData({
+								...formData,
+								comment: e.target.value,
+							})
 						}
 						required
 					/>
 				</div>
-
-				{/* Message */}
-				{message && (
-					<div
-						className={`alert ${message.type === "success" ? "alert-success" : "alert-danger"} mb-30`}
-					>
-						{message.text}
-					</div>
-				)}
 
 				{/* Send Button */}
 				<button
@@ -170,7 +170,9 @@ export default function Form1({
 				</button>
 				{/* Inform Tip */}
 				<div
-					className={`form-tip form-tip-2 ${isDark ? "bg-dark-2 text-gray" : "bg-gray-light-1"} round mt-30 p-3`}
+					className={`form-tip form-tip-2 ${
+						isDark ? "bg-dark-2 text-gray" : "bg-gray-light-1"
+					} round mt-30 p-3`}
 				>
 					{translations.required[language]}
 				</div>
