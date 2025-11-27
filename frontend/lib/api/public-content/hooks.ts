@@ -7,6 +7,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
+import { useEntity } from '@/context/EntityContext'
 import { publicContentAPI } from './api'
 import type {
     Content,
@@ -76,14 +77,71 @@ function mergeLanguageFilter(filters: ContentFilters | undefined, contextLanguag
     }
 }
 
+/**
+ * Filter content by entity
+ * Checks if the selected entity value is in the content's entidades custom field (comma-separated)
+ */
+function filterContentByEntity(content: Content[], selectedEntity: any): Content[] {
+    // If no entity is selected, return all content
+    if (!selectedEntity) {
+        return content
+    }
+
+    return content.filter(item => {
+        // Check if the item has custom_fields.entidades
+        const entidadesField = item.custom_fields?.entidades
+
+        // If no entidades field, show the content (not entity-restricted)
+        if (!entidadesField || !entidadesField.value) {
+            return true
+        }
+
+        // Get the entidades value (comma-separated string)
+        const entidadesValue = String(entidadesField.value)
+
+        // Split by comma and trim whitespace
+        const entityValues = entidadesValue.split(',').map(v => v.trim())
+
+        // Check if the selected entity value is in the list
+        return entityValues.includes(selectedEntity.value)
+    })
+}
+
+/**
+ * Filter paginated response by entity
+ */
+function filterPaginatedByEntity<T extends Content>(
+    response: PaginatedResponse<T> | null,
+    selectedEntity: any
+): PaginatedResponse<T> | null {
+    if (!response) {
+        return null
+    }
+
+    const filteredData = filterContentByEntity(response.data as Content[], selectedEntity) as T[]
+
+    return {
+        data: filteredData,
+        pagination: response.pagination ? {
+            ...response.pagination,
+            total: filteredData.length,
+            totalPages: response.pagination.pageSize
+                ? Math.ceil(filteredData.length / response.pagination.pageSize)
+                : 1
+        } : undefined
+    }
+}
+
 // ==================== CONTENT HOOKS ====================
 
 /**
- * Hook to list content with automatic language filtering
+ * Hook to list content with automatic language filtering and entity filtering
  * The current language from context is automatically applied unless explicitly overridden
+ * Content is filtered by selected entity based on custom_fields.entidades
  */
 export function useContentList(filters?: ContentFilters, config?: RequestConfig): FetchState<PaginatedResponse<Content>> {
     const { language } = useLanguage()
+    const { selectedEntity } = useEntity()
 
     // Merge language from context into filters
     const filtersWithLanguage = useMemo(
@@ -91,10 +149,21 @@ export function useContentList(filters?: ContentFilters, config?: RequestConfig)
         [filters, language]
     )
 
-    return useFetch(
+    const result = useFetch(
         () => publicContentAPI.list(filtersWithLanguage, config),
         [JSON.stringify(filtersWithLanguage), JSON.stringify(config)]
     )
+
+    // Apply entity filtering to the data
+    const filteredData = useMemo(
+        () => filterPaginatedByEntity(result.data, selectedEntity),
+        [result.data, selectedEntity]
+    )
+
+    return {
+        ...result,
+        data: filteredData
+    }
 }
 
 /**
@@ -119,43 +188,79 @@ export function useContentById(id: number | null, config?: RequestConfig): Fetch
 }
 
 /**
- * Hook to get featured content with automatic language filtering
+ * Hook to get featured content with automatic language filtering and entity filtering
  */
 export function useFeaturedContent(limit: number = 5, config?: RequestConfig): FetchState<Content[]> {
     const { language } = useLanguage()
+    const { selectedEntity } = useEntity()
 
-    return useFetch(
+    const result = useFetch(
         () => publicContentAPI.getFeatured(limit, config),
         [limit, language, JSON.stringify(config)]
     )
+
+    // Apply entity filtering to the data
+    const filteredData = useMemo(
+        () => result.data ? filterContentByEntity(result.data, selectedEntity) : null,
+        [result.data, selectedEntity]
+    )
+
+    return {
+        ...result,
+        data: filteredData
+    }
 }
 
 /**
- * Hook to get recent content with automatic language filtering
+ * Hook to get recent content with automatic language filtering and entity filtering
  */
 export function useRecentContent(limit: number = 10, config?: RequestConfig): FetchState<Content[]> {
     const { language } = useLanguage()
+    const { selectedEntity } = useEntity()
 
-    return useFetch(
+    const result = useFetch(
         () => publicContentAPI.getRecent(limit, config),
         [limit, language, JSON.stringify(config)]
     )
+
+    // Apply entity filtering to the data
+    const filteredData = useMemo(
+        () => result.data ? filterContentByEntity(result.data, selectedEntity) : null,
+        [result.data, selectedEntity]
+    )
+
+    return {
+        ...result,
+        data: filteredData
+    }
 }
 
 /**
- * Hook to get popular content with automatic language filtering
+ * Hook to get popular content with automatic language filtering and entity filtering
  */
 export function usePopularContent(limit: number = 10, config?: RequestConfig): FetchState<Content[]> {
     const { language } = useLanguage()
+    const { selectedEntity } = useEntity()
 
-    return useFetch(
+    const result = useFetch(
         () => publicContentAPI.getPopular(limit, config),
         [limit, language, JSON.stringify(config)]
     )
+
+    // Apply entity filtering to the data
+    const filteredData = useMemo(
+        () => result.data ? filterContentByEntity(result.data, selectedEntity) : null,
+        [result.data, selectedEntity]
+    )
+
+    return {
+        ...result,
+        data: filteredData
+    }
 }
 
 /**
- * Hook to get content by type with automatic language filtering
+ * Hook to get content by type with automatic language filtering and entity filtering
  */
 export function useContentByType(
     contentTypeId: number,
@@ -163,6 +268,7 @@ export function useContentByType(
     config?: RequestConfig
 ): FetchState<PaginatedResponse<Content>> {
     const { language } = useLanguage()
+    const { selectedEntity } = useEntity()
 
     // Merge language from context into filters
     const filtersWithLanguage = useMemo(
@@ -170,10 +276,21 @@ export function useContentByType(
         [filters, language]
     )
 
-    return useFetch(
+    const result = useFetch(
         () => publicContentAPI.getByType(contentTypeId, filtersWithLanguage, config),
         [contentTypeId, JSON.stringify(filtersWithLanguage), JSON.stringify(config)]
     )
+
+    // Apply entity filtering to the data
+    const filteredData = useMemo(
+        () => filterPaginatedByEntity(result.data, selectedEntity),
+        [result.data, selectedEntity]
+    )
+
+    return {
+        ...result,
+        data: filteredData
+    }
 }
 
 // ==================== CONVENIENCE HOOKS (CONTENT TYPES) ====================
@@ -278,13 +395,14 @@ export function useComments(contentId: number | null, config?: RequestConfig): F
 // ==================== SEARCH HOOK ====================
 
 /**
- * Hook to search content with automatic language filtering
+ * Hook to search content with automatic language filtering and entity filtering
  * @example
  * const { data, loading, error } = useSearch('tecnologia', { pageSize: 10 })
- * // Automatically searches only in current language content
+ * // Automatically searches only in current language content and filters by selected entity
  */
 export function useSearch(query: string, filters?: ContentFilters, config?: RequestConfig): FetchState<PaginatedResponse<Content>> {
     const { language } = useLanguage()
+    const { selectedEntity } = useEntity()
 
     // Merge language from context into filters
     const filtersWithLanguage = useMemo(
@@ -292,8 +410,19 @@ export function useSearch(query: string, filters?: ContentFilters, config?: Requ
         [filters, language]
     )
 
-    return useFetch(
+    const result = useFetch(
         () => (query ? publicContentAPI.search(query, filtersWithLanguage, config) : Promise.resolve({ data: [], pagination: undefined } as PaginatedResponse<Content>)),
         [query, JSON.stringify(filtersWithLanguage), JSON.stringify(config)]
     )
+
+    // Apply entity filtering to the data
+    const filteredData = useMemo(
+        () => filterPaginatedByEntity(result.data, selectedEntity),
+        [result.data, selectedEntity]
+    )
+
+    return {
+        ...result,
+        data: filteredData
+    }
 }
