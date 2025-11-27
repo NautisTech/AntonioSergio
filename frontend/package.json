@@ -20,6 +20,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-photoswipe-gallery": "^3.0.1",
+    "react-toastify": "^11.0.5",
     "react-type-animation": "^3.2.0",
     "rellax": "^1.12.1",
     "swiper": "^11.2.2",

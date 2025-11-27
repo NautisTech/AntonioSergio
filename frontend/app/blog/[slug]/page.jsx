@@ -42,7 +42,12 @@ export default function BlogDetailPage({ params }) {
 			console.log("=== BLOG/NEWS DATA ===");
 			console.log("Full blog object:", blog);
 			console.log("Custom fields:", blog.custom_fields);
-			console.log("Custom fields keys:", blog.custom_fields ? Object.keys(blog.custom_fields) : "No custom_fields");
+			console.log(
+				"Custom fields keys:",
+				blog.custom_fields
+					? Object.keys(blog.custom_fields)
+					: "No custom_fields"
+			);
 		}
 	}, [blog]);
 
@@ -75,6 +80,9 @@ export default function BlogDetailPage({ params }) {
 		loading: commentsLoading,
 		refetch: refetchComments,
 	} = useComments(blog?.id || null);
+
+	// State for reply-to-comment
+	const [replyingTo, setReplyingTo] = useState(null);
 
 	// State for sidebar filters
 	const [searchQuery, setSearchQuery] = useState("");
@@ -383,85 +391,108 @@ export default function BlogDetailPage({ params }) {
 														}}
 													/>
 
-												{/* Custom Fields */}
-												{blog.custom_fields &&
-													Object.keys(blog.custom_fields).filter(k => k !== 'entidades')
-														.length > 0 && (
-														<div className="mt-40">
-															{Object.entries(
-																blog.custom_fields
-															).filter(([key]) => key !== 'entidades').map(([key, field]) => {
-																if (!field?.value)
-																	return null;
-
-																let displayValue =
-																	field.value;
-
-																// Format dates
-																if (
-																	field.type ===
-																		"date" &&
-																	field.value
-																) {
-																	const date =
-																		new Date(
-																			field.value
-																		);
-																	displayValue =
-																		date.toLocaleDateString(
-																			language ===
-																				"pt"
-																				? "pt-PT"
-																				: "en-US",
-																			{
-																				year: "numeric",
-																				month: "long",
-																				day: "numeric",
-																			}
-																		);
-																}
-
-																// Format multiselect as comma-separated list
-																if (
-																	field.type ===
-																		"multiselect" &&
-																	Array.isArray(
-																		field.value
+													{/* Custom Fields */}
+													{blog.custom_fields &&
+														Object.keys(
+															blog.custom_fields
+														).filter(
+															k =>
+																k !==
+																"entidades"
+														).length > 0 && (
+															<div className="mt-40">
+																{Object.entries(
+																	blog.custom_fields
+																)
+																	.filter(
+																		([
+																			key,
+																		]) =>
+																			key !==
+																			"entidades"
 																	)
-																) {
-																	displayValue =
-																		field.value.join(
-																			", "
-																		);
-																}
+																	.map(
+																		([
+																			key,
+																			field,
+																		]) => {
+																			if (
+																				!field?.value
+																			)
+																				return null;
 
-																return (
-																	<div
-																		key={key}
-																		className="mb-20"
-																	>
-																		<p
-																			className={
-																				isDark
-																					? "text-gray"
-																					: ""
+																			let displayValue =
+																				field.value;
+
+																			// Format dates
+																			if (
+																				field.type ===
+																					"date" &&
+																				field.value
+																			) {
+																				const date =
+																					new Date(
+																						field.value
+																					);
+																				displayValue =
+																					date.toLocaleDateString(
+																						language ===
+																							"pt"
+																							? "pt-PT"
+																							: "en-US",
+																						{
+																							year: "numeric",
+																							month: "long",
+																							day: "numeric",
+																						}
+																					);
 																			}
-																		>
-																			<strong>
-																				{
-																					field.label
-																				}
-																				:
-																			</strong>{" "}
-																			{
-																				displayValue
+
+																			// Format multiselect as comma-separated list
+																			if (
+																				field.type ===
+																					"multiselect" &&
+																				Array.isArray(
+																					field.value
+																				)
+																			) {
+																				displayValue =
+																					field.value.join(
+																						", "
+																					);
 																			}
-																		</p>
-																	</div>
-																);
-															})}
-														</div>
-													)}
+
+																			return (
+																				<div
+																					key={
+																						key
+																					}
+																					className="mb-20"
+																				>
+																					<p
+																						className={
+																							isDark
+																								? "text-gray"
+																								: ""
+																						}
+																					>
+																						<strong>
+																							{
+																								field.label
+																							}
+
+																							:
+																						</strong>{" "}
+																						{
+																							displayValue
+																						}
+																					</p>
+																				</div>
+																			);
+																		}
+																	)}
+															</div>
+														)}
 
 													{/* Attachments Gallery */}
 													{attachments?.filter(
@@ -644,6 +675,17 @@ export default function BlogDetailPage({ params }) {
 														}
 														language={language}
 														isDark={isDark}
+														onReply={commentId =>
+															setReplyingTo(
+																commentId
+															)
+														}
+														replyingTo={replyingTo}
+														contentId={blog?.id}
+														onReplySuccess={() => {
+															setReplyingTo(null);
+															refetchComments();
+														}}
 													/>
 												)}
 											</div>

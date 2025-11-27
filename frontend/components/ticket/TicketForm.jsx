@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import { toast } from "react-toastify";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
 import { pageTranslations } from "@/data/aesContent";
@@ -164,7 +165,7 @@ export default function TicketForm() {
 			const result = await submitTicket(ticketData, null);
 
 			if (result) {
-				setSubmitStatus("success");
+				toast.success(t.success.message[language]);
 				// Reset form
 				setFormData({
 					fullName: "",
@@ -178,11 +179,12 @@ export default function TicketForm() {
 				});
 				setEquipments([]);
 				setErrors({});
+				setSubmitStatus(null);
 			} else {
-				setSubmitStatus("error");
+				toast.error(t.error.message[language]);
 			}
 		} catch (error) {
-			setSubmitStatus("error");
+			toast.error(t.error.message[language]);
 		}
 	};
 
@@ -539,44 +541,6 @@ export default function TicketForm() {
 										: t.submit[language]}
 								</span>
 							</button>
-						</div>
-
-						{/* Success/Error Messages - Below Submit Button */}
-						<div ref={messageRef}>
-							{submitStatus === "success" && (
-								<div className="alert alert-success mt-40">
-									<div className="d-flex align-items-start">
-										<i
-											className="mi-check-circle size-24 me-15"
-											aria-hidden="true"
-										/>
-										<div>
-											<strong>
-												{t.success.message[language]}
-											</strong>
-										</div>
-									</div>
-								</div>
-							)}
-
-							{submitStatus === "error" && (
-								<div className="alert alert-danger mt-40">
-									<div className="d-flex align-items-start">
-										<i
-											className="mi-close size-24 me-15"
-											aria-hidden="true"
-										/>
-										<div>
-											<strong>
-												{t.error.title[language]}
-											</strong>
-											<p className="mb-0 mt-5">
-												{t.error.message[language]}
-											</p>
-										</div>
-									</div>
-								</div>
-							)}
 						</div>
 					</form>
 				</div>

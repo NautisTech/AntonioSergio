@@ -402,6 +402,7 @@ export class ContentService {
         c.slug,
         c.excerpt,
         c.type AS type,
+        c.content_type_id,
         c.status,
         c.visibility,
         c.featured_image,
@@ -441,7 +442,10 @@ export class ContentService {
           `);
           contentObj.categories = categories.recordset;
         } catch (error) {
-          this.logger.error(`Failed to load categories for content ${content.id}:`, error);
+          this.logger.error(
+            `Failed to load categories for content ${content.id}:`,
+            error,
+          );
           contentObj.categories = [];
         }
 
@@ -497,7 +501,7 @@ export class ContentService {
 
             // Handle multiselect fields (stored as comma-separated)
             if (field.field_type === 'multiselect' && field.value_text) {
-              value = field.value_text.split(',').map(v => v.trim());
+              value = field.value_text.split(',').map((v) => v.trim());
             }
 
             // Parse options if available
@@ -524,7 +528,10 @@ export class ContentService {
           });
           contentObj.custom_fields = customFields;
         } catch (error) {
-          this.logger.error(`Failed to load custom fields for content ${content.id}:`, error);
+          this.logger.error(
+            `Failed to load custom fields for content ${content.id}:`,
+            error,
+          );
           contentObj.custom_fields = {};
         }
 
@@ -646,7 +653,7 @@ export class ContentService {
 
         // Handle multiselect fields (stored as comma-separated)
         if (field.field_type === 'multiselect' && field.value_text) {
-          value = field.value_text.split(',').map(v => v.trim());
+          value = field.value_text.split(',').map((v) => v.trim());
         }
 
         // Parse options if available
@@ -673,7 +680,10 @@ export class ContentService {
       });
       content.custom_fields = customFields;
     } catch (error) {
-      this.logger.error(`Failed to load custom fields for content ${id}:`, error);
+      this.logger.error(
+        `Failed to load custom fields for content ${id}:`,
+        error,
+      );
       content.custom_fields = {};
     }
 
